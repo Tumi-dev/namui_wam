@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/themes/app_theme.dart';
+import 'package:flutter_application_1/features/activity1/activity1_screen.dart';
+import 'package:flutter_application_1/features/activity2/activity2_screen.dart';
+import 'package:flutter_application_1/features/activity3/activity3_screen.dart';
+import 'package:flutter_application_1/features/activity4/activity4_screen.dart';
+import 'package:flutter_application_1/features/activity5/activity5_screen.dart';
+import 'package:flutter_application_1/features/activity6/activity6_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,10 +19,26 @@ class HomeScreen extends StatelessWidget {
     'Wammeran tulisha manchípik kui asamik pørik',
   ];
 
+  void _navigateToActivity(BuildContext context, int activityNumber) {
+    final Map<int, Widget> activities = {
+      1: const Activity1Screen(),
+      2: const Activity2Screen(),
+      3: const Activity3Screen(),
+      4: const Activity4Screen(),
+      5: const Activity5Screen(),
+      6: const Activity6Screen(),
+    };
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => activities[activityNumber]!),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final logoSize = screenSize.width * 0.3; // 30% del ancho de la pantalla
+    final logoSize = screenSize.width * 0.2; // 20% del ancho de la pantalla
 
     return Scaffold(
       body: Container(
@@ -68,77 +90,60 @@ class HomeScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Container(
-        height: 80,
+        height: 70, // Altura reducida para un diseño más minimalista
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
           ),
-          onPressed: () {
-            // TODO: Implementar navegación a cada actividad
-          },
+          onPressed: () => _navigateToActivity(context, activityNumber),
           child: Row(
             children: [
+              // Número estilizado
               Container(
-                width: 80,
-                height: double.infinity,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
+                  // color: Colors.blue[700]?.withOpacity(0.1),
                   color: Colors.green[700],
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    bottomLeft: Radius.circular(15),
-                  ),
+                  shape: BoxShape.circle,
                 ),
                 child: Center(
                   child: Text(
                     '$activityNumber',
-                    style: const TextStyle(
-                      fontSize: 32,
+                    style: TextStyle(
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
+                      // color: Colors.blue[700],
                       color: Colors.white,
                     ),
                   ),
                 ),
               ),
+              const SizedBox(width: 16),
+              // Descripción de la actividad
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Actividad $activityNumber',
-                        style: TextStyle(
-                          fontSize: 18,
-                          // color: Colors.blue[700],
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        activityDescriptions[activityNumber - 1],
-                        style: TextStyle(
-                          fontSize: 14,
-                          // color: Colors.blue[700]?.withOpacity(0.7),
-                          color: Colors.white.withOpacity(0.7),
-                        ),
-                      ),
-                    ],
+                child: Text(
+                  activityDescriptions[activityNumber - 1],
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w500,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              const SizedBox(width: 8),
+              // Flecha indicativa
               Icon(
                 Icons.arrow_forward_ios,
-                // color: Colors.blue[700],
-                color: Colors.white,
+                color: Colors.white70,
                 size: 20,
               ),
-              const SizedBox(width: 16),
             ],
           ),
         ),

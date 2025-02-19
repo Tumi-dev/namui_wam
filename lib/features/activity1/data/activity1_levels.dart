@@ -1,10 +1,11 @@
 import 'package:namui_wam/core/models/level_model.dart';
+import 'package:namui_wam/core/constants/level_descriptions.dart';
 
 final List<LevelModel> activity1Levels = [
   LevelModel(
     id: 1,
     title: 'Nivel 1',
-    description: 'Kan nepunik',
+    description: LevelDescriptions.level1,
     difficulty: 1,
     levelData: {
       'sounds': ['do', 're', 'mi'],
@@ -13,7 +14,7 @@ final List<LevelModel> activity1Levels = [
   LevelModel(
     id: 2,
     title: 'Nivel 2',
-    description: 'Pa nepunik',
+    description: LevelDescriptions.level2,
     difficulty: 2,
     levelData: {
       'sounds': ['do', 're', 'mi', 'fa'],
@@ -22,7 +23,7 @@ final List<LevelModel> activity1Levels = [
   LevelModel(
     id: 3,
     title: 'Nivel 3',
-    description: 'Pøn nepunik',
+    description: LevelDescriptions.level3,
     difficulty: 3,
     levelData: {
       'sounds': ['do', 're', 'mi', 'fa', 'sol'],
@@ -31,7 +32,7 @@ final List<LevelModel> activity1Levels = [
   LevelModel(
     id: 4,
     title: 'Nivel 4',
-    description: 'Pip nepunik',
+    description: LevelDescriptions.level4,
     difficulty: 4,
     levelData: {
       'sounds': ['do', 're', 'mi', 'fa', 'sol', 'la'],
@@ -40,7 +41,7 @@ final List<LevelModel> activity1Levels = [
   LevelModel(
     id: 5,
     title: 'Nivel 5',
-    description: 'Trattrø nepunik',
+    description: LevelDescriptions.level5,
     difficulty: 5,
     levelData: {
       'sounds': ['do', 're', 'mi', 'fa', 'sol', 'la', 'si'],
@@ -49,7 +50,7 @@ final List<LevelModel> activity1Levels = [
   LevelModel(
     id: 6,
     title: 'Nivel 6',
-    description: 'Trattrøkan nepunik',
+    description: LevelDescriptions.level6,
     difficulty: 6,
     levelData: {
       'sounds': ['do', 're', 'mi', 'fa', 'sol', 'la', 'si', 'do_alto'],
@@ -58,7 +59,7 @@ final List<LevelModel> activity1Levels = [
   LevelModel(
     id: 7,
     title: 'Nivel 7',
-    description: 'Trattrøpa nepunik',
+    description: LevelDescriptions.level7,
     difficulty: 7,
     levelData: {
       'sounds': ['do', 're', 'mi', 'fa', 'sol', 'la', 'si', 'do_alto'],

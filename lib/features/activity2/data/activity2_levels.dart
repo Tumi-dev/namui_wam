@@ -1,10 +1,11 @@
 import 'package:namui_wam/core/models/level_model.dart';
+import 'package:namui_wam/core/constants/level_descriptions.dart';
 
 final List<LevelModel> activity2Levels = [
   LevelModel(
     id: 1,
     title: 'Nivel 1',
-    description: 'Kan nepunik',
+    description: LevelDescriptions.level1,
     difficulty: 1,
     levelData: {
       'numberRange': [10, 20],
@@ -15,7 +16,7 @@ final List<LevelModel> activity2Levels = [
   LevelModel(
     id: 2,
     title: 'Nivel 2',
-    description: 'Pa nepunik',
+    description: LevelDescriptions.level2,
     difficulty: 2,
     levelData: {
       'numberRange': [21, 30],
@@ -26,7 +27,7 @@ final List<LevelModel> activity2Levels = [
   LevelModel(
     id: 3,
     title: 'Nivel 3',
-    description: 'Pøn nepunik',
+    description: LevelDescriptions.level3,
     difficulty: 2,
     levelData: {
       'numberRange': [31, 40],
@@ -37,7 +38,7 @@ final List<LevelModel> activity2Levels = [
   LevelModel(
     id: 4,
     title: 'Nivel 4',
-    description: 'Pipa nepunik',
+    description: LevelDescriptions.level4,
     difficulty: 3,
     levelData: {
       'numberRange': [41, 50],
@@ -48,7 +49,7 @@ final List<LevelModel> activity2Levels = [
   LevelModel(
     id: 5,
     title: 'Nivel 5',
-    description: 'Trattrø nepunik',
+    description: LevelDescriptions.level5,
     difficulty: 3,
     levelData: {
       'numberRange': [51, 60],
@@ -59,7 +60,7 @@ final List<LevelModel> activity2Levels = [
   LevelModel(
     id: 6,
     title: 'Nivel 6',
-    description: 'Traktø nepunik',
+    description: LevelDescriptions.level6,
     difficulty: 4,
     levelData: {
       'numberRange': [61, 70],
@@ -70,7 +71,7 @@ final List<LevelModel> activity2Levels = [
   LevelModel(
     id: 7,
     title: 'Nivel 7',
-    description: 'Kualø nepunik',
+    description: LevelDescriptions.level7,
     difficulty: 4,
     levelData: {
       'numberRange': [71, 99],

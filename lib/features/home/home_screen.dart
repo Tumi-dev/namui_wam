@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/themes/app_theme.dart';
-import 'package:flutter_application_1/features/activity1/activity1_screen.dart';
-import 'package:flutter_application_1/features/activity2/activity2_screen.dart';
-import 'package:flutter_application_1/features/activity3/activity3_screen.dart';
-import 'package:flutter_application_1/features/activity4/activity4_screen.dart';
-import 'package:flutter_application_1/features/activity5/activity5_screen.dart';
-import 'package:flutter_application_1/features/activity6/activity6_screen.dart';
+import 'package:namui_wam/core/themes/app_theme.dart';
+import 'package:namui_wam/features/activity1/activity1_screen.dart';
+import 'package:namui_wam/features/activity2/activity2_screen.dart';
+import 'package:namui_wam/features/activity3/activity3_screen.dart';
+import 'package:namui_wam/features/activity4/activity4_screen.dart';
+import 'package:namui_wam/features/activity5/activity5_screen.dart';
+import 'package:namui_wam/features/activity6/activity6_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
-                  'Tsatsø Musik',
+                  'Tsatsɵ Musik',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class HomeScreen extends StatelessWidget {
         height: 70, // Altura reducida para un diseño más minimalista
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.green, // Color de fondo verde
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -108,18 +108,13 @@ class HomeScreen extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   // color: Colors.blue[700]?.withOpacity(0.1),
-                  color: Colors.green[700],
+                  color: Colors.green[700], // Fondo verde oscuro con opacidad 0.1 (10%) para resaltar el número de actividad
                   shape: BoxShape.circle,
                 ),
                 child: Center(
                   child: Text(
                     '$activityNumber',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      // color: Colors.blue[700],
-                      color: Colors.white,
-                    ),
+                    style: AppTheme.levelNumberStyle,
                   ),
                 ),
               ),
@@ -128,22 +123,14 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: Text(
                   activityDescriptions[activityNumber - 1],
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTheme.buttonTextStyle,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               const SizedBox(width: 8),
               // Flecha indicativa
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white70,
-                size: 20,
-              ),
+              AppTheme.levelArrowIcon,
             ],
           ),
         ),

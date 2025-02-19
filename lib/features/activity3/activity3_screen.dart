@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/themes/app_theme.dart';
+import 'package:namui_wam/core/themes/app_theme.dart';
 
 class Activity3Screen extends StatelessWidget {
   const Activity3Screen({super.key});
+
+  void _navigateToHome(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,16 +14,12 @@ class Activity3Screen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          icon: AppTheme.homeIcon,
+          onPressed: () => _navigateToHome(context),
         ),
         title: const Text(
           'Muntsielan namtrikmai yunømarøpik',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: AppTheme.activityTitleStyle,
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,

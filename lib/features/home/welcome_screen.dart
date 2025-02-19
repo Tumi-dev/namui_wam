@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/themes/app_theme.dart';
-import 'package:flutter_application_1/features/home/home_screen.dart';
+import 'package:namui_wam/core/themes/app_theme.dart';
+import 'package:namui_wam/features/home/home_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -60,7 +60,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 ),
                 const SizedBox(height: 30),
                 const Text(
-                  '¡Tsatsø Musik!',
+                  'Tsatsɵ Musik',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

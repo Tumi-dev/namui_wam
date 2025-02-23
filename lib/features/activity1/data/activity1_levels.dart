@@ -8,7 +8,9 @@ final List<LevelModel> activity1Levels = [
     description: LevelDescriptions.level1,
     difficulty: 1,
     levelData: {
-      'sounds': ['do', 're', 'mi'],
+      'numberRange': [1, 9],
+      'exercisesPerLevel': 5,
+      'categoryName': 'unidades',
     }
   ),
   LevelModel(
@@ -17,7 +19,9 @@ final List<LevelModel> activity1Levels = [
     description: LevelDescriptions.level2,
     difficulty: 2,
     levelData: {
-      'sounds': ['do', 're', 'mi', 'fa'],
+      'numberRange': [10, 99],
+      'exercisesPerLevel': 5,
+      'categoryName': 'decenas',
     }
   ),
   LevelModel(
@@ -26,7 +30,9 @@ final List<LevelModel> activity1Levels = [
     description: LevelDescriptions.level3,
     difficulty: 3,
     levelData: {
-      'sounds': ['do', 're', 'mi', 'fa', 'sol'],
+      'numberRange': [100, 999],
+      'exercisesPerLevel': 5,
+      'categoryName': 'centenas',
     }
   ),
   LevelModel(
@@ -35,7 +41,7 @@ final List<LevelModel> activity1Levels = [
     description: LevelDescriptions.level4,
     difficulty: 4,
     levelData: {
-      'sounds': ['do', 're', 'mi', 'fa', 'sol', 'la'],
+      'sounds': ['do', 're', 'mi', 'fa', 'sol', 'la', 'si'],
     }
   ),
   LevelModel(
@@ -44,7 +50,7 @@ final List<LevelModel> activity1Levels = [
     description: LevelDescriptions.level5,
     difficulty: 5,
     levelData: {
-      'sounds': ['do', 're', 'mi', 'fa', 'sol', 'la', 'si'],
+      'sounds': ['do', 're', 'mi', 'fa', 'sol', 'la', 'si', 'do_alto'],
     }
   ),
   LevelModel(

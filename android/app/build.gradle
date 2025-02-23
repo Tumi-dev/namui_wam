@@ -19,7 +19,7 @@ if (flutterRoot == null) {
 
 android {
     namespace = "net.piurek.app"
-    compileSdkVersion 34
+    compileSdkVersion 35
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -38,7 +38,7 @@ android {
     defaultConfig {
         applicationId "net.piurek.app"
         minSdkVersion 21        // Mantiene compatibilidad con Android 5.0+
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true

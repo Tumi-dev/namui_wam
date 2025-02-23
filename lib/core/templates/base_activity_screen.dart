@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
 import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/features/activity1/screens/activity1_level_screen.dart';
+import 'package:namui_wam/core/themes/app_theme.dart';
 
-class Activity1Screen extends StatelessWidget {
-  const Activity1Screen({super.key});
+abstract class BaseActivityScreen extends StatelessWidget {
+  final String title;
+  final int activityId;
+  final Widget Function(BuildContext context, LevelModel level) levelScreenBuilder;
+
+  const BaseActivityScreen({
+    super.key,
+    required this.title,
+    required this.activityId,
+    required this.levelScreenBuilder,
+  });
 
   void _navigateToHome(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
@@ -23,51 +31,8 @@ class Activity1Screen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Activity1LevelScreen(level: level),
+        builder: (context) => levelScreenBuilder(context, level),
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ActivitiesState>(
-      builder: (context, activitiesState, child) {
-        final activity1 = activitiesState.getActivity(1);
-        if (activity1 == null) return const SizedBox.shrink();
-
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            leading: IconButton(
-              icon: AppTheme.homeIcon,
-              onPressed: () => _navigateToHome(context),
-            ),
-            title: const Text(
-              'Muntsik møik køtasha søl lau',
-              style: AppTheme.activityTitleStyle,
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: AppTheme.mainGradient,
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: ListView.builder(
-                  itemCount: activity1.availableLevels.length,
-                  itemBuilder: (context, index) {
-                    final level = activity1.availableLevels[index];
-                    return _buildLevelCard(context, level);
-                  },
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -120,6 +85,55 @@ class Activity1Screen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ActivitiesState>(
+      builder: (context, activitiesState, child) {
+        final activity = activitiesState.getActivity(activityId);
+        
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            leading: IconButton(
+              icon: AppTheme.homeIcon,
+              onPressed: () => _navigateToHome(context),
+            ),
+            title: Text(
+              title,
+              style: AppTheme.activityTitleStyle,
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: AppTheme.mainGradient,
+            ),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: activity == null || activity.availableLevels.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'Actividad en desarrollo',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: activity.availableLevels.length,
+                        itemBuilder: (context, index) {
+                          final level = activity.availableLevels[index];
+                          return _buildLevelCard(context, level);
+                        },
+                      ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

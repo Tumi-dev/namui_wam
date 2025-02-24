@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
 import 'package:namui_wam/features/activity1/activity1_screen.dart';
+import 'package:namui_wam/features/activity2/activity2_screen.dart';
+import 'package:namui_wam/features/activity3/activity3_screen.dart';
+import 'package:namui_wam/features/activity4/activity4_screen.dart';
+import 'package:namui_wam/features/activity5/activity5_screen.dart';
+import 'package:namui_wam/features/activity6/activity6_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,6 +22,11 @@ class HomeScreen extends StatelessWidget {
   void _navigateToActivity(BuildContext context, int activityNumber) {
     final Map<int, Widget> activities = {
       1: const Activity1Screen(),
+      2: const Activity2Screen(),
+      3: const Activity3Screen(),
+      4: const Activity4Screen(),
+      5: const Activity5Screen(),
+      6: const Activity6Screen(),
     };
 
     Navigator.push(

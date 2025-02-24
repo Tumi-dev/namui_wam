@@ -280,7 +280,6 @@ class _Activity1LevelScreenState
     super.didChangeAppLifecycleState(state);
   }
 
-  @override
   Widget buildScoreAndAttempts() {
     // Retornamos un widget vacío para no mostrar la barra original
     return const SizedBox.shrink();

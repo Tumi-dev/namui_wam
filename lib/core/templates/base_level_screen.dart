@@ -25,69 +25,6 @@ abstract class BaseLevelScreenState<T extends BaseLevelScreen> extends State<T> 
 
   Widget buildLevelContent();
 
-  Widget buildScoreAndAttempts() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-        decoration: BoxDecoration(
-          color: Colors.green[700]?.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.refresh,
-                  color: Colors.white,
-                  size: 24,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'Intentos: $remainingAttempts',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 24,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'Puntos: $totalScore',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -120,7 +57,6 @@ abstract class BaseLevelScreenState<T extends BaseLevelScreen> extends State<T> 
                 GameDescriptionWidget(
                   description: ActivityGameDescriptions.getDescriptionForActivity(widget.activityNumber),
                 ),
-                buildScoreAndAttempts(),
                 Expanded(
                   child: buildLevelContent(),
                 ),

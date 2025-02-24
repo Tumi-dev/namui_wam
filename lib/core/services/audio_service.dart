@@ -30,71 +30,49 @@ class AudioService {
   }
 
   /// Reproducir un archivo de audio
-  /// [audioPath] debe ser la ruta relativa al archivo en assets
-  /// [loop] indica si el audio debe reproducirse en bucle
-  Future<void> playAudio(String audioPath, {bool loop = false}) async {
+  Future<void> playAudio(String audioPath) async {
     try {
       // Obtener o crear el AudioPlayer para este audio
       final player = _getOrCreatePlayer(audioPath);
       
       // Obtener o crear el Source del audio
-      final source = _getOrCreateSource(audioPath);
+      final source = await AssetSource(audioPath);
 
       // Configurar el player
       await player.setVolume(_volume);
-      if (loop) {
-        await player.setReleaseMode(ReleaseMode.loop);
-      } else {
-        await player.setReleaseMode(ReleaseMode.release);
-      }
+      await player.setReleaseMode(ReleaseMode.release);
 
       // Reproducir el audio
       await player.play(source);
     } catch (e) {
       debugPrint('Error reproduciendo audio $audioPath: $e');
-      rethrow;
-    }
-  }
-
-  /// Pausar la reproducción de un audio específico
-  Future<void> pauseAudio(String audioPath) async {
-    final player = _audioPlayers[audioPath];
-    if (player != null) {
-      await player.pause();
-    }
-  }
-
-  /// Detener la reproducción de un audio específico
-  Future<void> stopAudio(String audioPath) async {
-    final player = _audioPlayers[audioPath];
-    if (player != null) {
-      await player.stop();
+      await stopAudio();
     }
   }
 
   /// Detener todos los audios en reproducción
-  Future<void> stopAllAudio() async {
-    for (final player in _audioPlayers.values) {
-      await player.stop();
+  Future<void> stopAudio() async {
+    try {
+      for (final player in _audioPlayers.values) {
+        await player.stop();
+      }
+      await dispose();
+    } catch (e) {
+      debugPrint('Error al detener el audio: $e');
     }
-  }
-
-  /// Liberar recursos de un audio específico
-  Future<void> disposeAudio(String audioPath) async {
-    final player = _audioPlayers.remove(audioPath);
-    if (player != null) {
-      await player.dispose();
-    }
-    _sourceCache.remove(audioPath);
   }
 
   /// Liberar todos los recursos
   Future<void> dispose() async {
-    for (final player in _audioPlayers.values) {
-      await player.dispose();
+    try {
+      for (final player in _audioPlayers.values) {
+        await player.dispose();
+      }
+      _audioPlayers.clear();
+      _sourceCache.clear();
+    } catch (e) {
+      debugPrint('Error al liberar recursos de audio: $e');
     }
-    _audioPlayers.clear();
-    _sourceCache.clear();
   }
 
   /// Obtener un AudioPlayer existente o crear uno nuevo
@@ -103,13 +81,5 @@ class AudioService {
       _audioPlayers[audioPath] = AudioPlayer();
     }
     return _audioPlayers[audioPath]!;
-  }
-
-  /// Obtener un Source existente o crear uno nuevo
-  Source _getOrCreateSource(String audioPath) {
-    if (!_sourceCache.containsKey(audioPath)) {
-      _sourceCache[audioPath] = AssetSource(audioPath);
-    }
-    return _sourceCache[audioPath]!;
   }
 }

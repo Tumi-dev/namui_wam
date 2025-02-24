@@ -568,6 +568,175 @@ class NumbersData {
     
     // Nivel 5: Continuar con el resto de números...
     
+    // Nivel 6: Números del 100000 al 999999
+    NumberWord(
+      number: 112345,
+      word: 'Kansrel Kantsipaishik Pønsrel Piptsi Trattrø',
+      audioFiles: ['1.Kan.wav', 'Srel.wav', '1.Kan.wav', 'Tsi.wav', '2.Pa.wav', 'Ishik.wav', '3.Pøn.wav', 'Srel.wav', '4.Pip.wav', 'Tsi.wav', '5.Trattrø.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 134678,
+      word: 'Kansrel Pøntsi Pipishik Trattrøkansrel Trattrøpatsi Trattrøpøn',
+      audioFiles: ['1.Kan.wav', 'Srel.wav', '3.Pøn.wav', 'Tsi.wav', '4.Pip.wav', 'Ishik.wav', '6.Trattrø_Kan.wav', 'Srel.wav', '7.Trattrø_Pa.wav', 'Tsi.wav', '8.Trattrø_Pøn.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 156789,
+      word: 'Kansrel Trattrøtsi Trattrøkanishik Trattrøpasrel Trattrøpøntsi Trattrøpip',
+      audioFiles: ['1.Kan.wav', 'Srel.wav', '5.Trattrø.wav', 'Tsi.wav', '6.Trattrø_Kan.wav', 'Ishik.wav', '7.Trattrø_Pa.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 189234,
+      word: 'Kansrel Trattrøpøntsi Trattrøpipishik Pasrel Pøntsi Pip',
+      audioFiles: ['1.Kan.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav', 'Ishik.wav', '2.Pa.wav', 'Srel.wav', '3.Pøn.wav', 'Tsi.wav', '4.Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 213456,
+      word: 'Pasrel Kantsipønishik Pipsrel Trattrøtsi Trattrøkan',
+      audioFiles: ['2.Pa.wav', 'Srel.wav', '1.Kan.wav', 'Tsi.wav', '3.Pøn.wav', 'Ishik.wav', '4.Pip.wav', 'Srel.wav', '5.Trattrø.wav', 'Tsi.wav', '6.Trattrø_Kan.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 245789,
+      word: 'Pasrel Piptsi Trattrøishik Trattrøpasrel Trattrøpøntsi Trattrøpip',
+      audioFiles: ['2.Pa.wav', 'Srel.wav', '4.Pip.wav', 'Tsi.wav', '5.Trattrø.wav', 'Ishik.wav', '7.Trattrø_Pa.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 267123,
+      word: 'Pasrel Trattrøkantsi Trattrøpaishik Kansrel Patsipøn',
+      audioFiles: ['2.Pa.wav', 'Srel.wav', '6.Trattrø_Kan.wav', 'Tsi.wav', '7.Trattrø_Pa.wav', 'Ishik.wav', '1.Kan.wav', 'Srel.wav', '2.Pa.wav', 'Tsi.wav', '3.Pøn.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 289456,
+      word: 'Pasrel Trattrøpøntsi Trattrøpipishik Pipsrel Trattrøtsi Trattrøkan',
+      audioFiles: ['2.Pa.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav', 'Ishik.wav', '4.Pip.wav', 'Srel.wav', '5.Trattrø.wav', 'Tsi.wav', '6.Trattrø_Kan.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 312678,
+      word: 'Pønsrel Kantsipaishik Trattrøkansrel Trattrøpatsi Trattrøpøn',
+      audioFiles: ['3.Pøn.wav', 'Srel.wav', '1.Kan.wav', 'Tsi.wav', '2.Pa.wav', 'Ishik.wav', '6.Trattrø_Kan.wav', 'Srel.wav', '7.Trattrø_Pa.wav', 'Tsi.wav', '8.Trattrø_Pøn.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 345912,
+      word: 'Pønsrel Piptsi Trattrøishik Trattrøpipsrel Kantsipa',
+      audioFiles: ['3.Pøn.wav', 'Srel.wav', '4.Pip.wav', 'Tsi.wav', '5.Trattrø.wav', 'Ishik.wav', '9.Trattrø_Pip.wav', 'Srel.wav', '1.Kan.wav', 'Tsi.wav', '2.Pa.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 367234,
+      word: 'Pønsrel Trattrøkantsi Trattrøpaishik Pasrel Pøntsi Pip',
+      audioFiles: ['3.Pøn.wav', 'Srel.wav', '6.Trattrø_Kan.wav', 'Tsi.wav', '7.Trattrø_Pa.wav', 'Ishik.wav', '2.Pa.wav', 'Srel.wav', '3.Pøn.wav', 'Tsi.wav', '4.Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 389567,
+      word: 'Pønsrel Trattrøpøntsi Trattrøpipishik Trattrøsrel Trattrøkantsi Trattrøpa',
+      audioFiles: ['3.Pøn.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav', 'Ishik.wav', '5.Trattrø.wav', 'Srel.wav', '6.Trattrø_Kan.wav', 'Tsi.wav', '7.Trattrø_Pa.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 412345,
+      word: 'Pipsrel Kantsipaishik Pønsrel Piptsi Trattrø',
+      audioFiles: ['4.Pip.wav', 'Srel.wav', '1.Kan.wav', 'Tsi.wav', '2.Pa.wav', 'Ishik.wav', '3.Pøn.wav', 'Srel.wav', '4.Pip.wav', 'Tsi.wav', '5.Trattrø.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 435678,
+      word: 'Pipsrel Pøntsi Trattrøishik Trattrøkansrel Trattrøpatsi Trattrøpøn',
+      audioFiles: ['4.Pip.wav', 'Srel.wav', '3.Pøn.wav', 'Tsi.wav', '5.Trattrø.wav', 'Ishik.wav', '6.Trattrø_Kan.wav', 'Srel.wav', '7.Trattrø_Pa.wav', 'Tsi.wav', '8.Trattrø_Pøn.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 456789,
+      word: 'Pipsrel Trattrøtsi Trattrøkanishik Trattrøpasrel Trattrøpøntsi Trattrøpip',
+      audioFiles: ['4.Pip.wav', 'Srel.wav', '5.Trattrø.wav', 'Tsi.wav', '6.Trattrø_Kan.wav', 'Ishik.wav', '7.Trattrø_Pa.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 478123,
+      word: 'Pipsrel Trattrøpatsi Trattrøpønishik Kansrel Patsipøn',
+      audioFiles: ['4.Pip.wav', 'Srel.wav', '7.Trattrø_Pa.wav', 'Tsi.wav', '8.Trattrø_Pøn.wav', 'Ishik.wav', '1.Kan.wav', 'Srel.wav', '2.Pa.wav', 'Tsi.wav', '3.Pøn.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 501234,
+      word: 'Trattrøsrel kanishik Pasrel Pøntsi Pip',
+      audioFiles: ['5.Trattrø.wav', 'Srel.wav', '1.Kan.wav', 'Ishik.wav', '2.Pa.wav', 'Srel.wav', '3.Pøn.wav', 'Tsi.wav', '4.Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 523456,
+      word: 'Trattrøsrel Patsipønishik Pipsrel Trattrøtsi Trattrøkan',
+      audioFiles: ['5.Trattrø.wav', 'Srel.wav', '2.Pa.wav', 'Tsi.wav', '3.Pøn.wav', 'Ishik.wav', '4.Pip.wav', 'Srel.wav', '5.Trattrø.wav', 'Tsi.wav', '6.Trattrø_Kan.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 545789,
+      word: 'Trattrøsrel Piptsi Trattrøishik Trattrøpasrel Trattrøpøntsi Trattrøpip',
+      audioFiles: ['5.Trattrø.wav', 'Srel.wav', '4.Pip.wav', 'Tsi.wav', '5.Trattrø.wav', 'Ishik.wav', '7.Trattrø_Pa.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 567123,
+      word: 'Trattrøsrel Trattrøkantsi Trattrøpaishik Kansrel Patsipøn',
+      audioFiles: ['5.Trattrø.wav', 'Srel.wav', '6.Trattrø_Kan.wav', 'Tsi.wav', '7.Trattrø_Pa.wav', 'Ishik.wav', '1.Kan.wav', 'Srel.wav', '2.Pa.wav', 'Tsi.wav', '3.Pøn.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 589456,
+      word: 'Trattrøsrel Trattrøpøntsi Trattrøpipishik Pipsrel Trattrøtsi Trattrøkan',
+      audioFiles: ['5.Trattrø.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav', 'Ishik.wav', '4.Pip.wav', 'Srel.wav', '5.Trattrø.wav', 'Tsi.wav', '6.Trattrø_Kan.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 612789,
+      word: 'Trattrøkansrel Kantsipaishik Trattrøpasrel Trattrøpøntsi Trattrøpip',
+      audioFiles: ['6.Trattrø_Kan.wav', 'Srel.wav', '1.Kan.wav', 'Tsi.wav', '2.Pa.wav', 'Ishik.wav', '7.Trattrø_Pa.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 645123,
+      word: 'Trattrøkansrel Piptsi Trattrøishik Kansrel Patsipøn',
+      audioFiles: ['6.Trattrø_Kan.wav', 'Srel.wav', '4.Pip.wav', 'Tsi.wav', '5.Trattrø.wav', 'Ishik.wav', '1.Kan.wav', 'Srel.wav', '2.Pa.wav', 'Tsi.wav', '3.Pøn.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 678234,
+      word: 'Trattrøkansrel Trattrøpatsi Trattrøpønishik Pasrel Pøntsi Pip',
+      audioFiles: ['6.Trattrø_Kan.wav', 'Srel.wav', '7.Trattrø_Pa.wav', 'Tsi.wav', '8.Trattrø_Pøn.wav', 'Ishik.wav', '2.Pa.wav', 'Srel.wav', '3.Pøn.wav', 'Tsi.wav', '4.Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 701456,
+      word: 'Trattrøpasrel kanishik Pipsrel Trattrøtsi Trattrøkan',
+      audioFiles: ['7.Trattrø_Pa.wav', 'Srel.wav', '1.Kan.wav', 'Ishik.wav', '4.Pip.wav', 'Srel.wav', '5.Trattrø.wav', 'Tsi.wav', '6.Trattrø_Kan.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 734589,
+      word: 'Trattrøpasrel Pøntsi Pipishik Trattrøsrel Trattrøpøntsi Trattrøpip',
+      audioFiles: ['7.Trattrø_Pa.wav', 'Srel.wav', '3.Pøn.wav', 'Tsi.wav', '4.Pip.wav', 'Ishik.wav', '5.Trattrø.wav', 'Srel.wav', '8.Trattrø_Pøn.wav', 'Tsi.wav', '9.Trattrø_Pip.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 845678,
+      word: 'Trattrøpønsrel Piptsi Trattrøishik Trattrøkansrel Trattrøpatsi Trattrøpøn',
+      audioFiles: ['8.Trattrø_Pøn.wav', 'Srel.wav', '4.Pip.wav', 'Tsi.wav', '5.Trattrø.wav', 'Ishik.wav', '6.Trattrø_Kan.wav', 'Srel.wav', '7.Trattrø_Pa.wav', 'Tsi.wav', '8.Trattrø_Pøn.wav'],
+      level: 6,
+    ),
+    NumberWord(
+      number: 956123,
+      word: 'Trattrøpipsrel Trattrøtsi Trattrøkanishik Kansrel Patsipøn',
+      audioFiles: ['9.Trattrø_Pip.wav', 'Srel.wav', '5.Trattrø.wav', 'Tsi.wav', '6.Trattrø_Kan.wav', 'Ishik.wav', '1.Kan.wav', 'Srel.wav', '2.Pa.wav', 'Tsi.wav', '3.Pøn.wav'],
+      level: 6,
+    ),
   ];
 
   static NumberWord? getRandomNumber({required int level}) {
@@ -759,6 +928,52 @@ class NumbersData {
               ((correctNumber + 10000) % 90000) + 10000,
               ((correctNumber + 20000) % 90000) + 10000,
               ((correctNumber + 30000) % 90000) + 10000];
+    }
+  }
+
+  static List<int> generateOptionsForLevel6(int correctNumber) {
+    final random = Random();
+    final Set<int> options = {correctNumber};
+    
+    try {
+      // Obtener todos los números del nivel 6
+      final level6Numbers = numbers
+          .where((n) => n.level == 6)
+          .map((n) => n.number)
+          .toList();
+
+      if (level6Numbers.isNotEmpty) {
+        // Mezclar los números disponibles
+        level6Numbers.shuffle(random);
+
+        // Agregar números únicos hasta tener 4 opciones
+        for (final number in level6Numbers) {
+          if (number != correctNumber) {
+            options.add(number);
+          }
+          if (options.length >= 4) break;
+        }
+      }
+
+      // Si no hay suficientes números predefinidos, generar aleatorios
+      while (options.length < 4) {
+        // Generar números aleatorios entre 100000 y 999999
+        final randomNumber = random.nextInt(900000) + 100000;
+        if (!options.contains(randomNumber)) {
+          options.add(randomNumber);
+        }
+      }
+
+      final result = options.toList();
+      result.shuffle(random);
+      return result;
+    } catch (e) {
+      debugPrint('Error en generateOptionsForLevel6: $e');
+      // En caso de error, devolver opciones básicas manteniendo el rango 100000-999999
+      return [correctNumber, 
+              ((correctNumber + 100000) % 900000) + 100000,
+              ((correctNumber + 200000) % 900000) + 100000,
+              ((correctNumber + 300000) % 900000) + 100000];
     }
   }
 }

@@ -21,7 +21,7 @@ class Activity1LevelScreen extends BaseLevelScreen {
 }
 
 class _Activity1LevelScreenState
-    extends BaseLevelScreenState<Activity1LevelScreen> {
+    extends BaseLevelScreenState<Activity1LevelScreen> with WidgetsBindingObserver {
   NumberWord? currentNumber;
   List<int> numberOptions = [];
   final _feedbackService = GetIt.instance<FeedbackService>();
@@ -34,6 +34,7 @@ class _Activity1LevelScreenState
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _initializeGame();
     totalScore = _gameState.totalScore;
   }
@@ -66,6 +67,8 @@ class _Activity1LevelScreenState
         return NumbersData.generateOptionsForLevel4(correctNumber);
       case 5:
         return NumbersData.generateOptionsForLevel5(correctNumber);
+      case 6:
+        return NumbersData.generateOptionsForLevel6(correctNumber);
       default:
         return _generateLevel1Options(correctNumber); // fallback al nivel 1
     }
@@ -95,24 +98,28 @@ class _Activity1LevelScreenState
 
       await _feedbackService.lightHapticFeedback();
 
-      // Reproducir la secuencia de audios con pausas específicas
       for (int i = 0; i < currentNumber!.audioFiles.length; i++) {
-        final audioFile = currentNumber!.audioFiles[i];
+        if (!mounted) {
+          await _stopAudio();
+          return;
+        }
 
-        // Reproducir el audio actual
+        final audioFile = currentNumber!.audioFiles[i];
         await _audioService.playAudio('audio/activity/$audioFile');
 
-        // Agregar pausas estratégicas basadas en el nivel y la posición del audio
+        if (!mounted) {
+          await _stopAudio();
+          return;
+        }
+
         if (i < currentNumber!.audioFiles.length - 1) {
           if (widget.level.id >= 4) {
-            // Para niveles 4 y 5, pausas más largas después de "ishik" y "srel"
             if (audioFile.contains('Ishik.wav') || audioFile.contains('Srel.wav')) {
               await Future.delayed(const Duration(milliseconds: 1000));
             } else {
               await Future.delayed(const Duration(milliseconds: 600));
             }
           } else {
-            // Para niveles 1-3, mantener las pausas anteriores
             if (i == 0) {
               await Future.delayed(const Duration(milliseconds: 800));
             } else {
@@ -122,6 +129,7 @@ class _Activity1LevelScreenState
         }
       }
     } catch (e) {
+      debugPrint('Error reproduciendo audio: $e');
       if (!mounted) return;
       _feedbackService.showErrorFeedback(
         context,
@@ -245,127 +253,246 @@ class _Activity1LevelScreenState
     }
   }
 
-  Widget _buildNumberOption(int number) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          padding: const EdgeInsets.all(20),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
-        onPressed: isCorrectAnswerSelected
-            ? null
-            : () => _handleNumberSelection(number),
-        child: Text(
-          number.toString(),
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _stopAudio();
+    super.dispose();
+  }
+
+  Future<void> _stopAudio() async {
+    if (isPlayingAudio) {
+      await _audioService.stopAudio();
+      if (mounted) {
+        setState(() {
+          isPlayingAudio = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused || 
+        state == AppLifecycleState.inactive) {
+      _stopAudio();
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  Widget buildScoreAndAttempts() {
+    // Retornamos un widget vacío para no mostrar la barra original
+    return const SizedBox.shrink();
   }
 
   @override
   Widget buildLevelContent() {
     if (_isError) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Ha ocurrido un error al cargar el nivel',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _initializeGame();
-              },
-              child: const Text('Reintentar'),
-            ),
-          ],
-        ),
+        child: Text('Error al cargar el nivel'),
       );
     }
 
-    if (currentNumber == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    return Column(
-      children: [
-        Expanded(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(32),
-                  decoration: BoxDecoration(
-                    color: Colors.green[700]?.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        currentNumber!.word,
-                        style: const TextStyle(
-                          fontSize: 64,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          letterSpacing: 2,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black26,
-                              offset: Offset(2, 2),
-                              blurRadius: 4,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      IconButton(
-                        icon: Icon(
-                          isPlayingAudio
-                              ? Icons.volume_up
-                              : Icons.volume_up_outlined,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        onPressed: isPlayingAudio ? null : _playAudio,
-                        tooltip: 'Escuchar pronunciación',
-                      ),
-                    ],
-                  ),
+    return SafeArea(
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.green.shade700,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
                 ),
-                const SizedBox(height: 40),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: numberOptions.map(_buildNumberOption).toList(),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.refresh, color: Colors.white),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Intentos: $remainingAttempts',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Icon(Icons.star, color: Colors.amber),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Puntos: $totalScore',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-        ),
-      ],
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Contenedor del número en namtrik
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.green[700]?.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        // Texto responsivo con tamaño mínimo garantizado
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            // Calcular el tamaño base según el nivel
+                            double baseFontSize = widget.level.id <= 2 ? 48.0 : 
+                                                widget.level.id <= 4 ? 40.0 : 36.0;
+                            
+                            return SizedBox(
+                              width: constraints.maxWidth,
+                              child: Text(
+                                currentNumber!.word,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: baseFontSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  height: 1.3,
+                                  letterSpacing: 1,
+                                  shadows: const [
+                                    Shadow(
+                                      color: Colors.black26,
+                                      offset: Offset(2, 2),
+                                      blurRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        // Botón de audio mejorado
+                        Material(
+                          color: Colors.white24,
+                          borderRadius: BorderRadius.circular(50),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(50),
+                            onTap: isPlayingAudio ? null : _playAudio,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    isPlayingAudio
+                                        ? Icons.volume_up
+                                        : Icons.volume_up_outlined,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Escuchar',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  // Grid responsivo de opciones
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final crossAxisCount = constraints.maxWidth > 400 ? 2 : 1;
+                      return GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: crossAxisCount,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        childAspectRatio: 3,
+                        children: numberOptions.map((number) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(15),
+                                onTap: isCorrectAnswerSelected
+                                    ? null
+                                    : () => _handleNumberSelection(number),
+                                child: Center(
+                                  child: Text(
+                                    number.toString(),
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: isCorrectAnswerSelected
+                                          ? Colors.grey
+                                          : Colors.black87,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

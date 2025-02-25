@@ -23,9 +23,38 @@ class ActivitiesState extends ChangeNotifier {
   void completeLevel(int activityId, int levelId) {
     final activity = _activities[activityId];
     if (activity != null) {
+      final wasCompleted = activity.isLevelCompleted(levelId);
       activity.completeLevel(levelId);
+      
+      if (!wasCompleted) {
+        // Desbloquear el siguiente nivel si existe
+        final nextLevel = activity.getLevel(levelId + 1);
+        if (nextLevel != null) {
+          nextLevel.unlockLevel();
+        }
+      }
+      
       notifyListeners();
     }
+  }
+
+  int getTotalPoints() {
+    return _activities.values.fold(0, (sum, activity) => sum + activity.totalPoints);
+  }
+
+  void resetActivity(int activityId) {
+    final activity = _activities[activityId];
+    if (activity != null) {
+      activity.resetActivity();
+      notifyListeners();
+    }
+  }
+
+  void resetAllActivities() {
+    for (var activity in _activities.values) {
+      activity.resetActivity();
+    }
+    notifyListeners();
   }
 
   bool isActivityAvailable(int activityId) {

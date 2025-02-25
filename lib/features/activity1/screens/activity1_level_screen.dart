@@ -3,12 +3,13 @@ import 'package:get_it/get_it.dart';
 import 'dart:math';
 import 'package:namui_wam/core/models/level_model.dart';
 import 'package:namui_wam/core/models/activities_state.dart';
+import 'package:namui_wam/core/models/game_state.dart';
 import 'package:namui_wam/core/templates/base_level_screen.dart';
 import 'package:namui_wam/core/services/feedback_service.dart';
 import 'package:namui_wam/core/services/audio_service.dart';
+import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/features/activity1/data/numbers_data.dart';
 import 'package:namui_wam/features/activity1/models/number_word.dart';
-import 'package:namui_wam/features/activity1/models/game_state.dart';
 
 class Activity1LevelScreen extends BaseLevelScreen {
   const Activity1LevelScreen({
@@ -26,20 +27,22 @@ class _Activity1LevelScreenState
   List<int> numberOptions = [];
   final _feedbackService = GetIt.instance<FeedbackService>();
   final _audioService = GetIt.instance<AudioService>();
-  final _gameState = Activity1GameState();
   bool isCorrectAnswerSelected = false;
   bool isPlayingAudio = false;
   bool _isError = false;
+  int remainingAttempts = 3;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _initializeGame();
-    totalScore = _gameState.totalScore;
   }
 
   void _initializeGame() {
+    isCorrectAnswerSelected = false;
+    remainingAttempts = 3;
+    
     final number = NumbersData.getRandomNumber(level: widget.level.id);
     if (number == null) {
       setState(() {
@@ -53,6 +56,14 @@ class _Activity1LevelScreenState
       numberOptions = _generateOptionsForLevel(number.number);
       _isError = false;
     });
+
+    // Actualizar puntos
+    if (mounted) {
+      final gameState = GameState.of(context);
+      setState(() {
+        totalScore = gameState.globalPoints;
+      });
+    }
   }
 
   List<int> _generateOptionsForLevel(int correctNumber) {
@@ -155,6 +166,8 @@ class _Activity1LevelScreenState
   }
 
   void _handleCorrectAnswer() async {
+    if (!mounted) return;
+
     setState(() {
       isCorrectAnswerSelected = true;
     });
@@ -163,60 +176,93 @@ class _Activity1LevelScreenState
 
     if (!mounted) return;
 
-    if (!_gameState.isLevelCompleted(widget.level.id)) {
-      final activitiesState = ActivitiesState.of(context);
-      activitiesState.completeLevel(1, widget.level.id - 1);
+    final activitiesState = ActivitiesState.of(context);
+    final gameState = GameState.of(context);
+    final wasCompleted = gameState.isLevelCompleted(1, widget.level.id - 1);
 
-      setState(() {
-        totalScore = _gameState.totalScore + Activity1GameState.maxLevelScore;
-      });
+    if (!wasCompleted) {
+      final pointsAdded = await gameState.addPoints(1, widget.level.id - 1, 5);
+      if (pointsAdded) {
+        activitiesState.completeLevel(1, widget.level.id - 1);
+        if (mounted) {
+          setState(() {
+            totalScore = gameState.globalPoints;
+          });
+        }
+      }
 
       if (!mounted) return;
+
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: const Text('¡Felicitaciones!'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Has desbloqueado el siguiente nivel'),
-              const SizedBox(height: 8),
-              Text(
-                '¡Ganaste ${Activity1GameState.maxLevelScore} puntos!',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-            ],
+        builder: (context) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                _gameState.unlockNextLevel(widget.level.id);
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              child: const Text('Continuar'),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '¡Felicitaciones!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Has desbloqueado el siguiente nivel',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  '¡Ganaste 5 puntos!',
+                  style: TextStyle(
+                    color: Colors.green.shade700,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blue,
+                  ),
+                  child: const Text(
+                    'Continuar',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
     } else {
       if (!mounted) return;
+      
       showDialog(
         context: context,
-        barrierDismissible: false,
         builder: (context) => AlertDialog(
-          title: const Text('¡Muy bien!'),
-          content: const Text('Has completado el nivel correctamente'),
+          title: const Text('¡Correcto!'),
+          content: const Text('¡Muy bien! Has acertado nuevamente.'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                _initializeGame();
               },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.blue,
+              ),
               child: const Text('Continuar'),
             ),
           ],
@@ -226,28 +272,42 @@ class _Activity1LevelScreenState
   }
 
   void _handleIncorrectAnswer() async {
+    if (!mounted) return;
+
     await _feedbackService.lightHapticFeedback();
+    
     setState(() {
       remainingAttempts--;
     });
 
     if (remainingAttempts <= 0) {
       if (!mounted) return;
+      
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
-          title: const Text('¡Game Over!'),
-          content: const Text('Has agotado tus intentos. Inténtalo de nuevo.'),
+          title: const Text('¡Sin intentos!'),
+          content: const Text('Has agotado tus intentos. Volviendo al menú de actividad.'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('Volver a intentar'),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.blue,
+              ),
+              child: const Text('Aceptar'),
             ),
           ],
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Respuesta incorrecta. Te quedan $remainingAttempts intentos.'),
+          duration: const Duration(seconds: 2),
         ),
       );
     }
@@ -288,7 +348,7 @@ class _Activity1LevelScreenState
   @override
   Widget buildLevelContent() {
     if (_isError) {
-      return Center(
+      return const Center(
         child: Text('Error al cargar el nivel'),
       );
     }
@@ -296,64 +356,21 @@ class _Activity1LevelScreenState
     return SafeArea(
       child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.green.shade700,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.refresh, color: Colors.white),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Intentos: $remainingAttempts',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.star, color: Colors.amber),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Puntos: $totalScore',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24, left: 16, right: 16, top: 8),
           ),
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Contenedor del número en namtrik
                   Container(
                     width: double.infinity,
-                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.green[700]?.withOpacity(0.9),

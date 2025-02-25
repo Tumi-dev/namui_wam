@@ -10,6 +10,7 @@ import 'package:namui_wam/features/activity1/data/activity1_levels.dart';
 import 'package:namui_wam/features/activity2/data/activity2_levels.dart';
 import 'package:namui_wam/core/di/service_locator.dart';
 import 'package:namui_wam/core/services/logger_service.dart';
+import 'package:namui_wam/core/models/game_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activitiesState = ActivitiesState();
+    final gameState = GameState();
     
     // Inicializar actividades con sus niveles
     activitiesState.addActivity(ActivityLevels(activityId: 1, levels: List.from(activity1Levels)));
@@ -42,8 +44,11 @@ class MainApp extends StatelessWidget {
       activitiesState.addActivity(ActivityLevels(activityId: i, levels: []));
     }
 
-    return ChangeNotifierProvider<ActivitiesState>.value(
-      value: activitiesState,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ActivitiesState>.value(value: activitiesState),
+        ChangeNotifierProvider<GameState>.value(value: gameState),
+      ],
       child: MaterialApp(
         title: 'Namui Wam',
         theme: AppTheme.lightTheme,

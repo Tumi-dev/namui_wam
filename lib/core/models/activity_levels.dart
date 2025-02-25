@@ -6,6 +6,9 @@ import 'level_model.dart';
 class ActivityLevels extends ChangeNotifier {
   final List<LevelModel> levels;
   final int activityId;
+  int _totalPoints = 0;
+  final Map<int, bool> _completedLevels = {};
+  static const int pointsPerLevel = 5;
 
   ActivityLevels({
     required this.activityId,
@@ -25,16 +28,44 @@ class ActivityLevels extends ChangeNotifier {
     return levels[levelId - 1].isCompleted;
   }
 
+  bool isLevelCompleted(int levelId) {
+    return _completedLevels[levelId] ?? false;
+  }
+
   void completeLevel(int levelId) {
     if (levelId >= 0 && levelId < levels.length) {
-      levels[levelId].completeLevel();
-      
-      if (levelId + 1 < levels.length) {
-        levels[levelId + 1].unlockLevel();
+      if (!isLevelCompleted(levelId)) {
+        _completedLevels[levelId] = true;
+        _totalPoints += pointsPerLevel;
+        levels[levelId].completeLevel();
+        
+        // Desbloquear el siguiente nivel si existe
+        if (levelId + 1 < levels.length) {
+          levels[levelId + 1].unlockLevel();
+        }
+        
+        notifyListeners();
       }
-      
-      notifyListeners();
     }
+  }
+
+  int get totalPoints => _totalPoints;
+
+  void resetActivity() {
+    _totalPoints = 0;
+    _completedLevels.clear();
+    
+    // Restablecer todos los niveles
+    for (var level in levels) {
+      level.status = LevelStatus.locked;
+    }
+    
+    // Desbloquear el primer nivel
+    if (levels.isNotEmpty) {
+      levels[0].status = LevelStatus.unlocked;
+    }
+    
+    notifyListeners();
   }
 
   LevelModel? getLevel(int levelId) {

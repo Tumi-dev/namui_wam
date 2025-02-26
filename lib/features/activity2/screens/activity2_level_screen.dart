@@ -341,7 +341,7 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                         fontSize: 14,
                       ),
                       filled: true,
-                      fillColor: const Color(0xFF1B5E20), // Verde más oscuro para el fondo
+                      fillColor: const Color(0xFF388E3C), // Verde más suave similar al del logo
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,

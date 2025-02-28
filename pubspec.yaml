@@ -30,6 +30,7 @@ flutter:
   assets:
     - assets/images/
     - assets/data/
-    - assets/data/avtivity_numbers_1-999999_json/
+    - assets/data/namtrik_numbers.json
     - assets/audio/activity/
+    - assets/audio/namtrik_numbers/
     - assets/audio/

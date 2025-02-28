@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -8,7 +7,7 @@ import 'package:namui_wam/core/templates/base_level_screen.dart';
 import 'package:namui_wam/core/services/audio_service.dart';
 import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/core/models/game_state.dart';
-import 'package:namui_wam/core/services/number_data_service.dart';
+import 'package:namui_wam/features/activity2/services/activity2_service.dart';
 
 class Activity2LevelScreen extends BaseLevelScreen {
   const Activity2LevelScreen({
@@ -22,11 +21,10 @@ class Activity2LevelScreen extends BaseLevelScreen {
 
 class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScreen> {
   final _audioService = GetIt.instance<AudioService>();
-  final _numberDataService = GetIt.instance<NumberDataService>();
+  final _activity2Service = GetIt.instance<Activity2Service>();
   bool isPlayingAudio = false;
   final TextEditingController _answerController = TextEditingController();
   Map<String, dynamic>? currentNumber;
-  List<Map<String, dynamic>> numbers = [];
   int remainingAttempts = 3;
   bool _isLoading = true;
 
@@ -34,7 +32,7 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (widget.level.id <= 7) { // Modificado para incluir niveles 6 y 7
+      if (widget.level.id <= 7) {
         await loadNumbers();
       }
       // Actualizar puntos globales
@@ -53,40 +51,12 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
         _isLoading = true;
       });
       
-      // Determine the range based on the level
-      int start = 1;
-      int end = 9;
-      
-      if (widget.level.id == 1) {
-        start = 1;
-        end = 9;
-      } else if (widget.level.id == 2) {
-        start = 10;
-        end = 99;
-      } else if (widget.level.id == 3) {
-        start = 100;
-        end = 999;
-      } else if (widget.level.id == 4) {
-        start = 1000;
-        end = 9999;
-      } else if (widget.level.id == 5) {
-        start = 10000;
-        end = 99999;
-      } else if (widget.level.id == 6) {
-        start = 100000;
-        end = 999999;
-      } else if (widget.level.id == 7) {
-        // For future expansion, when more numbers are added
-        start = 1000000;
-        end = 9999999;
-      }
-      
-      // Load numbers for this level
-      final levelNumbers = await _numberDataService.getNumbersInRange(start, end);
+      // Get a random number for this level using the Activity2Service
+      final randomNumber = await _activity2Service.getRandomNumberForLevel(widget.level.id);
       
       if (!mounted) return;
 
-      if (levelNumbers.isEmpty) {
+      if (randomNumber == null || randomNumber.isEmpty) {
         setState(() {
           _isLoading = false;
         });
@@ -97,9 +67,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
       }
 
       setState(() {
-        numbers = levelNumbers;
+        currentNumber = randomNumber;
         _isLoading = false;
-        selectRandomNumber();
       });
     } catch (e) {
       if (!mounted) return;
@@ -112,33 +81,46 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
     }
   }
 
-  void selectRandomNumber() {
-    if (numbers.isEmpty) {
-      print('No hay números disponibles para el nivel ${widget.level.id}');
-      return;
-    }
-
-    final random = Random();
-    final selectedNumber = numbers[random.nextInt(numbers.length)];
-    
-    if (mounted) {
+  Future<void> selectRandomNumber() async {
+    try {
       setState(() {
-        currentNumber = selectedNumber;
-        _answerController.clear();
+        _isLoading = true;
       });
+      
+      // Get a random number for this level using the Activity2Service
+      final randomNumber = await _activity2Service.getRandomNumberForLevel(widget.level.id);
+      
+      if (!mounted) return;
+
+      if (randomNumber == null || randomNumber.isEmpty) {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No hay números disponibles para este nivel')),
+        );
+        return;
+      }
+
+      setState(() {
+        currentNumber = randomNumber;
+        _answerController.clear();
+        _isLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+      print('Error al seleccionar número aleatorio: $e');
     }
   }
 
   Future<void> checkAnswer() async {
     if (currentNumber == null || _answerController.text.isEmpty) return;
 
-    final userAnswer = _answerController.text.trim().toLowerCase();
-    final List<String> allValidAnswers = [
-      currentNumber!['namtrik'].toString().toLowerCase(),
-      ...(currentNumber!['variations'] as List<dynamic>).map((v) => v.toString().toLowerCase())
-    ];
-
-    final bool isCorrect = allValidAnswers.any((answer) => answer == userAnswer);
+    final userAnswer = _answerController.text.trim();
+    final bool isCorrect = _activity2Service.isAnswerCorrect(currentNumber!, userAnswer);
 
     if (isCorrect) {
       _handleCorrectAnswer();
@@ -188,7 +170,7 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  widget.level.id < 7  // Modificado para incluir nivel 6
+                  widget.level.id < 7
                       ? 'Has desbloqueado el siguiente nivel'
                       : '¡Has completado el nivel!',
                   textAlign: TextAlign.center,
@@ -278,7 +260,7 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
 
   @override
   Widget buildLevelContent() {
-    if (widget.level.id > 7) { // Modificado para permitir hasta el nivel 7
+    if (widget.level.id > 7) {
       return const Center(child: Text('Nivel en desarrollo'));
     }
 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:namui_wam/core/constants/activity_descriptions.dart';
 import 'package:namui_wam/core/di/service_locator.dart';
-import 'package:namui_wam/core/services/number_data_service.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
 import 'package:namui_wam/core/widgets/game_description_widget.dart';
+import 'package:namui_wam/features/activity3/services/activity3_service.dart';
 
 class Activity3Screen extends StatefulWidget {
   const Activity3Screen({super.key});
@@ -15,7 +15,7 @@ class Activity3Screen extends StatefulWidget {
 
 class _Activity3ScreenState extends State<Activity3Screen> {
   final TextEditingController _numberController = TextEditingController();
-  final NumberDataService _numberDataService = getIt<NumberDataService>();
+  final Activity3Service _activity3Service = getIt<Activity3Service>();
   String _namtrikResult = '';
   bool _isLoading = false;
   bool _hasInvalidInput = false;
@@ -71,21 +71,21 @@ class _Activity3ScreenState extends State<Activity3Screen> {
     }
     
     // If previous input was invalid but now it's valid, reset the flag
-    if (_hasInvalidInput && number != null && number >= 1 && number <= 9999999) {
+    if (_hasInvalidInput && _activity3Service.isValidNumber(number)) {
       setState(() {
         _hasInvalidInput = false;
       });
     }
 
-    if (number != null && number >= 1 && number <= 9999999) {
+    if (_activity3Service.isValidNumber(number)) {
       setState(() {
         _isLoading = true;
       });
 
       try {
-        final numberData = await _numberDataService.getNumberByValue(number);
+        final namtrikValue = await _activity3Service.getNamtrikForNumber(number!);
         setState(() {
-          _namtrikResult = numberData?['namtrik'] ?? '';
+          _namtrikResult = namtrikValue;
           _isLoading = false;
         });
       } catch (e) {

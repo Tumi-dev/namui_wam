@@ -19,7 +19,10 @@ Future<void> setupServiceLocator() async {
   
   // Activity Services
   getIt.registerSingleton<Activity2Service>(Activity2Service(getIt<NumberDataService>()));
-  getIt.registerSingleton<Activity3Service>(Activity3Service(getIt<NumberDataService>()));
+  getIt.registerSingleton<Activity3Service>(Activity3Service(
+    getIt<NumberDataService>(),
+    getIt<AudioService>(),
+  ));
   
   // Initialize services that require async initialization
   final storageService = getIt<StorageService>();

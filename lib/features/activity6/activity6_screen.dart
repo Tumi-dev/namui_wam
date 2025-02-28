@@ -18,7 +18,7 @@ class Activity6Screen extends StatelessWidget {
           onPressed: () => _navigateToHome(context),
         ),
         title: const Text(
-          'Wammeran tulisha manchípik kui asamik pørik',
+          'Wammeran tulisha manchípik kui asamik pɵrik',
           style: AppTheme.activityTitleStyle,
         ),
         backgroundColor: Colors.transparent,

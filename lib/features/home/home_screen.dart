@@ -11,12 +11,12 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   static const List<String> activityDescriptions = [
-    'Muntsik møik køtasha søl lau',
+    'Muntsik mɵik kɵtasha sɵl lau',
     'Muntsikelan pөram kusrekun',
-    'Muntsielan namtrikmai yunømarøpik',
-    'Nøsik utøwan asam kusrekun',
-    'Anwan ashipelø køkun',
-    'Wammeran tulisha manchípik kui asamik pørik',
+    'Muntsielan namtrikmai yunɵmarɵpik',
+    'Nɵsik utɵwan asam kusrekun',
+    'Anwan ashipelɵ kɵkun',
+    'Wammeran tulisha manchípik kui asamik pɵrik',
   ];
 
   void _navigateToActivity(BuildContext context, int activityNumber) {

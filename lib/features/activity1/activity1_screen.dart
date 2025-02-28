@@ -43,7 +43,7 @@ class Activity1Screen extends StatelessWidget {
               onPressed: () => _navigateToHome(context),
             ),
             title: const Text(
-              'Muntsik møik køtasha søl lau',
+              'Muntsik mɵik kɵtasha sɵl lau',
               style: AppTheme.activityTitleStyle,
             ),
             backgroundColor: Colors.transparent,

@@ -13,11 +13,11 @@ class _Activity1Descriptions {
   
   final String level1 = 'Kan nepunik';
   final String level2 = 'Pa nepunik';
-  final String level3 = 'Pøn nepunik';
+  final String level3 = 'Pɵn nepunik';
   final String level4 = 'Pip nepunik';
-  final String level5 = 'Trattrø nepunik';
-  final String level6 = 'Trattrøkan nepunik';
-  final String level7 = 'Trattrøpa nepunik';
+  final String level5 = 'Trattrɵ nepunik';
+  final String level6 = 'Trattrɵkan nepunik';
+  final String level7 = 'Trattrɵpa nepunik';
 }
 
 /// Descripciones específicas para los niveles de la Actividad 2
@@ -26,9 +26,9 @@ class _Activity2Descriptions {
   
   final String level1 = 'Kan nepunik';
   final String level2 = 'Pa nepunik';
-  final String level3 = 'Pøn nepunik';
+  final String level3 = 'Pɵn nepunik';
   final String level4 = 'Pip nepunik';
-  final String level5 = 'Trattrø nepunik';
-  final String level6 = 'Trattrøkan nepunik';
-  final String level7 = 'Trattrøpa nepunik';
+  final String level5 = 'Trattrɵ nepunik';
+  final String level6 = 'Trattrɵkan nepunik';
+  final String level7 = 'Trattrɵpa nepunik';
 }

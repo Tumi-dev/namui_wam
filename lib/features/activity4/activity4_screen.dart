@@ -18,7 +18,7 @@ class Activity4Screen extends StatelessWidget {
           onPressed: () => _navigateToHome(context),
         ),
         title: const Text(
-          'Nøsik utøwan asam kusrekun',
+          'Nɵsik utɵwan asam kusrekun',
           style: AppTheme.activityTitleStyle,
         ),
         backgroundColor: Colors.transparent,

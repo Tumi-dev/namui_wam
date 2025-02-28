@@ -247,7 +247,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
             onPressed: () => _navigateToHome(context),
           ),
           title: const Text(
-            'Muntsielan namtrikmai yunømarøpik',
+            'Muntsielan namtrikmai yunɵmarɵpik',
             style: AppTheme.activityTitleStyle,
           ),
           backgroundColor: Colors.transparent,
@@ -284,7 +284,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             ),
                           SizedBox(height: _isKeyboardVisible && isSmallScreen ? 10 : 40),
                           const Text(
-                            'Muntsik wan yu pør',
+                            'Muntsik wan yu pɵr',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,

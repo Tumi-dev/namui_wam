@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'dart:math';
 import 'package:namui_wam/core/models/level_model.dart';
 import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/core/models/game_state.dart';
 import 'package:namui_wam/core/templates/base_level_screen.dart';
 import 'package:namui_wam/core/services/feedback_service.dart';
-import 'package:namui_wam/core/services/audio_service.dart';
 import 'package:namui_wam/core/widgets/info_bar_widget.dart';
-import 'package:namui_wam/features/activity1/data/numbers_data.dart';
 import 'package:namui_wam/features/activity1/models/number_word.dart';
+import 'package:namui_wam/features/activity1/services/activity1_service.dart';
 
 class Activity1LevelScreen extends BaseLevelScreen {
   const Activity1LevelScreen({
@@ -26,7 +24,7 @@ class _Activity1LevelScreenState
   NumberWord? currentNumber;
   List<int> numberOptions = [];
   final _feedbackService = GetIt.instance<FeedbackService>();
-  final _audioService = GetIt.instance<AudioService>();
+  late final Activity1Service _activity1Service;
   bool isCorrectAnswerSelected = false;
   bool isPlayingAudio = false;
   bool _isError = false;
@@ -36,26 +34,39 @@ class _Activity1LevelScreenState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _activity1Service = GetIt.instance<Activity1Service>();
     _initializeGame();
   }
 
-  void _initializeGame() {
+  void _initializeGame() async {
     isCorrectAnswerSelected = false;
     remainingAttempts = 3;
     
-    final number = NumbersData.getRandomNumber(level: widget.level.id);
+    // Mostrar indicador de carga
+    setState(() {
+      currentNumber = null;
+      _isError = false;
+    });
+    
+    final number = await _activity1Service.getRandomNumberForLevel(widget.level.id);
     if (number == null) {
-      setState(() {
-        _isError = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isError = true;
+        });
+      }
       return;
     }
 
-    setState(() {
-      currentNumber = number;
-      numberOptions = _generateOptionsForLevel(number.number);
-      _isError = false;
-    });
+    final options = await _activity1Service.generateOptionsForLevel(widget.level.id, number.number);
+    
+    if (mounted) {
+      setState(() {
+        currentNumber = number;
+        numberOptions = options;
+        _isError = false;
+      });
+    }
 
     // Actualizar puntos
     if (mounted) {
@@ -64,39 +75,6 @@ class _Activity1LevelScreenState
         totalScore = gameState.globalPoints;
       });
     }
-  }
-
-  List<int> _generateOptionsForLevel(int correctNumber) {
-    switch (widget.level.id) {
-      case 1:
-        return _generateLevel1Options(correctNumber);
-      case 2:
-        return NumbersData.generateOptionsForLevel2(correctNumber);
-      case 3:
-        return NumbersData.generateOptionsForLevel3(correctNumber);
-      case 4:
-        return NumbersData.generateOptionsForLevel4(correctNumber);
-      case 5:
-        return NumbersData.generateOptionsForLevel5(correctNumber);
-      case 6:
-        return NumbersData.generateOptionsForLevel6(correctNumber);
-      default:
-        return _generateLevel1Options(correctNumber); // fallback al nivel 1
-    }
-  }
-
-  List<int> _generateLevel1Options(int correctNumber) {
-    final random = Random();
-    final Set<int> options = {correctNumber};
-
-    while (options.length < 4) {
-      final randomNumber = random.nextInt(9) + 1;
-      options.add(randomNumber);
-    }
-
-    final result = options.toList();
-    result.shuffle(random);
-    return result;
   }
 
   Future<void> _playAudio() async {
@@ -108,50 +86,22 @@ class _Activity1LevelScreenState
       });
 
       await _feedbackService.lightHapticFeedback();
-
-      for (int i = 0; i < currentNumber!.audioFiles.length; i++) {
-        if (!mounted) {
-          await _stopAudio();
-          return;
-        }
-
-        final audioFile = currentNumber!.audioFiles[i];
-        await _audioService.playAudio('audio/activity/$audioFile');
-
-        if (!mounted) {
-          await _stopAudio();
-          return;
-        }
-
-        if (i < currentNumber!.audioFiles.length - 1) {
-          if (widget.level.id >= 4) {
-            if (audioFile.contains('Ishik.wav') || audioFile.contains('Srel.wav')) {
-              await Future.delayed(const Duration(milliseconds: 1000));
-            } else {
-              await Future.delayed(const Duration(milliseconds: 600));
-            }
-          } else {
-            if (i == 0) {
-              await Future.delayed(const Duration(milliseconds: 800));
-            } else {
-              await Future.delayed(const Duration(milliseconds: 500));
-            }
-          }
-        }
+      if(currentNumber != null){
+        await _activity1Service.playAudioForNumber(currentNumber!);
       }
-    } catch (e) {
-      debugPrint('Error reproduciendo audio: $e');
-      if (!mounted) return;
-      _feedbackService.showErrorFeedback(
-        context,
-        'Error al reproducir el audio',
-      );
-    } finally {
+
       if (mounted) {
         setState(() {
           isPlayingAudio = false;
         });
       }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          isPlayingAudio = false;
+        });
+      }
+      debugPrint('Error reproduciendo audio: $e');
     }
   }
 
@@ -313,31 +263,31 @@ class _Activity1LevelScreenState
     }
   }
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _stopAudio();
-    super.dispose();
-  }
-
   Future<void> _stopAudio() async {
-    if (isPlayingAudio) {
-      await _audioService.stopAudio();
+    try {
+      await _activity1Service.stopAudio();
       if (mounted) {
         setState(() {
           isPlayingAudio = false;
         });
       }
+    } catch (e) {
+      debugPrint('Error deteniendo audio: $e');
     }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused || 
-        state == AppLifecycleState.inactive) {
+    if (state != AppLifecycleState.resumed) {
       _stopAudio();
     }
-    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    _stopAudio();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   Widget buildScoreAndAttempts() {
@@ -350,6 +300,13 @@ class _Activity1LevelScreenState
     if (_isError) {
       return const Center(
         child: Text('Error al cargar el nivel'),
+      );
+    }
+
+    // Mostrar indicador de carga mientras se obtienen los datos
+    if (currentNumber == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
       );
     }
 

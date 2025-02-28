@@ -1,7 +1,7 @@
 class ActivityGameDescriptions {
-  static const String activity1GameDescription = 'Møik sølkøtash';
-  static const String activity2GameDescription = 'Muntsillan namtrikmai pør';
-  static const String activity3GameDescription = 'Yunømar';
+  static const String activity1GameDescription = 'Mɵik sɵlkɵtash';
+  static const String activity2GameDescription = 'Muntsillan namtrikmai pɵr';
+  static const String activity3GameDescription = 'Yunɵmar';
   static const String activity4GameDescription = 'Por implementar';
   static const String activity5GameDescription = 'Por implementar';
   static const String activity6GameDescription = 'Por implementar';

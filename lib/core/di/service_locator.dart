@@ -4,6 +4,7 @@ import 'package:namui_wam/core/services/logger_service.dart';
 import 'package:namui_wam/core/services/storage_service.dart';
 import 'package:namui_wam/core/services/feedback_service.dart';
 import 'package:namui_wam/core/services/number_data_service.dart';
+import 'package:namui_wam/features/activity1/services/activity1_service.dart';
 import 'package:namui_wam/features/activity2/services/activity2_service.dart';
 import 'package:namui_wam/features/activity3/services/activity3_service.dart';
 
@@ -18,6 +19,10 @@ Future<void> setupServiceLocator() async {
   getIt.registerSingleton<NumberDataService>(NumberDataService());
   
   // Activity Services
+  getIt.registerSingleton<Activity1Service>(Activity1Service(
+    getIt<NumberDataService>(),
+    getIt<AudioService>(),
+  ));
   getIt.registerSingleton<Activity2Service>(Activity2Service(getIt<NumberDataService>()));
   getIt.registerSingleton<Activity3Service>(Activity3Service(
     getIt<NumberDataService>(),

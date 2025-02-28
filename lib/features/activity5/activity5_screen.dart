@@ -18,7 +18,7 @@ class Activity5Screen extends StatelessWidget {
           onPressed: () => _navigateToHome(context),
         ),
         title: const Text(
-          'Anwan ashipelø køkun',
+          'Anwan ashipelɵ kɵkun',
           style: AppTheme.activityTitleStyle,
         ),
         backgroundColor: Colors.transparent,

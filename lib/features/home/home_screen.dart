@@ -35,11 +35,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // Es el override de la clase StatelessWidget para build
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final logoSize = screenSize.width * 0.2; // 20% del ancho de la pantalla
+    final logoSize = screenSize.width * 0.2; // 20% del ancho de la pantalla de home
 
+    // Es el cuerpo de la pantalla home
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -59,9 +61,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // Logo adaptable
+              // Logo adaptable a la pantalla home
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20), // 20% de la altura de la pantalla de home
                 child: Image.asset(
                   'assets/images/1.logo-colibri.png',
                   height: logoSize,
@@ -69,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              // Lista de botones
+              // Lista de botones de actividades
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -86,6 +88,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // Es un widget personalizado que representa un botón de actividad con un número y una descripción
   Widget _buildActivityButton(BuildContext context, int activityNumber) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -93,7 +96,7 @@ class HomeScreen extends StatelessWidget {
         height: 70, // Altura reducida para un diseño más minimalista
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green, // Color de fondo verde
+            backgroundColor: Colors.green, // Color de fondo verde oscuro con opacidad 0.1 (10%)
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -102,12 +105,11 @@ class HomeScreen extends StatelessWidget {
           onPressed: () => _navigateToActivity(context, activityNumber),
           child: Row(
             children: [
-              // Número estilizado
+              // Número estilizado con un fondo verde oscuro con opacidad 0.1 (10%)
               Container(
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  // color: Colors.blue[700]?.withOpacity(0.1),
                   color: Colors.green[700], // Fondo verde oscuro con opacidad 0.1 (10%) para resaltar el número de actividad
                   shape: BoxShape.circle,
                 ),
@@ -119,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              // Descripción de la actividad
+              // Descripción de la actividad con un estilo y un número de actividad
               Expanded(
                 child: Text(
                   activityDescriptions[activityNumber - 1],
@@ -128,8 +130,9 @@ class HomeScreen extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              // Espacio entre el número y la descripción
               const SizedBox(width: 8),
-              // Flecha indicativa
+              // Flecha indicativa para indicar que es un botón de actividad
               AppTheme.levelArrowIcon,
             ],
           ),

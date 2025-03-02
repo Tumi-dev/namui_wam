@@ -7,6 +7,8 @@ import 'package:namui_wam/core/services/number_data_service.dart';
 import 'package:namui_wam/features/activity1/services/activity1_service.dart';
 import 'package:namui_wam/features/activity2/services/activity2_service.dart';
 import 'package:namui_wam/features/activity3/services/activity3_service.dart';
+import 'package:namui_wam/features/activity4/services/activity4_service.dart';
+import 'package:namui_wam/features/activity5/services/activity5_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -16,18 +18,20 @@ Future<void> setupServiceLocator() async {
   getIt.registerSingleton<AudioService>(AudioService());
   getIt.registerSingleton<StorageService>(StorageService());
   getIt.registerSingleton<FeedbackService>(FeedbackService());
-  getIt.registerSingleton<NumberDataService>(NumberDataService());
+  getIt.registerLazySingleton<NumberDataService>(() => NumberDataService());
   
   // Activity Services
-  getIt.registerSingleton<Activity1Service>(Activity1Service(
+  getIt.registerLazySingleton<Activity1Service>(() => Activity1Service(
     getIt<NumberDataService>(),
     getIt<AudioService>(),
   ));
-  getIt.registerSingleton<Activity2Service>(Activity2Service(getIt<NumberDataService>()));
+  getIt.registerLazySingleton<Activity2Service>(() => Activity2Service(getIt<NumberDataService>()));
   getIt.registerSingleton<Activity3Service>(Activity3Service(
     getIt<NumberDataService>(),
     getIt<AudioService>(),
   ));
+  getIt.registerLazySingleton<Activity4Service>(() => Activity4Service());
+  getIt.registerLazySingleton<Activity5Service>(() => Activity5Service());
   
   // Initialize services that require async initialization
   final storageService = getIt<StorageService>();

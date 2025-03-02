@@ -9,16 +9,19 @@ import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/features/activity1/models/number_word.dart';
 import 'package:namui_wam/features/activity1/services/activity1_service.dart';
 
+// Clase para la pantalla de un nivel de la actividad 1
 class Activity1LevelScreen extends BaseLevelScreen {
   const Activity1LevelScreen({
     super.key,
     required LevelModel level,
   }) : super(level: level, activityNumber: 1);
 
+  // Crea el estado mutable para la clase de la pantalla de un nivel de la actividad 1
   @override
   State<Activity1LevelScreen> createState() => _Activity1LevelScreenState();
 }
 
+// Clase para el estado de la pantalla de un nivel de la actividad 1
 class _Activity1LevelScreenState
     extends BaseLevelScreenState<Activity1LevelScreen> with WidgetsBindingObserver {
   NumberWord? currentNumber;
@@ -30,6 +33,7 @@ class _Activity1LevelScreenState
   bool _isError = false;
   int remainingAttempts = 3;
 
+  // Inicializa el estado de la pantalla de un nivel de la actividad 1
   @override
   void initState() {
     super.initState();
@@ -38,16 +42,18 @@ class _Activity1LevelScreenState
     _initializeGame();
   }
 
+  // Inicializa el juego de la actividad 1
   void _initializeGame() async {
     isCorrectAnswerSelected = false;
     remainingAttempts = 3;
     
-    // Mostrar indicador de carga
+    // Mostrar indicador de carga mientras se obtienen los datos
     setState(() {
       currentNumber = null;
       _isError = false;
     });
     
+    // Obtener un número aleatorio para el nivel actual
     final number = await _activity1Service.getRandomNumberForLevel(widget.level.id);
     if (number == null) {
       if (mounted) {
@@ -58,8 +64,10 @@ class _Activity1LevelScreenState
       return;
     }
 
+    // Generar opciones para el número actual y mostrarlos
     final options = await _activity1Service.generateOptionsForLevel(widget.level.id, number.number);
     
+    // Actualizar el estado con el número y las opciones generadas
     if (mounted) {
       setState(() {
         currentNumber = number;
@@ -68,7 +76,7 @@ class _Activity1LevelScreenState
       });
     }
 
-    // Actualizar puntos
+    // Actualizar puntos globales en la barra de información
     if (mounted) {
       final gameState = GameState.of(context);
       setState(() {
@@ -77,19 +85,23 @@ class _Activity1LevelScreenState
     }
   }
 
+  // Reproduce el audio del número actual en namtrik
   Future<void> _playAudio() async {
     if (isPlayingAudio || currentNumber == null) return;
 
+    // Reproducir audio del número actual en namtrik y manejar errores  
     try {
       setState(() {
         isPlayingAudio = true;
       });
 
+      // Reproducir audio y vibrar al mismo tiempo para retroalimentación
       await _feedbackService.lightHapticFeedback();
       if(currentNumber != null){
         await _activity1Service.playAudioForNumber(currentNumber!);
       }
 
+      // Actualizar el estado después de reproducir el audio
       if (mounted) {
         setState(() {
           isPlayingAudio = false;
@@ -105,9 +117,11 @@ class _Activity1LevelScreenState
     }
   }
 
+  // Encuentra la opción seleccionada por el usuario y maneja la respuesta
   void _handleNumberSelection(int selectedNumber) {
     if (isCorrectAnswerSelected || currentNumber == null) return;
 
+    // Verificar si la opción seleccionada es correcta
     if (selectedNumber == currentNumber!.number) {
       _handleCorrectAnswer();
     } else {
@@ -115,21 +129,29 @@ class _Activity1LevelScreenState
     }
   }
 
+  // Maneja la respuesta correcta del usuario y actualiza el estado
   void _handleCorrectAnswer() async {
     if (!mounted) return;
 
+    // Actualizar el estado para mostrar que la respuesta es correcta
     setState(() {
       isCorrectAnswerSelected = true;
     });
 
+    // Vibrar y esperar antes de mostrar el diálogo de respuesta correcta
     await _feedbackService.heavyHapticFeedback();
 
+    // Actualizar el estado después de la vibración y mostrar el diálogo
     if (!mounted) return;
 
+    // Actualizar el estado del juego y mostrar el diálogo de respuesta correcta
     final activitiesState = ActivitiesState.of(context);
+    // Actualizar el estado del juego y mostrar el diálogo de respuesta correcta
     final gameState = GameState.of(context);
+    // Verificar si el nivel se ha completado y agregar puntos si es necesario
     final wasCompleted = gameState.isLevelCompleted(1, widget.level.id - 1);
 
+    // Verificar si el nivel se ha completado y agregar puntos si es necesario
     if (!wasCompleted) {
       final pointsAdded = await gameState.addPoints(1, widget.level.id - 1, 5);
       if (pointsAdded) {
@@ -141,8 +163,10 @@ class _Activity1LevelScreenState
         }
       }
 
+      // Mostrar diálogo de nivel completado si se agregaron puntos
       if (!mounted) return;
 
+      // Mostrar diálogo de nivel completado si se agregaron puntos
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -177,6 +201,7 @@ class _Activity1LevelScreenState
                     fontSize: 16,
                   ),
                 ),
+                // Botón para continuar al siguiente nivel o salir
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
@@ -199,6 +224,7 @@ class _Activity1LevelScreenState
     } else {
       if (!mounted) return;
       
+      // Mostrar diálogo de respuesta correcta si el nivel ya estaba completado
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -221,18 +247,23 @@ class _Activity1LevelScreenState
     }
   }
 
+  // Maneja la respuesta incorrecta del usuario y actualiza el estado del juego
   void _handleIncorrectAnswer() async {
     if (!mounted) return;
 
+    // Vibrar y mostrar un mensaje de error antes de actualizar el estado
     await _feedbackService.lightHapticFeedback();
     
+    // Actualizar el estado después de la vibración y mostrar un mensaje de error
     setState(() {
       remainingAttempts--;
     });
 
+    // Mostrar diálogo de respuesta incorrecta si se agotan los intentos restantes
     if (remainingAttempts <= 0) {
       if (!mounted) return;
       
+      // Mostrar diálogo de respuesta incorrecta si se agotan los intentos
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -263,6 +294,7 @@ class _Activity1LevelScreenState
     }
   }
 
+  // Detiene la reproducción de audio actual si la aplicación pasa a segundo plano
   Future<void> _stopAudio() async {
     try {
       await _activity1Service.stopAudio();
@@ -276,6 +308,7 @@ class _Activity1LevelScreenState
     }
   }
 
+  // Maneja los cambios en el estado de la aplicación y detiene el audio si es necesario
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state != AppLifecycleState.resumed) {
@@ -283,6 +316,7 @@ class _Activity1LevelScreenState
     }
   }
 
+  // Libera los recursos de audio y elimina el observador de cambios de estado
   @override
   void dispose() {
     _stopAudio();
@@ -290,11 +324,13 @@ class _Activity1LevelScreenState
     super.dispose();
   }
 
+  // Construye la barra de puntuación y los intentos restantes para la actividad 1
   Widget buildScoreAndAttempts() {
     // Retornamos un widget vacío para no mostrar la barra original
     return const SizedBox.shrink();
   }
 
+  // Construye el contenido del nivel de la actividad 1 con el número actual
   @override
   Widget buildLevelContent() {
     if (_isError) {
@@ -303,13 +339,14 @@ class _Activity1LevelScreenState
       );
     }
 
-    // Mostrar indicador de carga mientras se obtienen los datos
+    // Mostrar indicador de carga mientras se obtienen los datos del nivel
     if (currentNumber == null) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
 
+    // Construir la pantalla del nivel con el número actual y las opciones
     return SafeArea(
       child: Column(
         children: [
@@ -317,6 +354,7 @@ class _Activity1LevelScreenState
             remainingAttempts: remainingAttempts,
             margin: const EdgeInsets.only(bottom: 24, left: 16, right: 16, top: 8),
           ),
+          // Contenedor del número en namtrik con botón de audio
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -324,7 +362,7 @@ class _Activity1LevelScreenState
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Contenedor del número en namtrik
+                  // Contenedor del número en namtrik con botón de audio
                   Container(
                     width: double.infinity,
                     margin: const EdgeInsets.only(bottom: 16),
@@ -333,6 +371,7 @@ class _Activity1LevelScreenState
                       color: Colors.green[700]?.withOpacity(0.9),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
+                        // Sombra para el contenedor del número en namtrik
                         BoxShadow(
                           color: Colors.black.withOpacity(0.3),
                           blurRadius: 10,
@@ -340,15 +379,17 @@ class _Activity1LevelScreenState
                         ),
                       ],
                     ),
+                    // Columna con el número en namtrik y botón de audio
                     child: Column(
                       children: [
-                        // Texto responsivo con tamaño mínimo garantizado
+                        // Texto responsivo con tamaño mínimo garantizado para el número
                         LayoutBuilder(
                           builder: (context, constraints) {
-                            // Calcular el tamaño base según el nivel
+                            // Calcular el tamaño base según el nivel actual
                             double baseFontSize = widget.level.id <= 2 ? 48.0 : 
                                                 widget.level.id <= 4 ? 40.0 : 36.0;
                             
+                            // Ajustar el tamaño base según el ancho disponible y el tamaño mínimo
                             return SizedBox(
                               width: constraints.maxWidth,
                               child: Text(
@@ -372,8 +413,9 @@ class _Activity1LevelScreenState
                             );
                           },
                         ),
+                        // Espacio entre el número en namtrik y el botón de audio
                         const SizedBox(height: 16),
-                        // Botón de audio mejorado
+                        // Botón de audio mejorado para el número en namtrik
                         Material(
                           color: Colors.white24,
                           borderRadius: BorderRadius.circular(50),
@@ -392,6 +434,7 @@ class _Activity1LevelScreenState
                                     color: Colors.white,
                                     size: 28,
                                   ),
+                                  // Texto para el botón de audio del número en namtrik
                                   const SizedBox(width: 8),
                                   Text(
                                     'Escuchar',
@@ -409,11 +452,13 @@ class _Activity1LevelScreenState
                       ],
                     ),
                   ),
+                  // Espacio entre el número en namtrik y las opciones
                   const SizedBox(height: 24),
-                  // Grid responsivo de opciones
+                  // Grid responsivo de opciones para el número actual
                   LayoutBuilder(
                     builder: (context, constraints) {
                       final crossAxisCount = constraints.maxWidth > 400 ? 2 : 1;
+                      // Retornar un grid con las opciones para el número actual y el usuario
                       return GridView.count(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -422,6 +467,7 @@ class _Activity1LevelScreenState
                         crossAxisSpacing: 16,
                         childAspectRatio: 3,
                         children: numberOptions.map((number) {
+                          // Contenedor con la opción seleccionada por el usuario y su número
                           return Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -434,6 +480,7 @@ class _Activity1LevelScreenState
                                 ),
                               ],
                             ),
+                            // Material con tinta para la opción seleccionada por el usuario
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
@@ -441,6 +488,7 @@ class _Activity1LevelScreenState
                                 onTap: isCorrectAnswerSelected
                                     ? null
                                     : () => _handleNumberSelection(number),
+                                // Centro con el número de la opción seleccionada por el usuario
                                 child: Center(
                                   child: Text(
                                     number.toString(),

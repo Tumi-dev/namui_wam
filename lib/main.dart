@@ -8,6 +8,8 @@ import 'package:namui_wam/core/models/activity_levels.dart';
 import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/features/activity1/data/activity1_levels.dart';
 import 'package:namui_wam/features/activity2/data/activity2_levels.dart';
+import 'package:namui_wam/features/activity4/data/activity4_levels.dart';
+import 'package:namui_wam/features/activity5/data/activity5_levels.dart';
 import 'package:namui_wam/core/di/service_locator.dart';
 import 'package:namui_wam/core/services/logger_service.dart';
 import 'package:namui_wam/core/models/game_state.dart';
@@ -38,9 +40,12 @@ class MainApp extends StatelessWidget {
     // Inicializar actividades con sus niveles
     activitiesState.addActivity(ActivityLevels(activityId: 1, levels: List.from(activity1Levels)));
     activitiesState.addActivity(ActivityLevels(activityId: 2, levels: List.from(activity2Levels)));
+    activitiesState.addActivity(ActivityLevels(activityId: 3, levels: []));
+    activitiesState.addActivity(ActivityLevels(activityId: 4, levels: List.from(activity4Levels)));
+    activitiesState.addActivity(ActivityLevels(activityId: 5, levels: List.from(activity5Levels)));
     
     // Actividades en desarrollo
-    for (int i = 3; i <= 6; i++) {
+    for (int i = 6; i <= 6; i++) {
       activitiesState.addActivity(ActivityLevels(activityId: i, levels: []));
     }
 

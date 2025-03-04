@@ -36,7 +36,7 @@ class InfoBar extends StatelessWidget {
           if (showAttempts && remainingAttempts != null) ...[
             Row(
               children: [
-                const Icon(Icons.refresh, color: Colors.white),
+                const Icon(Icons.refresh, color: Colors.amber),
                 const SizedBox(width: 8),
                 Text(
                   'Intentos: $remainingAttempts',

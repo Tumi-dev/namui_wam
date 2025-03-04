@@ -13,6 +13,8 @@ class Activity4Service {
       return await _getLevel1Data();
     } else if (level.id == 2) {
       return await _getLevel2Data();
+    } else if (level.id == 3) {
+      return await _getLevel3Data();
     }
     
     // Para otros niveles, devolvemos un mapa básico
@@ -127,8 +129,55 @@ class Activity4Service {
     }
   }
   
+  // Método para obtener datos específicos para el nivel 3
+  Future<Map<String, dynamic>> _getLevel3Data() async {
+    try {
+      // Cargar datos del archivo JSON
+      final String jsonString = await rootBundle.loadString('assets/data/namtrik_hours.json');
+      final Map<String, dynamic> jsonData = json.decode(jsonString);
+      
+      // Obtener la lista de horas
+      final List<dynamic> hours = jsonData['hours']['namui_wam'];
+      
+      // Asegurarse de que tenemos suficientes elementos
+      if (hours.length < 4) {
+        throw Exception('No hay suficientes datos para el juego');
+      }
+      
+      final random = Random();
+      
+      // Seleccionar un elemento aleatorio para mostrar
+      final int selectedIndex = random.nextInt(hours.length);
+      final selectedItem = hours[selectedIndex];
+      
+      // Extraer la información de la hora del nombre del archivo de imagen
+      // Por ejemplo, "clock_01_30.png" representa 1:30
+      final String clockImage = selectedItem['clocks_images'];
+      final List<String> clockParts = clockImage.replaceAll('.png', '').split('_');
+      final int hour = int.parse(clockParts[1]);
+      final int minute = int.parse(clockParts[2]);
+      
+      return {
+        'levelId': 3,
+        'description': 'Nivel 3',
+        'hour_namtrik': selectedItem['hours_namtrik'],
+        'clock_image': selectedItem['clocks_images'],
+        'correct_hour': hour,
+        'correct_minute': minute,
+        'item_id': selectedItem['numbers'].toString(),
+      };
+    } catch (e) {
+      throw Exception('Error al cargar datos del nivel 3: $e');
+    }
+  }
+  
   // Método para verificar si una combinación es correcta
   bool isMatchCorrect(String clockId, String namtrikId) {
     return clockId == namtrikId;
+  }
+  
+  // Método para verificar si la hora seleccionada es correcta para el nivel 3
+  bool isTimeCorrect(int hour, int minute, int correctHour, int correctMinute) {
+    return hour == correctHour && minute == correctMinute;
   }
 }

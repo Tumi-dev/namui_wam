@@ -7,6 +7,7 @@ import 'package:namui_wam/core/templates/scrollable_level_screen.dart';
 import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/features/activity4/services/activity4_service.dart';
 import 'package:namui_wam/features/activity4/widgets/selectable_item.dart';
+import 'dart:math';
 
 // Clase para la pantalla de un nivel de la actividad 4
 class Activity4LevelScreen extends ScrollableLevelScreen {
@@ -40,6 +41,16 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
   // Variables para el juego del nivel 2
   String? _clockImage;
   List<Map<String, dynamic>> _options = [];
+
+  // Variables para el juego del nivel 3
+  String? _hourNamtrik;
+  String? _clockImageLevel3;
+  int? _correctHour;
+  int? _correctMinute;
+  int _selectedHour = 0;
+  int _selectedMinute = 0;
+  bool _showSuccessAnimation = false;
+  bool _showErrorAnimationLevel3 = false;
 
   // Inicializa el estado de la pantalla de un nivel de la actividad 4
   @override
@@ -81,6 +92,19 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
             _isLoading = false;
           });
         }
+      } else if (widget.level.id == 3) {
+        if (mounted) {
+          setState(() {
+            _hourNamtrik = levelData['hour_namtrik'];
+            _clockImageLevel3 = levelData['clock_image'];
+            _correctHour = levelData['correct_hour'];
+            _correctMinute = levelData['correct_minute'];
+            // Inicializar con valores aleatorios para no dar pistas
+            _selectedHour = _getRandomHourDifferentFrom(_correctHour!);
+            _selectedMinute = _getRandomMinuteDifferentFrom(_correctMinute!);
+            _isLoading = false;
+          });
+        }
       } else {
         if (mounted) {
           setState(() {
@@ -99,6 +123,107 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
             duration: const Duration(seconds: 3),
           ),
         );
+      }
+    }
+  }
+
+  // Genera una hora aleatoria diferente a la correcta
+  int _getRandomHourDifferentFrom(int correctHour) {
+    final random = Random();
+    int randomHour;
+    do {
+      randomHour = random.nextInt(12); // 0-11
+    } while (randomHour == correctHour);
+    return randomHour;
+  }
+
+  // Genera un minuto aleatorio diferente al correcto
+  int _getRandomMinuteDifferentFrom(int correctMinute) {
+    final random = Random();
+    int randomMinute;
+    do {
+      randomMinute = random.nextInt(60); // 0-59
+    } while (randomMinute == correctMinute);
+    return randomMinute;
+  }
+
+  // Maneja la selección de la hora en el nivel 3
+  void _handleHourChanged(int? hour) {
+    if (hour != null) {
+      setState(() {
+        _selectedHour = hour;
+        // Reset animations if any
+        _showSuccessAnimation = false;
+        _showErrorAnimationLevel3 = false;
+      });
+    }
+  }
+
+  // Maneja la selección del minuto en el nivel 3
+  void _handleMinuteChanged(int? minute) {
+    if (minute != null) {
+      setState(() {
+        _selectedMinute = minute;
+        // Reset animations if any
+        _showSuccessAnimation = false;
+        _showErrorAnimationLevel3 = false;
+      });
+    }
+  }
+
+  // Verifica si la hora seleccionada es correcta para el nivel 3
+  void _checkTimeCorrect() {
+    final isCorrect = _activity4Service.isTimeCorrect(
+      _selectedHour, 
+      _selectedMinute, 
+      _correctHour!, 
+      _correctMinute!
+    );
+
+    if (isCorrect) {
+      // Mostrar animación de éxito
+      setState(() {
+        _showSuccessAnimation = true;
+      });
+
+      // Esperar un momento antes de mostrar el diálogo de éxito
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted) {
+          _handleLevelComplete();
+        }
+      });
+    } else {
+      // Mostrar animación de error
+      setState(() {
+        _showErrorAnimationLevel3 = true;
+      });
+
+      // Reducir intentos
+      remainingAttempts--;
+
+      // Mostrar mensaje de error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Hora incorrecta. Te quedan $remainingAttempts intentos.'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      // Resetear animación después de un breve retraso
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted) {
+          setState(() {
+            _showErrorAnimationLevel3 = false;
+          });
+        }
+      });
+
+      // Verificar si se han agotado los intentos
+      if (remainingAttempts <= 0) {
+        _handleOutOfAttempts();
+      } else {
+        // Cargar nuevos datos para una nueva ronda
+        _loadLevelData();
       }
     }
   }
@@ -401,6 +526,16 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
           _buildLevel2Content(),
         ],
       );
+    } else if (widget.level.id == 3) {
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          _buildLevel3Content(),
+        ],
+      );
     } else {
       return Column(
         children: [
@@ -649,6 +784,246 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
         
         // Espacio adicional al final
         const SizedBox(height: 40),
+      ],
+    );
+  }
+  
+  // Construye el contenido específico del nivel 3
+  Widget _buildLevel3Content() {
+    // Obtener tamaño de pantalla para diseño responsivo
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
+    
+    // Calcular tamaños según orientación - consistente con nivel 2
+    final double instructionFontSize = isLandscape ? 18.0 : 20.0;
+    final double namtrikHourFontSize = isLandscape ? 22.0 : 26.0;
+    final EdgeInsets contentPadding = isLandscape 
+        ? const EdgeInsets.symmetric(horizontal: 48.0)
+        : const EdgeInsets.symmetric(horizontal: 16.0);
+    
+    // Calcular tamaño del reloj igual que en nivel 2
+    final double clockImageSize = isLandscape 
+        ? screenSize.width * 0.25
+        : screenSize.width * 0.7;
+    
+    // Generar listas de horas y minutos para los selectores
+    final List<int> hours = List.generate(12, (index) => index);
+    final List<int> minutes = List.generate(60, (index) => index);
+    
+    return Column(
+      children: [
+        // Instrucción para el usuario
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: Text(
+            'Ajusta el reloj para indicar la hora:',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: instructionFontSize,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        
+        // Imagen del reloj primero (encima) - usando el mismo estilo y tamaño que en nivel 2
+        if (_clockImageLevel3 != null)
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 20.0),
+            child: Image.asset(
+              'assets/images/clocks/$_clockImageLevel3',
+              width: clockImageSize,
+              height: clockImageSize,
+              fit: BoxFit.contain,
+            ),
+          ),
+        
+        const SizedBox(height: 20),
+        
+        // Texto de la hora en namtrik debajo de la imagen del reloj
+        Container(
+          margin: const EdgeInsets.only(bottom: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+          decoration: BoxDecoration(
+            color: Colors.green.shade700,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Text(
+            _hourNamtrik ?? '',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: namtrikHourFontSize,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        
+        // Selectores de hora y minuto
+        Padding(
+          padding: contentPadding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Selector de hora
+              Expanded(
+                child: Column(
+                  children: [
+                    const Text(
+                      'Hora',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: DropdownButton<int>(
+                        value: _selectedHour,
+                        isExpanded: true,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                        underline: Container(
+                          height: 0,
+                          color: Colors.transparent,
+                        ),
+                        onChanged: _handleHourChanged,
+                        items: hours.map<DropdownMenuItem<int>>((int value) {
+                          return DropdownMenuItem<int>(
+                            value: value,
+                            child: Text(
+                              value.toString().padLeft(2, '0'),
+                              style: TextStyle(
+                                color: _showErrorAnimationLevel3 ? Colors.red : Colors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Separator
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  ':',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              
+              // Selector de minutos
+              Expanded(
+                child: Column(
+                  children: [
+                    const Text(
+                      'Minuto',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: DropdownButton<int>(
+                        value: _selectedMinute,
+                        isExpanded: true,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                        underline: Container(
+                          height: 0,
+                          color: Colors.transparent,
+                        ),
+                        onChanged: _handleMinuteChanged,
+                        items: minutes.map<DropdownMenuItem<int>>((int value) {
+                          return DropdownMenuItem<int>(
+                            value: value,
+                            child: Text(
+                              value.toString().padLeft(2, '0'),
+                              style: TextStyle(
+                                color: _showErrorAnimationLevel3 ? Colors.red : Colors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        const SizedBox(height: 40),
+        
+        // Botón de confirmar la hora seleccionada
+        ElevatedButton(
+          onPressed: _checkTimeCorrect,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: _showSuccessAnimation ? Colors.amber : Color(0xFF66BB6A), // Amarillo si es correcto
+            foregroundColor: Colors.white, // Texto en blanco siempre
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            elevation: 5,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _showSuccessAnimation 
+                  ? const Icon(Icons.check_circle_outline, color: Colors.white) // Icono de éxito si es correcto
+                  : const Icon(Icons.access_time, color: Colors.white), // Icono de reloj si no se ha confirmado
+              const SizedBox(width: 8),
+              const Text(
+                'Confirmar',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        // Espacio adicional al final
+        const SizedBox(height: 20),
       ],
     );
   }

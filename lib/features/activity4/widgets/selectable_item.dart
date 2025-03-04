@@ -48,7 +48,7 @@ class SelectableItem extends StatelessWidget {
         break;
       case SelectionState.matched:
         backgroundColor = isImage ? Colors.transparent : Colors.green.shade700;
-        borderColor = Colors.yellow;
+        borderColor = Colors.amber;
         borderWidth = 3.0;
         elevation = 4.0;
         break;

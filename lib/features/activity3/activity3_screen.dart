@@ -25,8 +25,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
   int? _currentNumber;
   bool _isKeyboardVisible = false;
 
-  // Define the deeper green color seen in the image for the Namtrik display box
-  final Color _boxColor = const Color(0xFF388E3C); // Material Design Green 700 - matches the image
+  // Define el color de fondo verde profundo que se ve en la imagen
+  final Color _boxColor = const Color(0xFF388E3C); // Es el color de la imagen en la pantalla de inicio
 
   @override
   void initState() {
@@ -433,7 +433,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
     bool isPlaying = false,
     bool isSmallScreen = false,
   }) {
-    // Colors for different states
+    // Colores para los botones activos e inactivos
     final Color backgroundColor = isActive 
         ? const Color(0xFF66BB6A) // Active green color
         : const Color(0xFF66BB6A).withOpacity(0.5); // Dimmed green for inactive
@@ -442,12 +442,12 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
         ? Colors.white // White for active
         : Colors.white.withOpacity(0.5); // Dimmed white for inactive
     
-    // Special color for playing state
+    // Especial color de los botones de reproducción (playing)
     final Color playingColor = isPlaying 
-        ? Colors.amber // Amber color when playing
+        ? Colors.amber // Color amarillo para jugando de un botón
         : iconColor;
     
-    // Adjust button size based on screen size
+    // Ajustes de tamaño y estilo según el tamaño de la pantalla
     final double buttonSize = isSmallScreen ? 40.0 : 56.0;
     final double iconSize = isSmallScreen ? 18.0 : 24.0;
     final double fontSize = isSmallScreen ? 10.0 : 12.0;

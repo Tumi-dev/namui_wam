@@ -1,3 +1,4 @@
+// Es el archivo que contiene la pantalla de inicio de la aplicación con los botones de las actividades.
 import 'package:flutter/material.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
 import 'package:namui_wam/features/activity1/activity1_screen.dart';

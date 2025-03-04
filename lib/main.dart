@@ -1,5 +1,4 @@
-// Punto de entrada de la aplicación
-
+// Librería principal de la aplicación que inicializa el service locator y los providers de las actividades y el estado del juego.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';

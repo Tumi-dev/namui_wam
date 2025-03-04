@@ -19,7 +19,15 @@ class ActivityLevels extends ChangeNotifier {
 
   void _initializeLevels() {
     if (levels.isNotEmpty) {
-      levels[0].status = LevelStatus.unlocked;
+      if (activityId == 4 || activityId == 5) {
+        // Para actividades 4 y 5, desbloquear todos los niveles
+        for (var level in levels) {
+          level.status = LevelStatus.unlocked;
+        }
+      } else {
+        // Para otras actividades, solo desbloquear el primer nivel
+        levels[0].status = LevelStatus.unlocked;
+      }
     }
   }
 
@@ -39,8 +47,8 @@ class ActivityLevels extends ChangeNotifier {
         _totalPoints += pointsPerLevel;
         levels[levelId].completeLevel();
         
-        // Desbloquear el siguiente nivel si existe
-        if (levelId + 1 < levels.length) {
+        // Desbloquear el siguiente nivel si existe y no es actividad 4 o 5
+        if (levelId + 1 < levels.length && activityId != 4 && activityId != 5) {
           levels[levelId + 1].unlockLevel();
         }
         
@@ -57,11 +65,16 @@ class ActivityLevels extends ChangeNotifier {
     
     // Restablecer todos los niveles
     for (var level in levels) {
-      level.status = LevelStatus.locked;
+      if (activityId == 4 || activityId == 5) {
+        // Para actividades 4 y 5, desbloquear todos los niveles
+        level.status = LevelStatus.unlocked;
+      } else {
+        level.status = LevelStatus.locked;
+      }
     }
     
-    // Desbloquear el primer nivel
-    if (levels.isNotEmpty) {
+    // Desbloquear el primer nivel si no es actividad 4 o 5
+    if (levels.isNotEmpty && activityId != 4 && activityId != 5) {
       levels[0].status = LevelStatus.unlocked;
     }
     

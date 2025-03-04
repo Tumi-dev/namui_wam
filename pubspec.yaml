@@ -28,9 +28,11 @@ flutter:
   uses-material-design: true
   
   assets:
-    - assets/images/
-    - assets/data/
-    - assets/data/namtrik_numbers.json
+    - assets/audio/
     - assets/audio/activity/
     - assets/audio/namtrik_numbers/
-    - assets/audio/
+    - assets/images/
+    - assets/images/clocks/
+    - assets/data/
+    - assets/data/namtrik_numbers.json
+    - assets/data/namtrik_hours.json

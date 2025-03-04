@@ -104,12 +104,6 @@ class _Activity4LevelScreenState extends BaseLevelScreenState<Activity4LevelScre
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Has desbloqueado el siguiente nivel',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 16),
                 Text(
                   '¡Ganaste 5 puntos!',
                   style: TextStyle(
@@ -117,6 +111,56 @@ class _Activity4LevelScreenState extends BaseLevelScreenState<Activity4LevelScre
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.shade700,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  ),
+                  child: const Text('Continuar'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      // Mostrar mensaje de nivel ya completado anteriormente
+      if (!mounted) return;
+      
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '¡Buen trabajo!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Ya has completado este nivel anteriormente.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(

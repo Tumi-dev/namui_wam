@@ -1,0 +1,3606 @@
+{
+    "hours": {
+        "namui_wam": [
+            {
+                "numbers": 1,
+                "clocks_images": "clock_00_00.png",
+                "hours_namtrik": "Kantsipa utɵ"
+            },
+            {
+                "numbers": 2,
+                "clocks_images": "clock_00_01.png",
+                "hours_namtrik": "Kantsipa utɵ kan"
+            },
+            {
+                "numbers": 3,
+                "clocks_images": "clock_00_02.png",
+                "hours_namtrik": "Kantsipa utɵ pa"
+            },
+            {
+                "numbers": 4,
+                "clocks_images": "clock_00_03.png",
+                "hours_namtrik": "Kantsipa utɵ pɵn"
+            },
+            {
+                "numbers": 5,
+                "clocks_images": "clock_00_04.png",
+                "hours_namtrik": "Kantsipa utɵ pip"
+            },
+            {
+                "numbers": 6,
+                "clocks_images": "clock_00_05.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵ"
+            },
+            {
+                "numbers": 7,
+                "clocks_images": "clock_00_06.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵkan"
+            },
+            {
+                "numbers": 8,
+                "clocks_images": "clock_00_07.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵpa"
+            },
+            {
+                "numbers": 9,
+                "clocks_images": "clock_00_08.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 10,
+                "clocks_images": "clock_00_09.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵpip"
+            },
+            {
+                "numbers": 11,
+                "clocks_images": "clock_00_10.png",
+                "hours_namtrik": "Kantsipa utɵ kantsi"
+            },
+            {
+                "numbers": 12,
+                "clocks_images": "clock_00_11.png",
+                "hours_namtrik": "Kantsipa utɵ kantsikan"
+            },
+            {
+                "numbers": 13,
+                "clocks_images": "clock_00_12.png",
+                "hours_namtrik": "Kantsipa utɵ kantsipa"
+            },
+            {
+                "numbers": 14,
+                "clocks_images": "clock_00_13.png",
+                "hours_namtrik": "Kantsipa utɵ kantsipɵn"
+            },
+            {
+                "numbers": 15,
+                "clocks_images": "clock_00_14.png",
+                "hours_namtrik": "Kantsipa utɵ kantsipip"
+            },
+            {
+                "numbers": 16,
+                "clocks_images": "clock_00_15.png",
+                "hours_namtrik": "Kantsipa utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 17,
+                "clocks_images": "clock_00_16.png",
+                "hours_namtrik": "Kantsipa utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 18,
+                "clocks_images": "clock_00_17.png",
+                "hours_namtrik": "Kantsipa utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 19,
+                "clocks_images": "clock_00_18.png",
+                "hours_namtrik": "Kantsipa utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 20,
+                "clocks_images": "clock_00_19.png",
+                "hours_namtrik": "Kantsipa utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 21,
+                "clocks_images": "clock_00_20.png",
+                "hours_namtrik": "Kantsipa utɵ patsi"
+            },
+            {
+                "numbers": 22,
+                "clocks_images": "clock_00_21.png",
+                "hours_namtrik": "Kantsipa utɵ patsikan"
+            },
+            {
+                "numbers": 23,
+                "clocks_images": "clock_00_22.png",
+                "hours_namtrik": "Kantsipa utɵ patsipa"
+            },
+            {
+                "numbers": 24,
+                "clocks_images": "clock_00_23.png",
+                "hours_namtrik": "Kantsipa utɵ patsipɵn"
+            },
+            {
+                "numbers": 25,
+                "clocks_images": "clock_00_24.png",
+                "hours_namtrik": "Kantsipa utɵ patsipip"
+            },
+            {
+                "numbers": 26,
+                "clocks_images": "clock_00_25.png",
+                "hours_namtrik": "Kantsipa utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 27,
+                "clocks_images": "clock_00_26.png",
+                "hours_namtrik": "Kantsipa utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 28,
+                "clocks_images": "clock_00_27.png",
+                "hours_namtrik": "Kantsipa utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 29,
+                "clocks_images": "clock_00_28.png",
+                "hours_namtrik": "Kantsipa utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 30,
+                "clocks_images": "clock_00_29.png",
+                "hours_namtrik": "Kantsipa utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 31,
+                "clocks_images": "clock_00_30.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi"
+            },
+            {
+                "numbers": 32,
+                "clocks_images": "clock_00_31.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 33,
+                "clocks_images": "clock_00_32.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 34,
+                "clocks_images": "clock_00_33.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 35,
+                "clocks_images": "clock_00_34.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 36,
+                "clocks_images": "clock_00_35.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 37,
+                "clocks_images": "clock_00_36.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 38,
+                "clocks_images": "clock_00_37.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 39,
+                "clocks_images": "clock_00_38.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 40,
+                "clocks_images": "clock_00_39.png",
+                "hours_namtrik": "Kantsipa utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 41,
+                "clocks_images": "clock_00_40.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi"
+            },
+            {
+                "numbers": 42,
+                "clocks_images": "clock_00_41.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi kan"
+            },
+            {
+                "numbers": 43,
+                "clocks_images": "clock_00_42.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi pa"
+            },
+            {
+                "numbers": 44,
+                "clocks_images": "clock_00_43.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 45,
+                "clocks_images": "clock_00_44.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi pip"
+            },
+            {
+                "numbers": 46,
+                "clocks_images": "clock_00_45.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 47,
+                "clocks_images": "clock_00_46.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 48,
+                "clocks_images": "clock_00_47.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 49,
+                "clocks_images": "clock_00_48.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 50,
+                "clocks_images": "clock_00_49.png",
+                "hours_namtrik": "Kantsipa utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 51,
+                "clocks_images": "clock_00_50.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 52,
+                "clocks_images": "clock_00_51.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 53,
+                "clocks_images": "clock_00_52.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 54,
+                "clocks_images": "clock_00_53.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 55,
+                "clocks_images": "clock_00_54.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 56,
+                "clocks_images": "clock_00_55.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 57,
+                "clocks_images": "clock_00_56.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 58,
+                "clocks_images": "clock_00_57.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 59,
+                "clocks_images": "clock_00_58.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 60,
+                "clocks_images": "clock_00_59.png",
+                "hours_namtrik": "Kantsipa utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 61,
+                "clocks_images": "clock_01_00.png",
+                "hours_namtrik": "Kan utɵ"
+            },
+            {
+                "numbers": 62,
+                "clocks_images": "clock_01_01.png",
+                "hours_namtrik": "Kan utɵ kan"
+            },
+            {
+                "numbers": 63,
+                "clocks_images": "clock_01_02.png",
+                "hours_namtrik": "Kan utɵ pa"
+            },
+            {
+                "numbers": 64,
+                "clocks_images": "clock_01_03.png",
+                "hours_namtrik": "Kan utɵ pɵn"
+            },
+            {
+                "numbers": 65,
+                "clocks_images": "clock_01_04.png",
+                "hours_namtrik": "Kan utɵ pip"
+            },
+            {
+                "numbers": 66,
+                "clocks_images": "clock_01_05.png",
+                "hours_namtrik": "Kan utɵ trattrɵ"
+            },
+            {
+                "numbers": 67,
+                "clocks_images": "clock_01_06.png",
+                "hours_namtrik": "Kan utɵ trattrɵkan"
+            },
+            {
+                "numbers": 68,
+                "clocks_images": "clock_01_07.png",
+                "hours_namtrik": "Kan utɵ trattrɵpa"
+            },
+            {
+                "numbers": 69,
+                "clocks_images": "clock_01_08.png",
+                "hours_namtrik": "Kan utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 70,
+                "clocks_images": "clock_01_09.png",
+                "hours_namtrik": "Kan utɵ trattrɵpip"
+            },
+            {
+                "numbers": 71,
+                "clocks_images": "clock_01_10.png",
+                "hours_namtrik": "Kan utɵ kantsi"
+            },
+            {
+                "numbers": 72,
+                "clocks_images": "clock_01_11.png",
+                "hours_namtrik": "Kan utɵ kantsikan"
+            },
+            {
+                "numbers": 73,
+                "clocks_images": "clock_01_12.png",
+                "hours_namtrik": "Kan utɵ Kantsipa"
+            },
+            {
+                "numbers": 74,
+                "clocks_images": "clock_01_13.png",
+                "hours_namtrik": "Kan utɵ kantsipɵn"
+            },
+            {
+                "numbers": 75,
+                "clocks_images": "clock_01_14.png",
+                "hours_namtrik": "Kan utɵ kantsipip"
+            },
+            {
+                "numbers": 76,
+                "clocks_images": "clock_01_15.png",
+                "hours_namtrik": "Kan utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 77,
+                "clocks_images": "clock_01_16.png",
+                "hours_namtrik": "Kan utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 78,
+                "clocks_images": "clock_01_17.png",
+                "hours_namtrik": "Kan utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 79,
+                "clocks_images": "clock_01_18.png",
+                "hours_namtrik": "Kan utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 80,
+                "clocks_images": "clock_01_19.png",
+                "hours_namtrik": "Kan utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 81,
+                "clocks_images": "clock_01_20.png",
+                "hours_namtrik": "Kan utɵ patsi"
+            },
+            {
+                "numbers": 82,
+                "clocks_images": "clock_01_21.png",
+                "hours_namtrik": "Kan utɵ patsikan"
+            },
+            {
+                "numbers": 83,
+                "clocks_images": "clock_01_22.png",
+                "hours_namtrik": "Kan utɵ patsipa"
+            },
+            {
+                "numbers": 84,
+                "clocks_images": "clock_01_23.png",
+                "hours_namtrik": "Kan utɵ patsipɵn"
+            },
+            {
+                "numbers": 85,
+                "clocks_images": "clock_01_24.png",
+                "hours_namtrik": "Kan utɵ patsipip"
+            },
+            {
+                "numbers": 86,
+                "clocks_images": "clock_01_25.png",
+                "hours_namtrik": "Kan utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 87,
+                "clocks_images": "clock_01_26.png",
+                "hours_namtrik": "Kan utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 88,
+                "clocks_images": "clock_01_27.png",
+                "hours_namtrik": "Kan utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 89,
+                "clocks_images": "clock_01_28.png",
+                "hours_namtrik": "Kan utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 90,
+                "clocks_images": "clock_01_29.png",
+                "hours_namtrik": "Kan utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 91,
+                "clocks_images": "clock_01_30.png",
+                "hours_namtrik": "Kan utɵ pɵntsi"
+            },
+            {
+                "numbers": 92,
+                "clocks_images": "clock_01_31.png",
+                "hours_namtrik": "Kan utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 93,
+                "clocks_images": "clock_01_32.png",
+                "hours_namtrik": "Kan utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 94,
+                "clocks_images": "clock_01_33.png",
+                "hours_namtrik": "Kan utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 95,
+                "clocks_images": "clock_01_34.png",
+                "hours_namtrik": "Kan utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 96,
+                "clocks_images": "clock_01_35.png",
+                "hours_namtrik": "Kan utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 97,
+                "clocks_images": "clock_01_36.png",
+                "hours_namtrik": "Kan utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 98,
+                "clocks_images": "clock_01_37.png",
+                "hours_namtrik": "Kan utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 99,
+                "clocks_images": "clock_01_38.png",
+                "hours_namtrik": "Kan utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 100,
+                "clocks_images": "clock_01_39.png",
+                "hours_namtrik": "Kan utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 101,
+                "clocks_images": "clock_01_40.png",
+                "hours_namtrik": "Kan utɵ piptsi"
+            },
+            {
+                "numbers": 102,
+                "clocks_images": "clock_01_41.png",
+                "hours_namtrik": "Kan utɵ piptsi kan"
+            },
+            {
+                "numbers": 103,
+                "clocks_images": "clock_01_42.png",
+                "hours_namtrik": "Kan utɵ piptsi pa"
+            },
+            {
+                "numbers": 104,
+                "clocks_images": "clock_01_43.png",
+                "hours_namtrik": "Kan utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 105,
+                "clocks_images": "clock_01_44.png",
+                "hours_namtrik": "Kan utɵ piptsi pip"
+            },
+            {
+                "numbers": 106,
+                "clocks_images": "clock_01_45.png",
+                "hours_namtrik": "Kan utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 107,
+                "clocks_images": "clock_01_46.png",
+                "hours_namtrik": "Kan utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 108,
+                "clocks_images": "clock_01_47.png",
+                "hours_namtrik": "Kan utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 109,
+                "clocks_images": "clock_01_48.png",
+                "hours_namtrik": "Kan utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 110,
+                "clocks_images": "clock_01_49.png",
+                "hours_namtrik": "Kan utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 111,
+                "clocks_images": "clock_01_50.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 112,
+                "clocks_images": "clock_01_51.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 113,
+                "clocks_images": "clock_01_52.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 114,
+                "clocks_images": "clock_01_53.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 115,
+                "clocks_images": "clock_01_54.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 116,
+                "clocks_images": "clock_01_55.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 117,
+                "clocks_images": "clock_01_56.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 118,
+                "clocks_images": "clock_01_57.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 119,
+                "clocks_images": "clock_01_58.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 120,
+                "clocks_images": "clock_01_59.png",
+                "hours_namtrik": "Kan utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 121,
+                "clocks_images": "clock_02_00.png",
+                "hours_namtrik": "Pa utɵ"
+            },
+            {
+                "numbers": 122,
+                "clocks_images": "clock_02_01.png",
+                "hours_namtrik": "Pa utɵ kan"
+            },
+            {
+                "numbers": 123,
+                "clocks_images": "clock_02_02.png",
+                "hours_namtrik": "Pa utɵ pa"
+            },
+            {
+                "numbers": 124,
+                "clocks_images": "clock_02_03.png",
+                "hours_namtrik": "Pa utɵ pɵn"
+            },
+            {
+                "numbers": 125,
+                "clocks_images": "clock_02_04.png",
+                "hours_namtrik": "Pa utɵ pip"
+            },
+            {
+                "numbers": 126,
+                "clocks_images": "clock_02_05.png",
+                "hours_namtrik": "Pa utɵ trattrɵ"
+            },
+            {
+                "numbers": 127,
+                "clocks_images": "clock_02_06.png",
+                "hours_namtrik": "Pa utɵ trattrɵkan"
+            },
+            {
+                "numbers": 128,
+                "clocks_images": "clock_02_07.png",
+                "hours_namtrik": "Pa utɵ trattrɵpa"
+            },
+            {
+                "numbers": 129,
+                "clocks_images": "clock_02_08.png",
+                "hours_namtrik": "Pa utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 130,
+                "clocks_images": "clock_02_09.png",
+                "hours_namtrik": "Pa utɵ trattrɵpip"
+            },
+            {
+                "numbers": 131,
+                "clocks_images": "clock_02_10.png",
+                "hours_namtrik": "Pa utɵ kantsi"
+            },
+            {
+                "numbers": 132,
+                "clocks_images": "clock_02_11.png",
+                "hours_namtrik": "Pa utɵ kantsikan"
+            },
+            {
+                "numbers": 133,
+                "clocks_images": "clock_02_12.png",
+                "hours_namtrik": "Pa utɵ kantsipa"
+            },
+            {
+                "numbers": 134,
+                "clocks_images": "clock_02_13.png",
+                "hours_namtrik": "Pa utɵ kantsipɵn"
+            },
+            {
+                "numbers": 135,
+                "clocks_images": "clock_02_14.png",
+                "hours_namtrik": "Pa utɵ kantsipip"
+            },
+            {
+                "numbers": 136,
+                "clocks_images": "clock_02_15.png",
+                "hours_namtrik": "Pa utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 137,
+                "clocks_images": "clock_02_16.png",
+                "hours_namtrik": "Pa utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 138,
+                "clocks_images": "clock_02_17.png",
+                "hours_namtrik": "Pa utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 139,
+                "clocks_images": "clock_02_18.png",
+                "hours_namtrik": "Pa utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 140,
+                "clocks_images": "clock_02_19.png",
+                "hours_namtrik": "Pa utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 141,
+                "clocks_images": "clock_02_20.png",
+                "hours_namtrik": "Pa utɵ patsi"
+            },
+            {
+                "numbers": 142,
+                "clocks_images": "clock_02_21.png",
+                "hours_namtrik": "Pa utɵ patsikan"
+            },
+            {
+                "numbers": 143,
+                "clocks_images": "clock_02_22.png",
+                "hours_namtrik": "Pa utɵ patsipa"
+            },
+            {
+                "numbers": 144,
+                "clocks_images": "clock_02_23.png",
+                "hours_namtrik": "Pa utɵ patsipɵn"
+            },
+            {
+                "numbers": 145,
+                "clocks_images": "clock_02_24.png",
+                "hours_namtrik": "Pa utɵ patsipip"
+            },
+            {
+                "numbers": 146,
+                "clocks_images": "clock_02_25.png",
+                "hours_namtrik": "Pa utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 147,
+                "clocks_images": "clock_02_26.png",
+                "hours_namtrik": "Pa utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 148,
+                "clocks_images": "clock_02_27.png",
+                "hours_namtrik": "Pa utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 149,
+                "clocks_images": "clock_02_28.png",
+                "hours_namtrik": "Pa utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 150,
+                "clocks_images": "clock_02_29.png",
+                "hours_namtrik": "Pa utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 151,
+                "clocks_images": "clock_02_30.png",
+                "hours_namtrik": "Pa utɵ pɵntsi"
+            },
+            {
+                "numbers": 152,
+                "clocks_images": "clock_02_31.png",
+                "hours_namtrik": "Pa utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 153,
+                "clocks_images": "clock_02_32.png",
+                "hours_namtrik": "Pa utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 154,
+                "clocks_images": "clock_02_33.png",
+                "hours_namtrik": "Pa utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 155,
+                "clocks_images": "clock_02_34.png",
+                "hours_namtrik": "Pa utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 156,
+                "clocks_images": "clock_02_35.png",
+                "hours_namtrik": "Pa utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 157,
+                "clocks_images": "clock_02_36.png",
+                "hours_namtrik": "Pa utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 158,
+                "clocks_images": "clock_02_37.png",
+                "hours_namtrik": "Pa utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 159,
+                "clocks_images": "clock_02_38.png",
+                "hours_namtrik": "Pa utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 160,
+                "clocks_images": "clock_02_39.png",
+                "hours_namtrik": "Pa utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 161,
+                "clocks_images": "clock_02_40.png",
+                "hours_namtrik": "Pa utɵ piptsi"
+            },
+            {
+                "numbers": 162,
+                "clocks_images": "clock_02_41.png",
+                "hours_namtrik": "Pa utɵ piptsi kan"
+            },
+            {
+                "numbers": 163,
+                "clocks_images": "clock_02_42.png",
+                "hours_namtrik": "Pa utɵ piptsi pa"
+            },
+            {
+                "numbers": 164,
+                "clocks_images": "clock_02_43.png",
+                "hours_namtrik": "Pa utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 165,
+                "clocks_images": "clock_02_44.png",
+                "hours_namtrik": "Pa utɵ piptsi pip"
+            },
+            {
+                "numbers": 166,
+                "clocks_images": "clock_02_45.png",
+                "hours_namtrik": "Pa utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 167,
+                "clocks_images": "clock_02_46.png",
+                "hours_namtrik": "Pa utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 168,
+                "clocks_images": "clock_02_47.png",
+                "hours_namtrik": "Pa utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 169,
+                "clocks_images": "clock_02_48.png",
+                "hours_namtrik": "Pa utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 170,
+                "clocks_images": "clock_02_49.png",
+                "hours_namtrik": "Pa utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 171,
+                "clocks_images": "clock_02_50.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 172,
+                "clocks_images": "clock_02_51.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 173,
+                "clocks_images": "clock_02_52.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 174,
+                "clocks_images": "clock_02_53.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 175,
+                "clocks_images": "clock_02_54.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 176,
+                "clocks_images": "clock_02_55.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 177,
+                "clocks_images": "clock_02_56.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 178,
+                "clocks_images": "clock_02_57.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 179,
+                "clocks_images": "clock_02_58.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 180,
+                "clocks_images": "clock_02_59.png",
+                "hours_namtrik": "Pa utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 181,
+                "clocks_images": "clock_03_00.png",
+                "hours_namtrik": "Pɵn utɵ"
+            },
+            {
+                "numbers": 182,
+                "clocks_images": "clock_03_01.png",
+                "hours_namtrik": "Pɵn utɵ kan"
+            },
+            {
+                "numbers": 183,
+                "clocks_images": "clock_03_02.png",
+                "hours_namtrik": "Pɵn utɵ pa"
+            },
+            {
+                "numbers": 184,
+                "clocks_images": "clock_03_03.png",
+                "hours_namtrik": "Pɵn utɵ pɵn"
+            },
+            {
+                "numbers": 185,
+                "clocks_images": "clock_03_04.png",
+                "hours_namtrik": "Pɵn utɵ pip"
+            },
+            {
+                "numbers": 186,
+                "clocks_images": "clock_03_05.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵ"
+            },
+            {
+                "numbers": 187,
+                "clocks_images": "clock_03_06.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵkan"
+            },
+            {
+                "numbers": 188,
+                "clocks_images": "clock_03_07.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵpa"
+            },
+            {
+                "numbers": 189,
+                "clocks_images": "clock_03_08.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 190,
+                "clocks_images": "clock_03_09.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵpip"
+            },
+            {
+                "numbers": 191,
+                "clocks_images": "clock_03_10.png",
+                "hours_namtrik": "Pɵn utɵ kantsi"
+            },
+            {
+                "numbers": 192,
+                "clocks_images": "clock_03_11.png",
+                "hours_namtrik": "Pɵn utɵ kantsikan"
+            },
+            {
+                "numbers": 193,
+                "clocks_images": "clock_03_12.png",
+                "hours_namtrik": "Pɵn utɵ kantsipa"
+            },
+            {
+                "numbers": 194,
+                "clocks_images": "clock_03_13.png",
+                "hours_namtrik": "Pɵn utɵ kantsipɵn"
+            },
+            {
+                "numbers": 195,
+                "clocks_images": "clock_03_14.png",
+                "hours_namtrik": "Pɵn utɵ kantsipip"
+            },
+            {
+                "numbers": 196,
+                "clocks_images": "clock_03_15.png",
+                "hours_namtrik": "Pɵn utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 197,
+                "clocks_images": "clock_03_16.png",
+                "hours_namtrik": "Pɵn utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 198,
+                "clocks_images": "clock_03_17.png",
+                "hours_namtrik": "Pɵn utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 199,
+                "clocks_images": "clock_03_18.png",
+                "hours_namtrik": "Pɵn utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 200,
+                "clocks_images": "clock_03_19.png",
+                "hours_namtrik": "Pɵn utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 201,
+                "clocks_images": "clock_03_20.png",
+                "hours_namtrik": "Pɵn utɵ patsi"
+            },
+            {
+                "numbers": 202,
+                "clocks_images": "clock_03_21.png",
+                "hours_namtrik": "Pɵn utɵ patsikan"
+            },
+            {
+                "numbers": 203,
+                "clocks_images": "clock_03_22.png",
+                "hours_namtrik": "Pɵn utɵ patsipa"
+            },
+            {
+                "numbers": 204,
+                "clocks_images": "clock_03_23.png",
+                "hours_namtrik": "Pɵn utɵ patsipɵn"
+            },
+            {
+                "numbers": 205,
+                "clocks_images": "clock_03_24.png",
+                "hours_namtrik": "Pɵn utɵ patsipip"
+            },
+            {
+                "numbers": 206,
+                "clocks_images": "clock_03_25.png",
+                "hours_namtrik": "Pɵn utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 207,
+                "clocks_images": "clock_03_26.png",
+                "hours_namtrik": "Pɵn utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 208,
+                "clocks_images": "clock_03_27.png",
+                "hours_namtrik": "Pɵn utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 209,
+                "clocks_images": "clock_03_28.png",
+                "hours_namtrik": "Pɵn utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 210,
+                "clocks_images": "clock_03_29.png",
+                "hours_namtrik": "Pɵn utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 211,
+                "clocks_images": "clock_03_30.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi"
+            },
+            {
+                "numbers": 212,
+                "clocks_images": "clock_03_31.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 213,
+                "clocks_images": "clock_03_32.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 214,
+                "clocks_images": "clock_03_33.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 215,
+                "clocks_images": "clock_03_34.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 216,
+                "clocks_images": "clock_03_35.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 217,
+                "clocks_images": "clock_03_36.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 218,
+                "clocks_images": "clock_03_37.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 219,
+                "clocks_images": "clock_03_38.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 220,
+                "clocks_images": "clock_03_39.png",
+                "hours_namtrik": "Pɵn utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 221,
+                "clocks_images": "clock_03_40.png",
+                "hours_namtrik": "Pɵn utɵ piptsi"
+            },
+            {
+                "numbers": 222,
+                "clocks_images": "clock_03_41.png",
+                "hours_namtrik": "Pɵn utɵ piptsi kan"
+            },
+            {
+                "numbers": 223,
+                "clocks_images": "clock_03_42.png",
+                "hours_namtrik": "Pɵn utɵ piptsi pa"
+            },
+            {
+                "numbers": 224,
+                "clocks_images": "clock_03_43.png",
+                "hours_namtrik": "Pɵn utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 225,
+                "clocks_images": "clock_03_44.png",
+                "hours_namtrik": "Pɵn utɵ piptsi pip"
+            },
+            {
+                "numbers": 226,
+                "clocks_images": "clock_03_45.png",
+                "hours_namtrik": "Pɵn utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 227,
+                "clocks_images": "clock_03_46.png",
+                "hours_namtrik": "Pɵn utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 228,
+                "clocks_images": "clock_03_47.png",
+                "hours_namtrik": "Pɵn utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 229,
+                "clocks_images": "clock_03_48.png",
+                "hours_namtrik": "Pɵn utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 230,
+                "clocks_images": "clock_03_49.png",
+                "hours_namtrik": "Pɵn utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 231,
+                "clocks_images": "clock_03_50.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 232,
+                "clocks_images": "clock_03_51.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 233,
+                "clocks_images": "clock_03_52.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 234,
+                "clocks_images": "clock_03_53.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 235,
+                "clocks_images": "clock_03_54.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 236,
+                "clocks_images": "clock_03_55.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 237,
+                "clocks_images": "clock_03_56.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 238,
+                "clocks_images": "clock_03_57.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 239,
+                "clocks_images": "clock_03_58.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 240,
+                "clocks_images": "clock_03_59.png",
+                "hours_namtrik": "Pɵn utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 241,
+                "clocks_images": "clock_04_00.png",
+                "hours_namtrik": "Pip utɵ"
+            },
+            {
+                "numbers": 242,
+                "clocks_images": "clock_04_01.png",
+                "hours_namtrik": "Pip utɵ kan"
+            },
+            {
+                "numbers": 243,
+                "clocks_images": "clock_04_02.png",
+                "hours_namtrik": "Pip utɵ pa"
+            },
+            {
+                "numbers": 244,
+                "clocks_images": "clock_04_03.png",
+                "hours_namtrik": "Pip utɵ pɵn"
+            },
+            {
+                "numbers": 245,
+                "clocks_images": "clock_04_04.png",
+                "hours_namtrik": "Pip utɵ pip"
+            },
+            {
+                "numbers": 246,
+                "clocks_images": "clock_04_05.png",
+                "hours_namtrik": "Pip utɵ trattrɵ"
+            },
+            {
+                "numbers": 247,
+                "clocks_images": "clock_04_06.png",
+                "hours_namtrik": "Pip utɵ trattrɵkan"
+            },
+            {
+                "numbers": 248,
+                "clocks_images": "clock_04_07.png",
+                "hours_namtrik": "Pip utɵ trattrɵpa"
+            },
+            {
+                "numbers": 249,
+                "clocks_images": "clock_04_08.png",
+                "hours_namtrik": "Pip utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 250,
+                "clocks_images": "clock_04_09.png",
+                "hours_namtrik": "Pip utɵ trattrɵpip"
+            },
+            {
+                "numbers": 251,
+                "clocks_images": "clock_04_10.png",
+                "hours_namtrik": "Pip utɵ kantsi"
+            },
+            {
+                "numbers": 252,
+                "clocks_images": "clock_04_11.png",
+                "hours_namtrik": "Pip utɵ kantsikan"
+            },
+            {
+                "numbers": 253,
+                "clocks_images": "clock_04_12.png",
+                "hours_namtrik": "Pip utɵ kantsipa"
+            },
+            {
+                "numbers": 254,
+                "clocks_images": "clock_04_13.png",
+                "hours_namtrik": "Pip utɵ kantsipɵn"
+            },
+            {
+                "numbers": 255,
+                "clocks_images": "clock_04_14.png",
+                "hours_namtrik": "Pip utɵ kantsipip"
+            },
+            {
+                "numbers": 256,
+                "clocks_images": "clock_04_15.png",
+                "hours_namtrik": "Pip utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 257,
+                "clocks_images": "clock_04_16.png",
+                "hours_namtrik": "Pip utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 258,
+                "clocks_images": "clock_04_17.png",
+                "hours_namtrik": "Pip utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 259,
+                "clocks_images": "clock_04_18.png",
+                "hours_namtrik": "Pip utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 260,
+                "clocks_images": "clock_04_19.png",
+                "hours_namtrik": "Pip utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 261,
+                "clocks_images": "clock_04_20.png",
+                "hours_namtrik": "Pip utɵ patsi"
+            },
+            {
+                "numbers": 262,
+                "clocks_images": "clock_04_21.png",
+                "hours_namtrik": "Pip utɵ patsikan"
+            },
+            {
+                "numbers": 263,
+                "clocks_images": "clock_04_22.png",
+                "hours_namtrik": "Pip utɵ patsipa"
+            },
+            {
+                "numbers": 264,
+                "clocks_images": "clock_04_23.png",
+                "hours_namtrik": "Pip utɵ patsipɵn"
+            },
+            {
+                "numbers": 265,
+                "clocks_images": "clock_04_24.png",
+                "hours_namtrik": "Pip utɵ patsipip"
+            },
+            {
+                "numbers": 266,
+                "clocks_images": "clock_04_25.png",
+                "hours_namtrik": "Pip utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 267,
+                "clocks_images": "clock_04_26.png",
+                "hours_namtrik": "Pip utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 268,
+                "clocks_images": "clock_04_27.png",
+                "hours_namtrik": "Pip utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 269,
+                "clocks_images": "clock_04_28.png",
+                "hours_namtrik": "Pip utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 270,
+                "clocks_images": "clock_04_29.png",
+                "hours_namtrik": "Pip utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 271,
+                "clocks_images": "clock_04_30.png",
+                "hours_namtrik": "Pip utɵ pɵntsi"
+            },
+            {
+                "numbers": 272,
+                "clocks_images": "clock_04_31.png",
+                "hours_namtrik": "Pip utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 273,
+                "clocks_images": "clock_04_32.png",
+                "hours_namtrik": "Pip utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 274,
+                "clocks_images": "clock_04_33.png",
+                "hours_namtrik": "Pip utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 275,
+                "clocks_images": "clock_04_34.png",
+                "hours_namtrik": "Pip utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 276,
+                "clocks_images": "clock_04_35.png",
+                "hours_namtrik": "Pip utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 277,
+                "clocks_images": "clock_04_36.png",
+                "hours_namtrik": "Pip utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 278,
+                "clocks_images": "clock_04_37.png",
+                "hours_namtrik": "Pip utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 279,
+                "clocks_images": "clock_04_38.png",
+                "hours_namtrik": "Pip utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 280,
+                "clocks_images": "clock_04_39.png",
+                "hours_namtrik": "Pip utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 281,
+                "clocks_images": "clock_04_40.png",
+                "hours_namtrik": "Pip utɵ piptsi"
+            },
+            {
+                "numbers": 282,
+                "clocks_images": "clock_04_41.png",
+                "hours_namtrik": "Pip utɵ piptsi kan"
+            },
+            {
+                "numbers": 283,
+                "clocks_images": "clock_04_42.png",
+                "hours_namtrik": "Pip utɵ piptsi pa"
+            },
+            {
+                "numbers": 284,
+                "clocks_images": "clock_04_43.png",
+                "hours_namtrik": "Pip utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 285,
+                "clocks_images": "clock_04_44.png",
+                "hours_namtrik": "Pip utɵ piptsi pip"
+            },
+            {
+                "numbers": 286,
+                "clocks_images": "clock_04_45.png",
+                "hours_namtrik": "Pip utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 287,
+                "clocks_images": "clock_04_46.png",
+                "hours_namtrik": "Pip utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 288,
+                "clocks_images": "clock_04_47.png",
+                "hours_namtrik": "Pip utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 289,
+                "clocks_images": "clock_04_48.png",
+                "hours_namtrik": "Pip utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 290,
+                "clocks_images": "clock_04_49.png",
+                "hours_namtrik": "Pip utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 291,
+                "clocks_images": "clock_04_50.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 292,
+                "clocks_images": "clock_04_51.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 293,
+                "clocks_images": "clock_04_52.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 294,
+                "clocks_images": "clock_04_53.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 295,
+                "clocks_images": "clock_04_54.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 296,
+                "clocks_images": "clock_04_55.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 297,
+                "clocks_images": "clock_04_56.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 298,
+                "clocks_images": "clock_04_57.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 299,
+                "clocks_images": "clock_04_58.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 300,
+                "clocks_images": "clock_04_59.png",
+                "hours_namtrik": "Pip utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 301,
+                "clocks_images": "clock_05_00.png",
+                "hours_namtrik": "Trattrɵ utɵ"
+            },
+            {
+                "numbers": 302,
+                "clocks_images": "clock_05_01.png",
+                "hours_namtrik": "Trattrɵ utɵ kan"
+            },
+            {
+                "numbers": 303,
+                "clocks_images": "clock_05_02.png",
+                "hours_namtrik": "Trattrɵ utɵ pa"
+            },
+            {
+                "numbers": 304,
+                "clocks_images": "clock_05_03.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵn"
+            },
+            {
+                "numbers": 305,
+                "clocks_images": "clock_05_04.png",
+                "hours_namtrik": "Trattrɵ utɵ pip"
+            },
+            {
+                "numbers": 306,
+                "clocks_images": "clock_05_05.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵ"
+            },
+            {
+                "numbers": 307,
+                "clocks_images": "clock_05_06.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵkan"
+            },
+            {
+                "numbers": 308,
+                "clocks_images": "clock_05_07.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵpa"
+            },
+            {
+                "numbers": 309,
+                "clocks_images": "clock_05_08.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 310,
+                "clocks_images": "clock_05_09.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵpip"
+            },
+            {
+                "numbers": 311,
+                "clocks_images": "clock_05_10.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsi"
+            },
+            {
+                "numbers": 312,
+                "clocks_images": "clock_05_11.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsikan"
+            },
+            {
+                "numbers": 313,
+                "clocks_images": "clock_05_12.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsipa"
+            },
+            {
+                "numbers": 314,
+                "clocks_images": "clock_05_13.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsipɵn"
+            },
+            {
+                "numbers": 315,
+                "clocks_images": "clock_05_14.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsipip"
+            },
+            {
+                "numbers": 316,
+                "clocks_images": "clock_05_15.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 317,
+                "clocks_images": "clock_05_16.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 318,
+                "clocks_images": "clock_05_17.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 319,
+                "clocks_images": "clock_05_18.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 320,
+                "clocks_images": "clock_05_19.png",
+                "hours_namtrik": "Trattrɵ utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 321,
+                "clocks_images": "clock_05_20.png",
+                "hours_namtrik": "Trattrɵ utɵ patsi"
+            },
+            {
+                "numbers": 322,
+                "clocks_images": "clock_05_21.png",
+                "hours_namtrik": "Trattrɵ utɵ patsikan"
+            },
+            {
+                "numbers": 323,
+                "clocks_images": "clock_05_22.png",
+                "hours_namtrik": "Trattrɵ utɵ patsipa"
+            },
+            {
+                "numbers": 324,
+                "clocks_images": "clock_05_23.png",
+                "hours_namtrik": "Trattrɵ utɵ patsipɵn"
+            },
+            {
+                "numbers": 325,
+                "clocks_images": "clock_05_24.png",
+                "hours_namtrik": "Trattrɵ utɵ patsipip"
+            },
+            {
+                "numbers": 326,
+                "clocks_images": "clock_05_25.png",
+                "hours_namtrik": "Trattrɵ utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 327,
+                "clocks_images": "clock_05_26.png",
+                "hours_namtrik": "Trattrɵ utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 328,
+                "clocks_images": "clock_05_27.png",
+                "hours_namtrik": "Trattrɵ utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 329,
+                "clocks_images": "clock_05_28.png",
+                "hours_namtrik": "Trattrɵ utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 330,
+                "clocks_images": "clock_05_29.png",
+                "hours_namtrik": "Trattrɵ utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 331,
+                "clocks_images": "clock_05_30.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi"
+            },
+            {
+                "numbers": 332,
+                "clocks_images": "clock_05_31.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 333,
+                "clocks_images": "clock_05_32.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 334,
+                "clocks_images": "clock_05_33.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 335,
+                "clocks_images": "clock_05_34.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 336,
+                "clocks_images": "clock_05_35.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 337,
+                "clocks_images": "clock_05_36.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 338,
+                "clocks_images": "clock_05_37.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 339,
+                "clocks_images": "clock_05_38.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 340,
+                "clocks_images": "clock_05_39.png",
+                "hours_namtrik": "Trattrɵ utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 341,
+                "clocks_images": "clock_05_40.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi"
+            },
+            {
+                "numbers": 342,
+                "clocks_images": "clock_05_41.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi kan"
+            },
+            {
+                "numbers": 343,
+                "clocks_images": "clock_05_42.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi pa"
+            },
+            {
+                "numbers": 344,
+                "clocks_images": "clock_05_43.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 345,
+                "clocks_images": "clock_05_44.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi pip"
+            },
+            {
+                "numbers": 346,
+                "clocks_images": "clock_05_45.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 347,
+                "clocks_images": "clock_05_46.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 348,
+                "clocks_images": "clock_05_47.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 349,
+                "clocks_images": "clock_05_48.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 350,
+                "clocks_images": "clock_05_49.png",
+                "hours_namtrik": "Trattrɵ utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 351,
+                "clocks_images": "clock_05_50.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 352,
+                "clocks_images": "clock_05_51.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 353,
+                "clocks_images": "clock_05_52.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 354,
+                "clocks_images": "clock_05_53.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 355,
+                "clocks_images": "clock_05_54.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 356,
+                "clocks_images": "clock_05_55.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 357,
+                "clocks_images": "clock_05_56.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 358,
+                "clocks_images": "clock_05_57.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 359,
+                "clocks_images": "clock_05_58.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 360,
+                "clocks_images": "clock_05_59.png",
+                "hours_namtrik": "Trattrɵ utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 361,
+                "clocks_images": "clock_06_00.png",
+                "hours_namtrik": "Trattrɵkan utɵ"
+            },
+            {
+                "numbers": 362,
+                "clocks_images": "clock_06_01.png",
+                "hours_namtrik": "Trattrɵkan utɵ kan"
+            },
+            {
+                "numbers": 363,
+                "clocks_images": "clock_06_02.png",
+                "hours_namtrik": "Trattrɵkan utɵ pa"
+            },
+            {
+                "numbers": 364,
+                "clocks_images": "clock_06_03.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵn"
+            },
+            {
+                "numbers": 365,
+                "clocks_images": "clock_06_04.png",
+                "hours_namtrik": "Trattrɵkan utɵ pip"
+            },
+            {
+                "numbers": 366,
+                "clocks_images": "clock_06_05.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵ"
+            },
+            {
+                "numbers": 367,
+                "clocks_images": "clock_06_06.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵkan"
+            },
+            {
+                "numbers": 368,
+                "clocks_images": "clock_06_07.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵpa"
+            },
+            {
+                "numbers": 369,
+                "clocks_images": "clock_06_08.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 370,
+                "clocks_images": "clock_06_09.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵpip"
+            },
+            {
+                "numbers": 371,
+                "clocks_images": "clock_06_10.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsi"
+            },
+            {
+                "numbers": 372,
+                "clocks_images": "clock_06_11.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsikan"
+            },
+            {
+                "numbers": 373,
+                "clocks_images": "clock_06_12.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsipa"
+            },
+            {
+                "numbers": 374,
+                "clocks_images": "clock_06_13.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsipɵn"
+            },
+            {
+                "numbers": 375,
+                "clocks_images": "clock_06_14.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsipip"
+            },
+            {
+                "numbers": 376,
+                "clocks_images": "clock_06_15.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 377,
+                "clocks_images": "clock_06_16.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 378,
+                "clocks_images": "clock_06_17.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 379,
+                "clocks_images": "clock_06_18.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 380,
+                "clocks_images": "clock_06_19.png",
+                "hours_namtrik": "Trattrɵkan utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 381,
+                "clocks_images": "clock_06_20.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsi"
+            },
+            {
+                "numbers": 382,
+                "clocks_images": "clock_06_21.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsikan"
+            },
+            {
+                "numbers": 383,
+                "clocks_images": "clock_06_22.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsipa"
+            },
+            {
+                "numbers": 384,
+                "clocks_images": "clock_06_23.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsipɵn"
+            },
+            {
+                "numbers": 385,
+                "clocks_images": "clock_06_24.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsipip"
+            },
+            {
+                "numbers": 386,
+                "clocks_images": "clock_06_25.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 387,
+                "clocks_images": "clock_06_26.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 388,
+                "clocks_images": "clock_06_27.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 389,
+                "clocks_images": "clock_06_28.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 390,
+                "clocks_images": "clock_06_29.png",
+                "hours_namtrik": "Trattrɵkan utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 391,
+                "clocks_images": "clock_06_30.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi"
+            },
+            {
+                "numbers": 392,
+                "clocks_images": "clock_06_31.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 393,
+                "clocks_images": "clock_06_32.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 394,
+                "clocks_images": "clock_06_33.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 395,
+                "clocks_images": "clock_06_34.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 396,
+                "clocks_images": "clock_06_35.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 397,
+                "clocks_images": "clock_06_36.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 398,
+                "clocks_images": "clock_06_37.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 399,
+                "clocks_images": "clock_06_38.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 400,
+                "clocks_images": "clock_06_39.png",
+                "hours_namtrik": "Trattrɵkan utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 401,
+                "clocks_images": "clock_06_40.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi"
+            },
+            {
+                "numbers": 402,
+                "clocks_images": "clock_06_41.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi kan"
+            },
+            {
+                "numbers": 403,
+                "clocks_images": "clock_06_42.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi pa"
+            },
+            {
+                "numbers": 404,
+                "clocks_images": "clock_06_43.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 405,
+                "clocks_images": "clock_06_44.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi pip"
+            },
+            {
+                "numbers": 406,
+                "clocks_images": "clock_06_45.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 407,
+                "clocks_images": "clock_06_46.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 408,
+                "clocks_images": "clock_06_47.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 409,
+                "clocks_images": "clock_06_48.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 410,
+                "clocks_images": "clock_06_49.png",
+                "hours_namtrik": "Trattrɵkan utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 411,
+                "clocks_images": "clock_06_50.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 412,
+                "clocks_images": "clock_06_51.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 413,
+                "clocks_images": "clock_06_52.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 414,
+                "clocks_images": "clock_06_53.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 415,
+                "clocks_images": "clock_06_54.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 416,
+                "clocks_images": "clock_06_55.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 417,
+                "clocks_images": "clock_06_56.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 418,
+                "clocks_images": "clock_06_57.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 419,
+                "clocks_images": "clock_06_58.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 420,
+                "clocks_images": "clock_06_59.png",
+                "hours_namtrik": "Trattrɵkan utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 421,
+                "clocks_images": "clock_07_00.png",
+                "hours_namtrik": "Trattrɵpa utɵ"
+            },
+            {
+                "numbers": 422,
+                "clocks_images": "clock_07_01.png",
+                "hours_namtrik": "Trattrɵpa utɵ kan"
+            },
+            {
+                "numbers": 423,
+                "clocks_images": "clock_07_02.png",
+                "hours_namtrik": "Trattrɵpa utɵ pa"
+            },
+            {
+                "numbers": 424,
+                "clocks_images": "clock_07_03.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵn"
+            },
+            {
+                "numbers": 425,
+                "clocks_images": "clock_07_04.png",
+                "hours_namtrik": "Trattrɵpa utɵ pip"
+            },
+            {
+                "numbers": 426,
+                "clocks_images": "clock_07_05.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵ"
+            },
+            {
+                "numbers": 427,
+                "clocks_images": "clock_07_06.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵkan"
+            },
+            {
+                "numbers": 428,
+                "clocks_images": "clock_07_07.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵpa"
+            },
+            {
+                "numbers": 429,
+                "clocks_images": "clock_07_08.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 430,
+                "clocks_images": "clock_07_09.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵpip"
+            },
+            {
+                "numbers": 431,
+                "clocks_images": "clock_07_10.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsi"
+            },
+            {
+                "numbers": 432,
+                "clocks_images": "clock_07_11.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsikan"
+            },
+            {
+                "numbers": 433,
+                "clocks_images": "clock_07_12.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsipa"
+            },
+            {
+                "numbers": 434,
+                "clocks_images": "clock_07_13.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsipɵn"
+            },
+            {
+                "numbers": 435,
+                "clocks_images": "clock_07_14.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsipip"
+            },
+            {
+                "numbers": 436,
+                "clocks_images": "clock_07_15.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 437,
+                "clocks_images": "clock_07_16.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 438,
+                "clocks_images": "clock_07_17.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 439,
+                "clocks_images": "clock_07_18.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 440,
+                "clocks_images": "clock_07_19.png",
+                "hours_namtrik": "Trattrɵpa utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 441,
+                "clocks_images": "clock_07_20.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsi"
+            },
+            {
+                "numbers": 442,
+                "clocks_images": "clock_07_21.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsikan"
+            },
+            {
+                "numbers": 443,
+                "clocks_images": "clock_07_22.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsipa"
+            },
+            {
+                "numbers": 444,
+                "clocks_images": "clock_07_23.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsipɵn"
+            },
+            {
+                "numbers": 445,
+                "clocks_images": "clock_07_24.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsipip"
+            },
+            {
+                "numbers": 446,
+                "clocks_images": "clock_07_25.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 447,
+                "clocks_images": "clock_07_26.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 448,
+                "clocks_images": "clock_07_27.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 449,
+                "clocks_images": "clock_07_28.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 450,
+                "clocks_images": "clock_07_29.png",
+                "hours_namtrik": "Trattrɵpa utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 451,
+                "clocks_images": "clock_07_30.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi"
+            },
+            {
+                "numbers": 452,
+                "clocks_images": "clock_07_31.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 453,
+                "clocks_images": "clock_07_32.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 454,
+                "clocks_images": "clock_07_33.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 455,
+                "clocks_images": "clock_07_34.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 456,
+                "clocks_images": "clock_07_35.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 457,
+                "clocks_images": "clock_07_36.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 458,
+                "clocks_images": "clock_07_37.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 459,
+                "clocks_images": "clock_07_38.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 460,
+                "clocks_images": "clock_07_39.png",
+                "hours_namtrik": "Trattrɵpa utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 461,
+                "clocks_images": "clock_07_40.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi"
+            },
+            {
+                "numbers": 462,
+                "clocks_images": "clock_07_41.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi kan"
+            },
+            {
+                "numbers": 463,
+                "clocks_images": "clock_07_42.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi pa"
+            },
+            {
+                "numbers": 464,
+                "clocks_images": "clock_07_43.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 465,
+                "clocks_images": "clock_07_44.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi pip"
+            },
+            {
+                "numbers": 466,
+                "clocks_images": "clock_07_45.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 467,
+                "clocks_images": "clock_07_46.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 468,
+                "clocks_images": "clock_07_47.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 469,
+                "clocks_images": "clock_07_48.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 470,
+                "clocks_images": "clock_07_49.png",
+                "hours_namtrik": "Trattrɵpa utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 471,
+                "clocks_images": "clock_07_50.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 472,
+                "clocks_images": "clock_07_51.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 473,
+                "clocks_images": "clock_07_52.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 474,
+                "clocks_images": "clock_07_53.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 475,
+                "clocks_images": "clock_07_54.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 476,
+                "clocks_images": "clock_07_55.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 477,
+                "clocks_images": "clock_07_56.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 478,
+                "clocks_images": "clock_07_57.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 479,
+                "clocks_images": "clock_07_58.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 480,
+                "clocks_images": "clock_07_59.png",
+                "hours_namtrik": "Trattrɵpa utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 481,
+                "clocks_images": "clock_08_00.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ"
+            },
+            {
+                "numbers": 482,
+                "clocks_images": "clock_08_01.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kan"
+            },
+            {
+                "numbers": 483,
+                "clocks_images": "clock_08_02.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pa"
+            },
+            {
+                "numbers": 484,
+                "clocks_images": "clock_08_03.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵn"
+            },
+            {
+                "numbers": 485,
+                "clocks_images": "clock_08_04.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pip"
+            },
+            {
+                "numbers": 486,
+                "clocks_images": "clock_08_05.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵ"
+            },
+            {
+                "numbers": 487,
+                "clocks_images": "clock_08_06.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵkan"
+            },
+            {
+                "numbers": 488,
+                "clocks_images": "clock_08_07.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵpa"
+            },
+            {
+                "numbers": 489,
+                "clocks_images": "clock_08_08.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 490,
+                "clocks_images": "clock_08_09.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵpip"
+            },
+            {
+                "numbers": 491,
+                "clocks_images": "clock_08_10.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsi"
+            },
+            {
+                "numbers": 492,
+                "clocks_images": "clock_08_11.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsikan"
+            },
+            {
+                "numbers": 493,
+                "clocks_images": "clock_08_12.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsipa"
+            },
+            {
+                "numbers": 494,
+                "clocks_images": "clock_08_13.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsipɵn"
+            },
+            {
+                "numbers": 495,
+                "clocks_images": "clock_08_14.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsipip"
+            },
+            {
+                "numbers": 496,
+                "clocks_images": "clock_08_15.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 497,
+                "clocks_images": "clock_08_16.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 498,
+                "clocks_images": "clock_08_17.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 499,
+                "clocks_images": "clock_08_18.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 500,
+                "clocks_images": "clock_08_19.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 501,
+                "clocks_images": "clock_08_20.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsi"
+            },
+            {
+                "numbers": 502,
+                "clocks_images": "clock_08_21.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsikan"
+            },
+            {
+                "numbers": 503,
+                "clocks_images": "clock_08_22.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsipa"
+            },
+            {
+                "numbers": 504,
+                "clocks_images": "clock_08_23.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsipɵn"
+            },
+            {
+                "numbers": 505,
+                "clocks_images": "clock_08_24.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsipip"
+            },
+            {
+                "numbers": 506,
+                "clocks_images": "clock_08_25.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 507,
+                "clocks_images": "clock_08_26.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 508,
+                "clocks_images": "clock_08_27.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 509,
+                "clocks_images": "clock_08_28.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 510,
+                "clocks_images": "clock_08_29.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 511,
+                "clocks_images": "clock_08_30.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi"
+            },
+            {
+                "numbers": 512,
+                "clocks_images": "clock_08_31.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 513,
+                "clocks_images": "clock_08_32.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 514,
+                "clocks_images": "clock_08_33.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 515,
+                "clocks_images": "clock_08_34.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 516,
+                "clocks_images": "clock_08_35.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 517,
+                "clocks_images": "clock_08_36.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 518,
+                "clocks_images": "clock_08_37.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 519,
+                "clocks_images": "clock_08_38.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 520,
+                "clocks_images": "clock_08_39.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 521,
+                "clocks_images": "clock_08_40.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi"
+            },
+            {
+                "numbers": 522,
+                "clocks_images": "clock_08_41.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi kan"
+            },
+            {
+                "numbers": 523,
+                "clocks_images": "clock_08_42.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi pa"
+            },
+            {
+                "numbers": 524,
+                "clocks_images": "clock_08_43.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 525,
+                "clocks_images": "clock_08_44.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi pip"
+            },
+            {
+                "numbers": 526,
+                "clocks_images": "clock_08_45.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 527,
+                "clocks_images": "clock_08_46.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 528,
+                "clocks_images": "clock_08_47.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 529,
+                "clocks_images": "clock_08_48.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 530,
+                "clocks_images": "clock_08_49.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 531,
+                "clocks_images": "clock_08_50.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 532,
+                "clocks_images": "clock_08_51.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 533,
+                "clocks_images": "clock_08_52.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 534,
+                "clocks_images": "clock_08_53.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 535,
+                "clocks_images": "clock_08_54.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 536,
+                "clocks_images": "clock_08_55.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 537,
+                "clocks_images": "clock_08_56.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 538,
+                "clocks_images": "clock_08_57.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 539,
+                "clocks_images": "clock_08_58.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 540,
+                "clocks_images": "clock_08_59.png",
+                "hours_namtrik": "Trattrɵpɵn utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 541,
+                "clocks_images": "clock_09_00.png",
+                "hours_namtrik": "Trattrɵpip utɵ"
+            },
+            {
+                "numbers": 542,
+                "clocks_images": "clock_09_01.png",
+                "hours_namtrik": "Trattrɵpip utɵ kan"
+            },
+            {
+                "numbers": 543,
+                "clocks_images": "clock_09_02.png",
+                "hours_namtrik": "Trattrɵpip utɵ pa"
+            },
+            {
+                "numbers": 544,
+                "clocks_images": "clock_09_03.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵn"
+            },
+            {
+                "numbers": 545,
+                "clocks_images": "clock_09_04.png",
+                "hours_namtrik": "Trattrɵpip utɵ pip"
+            },
+            {
+                "numbers": 546,
+                "clocks_images": "clock_09_05.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵ"
+            },
+            {
+                "numbers": 547,
+                "clocks_images": "clock_09_06.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵkan"
+            },
+            {
+                "numbers": 548,
+                "clocks_images": "clock_09_07.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵpa"
+            },
+            {
+                "numbers": 549,
+                "clocks_images": "clock_09_08.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 550,
+                "clocks_images": "clock_09_09.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵpip"
+            },
+            {
+                "numbers": 551,
+                "clocks_images": "clock_09_10.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsi"
+            },
+            {
+                "numbers": 552,
+                "clocks_images": "clock_09_11.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsikan"
+            },
+            {
+                "numbers": 553,
+                "clocks_images": "clock_09_12.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsipa"
+            },
+            {
+                "numbers": 554,
+                "clocks_images": "clock_09_13.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsipɵn"
+            },
+            {
+                "numbers": 555,
+                "clocks_images": "clock_09_14.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsipip"
+            },
+            {
+                "numbers": 556,
+                "clocks_images": "clock_09_15.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 557,
+                "clocks_images": "clock_09_16.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 558,
+                "clocks_images": "clock_09_17.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 559,
+                "clocks_images": "clock_09_18.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 560,
+                "clocks_images": "clock_09_19.png",
+                "hours_namtrik": "Trattrɵpip utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 561,
+                "clocks_images": "clock_09_20.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsi"
+            },
+            {
+                "numbers": 562,
+                "clocks_images": "clock_09_21.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsikan"
+            },
+            {
+                "numbers": 563,
+                "clocks_images": "clock_09_22.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsipa"
+            },
+            {
+                "numbers": 564,
+                "clocks_images": "clock_09_23.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsipɵn"
+            },
+            {
+                "numbers": 565,
+                "clocks_images": "clock_09_24.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsipip"
+            },
+            {
+                "numbers": 566,
+                "clocks_images": "clock_09_25.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 567,
+                "clocks_images": "clock_09_26.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 568,
+                "clocks_images": "clock_09_27.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 569,
+                "clocks_images": "clock_09_28.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 570,
+                "clocks_images": "clock_09_29.png",
+                "hours_namtrik": "Trattrɵpip utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 571,
+                "clocks_images": "clock_09_30.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi"
+            },
+            {
+                "numbers": 572,
+                "clocks_images": "clock_09_31.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 573,
+                "clocks_images": "clock_09_32.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 574,
+                "clocks_images": "clock_09_33.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 575,
+                "clocks_images": "clock_09_34.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 576,
+                "clocks_images": "clock_09_35.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 577,
+                "clocks_images": "clock_09_36.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 578,
+                "clocks_images": "clock_09_37.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 579,
+                "clocks_images": "clock_09_38.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 580,
+                "clocks_images": "clock_09_39.png",
+                "hours_namtrik": "Trattrɵpip utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 581,
+                "clocks_images": "clock_09_40.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi"
+            },
+            {
+                "numbers": 582,
+                "clocks_images": "clock_09_41.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi kan"
+            },
+            {
+                "numbers": 583,
+                "clocks_images": "clock_09_42.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi pa"
+            },
+            {
+                "numbers": 584,
+                "clocks_images": "clock_09_43.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 585,
+                "clocks_images": "clock_09_44.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi pip"
+            },
+            {
+                "numbers": 586,
+                "clocks_images": "clock_09_45.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 587,
+                "clocks_images": "clock_09_46.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 588,
+                "clocks_images": "clock_09_47.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 589,
+                "clocks_images": "clock_09_48.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 590,
+                "clocks_images": "clock_09_49.png",
+                "hours_namtrik": "Trattrɵpip utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 591,
+                "clocks_images": "clock_09_50.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 592,
+                "clocks_images": "clock_09_51.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 593,
+                "clocks_images": "clock_09_52.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 594,
+                "clocks_images": "clock_09_53.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 595,
+                "clocks_images": "clock_09_54.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 596,
+                "clocks_images": "clock_09_55.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 597,
+                "clocks_images": "clock_09_56.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 598,
+                "clocks_images": "clock_09_57.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 599,
+                "clocks_images": "clock_09_58.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 600,
+                "clocks_images": "clock_09_59.png",
+                "hours_namtrik": "Trattrɵpip utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 601,
+                "clocks_images": "clock_10_00.png",
+                "hours_namtrik": "Kantsi utɵ"
+            },
+            {
+                "numbers": 602,
+                "clocks_images": "clock_10_01.png",
+                "hours_namtrik": "Kantsi utɵ kan"
+            },
+            {
+                "numbers": 603,
+                "clocks_images": "clock_10_02.png",
+                "hours_namtrik": "Kantsi utɵ pa"
+            },
+            {
+                "numbers": 604,
+                "clocks_images": "clock_10_03.png",
+                "hours_namtrik": "Kantsi utɵ pɵn"
+            },
+            {
+                "numbers": 605,
+                "clocks_images": "clock_10_04.png",
+                "hours_namtrik": "Kantsi utɵ pip"
+            },
+            {
+                "numbers": 606,
+                "clocks_images": "clock_10_05.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵ"
+            },
+            {
+                "numbers": 607,
+                "clocks_images": "clock_10_06.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵkan"
+            },
+            {
+                "numbers": 608,
+                "clocks_images": "clock_10_07.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵpa"
+            },
+            {
+                "numbers": 609,
+                "clocks_images": "clock_10_08.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 610,
+                "clocks_images": "clock_10_09.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵpip"
+            },
+            {
+                "numbers": 611,
+                "clocks_images": "clock_10_10.png",
+                "hours_namtrik": "Kantsi utɵ kantsi"
+            },
+            {
+                "numbers": 612,
+                "clocks_images": "clock_10_11.png",
+                "hours_namtrik": "Kantsi utɵ kantsikan"
+            },
+            {
+                "numbers": 613,
+                "clocks_images": "clock_10_12.png",
+                "hours_namtrik": "Kantsi utɵ kantsipa"
+            },
+            {
+                "numbers": 614,
+                "clocks_images": "clock_10_13.png",
+                "hours_namtrik": "Kantsi utɵ kantsipɵn"
+            },
+            {
+                "numbers": 615,
+                "clocks_images": "clock_10_14.png",
+                "hours_namtrik": "Kantsi utɵ kantsipip"
+            },
+            {
+                "numbers": 616,
+                "clocks_images": "clock_10_15.png",
+                "hours_namtrik": "Kantsi utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 617,
+                "clocks_images": "clock_10_16.png",
+                "hours_namtrik": "Kantsi utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 618,
+                "clocks_images": "clock_10_17.png",
+                "hours_namtrik": "Kantsi utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 619,
+                "clocks_images": "clock_10_18.png",
+                "hours_namtrik": "Kantsi utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 620,
+                "clocks_images": "clock_10_19.png",
+                "hours_namtrik": "Kantsi utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 621,
+                "clocks_images": "clock_10_20.png",
+                "hours_namtrik": "Kantsi utɵ patsi"
+            },
+            {
+                "numbers": 622,
+                "clocks_images": "clock_10_21.png",
+                "hours_namtrik": "Kantsi utɵ patsikan"
+            },
+            {
+                "numbers": 623,
+                "clocks_images": "clock_10_22.png",
+                "hours_namtrik": "Kantsi utɵ patsipa"
+            },
+            {
+                "numbers": 624,
+                "clocks_images": "clock_10_23.png",
+                "hours_namtrik": "Kantsi utɵ patsipɵn"
+            },
+            {
+                "numbers": 625,
+                "clocks_images": "clock_10_24.png",
+                "hours_namtrik": "Kantsi utɵ patsipip"
+            },
+            {
+                "numbers": 626,
+                "clocks_images": "clock_10_25.png",
+                "hours_namtrik": "Kantsi utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 627,
+                "clocks_images": "clock_10_26.png",
+                "hours_namtrik": "Kantsi utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 628,
+                "clocks_images": "clock_10_27.png",
+                "hours_namtrik": "Kantsi utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 629,
+                "clocks_images": "clock_10_28.png",
+                "hours_namtrik": "Kantsi utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 630,
+                "clocks_images": "clock_10_29.png",
+                "hours_namtrik": "Kantsi utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 631,
+                "clocks_images": "clock_10_30.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi"
+            },
+            {
+                "numbers": 632,
+                "clocks_images": "clock_10_31.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 633,
+                "clocks_images": "clock_10_32.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 634,
+                "clocks_images": "clock_10_33.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 635,
+                "clocks_images": "clock_10_34.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 636,
+                "clocks_images": "clock_10_35.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 637,
+                "clocks_images": "clock_10_36.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 638,
+                "clocks_images": "clock_10_37.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 639,
+                "clocks_images": "clock_10_38.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 640,
+                "clocks_images": "clock_10_39.png",
+                "hours_namtrik": "Kantsi utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 641,
+                "clocks_images": "clock_10_40.png",
+                "hours_namtrik": "Kantsi utɵ piptsi"
+            },
+            {
+                "numbers": 642,
+                "clocks_images": "clock_10_41.png",
+                "hours_namtrik": "Kantsi utɵ piptsi kan"
+            },
+            {
+                "numbers": 643,
+                "clocks_images": "clock_10_42.png",
+                "hours_namtrik": "Kantsi utɵ piptsi pa"
+            },
+            {
+                "numbers": 644,
+                "clocks_images": "clock_10_43.png",
+                "hours_namtrik": "Kantsi utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 645,
+                "clocks_images": "clock_10_44.png",
+                "hours_namtrik": "Kantsi utɵ piptsi pip"
+            },
+            {
+                "numbers": 646,
+                "clocks_images": "clock_10_45.png",
+                "hours_namtrik": "Kantsi utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 647,
+                "clocks_images": "clock_10_46.png",
+                "hours_namtrik": "Kantsi utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 648,
+                "clocks_images": "clock_10_47.png",
+                "hours_namtrik": "Kantsi utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 649,
+                "clocks_images": "clock_10_48.png",
+                "hours_namtrik": "Kantsi utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 650,
+                "clocks_images": "clock_10_49.png",
+                "hours_namtrik": "Kantsi utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 651,
+                "clocks_images": "clock_10_50.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 652,
+                "clocks_images": "clock_10_51.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 653,
+                "clocks_images": "clock_10_52.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 654,
+                "clocks_images": "clock_10_53.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 655,
+                "clocks_images": "clock_10_54.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 656,
+                "clocks_images": "clock_10_55.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 657,
+                "clocks_images": "clock_10_56.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 658,
+                "clocks_images": "clock_10_57.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 659,
+                "clocks_images": "clock_10_58.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 660,
+                "clocks_images": "clock_10_59.png",
+                "hours_namtrik": "Kantsi utɵ trattrɵtsi trattrɵpip"
+            },
+            {
+                "numbers": 661,
+                "clocks_images": "clock_11_00.png",
+                "hours_namtrik": "Kantsikan utɵ"
+            },
+            {
+                "numbers": 662,
+                "clocks_images": "clock_11_01.png",
+                "hours_namtrik": "Kantsikan utɵ kan"
+            },
+            {
+                "numbers": 663,
+                "clocks_images": "clock_11_02.png",
+                "hours_namtrik": "Kantsikan utɵ pa"
+            },
+            {
+                "numbers": 664,
+                "clocks_images": "clock_11_03.png",
+                "hours_namtrik": "Kantsikan utɵ pɵn"
+            },
+            {
+                "numbers": 665,
+                "clocks_images": "clock_11_04.png",
+                "hours_namtrik": "Kantsikan utɵ pip"
+            },
+            {
+                "numbers": 666,
+                "clocks_images": "clock_11_05.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵ"
+            },
+            {
+                "numbers": 667,
+                "clocks_images": "clock_11_06.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵkan"
+            },
+            {
+                "numbers": 668,
+                "clocks_images": "clock_11_07.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵpa"
+            },
+            {
+                "numbers": 669,
+                "clocks_images": "clock_11_08.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵpɵn"
+            },
+            {
+                "numbers": 670,
+                "clocks_images": "clock_11_09.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵpip"
+            },
+            {
+                "numbers": 671,
+                "clocks_images": "clock_11_10.png",
+                "hours_namtrik": "Kantsikan utɵ kantsi"
+            },
+            {
+                "numbers": 672,
+                "clocks_images": "clock_11_11.png",
+                "hours_namtrik": "Kantsikan utɵ kantsikan"
+            },
+            {
+                "numbers": 673,
+                "clocks_images": "clock_11_12.png",
+                "hours_namtrik": "Kantsikan utɵ kantsipa"
+            },
+            {
+                "numbers": 674,
+                "clocks_images": "clock_11_13.png",
+                "hours_namtrik": "Kantsikan utɵ kantsipɵn"
+            },
+            {
+                "numbers": 675,
+                "clocks_images": "clock_11_14.png",
+                "hours_namtrik": "Kantsikan utɵ kantsipip"
+            },
+            {
+                "numbers": 676,
+                "clocks_images": "clock_11_15.png",
+                "hours_namtrik": "Kantsikan utɵ kantsitrattrɵ"
+            },
+            {
+                "numbers": 677,
+                "clocks_images": "clock_11_16.png",
+                "hours_namtrik": "Kantsikan utɵ kantsitrattrɵkan"
+            },
+            {
+                "numbers": 678,
+                "clocks_images": "clock_11_17.png",
+                "hours_namtrik": "Kantsikan utɵ kantsitrattrɵpa"
+            },
+            {
+                "numbers": 679,
+                "clocks_images": "clock_11_18.png",
+                "hours_namtrik": "Kantsikan utɵ kantsitrattrɵpɵn"
+            },
+            {
+                "numbers": 680,
+                "clocks_images": "clock_11_19.png",
+                "hours_namtrik": "Kantsikan utɵ kantsitrattrɵpip"
+            },
+            {
+                "numbers": 681,
+                "clocks_images": "clock_11_20.png",
+                "hours_namtrik": "Kantsikan utɵ patsi"
+            },
+            {
+                "numbers": 682,
+                "clocks_images": "clock_11_21.png",
+                "hours_namtrik": "Kantsikan utɵ patsikan"
+            },
+            {
+                "numbers": 683,
+                "clocks_images": "clock_11_22.png",
+                "hours_namtrik": "Kantsikan utɵ patsipa"
+            },
+            {
+                "numbers": 684,
+                "clocks_images": "clock_11_23.png",
+                "hours_namtrik": "Kantsikan utɵ patsipɵn"
+            },
+            {
+                "numbers": 685,
+                "clocks_images": "clock_11_24.png",
+                "hours_namtrik": "Kantsikan utɵ patsipip"
+            },
+            {
+                "numbers": 686,
+                "clocks_images": "clock_11_25.png",
+                "hours_namtrik": "Kantsikan utɵ patsitrattrɵ"
+            },
+            {
+                "numbers": 687,
+                "clocks_images": "clock_11_26.png",
+                "hours_namtrik": "Kantsikan utɵ patsitrattrɵkan"
+            },
+            {
+                "numbers": 688,
+                "clocks_images": "clock_11_27.png",
+                "hours_namtrik": "Kantsikan utɵ patsitrattrɵpa"
+            },
+            {
+                "numbers": 689,
+                "clocks_images": "clock_11_28.png",
+                "hours_namtrik": "Kantsikan utɵ patsitrattrɵpɵn"
+            },
+            {
+                "numbers": 690,
+                "clocks_images": "clock_11_29.png",
+                "hours_namtrik": "Kantsikan utɵ patsitrattrɵpip"
+            },
+            {
+                "numbers": 691,
+                "clocks_images": "clock_11_30.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi"
+            },
+            {
+                "numbers": 692,
+                "clocks_images": "clock_11_31.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi kan"
+            },
+            {
+                "numbers": 693,
+                "clocks_images": "clock_11_32.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi pa"
+            },
+            {
+                "numbers": 694,
+                "clocks_images": "clock_11_33.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi pɵn"
+            },
+            {
+                "numbers": 695,
+                "clocks_images": "clock_11_34.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi pip"
+            },
+            {
+                "numbers": 696,
+                "clocks_images": "clock_11_35.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi trattrɵ"
+            },
+            {
+                "numbers": 697,
+                "clocks_images": "clock_11_36.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi trattrɵkan"
+            },
+            {
+                "numbers": 698,
+                "clocks_images": "clock_11_37.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi trattrɵpa"
+            },
+            {
+                "numbers": 699,
+                "clocks_images": "clock_11_38.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi trattrɵpɵn"
+            },
+            {
+                "numbers": 700,
+                "clocks_images": "clock_11_39.png",
+                "hours_namtrik": "Kantsikan utɵ pɵntsi trattrɵpip"
+            },
+            {
+                "numbers": 701,
+                "clocks_images": "clock_11_40.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi"
+            },
+            {
+                "numbers": 702,
+                "clocks_images": "clock_11_41.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi kan"
+            },
+            {
+                "numbers": 703,
+                "clocks_images": "clock_11_42.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi pa"
+            },
+            {
+                "numbers": 704,
+                "clocks_images": "clock_11_43.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi pɵn"
+            },
+            {
+                "numbers": 705,
+                "clocks_images": "clock_11_44.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi pip"
+            },
+            {
+                "numbers": 706,
+                "clocks_images": "clock_11_45.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi trattrɵ"
+            },
+            {
+                "numbers": 707,
+                "clocks_images": "clock_11_46.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi trattrɵkan"
+            },
+            {
+                "numbers": 708,
+                "clocks_images": "clock_11_47.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi trattrɵpa"
+            },
+            {
+                "numbers": 709,
+                "clocks_images": "clock_11_48.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi trattrɵpɵn"
+            },
+            {
+                "numbers": 710,
+                "clocks_images": "clock_11_49.png",
+                "hours_namtrik": "Kantsikan utɵ piptsi trattrɵpip"
+            },
+            {
+                "numbers": 711,
+                "clocks_images": "clock_11_50.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi"
+            },
+            {
+                "numbers": 712,
+                "clocks_images": "clock_11_51.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi kan"
+            },
+            {
+                "numbers": 713,
+                "clocks_images": "clock_11_52.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi pa"
+            },
+            {
+                "numbers": 714,
+                "clocks_images": "clock_11_53.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi pɵn"
+            },
+            {
+                "numbers": 715,
+                "clocks_images": "clock_11_54.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi pip"
+            },
+            {
+                "numbers": 716,
+                "clocks_images": "clock_11_55.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi trattrɵ"
+            },
+            {
+                "numbers": 717,
+                "clocks_images": "clock_11_56.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi trattrɵkan"
+            },
+            {
+                "numbers": 718,
+                "clocks_images": "clock_11_57.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi trattrɵpa"
+            },
+            {
+                "numbers": 719,
+                "clocks_images": "clock_11_58.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi trattrɵpɵn"
+            },
+            {
+                "numbers": 720,
+                "clocks_images": "clock_11_59.png",
+                "hours_namtrik": "Kantsikan utɵ trattrɵtsi trattrɵpip"
+            }
+        ]
+    }
+}

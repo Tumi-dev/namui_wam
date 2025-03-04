@@ -16,13 +16,6 @@ class Activity4Screen extends StatelessWidget {
 
   // Navega hacia la pantalla de un nivel de la actividad 4 en desarrollo al seleccionar un nivel
   void _onLevelSelected(BuildContext context, LevelModel level) {
-    if (level.isLocked) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Este nivel está bloqueado')),
-      );
-      return;
-    }
-
     // Navegar a la pantalla del nivel seleccionado de la actividad 4
     Navigator.push(
       context,
@@ -59,6 +52,7 @@ class Activity4Screen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: AppTheme.mainGradient,
             ),
+            // SafeArea para evitar que el contenido se salga de los límites de la pantalla
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -66,7 +60,7 @@ class Activity4Screen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 20),
                     const Icon(
-                      Icons.access_time,
+                      Icons.access_time, // Ícono de tiempo
                       color: Colors.white,
                       size: 64,
                     ),
@@ -92,14 +86,12 @@ class Activity4Screen extends StatelessWidget {
 
   // Construye una tarjeta para un nivel de la actividad 4 en desarrollo
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
-    final bool isLocked = level.isLocked;
-    
     // Construir una tarjeta para un nivel de la actividad 4 en desarrollo
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Card(
         elevation: 4,
-        color: isLocked ? Colors.grey[300] : Colors.green,
+        color: Colors.green,
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -111,7 +103,7 @@ class Activity4Screen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: isLocked ? Colors.grey : Colors.green[700],
+                    color: Colors.green[700],
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -125,16 +117,16 @@ class Activity4Screen extends StatelessWidget {
                 Expanded(
                   child: Text(
                     level.description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: isLocked ? Colors.grey[600] : Colors.white,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-                Icon(
-                  isLocked ? Icons.lock : Icons.lock_open,
-                  color: isLocked ? Colors.grey[600] : Colors.white,
+                const Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
                 ),
               ],
             ),

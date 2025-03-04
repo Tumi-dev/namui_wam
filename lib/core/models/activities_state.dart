@@ -26,8 +26,8 @@ class ActivitiesState extends ChangeNotifier {
       final wasCompleted = activity.isLevelCompleted(levelId);
       activity.completeLevel(levelId);
       
-      if (!wasCompleted) {
-        // Desbloquear el siguiente nivel si existe
+      if (!wasCompleted && activityId != 4 && activityId != 5) {
+        // Desbloquear el siguiente nivel si existe y no es actividad 4 o 5
         final nextLevel = activity.getLevel(levelId + 1);
         if (nextLevel != null) {
           nextLevel.unlockLevel();

@@ -11,6 +11,8 @@ class Activity4Service {
     // Aquí se implementará la lógica específica para cada nivel
     if (level.id == 1) {
       return await _getLevel1Data();
+    } else if (level.id == 2) {
+      return await _getLevel2Data();
     }
     
     // Para otros niveles, devolvemos un mapa básico
@@ -61,6 +63,67 @@ class Activity4Service {
       };
     } catch (e) {
       throw Exception('Error al cargar datos del nivel 1: $e');
+    }
+  }
+  
+  // Método para obtener datos específicos para el nivel 2
+  Future<Map<String, dynamic>> _getLevel2Data() async {
+    try {
+      // Cargar datos del archivo JSON
+      final String jsonString = await rootBundle.loadString('assets/data/namtrik_hours.json');
+      final Map<String, dynamic> jsonData = json.decode(jsonString);
+      
+      // Obtener la lista de horas
+      final List<dynamic> hours = jsonData['hours']['namui_wam'];
+      
+      // Asegurarse de que tenemos suficientes elementos
+      if (hours.length < 4) {
+        throw Exception('No hay suficientes datos para el juego');
+      }
+      
+      final random = Random();
+      
+      // Seleccionar un elemento aleatorio como respuesta correcta
+      final int correctIndex = random.nextInt(hours.length);
+      final correctItem = hours[correctIndex];
+      
+      // Crear una lista para almacenar las opciones (incluida la correcta)
+      final List<Map<String, dynamic>> options = [];
+      final Set<int> selectedIndices = {correctIndex};
+      
+      // Añadir la respuesta correcta
+      options.add({
+        'id': correctItem['numbers'].toString(),
+        'hour_namtrik': correctItem['hours_namtrik'],
+        'is_correct': true,
+      });
+      
+      // Seleccionar 3 elementos aleatorios incorrectos
+      while (selectedIndices.length < 4) {
+        final int index = random.nextInt(hours.length);
+        if (!selectedIndices.contains(index)) {
+          selectedIndices.add(index);
+          options.add({
+            'id': hours[index]['numbers'].toString(),
+            'hour_namtrik': hours[index]['hours_namtrik'],
+            'is_correct': false,
+          });
+        }
+      }
+      
+      // Desordenar las opciones para que no siempre la correcta sea la primera
+      options.shuffle();
+      
+      return {
+        'levelId': 2,
+        'description': 'Nivel 2',
+        'clock_image': correctItem['clocks_images'],
+        'correct_id': correctItem['numbers'].toString(),
+        'correct_hour': correctItem['hours_namtrik'],
+        'options': options,
+      };
+    } catch (e) {
+      throw Exception('Error al cargar datos del nivel 2: $e');
     }
   }
   

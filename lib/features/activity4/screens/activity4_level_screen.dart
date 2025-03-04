@@ -27,7 +27,7 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
   bool _isLoading = true;
   List<Map<String, dynamic>> _gameItems = [];
   
-  // Variables para el juego
+  // Variables para el juego del nivel 1
   String? _selectedClockId;
   String? _selectedNamtrikId;
   Map<String, String> _matchedPairs = {};
@@ -36,6 +36,10 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
   // Listas desordenadas para mostrar
   List<Map<String, dynamic>> _shuffledClocks = [];
   List<Map<String, dynamic>> _shuffledNamtrik = [];
+
+  // Variables para el juego del nivel 2
+  String? _clockImage;
+  List<Map<String, dynamic>> _options = [];
 
   // Inicializa el estado de la pantalla de un nivel de la actividad 4
   @override
@@ -66,6 +70,14 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
             _gameItems = items;
             _shuffledClocks = clocksCopy;
             _shuffledNamtrik = namtrikCopy;
+            _isLoading = false;
+          });
+        }
+      } else if (widget.level.id == 2) {
+        if (mounted) {
+          setState(() {
+            _clockImage = levelData['clock_image'];
+            _options = List<Map<String, dynamic>>.from(levelData['options']);
             _isLoading = false;
           });
         }
@@ -127,6 +139,32 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
         _checkMatch();
       }
     });
+  }
+
+  // Maneja la selección de una opción en el nivel 2
+  void _handleOptionSelected(String id, bool isCorrect) {
+    if (isCorrect) {
+      _handleLevelComplete();
+    } else {
+      // Reducir intentos
+      remainingAttempts--;
+      
+      // Mostrar mensaje de error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Respuesta incorrecta. Te quedan $remainingAttempts intentos.'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      
+      // Verificar si se han agotado los intentos
+      if (remainingAttempts <= 0) {
+        _handleOutOfAttempts();
+      } else {
+        // Cargar nuevos datos para una nueva ronda
+        _loadLevelData();
+      }
+    }
   }
 
   // Verifica si la combinación seleccionada es correcta
@@ -353,6 +391,16 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
           _buildLevel1Content(),
         ],
       );
+    } else if (widget.level.id == 2) {
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          _buildLevel2Content(),
+        ],
+      );
     } else {
       return Column(
         children: [
@@ -460,23 +508,7 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
         
         const SizedBox(height: 30),
         
-        // Sección de horas en namtrik
-        Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: Center(
-            child: Text(
-              'Selecciona hora en namtrik o reloj',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        
-        // Grid de textos en namtrik
+        // Grid de textos en namtrik (sin el título que fue eliminado)
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -521,6 +553,95 @@ class _Activity4LevelScreenState extends ScrollableLevelScreenState<Activity4Lev
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
+              ),
+            );
+          },
+        ),
+        
+        // Espacio adicional al final
+        const SizedBox(height: 40),
+      ],
+    );
+  }
+  
+  // Construye el contenido específico del nivel 2
+  Widget _buildLevel2Content() {
+    // Obtener tamaño de pantalla para diseño responsivo
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
+    
+    // Calcular tamaños según orientación
+    final double clockImageSize = isLandscape 
+        ? screenSize.width * 0.25
+        : screenSize.width * 0.7;
+        
+    // Calcular número de botones por fila según orientación
+    final int optionsPerRow = isLandscape ? 4 : 2;
+    
+    return Column(
+      children: [
+        // Instrucción para el usuario
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: Text(
+            'Selecciona la hora correcta en namtrik',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        
+        // Imagen del reloj con fondo transparente
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 20.0),
+          child: Image.asset(
+            'assets/images/clocks/$_clockImage',
+            width: clockImageSize,
+            height: clockImageSize,
+            fit: BoxFit.contain,
+          ),
+        ),
+        
+        const SizedBox(height: 20),
+        
+        // Opciones de respuesta (sin el título que fue eliminado)
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: optionsPerRow,
+            childAspectRatio: 2.5,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: _options.length,
+          itemBuilder: (context, index) {
+            final option = _options[index];
+            final id = option['id'];
+            final isCorrect = option['is_correct'];
+            
+            return ElevatedButton(
+              onPressed: () => _handleOptionSelected(id, isCorrect),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green.shade600,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(8),
+              ),
+              child: Text(
+                option['hour_namtrik'],
+                style: TextStyle(
+                  fontSize: isLandscape ? 14 : 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             );
           },

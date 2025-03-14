@@ -11,9 +11,8 @@ class Activity1Service {
 
   Activity1Service(this._numberDataService, this._audioService);
 
-  /// Get a random number for a specific level
-  Future<NumberWord?> getRandomNumberForLevel(int level) async {
-    // Determine the range based on the level
+  /// Get range limits for a specific level
+  Map<String, int> _getRangeForLevel(int level) {
     int start = 1;
     int end = 9;
     
@@ -47,8 +46,19 @@ class Activity1Service {
         end = 9999999;
         break;
       default:
-        return null;
+        // Default to level 1 range
+        start = 1;
+        end = 9;
     }
+    
+    return {'start': start, 'end': end};
+  }
+
+  /// Get a random number for a specific level
+  Future<NumberWord?> getRandomNumberForLevel(int level) async {
+    final range = _getRangeForLevel(level);
+    final start = range['start']!;
+    final end = range['end']!;
     
     try {
       // Get a random number in the range for this level
@@ -88,42 +98,9 @@ class Activity1Service {
     final Set<int> options = {correctNumber};
     
     // Determine the range based on the level
-    int start = 1;
-    int end = 9;
-    
-    switch (level) {
-      case 1:
-        start = 1;
-        end = 9;
-        break;
-      case 2:
-        start = 10;
-        end = 99;
-        break;
-      case 3:
-        start = 100;
-        end = 999;
-        break;
-      case 4:
-        start = 1000;
-        end = 9999;
-        break;
-      case 5:
-        start = 10000;
-        end = 99999;
-        break;
-      case 6:
-        start = 100000;
-        end = 999999;
-        break;
-      case 7:
-        start = 1000000;
-        end = 9999999;
-        break;
-      default:
-        start = 1;
-        end = 9;
-    }
+    final range = _getRangeForLevel(level);
+    final start = range['start']!;
+    final end = range['end']!;
     
     try {
       // Get all numbers in the range for this level
@@ -156,12 +133,35 @@ class Activity1Service {
       print('Error generating options for level $level: $e');
       
       // Fallback: generate basic options
-      return [
-        correctNumber,
-        ((correctNumber + (end - start) ~/ 4) % (end - start + 1)) + start,
-        ((correctNumber + (end - start) ~/ 2) % (end - start + 1)) + start,
-        ((correctNumber + 3 * (end - start) ~/ 4) % (end - start + 1)) + start,
-      ];
+      return _generateFallbackOptions(correctNumber, start, end);
+    }
+  }
+
+  /// Generate fallback options when database fetch fails
+  List<int> _generateFallbackOptions(int correctNumber, int start, int end) {
+    final range = end - start + 1;
+    return [
+      correctNumber,
+      ((correctNumber + range ~/ 4) % range) + start,
+      ((correctNumber + range ~/ 2) % range) + start,
+      ((correctNumber + 3 * range ~/ 4) % range) + start,
+    ];
+  }
+
+  /// Calculate delay between audio files based on level and content
+  Duration _getDelayBetweenAudio(int level, String audioFile, int position) {
+    if (level >= 4) {
+      if (audioFile.contains('Ishik.wav') || audioFile.contains('Srel.wav')) {
+        return const Duration(milliseconds: 1000);
+      } else {
+        return const Duration(milliseconds: 600);
+      }
+    } else {
+      if (position == 0) {
+        return const Duration(milliseconds: 800);
+      } else {
+        return const Duration(milliseconds: 500);
+      }
     }
   }
 
@@ -173,21 +173,9 @@ class Activity1Service {
       final audioFile = number.audioFiles[i];
       await _audioService.playAudio(audioFile);
       
-      // Add delay between audio files
+      // Add delay between audio files if not the last one
       if (i < number.audioFiles.length - 1) {
-        if (number.level >= 4) {
-          if (audioFile.contains('Ishik.wav') || audioFile.contains('Srel.wav')) {
-            await Future.delayed(const Duration(milliseconds: 1000));
-          } else {
-            await Future.delayed(const Duration(milliseconds: 600));
-          }
-        } else {
-          if (i == 0) {
-            await Future.delayed(const Duration(milliseconds: 800));
-          } else {
-            await Future.delayed(const Duration(milliseconds: 500));
-          }
-        }
+        await Future.delayed(_getDelayBetweenAudio(number.level, audioFile, i));
       }
     }
   }

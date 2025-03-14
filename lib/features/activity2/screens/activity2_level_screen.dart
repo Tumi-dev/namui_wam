@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/models/level_model.dart';
 import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/core/templates/base_level_screen.dart';
-import 'package:namui_wam/core/services/audio_service.dart';
 import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/core/models/game_state.dart';
 import 'package:namui_wam/features/activity2/services/activity2_service.dart';
@@ -12,7 +9,7 @@ import 'package:namui_wam/features/activity2/services/activity2_service.dart';
 class Activity2LevelScreen extends BaseLevelScreen {
   const Activity2LevelScreen({
     super.key,
-    required LevelModel level,
+    required level,
   }) : super(level: level, activityNumber: 2);
 
   @override
@@ -20,9 +17,7 @@ class Activity2LevelScreen extends BaseLevelScreen {
 }
 
 class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScreen> {
-  final _audioService = GetIt.instance<AudioService>();
   final _activity2Service = GetIt.instance<Activity2Service>();
-  bool isPlayingAudio = false;
   final TextEditingController _answerController = TextEditingController();
   Map<String, dynamic>? currentNumber;
   int remainingAttempts = 3;
@@ -292,11 +287,11 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                   padding: const EdgeInsets.all(24),
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white, // Fondo blanco para el número actual
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withOpacity(0.2), // Sombra suave para el número en blanco
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),
@@ -319,17 +314,20 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                     decoration: InputDecoration(
                       hintText: 'Escribe el número en namuiwam',
                       hintStyle: TextStyle(
-                        color: Colors.green[50], // Verde mucho más pálido para el hint
+                        // Cambiar el color del hint para que sea más visible
+                        color: Colors.white, // Color de texto blanco para el hint
                         fontSize: 14,
                       ),
                       filled: true,
-                      fillColor: const Color(0xFF388E3C), // Verde más suave similar al del logo
+                      // Cambiar el color de fondo del input para que sea más visible y se destaque
+                      fillColor: const Color(0xFF1976D2), // 
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
+                        // Cambiar el color del borde para que sea más visible
                         borderSide: const BorderSide(color: Colors.white, width: 2),
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -338,18 +336,19 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                       ),
                     ),
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.white, // Color de texto blanco para el input
                       fontSize: 16,
                     ),
                     textAlign: TextAlign.center,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.white, // Color del cursor blanco para el input
                   ),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: checkAnswer,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF66BB6A), // Verde más suave similar al del logo
+                    // Cambiar el color de fondo del botón para que se destaque
+                    backgroundColor: const Color(0xFF00FFFF), // Color cyan para el botón de validación
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -361,7 +360,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      // Cambiar el color del texto para que sea más visible
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -376,9 +376,6 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
   @override
   void dispose() {
     _answerController.dispose();
-    if (isPlayingAudio) {
-      _audioService.stopAudio();
-    }
     super.dispose();
   }
 }

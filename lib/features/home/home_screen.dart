@@ -20,6 +20,25 @@ class HomeScreen extends StatelessWidget {
     'Wammeran tulisha manchípik kui asamik pɵrik',
   ];
 
+  // Lista de colores para los fondos de los botones
+  static const List<Color> buttonColors = [
+    Color(0xFFD32F2F), // Rojo suave
+    Color(0xFF1976D2), // Azul medio
+    Color(0xFFFFC107), // Amarillo dorado
+    Color(0xFF9C27B0), // Púrpura elegante
+    Color(0xFF4CAF50), // Verde fresco
+    Color(0xFFFF7043), // Naranja coral
+  ];
+  // Lista de colores para los círculos de números
+  static const List<Color> numberCircleColors = [
+    Color(0xFFFF0000), // Rojo
+    Color(0xFF00FFFF), // Aqua
+    Color(0xFFFFFF00), // Amarillo
+    Color(0xFFFF00FF), // Fucsia
+    Color(0xFF00FF00), // Lima
+    Color(0xFFFFA500), // Naranja
+  ];
+
   void _navigateToActivity(BuildContext context, int activityNumber) {
     final Map<int, Widget> activities = {
       1: const Activity1Screen(),
@@ -91,13 +110,16 @@ class HomeScreen extends StatelessWidget {
 
   // Es un widget personalizado que representa un botón de actividad con un número y una descripción
   Widget _buildActivityButton(BuildContext context, int activityNumber) {
+    // Ajustamos el índice para acceder a las listas de colores (0-based)
+    final colorIndex = activityNumber - 1;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Container(
         height: 70, // Altura reducida para un diseño más minimalista
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green, // Color de fondo verde oscuro con opacidad 0.1 (10%)
+            backgroundColor: buttonColors[colorIndex],
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -106,12 +128,12 @@ class HomeScreen extends StatelessWidget {
           onPressed: () => _navigateToActivity(context, activityNumber),
           child: Row(
             children: [
-              // Número estilizado con un fondo verde oscuro con opacidad 0.1 (10%)
+              // Número estilizado con un fondo
               Container(
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.green[700], // Fondo verde oscuro con opacidad 0.1 (10%) para resaltar el número de actividad
+                  color: numberCircleColors[colorIndex],
                   shape: BoxShape.circle,
                 ),
                 child: Center(
@@ -121,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 6),
               // Descripción de la actividad con un estilo y un número de actividad
               Expanded(
                 child: Text(

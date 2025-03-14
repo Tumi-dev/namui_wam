@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/models/level_model.dart';
 import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/core/models/game_state.dart';
 import 'package:namui_wam/core/templates/base_level_screen.dart';
 import 'package:namui_wam/core/services/feedback_service.dart';
 import 'package:namui_wam/core/widgets/info_bar_widget.dart';
-import 'package:namui_wam/features/activity1/models/number_word.dart';
 import 'package:namui_wam/features/activity1/services/activity1_service.dart';
+import 'package:namui_wam/features/activity1/models/number_word.dart';
 
 // Clase para la pantalla de un nivel de la actividad 1
 class Activity1LevelScreen extends BaseLevelScreen {
   const Activity1LevelScreen({
     super.key,
-    required LevelModel level,
+    required level,
   }) : super(level: level, activityNumber: 1);
 
   // Crea el estado mutable para la clase de la pantalla de un nivel de la actividad 1
@@ -368,12 +367,12 @@ class _Activity1LevelScreenState
                     margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.green[700]?.withOpacity(0.9),
+                      color: Color(0xFFD32F2F), // Color de fondo del número en namtrik
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         // Sombra para el contenedor del número en namtrik
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
+                          color: Colors.black.withOpacity(0.3), // Color de la sombra del número en namtrik
                           blurRadius: 10,
                           offset: const Offset(0, 5),
                         ),
@@ -398,12 +397,12 @@ class _Activity1LevelScreenState
                                 style: TextStyle(
                                   fontSize: baseFontSize,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color: Colors.white, // Color del texto del número en namtrik
                                   height: 1.3,
                                   letterSpacing: 1,
                                   shadows: const [
                                     Shadow(
-                                      color: Colors.black26,
+                                      color: Colors.black26, // Color de la sombra del texto del número en namtrik
                                       offset: Offset(2, 2),
                                       blurRadius: 4,
                                     ),
@@ -417,7 +416,7 @@ class _Activity1LevelScreenState
                         const SizedBox(height: 16),
                         // Botón de audio mejorado para el número en namtrik
                         Material(
-                          color: Colors.white24,
+                          color: Colors.white24, // Color de fondo del botón de audio del número en namtrik
                           borderRadius: BorderRadius.circular(50),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(50),
@@ -431,7 +430,7 @@ class _Activity1LevelScreenState
                                     isPlayingAudio
                                         ? Icons.volume_up
                                         : Icons.volume_up_outlined,
-                                    color: Colors.white,
+                                    color: Colors.white, // Color del icono de audio del número en namtrik
                                     size: 28,
                                   ),
                                   // Texto para el botón de audio del número en namtrik
@@ -439,7 +438,7 @@ class _Activity1LevelScreenState
                                   Text(
                                     'Escuchar',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.white, // Color del texto del botón de audio del número en namtrik
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -470,11 +469,11 @@ class _Activity1LevelScreenState
                           // Contenedor con la opción seleccionada por el usuario y su número
                           return Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.white, // Color de fondo de la opción seleccionada por el usuario
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: Colors.black.withOpacity(0.1), // Color de la sombra de la opción seleccionada por el usuario
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 ),
@@ -482,7 +481,7 @@ class _Activity1LevelScreenState
                             ),
                             // Material con tinta para la opción seleccionada por el usuario
                             child: Material(
-                              color: Colors.transparent,
+                              color: Colors.transparent, // Color de fondo del material de la opción seleccionada por el usuario
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(15),
                                 onTap: isCorrectAnswerSelected
@@ -496,8 +495,8 @@ class _Activity1LevelScreenState
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
                                       color: isCorrectAnswerSelected
-                                          ? Colors.grey
-                                          : Colors.black87,
+                                          ? Colors.grey // Color del texto de la opción seleccionada por el usuario
+                                          : Colors.black87, // Color del texto de la opción seleccionada por el usuario
                                     ),
                                   ),
                                 ),

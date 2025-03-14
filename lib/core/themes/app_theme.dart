@@ -47,9 +47,9 @@ class AppTheme {
   // Define un gradiente principal para la aplicación que se usa en los temas
   static LinearGradient get mainGradient {
     return const LinearGradient(
-      // Inicia en la esquina superior izquierda
-      begin: Alignment.topLeft,
-      // Finaliza en la esquina inferior derecha
+      // Inicio del gradiente en la esquina inferior izquierda
+      begin: Alignment.bottomLeft,
+      // Fin del gradiente en la esquina superior derecha
       end: Alignment.bottomRight,
       colors: [
         Color(0xFF0D47A1), // Azul oscuro
@@ -62,13 +62,13 @@ class AppTheme {
   // Estilos de texto constantes para botones de la aplicación
   static const TextStyle buttonTextStyle = TextStyle(
     fontSize: 16,
-    color: Colors.white70,
+    color: Colors.white,
     fontWeight: FontWeight.w500,
   );
 
   // Estilo para el número de nivel de la aplicación
   static const TextStyle levelNumberStyle = TextStyle(
-    color: Colors.white,
+    color: Colors.black,
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
@@ -110,7 +110,7 @@ class AppTheme {
   // Icono para la página de avance de la aplicación
   static const Icon levelArrowIcon = Icon(
     Icons.arrow_forward,
-    color: Colors.white70,
+    color: Colors.white,
     size: arrowIconSize,
   );
 

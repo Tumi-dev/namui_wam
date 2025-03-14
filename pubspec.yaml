@@ -29,10 +29,11 @@ flutter:
   
   assets:
     - assets/audio/
-    - assets/audio/activity/
     - assets/audio/namtrik_numbers/
     - assets/images/
     - assets/images/clocks/
+    - assets/images/money/
     - assets/data/
     - assets/data/namtrik_numbers.json
     - assets/data/namtrik_hours.json
+    - assets/data/namtrik_money.json

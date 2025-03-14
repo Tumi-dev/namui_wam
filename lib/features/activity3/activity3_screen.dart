@@ -26,7 +26,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
   bool _isKeyboardVisible = false;
 
   // Define el color de fondo verde profundo que se ve en la imagen
-  final Color _boxColor = const Color(0xFF388E3C); // Es el color de la imagen en la pantalla de inicio
+  final Color _boxColor = const Color(0xFFFFC107); // Es el color de la imagen en la pantalla de inicio
 
   @override
   void initState() {
@@ -250,7 +250,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
             'Muntsielan namtrikmai yunɵmarɵpik',
             style: AppTheme.activityTitleStyle,
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent, // Transparente para mostrar el gradiente de fondo
           elevation: 0,
         ),
         // Use resizeToAvoidBottomInset to prevent keyboard from pushing content
@@ -286,7 +286,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                           const Text(
                             'Muntsik wan yu pɵr',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white, // Color blanco para el texto de la pantalla de inicio
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -294,7 +294,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                           const SizedBox(height: 8),
                           TextField(
                             controller: _numberController,
-                            style: const TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.black), // Color negro para el texto del campo de texto 
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
@@ -323,7 +323,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             decoration: InputDecoration(
                               hintText: 'Digita el número',
                               hintStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
+                                // Color gris para el texto de sugerencia en el campo de texto
+                                color: Colors.grey[700],
                               ),
                               filled: true,
                               fillColor: _boxColor,
@@ -341,7 +342,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                           const Text(
                             'Namtrikmai',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.white, // Color blanco para el texto de la pantalla de inicio
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -361,7 +362,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             child: _isLoading
                                 ? const Center(
                                     child: CircularProgressIndicator(
-                                      color: Colors.white,
+                                      color: Colors.black, // Color blanco para el indicador de carga en la pantalla de inicio de la actividad
                                     ),
                                   )
                                 : Text(
@@ -370,8 +371,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                                         : _namtrikResult,
                                     style: TextStyle(
                                       color: _namtrikResult.isEmpty
-                                          ? Colors.white.withOpacity(0.7)
-                                          : Colors.white,
+                                          ? Colors.grey[700] // Color gris para el texto de resultado vacío en la pantalla de inicio
+                                          : Colors.black, // Color negro para el texto de resultado en la pantalla de inicio
                                       fontSize: 16,
                                     ),
                                   ),
@@ -435,16 +436,16 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
   }) {
     // Colores para los botones activos e inactivos
     final Color backgroundColor = isActive 
-        ? const Color(0xFF66BB6A) // Active green color
-        : const Color(0xFF66BB6A).withOpacity(0.5); // Dimmed green for inactive
+        ? const Color(0xFFFFFF00) // Color para botones activos en la pantalla de inicio
+        : const Color(0xFFFFFF00).withOpacity(0.5); // Color para botones inactivos en la pantalla de inicio
     
     final Color iconColor = isActive 
-        ? Colors.white // White for active
-        : Colors.white.withOpacity(0.5); // Dimmed white for inactive
+        ? Colors.black // Color negro para botones activos en la pantalla de inicio
+        : Colors.white.withOpacity(0.5); // Opacidad para botones inactivos en la pantalla de inicio
     
     // Especial color de los botones de reproducción (playing)
     final Color playingColor = isPlaying 
-        ? Colors.amber // Color amarillo para jugando de un botón
+        ? const Color(0xFF4CAF50) // Color 
         : iconColor;
     
     // Ajustes de tamaño y estilo según el tamaño de la pantalla

@@ -46,7 +46,7 @@ class Activity1Screen extends StatelessWidget {
               'Muntsik mɵik kɵtasha sɵl lau',
               style: AppTheme.activityTitleStyle,
             ),
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent, // Color de fondo transparente para el app bar
             elevation: 0,
           ),
           body: Container(
@@ -71,6 +71,7 @@ class Activity1Screen extends StatelessWidget {
     );
   }
 
+  // Construye un widget de tarjeta para un nivel de actividad
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
     final bool isLocked = level.isLocked;
     
@@ -78,7 +79,8 @@ class Activity1Screen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Card(
         elevation: 4,
-        color: isLocked ? Colors.grey[300] : Colors.green,
+        // Cambia el color de la tarjeta si el nivel está bloqueado o no
+        color: isLocked ? Colors.grey[300] : Color(0xFFD32F2F),
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -90,7 +92,8 @@ class Activity1Screen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: isLocked ? Colors.grey : Colors.green[700],
+                    // Cambia el color del círculo si el nivel está bloqueado o no
+                    color: isLocked ? Colors.grey : Color(0xFFFF0000),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -107,12 +110,14 @@ class Activity1Screen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      // Cambia el color del texto si el nivel está bloqueado o no
                       color: isLocked ? Colors.grey[600] : Colors.white,
                     ),
                   ),
                 ),
                 Icon(
                   isLocked ? Icons.lock : Icons.lock_open,
+                  // Cambia el color del icono si el nivel está bloqueado o no
                   color: isLocked ? Colors.grey[600] : Colors.white,
                 ),
               ],

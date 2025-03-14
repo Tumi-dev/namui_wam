@@ -46,7 +46,7 @@ class Activity2Screen extends StatelessWidget {
               'Muntsikelan pөram kusrekun',
               style: AppTheme.activityTitleStyle,
             ),
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent, // Color de fondo transparente para el app bar
             elevation: 0,
           ),
           body: Container(
@@ -78,7 +78,8 @@ class Activity2Screen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Card(
         elevation: 4,
-        color: isLocked ? Colors.grey[300] : Colors.green,
+        // Color de la tarjeta dependiendo si está bloqueada o no
+        color: isLocked ? Colors.grey[300] : Color(0xFF1976D2),
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -90,7 +91,8 @@ class Activity2Screen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: isLocked ? Colors.grey : Colors.green[700],
+                    // Cambia el color del círculo si el nivel está bloqueado o no
+                    color: isLocked ? Colors.grey : Color(0xFF00FFFF),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -107,12 +109,14 @@ class Activity2Screen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      // Cambia el color del texto si el nivel está bloqueado o no
                       color: isLocked ? Colors.grey[600] : Colors.white,
                     ),
                   ),
                 ),
                 Icon(
                   isLocked ? Icons.lock : Icons.lock_open,
+                  // Cambia el color del icono si el nivel está bloqueado o no
                   color: isLocked ? Colors.grey[600] : Colors.white,
                 ),
               ],

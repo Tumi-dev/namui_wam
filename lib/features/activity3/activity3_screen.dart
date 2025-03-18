@@ -294,7 +294,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                           const SizedBox(height: 8),
                           TextField(
                             controller: _numberController,
-                            style: const TextStyle(color: Colors.black), // Color negro para el texto del campo de texto 
+                            style: const TextStyle(color: Colors.white), // Color blanco para el texto del campo de texto 
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
@@ -362,7 +362,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             child: _isLoading
                                 ? const Center(
                                     child: CircularProgressIndicator(
-                                      color: Colors.black, // Color blanco para el indicador de carga en la pantalla de inicio de la actividad
+                                      color: Colors.white, // Color blanco para el indicador de carga en la pantalla de inicio de la actividad
                                     ),
                                   )
                                 : Text(
@@ -372,7 +372,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                                     style: TextStyle(
                                       color: _namtrikResult.isEmpty
                                           ? Colors.grey[700] // Color gris para el texto de resultado vacío en la pantalla de inicio
-                                          : Colors.black, // Color negro para el texto de resultado en la pantalla de inicio
+                                          : Colors.white, // Color blanco para el texto de resultado en la pantalla de inicio
                                       fontSize: 16,
                                     ),
                                   ),
@@ -440,12 +440,12 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
         : const Color(0xFFFFFF00).withOpacity(0.5); // Color para botones inactivos en la pantalla de inicio
     
     final Color iconColor = isActive 
-        ? Colors.black // Color negro para botones activos en la pantalla de inicio
+        ? Colors.white // Color blanco para botones activos en la pantalla de inicio
         : Colors.white.withOpacity(0.5); // Opacidad para botones inactivos en la pantalla de inicio
     
     // Especial color de los botones de reproducción (playing)
     final Color playingColor = isPlaying 
-        ? const Color(0xFF4CAF50) // Color 
+        ? const Color(0xFF4CAF50) // 
         : iconColor;
     
     // Ajustes de tamaño y estilo según el tamaño de la pantalla

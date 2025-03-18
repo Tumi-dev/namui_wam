@@ -45,6 +45,7 @@ class Activity5Screen extends StatelessWidget {
               'Anwan ashipelɵ kɵkun',
               style: AppTheme.activityTitleStyle,
             ),
+            // Color de fondo transparente y elevación 0 para la barra de la actividad 5 en desarrollo
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
@@ -60,6 +61,7 @@ class Activity5Screen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Icon(
                       Icons.attach_money,
+                      // Color de icono blanco para la actividad 5 en desarrollo
                       color: Colors.white,
                       size: 64,
                     ),
@@ -90,7 +92,8 @@ class Activity5Screen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Card(
         elevation: 4,
-        color: Colors.green,
+        // Color de fondo verde y texto blanco para la tarjeta del nivel
+        color: const Color(0xFF4CAF50),
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -102,7 +105,8 @@ class Activity5Screen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.green[700],
+                    // Forma circular para el número del nivel en la tarjeta
+                    color: const Color(0xFF00FF00),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -119,12 +123,14 @@ class Activity5Screen extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      // Color de texto blanco para la descripción del nivel
                       color: Colors.white,
                     ),
                   ),
                 ),
                 const Icon(
                   Icons.arrow_forward,
+                  // Color de la flecha blanca para la tarjeta del nivel
                   color: Colors.white,
                 ),
               ],

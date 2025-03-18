@@ -16,7 +16,8 @@ class Activity2LevelScreen extends BaseLevelScreen {
   State<Activity2LevelScreen> createState() => _Activity2LevelScreenState();
 }
 
-class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScreen> {
+class _Activity2LevelScreenState
+    extends BaseLevelScreenState<Activity2LevelScreen> {
   final _activity2Service = GetIt.instance<Activity2Service>();
   final TextEditingController _answerController = TextEditingController();
   Map<String, dynamic>? currentNumber;
@@ -45,10 +46,11 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
       setState(() {
         _isLoading = true;
       });
-      
+
       // Get a random number for this level using the Activity2Service
-      final randomNumber = await _activity2Service.getRandomNumberForLevel(widget.level.id);
-      
+      final randomNumber =
+          await _activity2Service.getRandomNumberForLevel(widget.level.id);
+
       if (!mounted) return;
 
       if (randomNumber == null || randomNumber.isEmpty) {
@@ -56,7 +58,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
           _isLoading = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No hay números disponibles para este nivel')),
+          const SnackBar(
+              content: Text('No hay números disponibles para este nivel')),
         );
         return;
       }
@@ -81,10 +84,11 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
       setState(() {
         _isLoading = true;
       });
-      
+
       // Get a random number for this level using the Activity2Service
-      final randomNumber = await _activity2Service.getRandomNumberForLevel(widget.level.id);
-      
+      final randomNumber =
+          await _activity2Service.getRandomNumberForLevel(widget.level.id);
+
       if (!mounted) return;
 
       if (randomNumber == null || randomNumber.isEmpty) {
@@ -92,7 +96,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
           _isLoading = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No hay números disponibles para este nivel')),
+          const SnackBar(
+              content: Text('No hay números disponibles para este nivel')),
         );
         return;
       }
@@ -115,7 +120,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
     if (currentNumber == null || _answerController.text.isEmpty) return;
 
     final userAnswer = _answerController.text.trim();
-    final bool isCorrect = _activity2Service.isAnswerCorrect(currentNumber!, userAnswer);
+    final bool isCorrect =
+        _activity2Service.isAnswerCorrect(currentNumber!, userAnswer);
 
     if (isCorrect) {
       _handleCorrectAnswer();
@@ -132,8 +138,9 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
     // Verificar si el nivel ya estaba completado
     final wasCompleted = gameState.isLevelCompleted(2, widget.level.id - 1);
 
+    // Actualizar el estado para mostrar que la respuesta es correcta y restablecer los intentos restantes
     if (!wasCompleted) {
-      // Añadir puntos solo si el nivel no estaba completado
+      // Añadir puntos solo si el nivel no estaba completado previamente y se agregaron puntos
       final pointsAdded = await gameState.addPoints(2, widget.level.id - 1, 5);
       if (pointsAdded) {
         activitiesState.completeLevel(2, widget.level.id - 1);
@@ -144,6 +151,7 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
         }
       }
 
+      // Mostrar diálogo de nivel completado si se agregaron puntos y no estaba completado
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -164,32 +172,37 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  widget.level.id < 7
-                      ? 'Has desbloqueado el siguiente nivel'
-                      : '¡Has completado el nivel!',
+                const Text(
+                  'Has desbloqueado el siguiente nivel',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 16),
                 Text(
                   '¡Ganaste 5 puntos!',
                   style: TextStyle(
-                    color: Colors.green.shade700,
+                    color: const Color(0xFF00FFFF),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
+                // Botón para continuar al siguiente nivel o salir
                 const SizedBox(height: 16),
-                TextButton(
+                ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context).pop(); // Volver al menú de niveles
+                    Navigator.of(context).pop();
                   },
-                  child: const Text(
-                    'Continuar',
-                    style: TextStyle(fontSize: 16),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF00FFFF),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
                   ),
+                  child: const Text('Continuar'),
                 ),
               ],
             ),
@@ -197,21 +210,56 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
         ),
       );
     } else {
+      if (!mounted) return;
+
       // Si el nivel ya estaba completado, mostrar un mensaje diferente
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('¡Correcto!'),
-          content: const Text('¡Muy bien! Has acertado nuevamente.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                selectRandomNumber(); // Mostrar nuevo número
-              },
-              child: const Text('Continuar'),
+        barrierDismissible: false,
+        builder: (context) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '¡Buen trabajo!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Ya has completado este nivel anteriormente.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+                // Espacio entre el mensaje y el botón de continuar al menú
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  // Botón de continuar al menú de actividad si el nivel ya estaba completado
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF00FFFF),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
+                  ),
+                  child: const Text('Continuar'),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
     }
@@ -228,7 +276,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
         barrierDismissible: false,
         builder: (context) => AlertDialog(
           title: const Text('¡Sin intentos!'),
-          content: const Text('Has agotado tus intentos. Volviendo al menú de actividad.'),
+          content: const Text(
+              'Has agotado tus intentos. Volviendo al menú de actividad.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -236,7 +285,7 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                foregroundColor: Colors.blue,
+                foregroundColor: const Color(0xFF1976D2),
               ),
               child: const Text('Aceptar'),
             ),
@@ -246,7 +295,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Respuesta incorrecta. Te quedan $remainingAttempts intentos.'),
+          content: Text(
+              'Respuesta incorrecta. Te quedan $remainingAttempts intentos.'),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -287,11 +337,14 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                   padding: const EdgeInsets.all(24),
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Colors.white, // Fondo blanco para el número actual
+                    // Fondo blanco para el número actual para que se destaque
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2), // Sombra suave para el número en blanco
+                        // Sombra suave para el número actual para que se destaque
+                        color: Colors.black.withOpacity(
+                            0.2),
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),
@@ -306,7 +359,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                     textAlign: TextAlign.center,
                   ),
                 ),
-                const SizedBox(height: 24),
+                // Espacio entre el número y el input de respuesta para que se vea mejor
+                const SizedBox(height: 16),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextField(
@@ -315,12 +369,13 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                       hintText: 'Escribe el número en namuiwam',
                       hintStyle: TextStyle(
                         // Cambiar el color del hint para que sea más visible
-                        color: Colors.white, // Color de texto blanco para el hint
+                        color:
+                            Colors.white, // Color de texto blanco para el hint
                         fontSize: 14,
                       ),
                       filled: true,
                       // Cambiar el color de fondo del input para que sea más visible y se destaque
-                      fillColor: const Color(0xFF1976D2), // 
+                      fillColor: const Color(0xFF1976D2), //
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -328,7 +383,8 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         // Cambiar el color del borde para que sea más visible
-                        borderSide: const BorderSide(color: Colors.white, width: 2),
+                        borderSide:
+                            const BorderSide(color: Colors.white, width: 2),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -336,32 +392,38 @@ class _Activity2LevelScreenState extends BaseLevelScreenState<Activity2LevelScre
                       ),
                     ),
                     style: const TextStyle(
-                      color: Colors.white, // Color de texto blanco para el input
+                      color:
+                          Colors.white, // Color de texto blanco para el input
                       fontSize: 16,
                     ),
                     textAlign: TextAlign.center,
-                    cursorColor: Colors.white, // Color del cursor blanco para el input
+                    cursorColor:
+                        Colors.white, // Color del cursor blanco para el input
                   ),
                 ),
+                // Espacio entre el input y el botón de validación
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: checkAnswer,
                   style: ElevatedButton.styleFrom(
                     // Cambiar el color de fondo del botón para que se destaque
-                    backgroundColor: const Color(0xFF00FFFF), // Color cyan para el botón de validación
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    backgroundColor: const Color(
+                        0xFF00FFFF), // Color aqua para el botón de validación
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    elevation: 3,
+                    elevation:
+                        5, // Añadir una sombra suave al botón para que se destaque
                   ),
                   child: const Text(
                     'Validar',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       // Cambiar el color del texto para que sea más visible
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),

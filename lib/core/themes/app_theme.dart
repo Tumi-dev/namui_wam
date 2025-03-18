@@ -68,7 +68,7 @@ class AppTheme {
 
   // Estilo para el número de nivel de la aplicación
   static const TextStyle levelNumberStyle = TextStyle(
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );

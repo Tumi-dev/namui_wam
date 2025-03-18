@@ -45,6 +45,7 @@ class Activity4Screen extends StatelessWidget {
               'Nɵsik utɵwan asam kusrekun',
               style: AppTheme.activityTitleStyle,
             ),
+            // Fondo transparente para la barra de la aplicación
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
@@ -60,7 +61,7 @@ class Activity4Screen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 20),
                     const Icon(
-                      Icons.access_time, // Ícono de tiempo
+                      Icons.access_time, // Ícono de tiempo de la actividad 4 en desarrollo
                       color: Colors.white,
                       size: 64,
                     ),
@@ -91,7 +92,8 @@ class Activity4Screen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Card(
         elevation: 4,
-        color: Colors.green,
+        // Color púrpura elegante para la tarjeta del nivel de la actividad 4
+        color: const Color(0xFF9C27B0),
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -103,7 +105,8 @@ class Activity4Screen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.green[700],
+                    // Color púrpura elegante para el círculo del número del nivel
+                    color: const Color(0xFFFF00FF),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -120,13 +123,13 @@ class Activity4Screen extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.white, // Color del texto de la descripción del nivel
                     ),
                   ),
                 ),
                 const Icon(
                   Icons.arrow_forward,
-                  color: Colors.white,
+                  color: Colors.white, // Color del ícono de flecha
                 ),
               ],
             ),

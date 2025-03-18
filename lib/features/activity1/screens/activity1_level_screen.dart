@@ -22,7 +22,8 @@ class Activity1LevelScreen extends BaseLevelScreen {
 
 // Clase para el estado de la pantalla de un nivel de la actividad 1
 class _Activity1LevelScreenState
-    extends BaseLevelScreenState<Activity1LevelScreen> with WidgetsBindingObserver {
+    extends BaseLevelScreenState<Activity1LevelScreen>
+    with WidgetsBindingObserver {
   NumberWord? currentNumber;
   List<int> numberOptions = [];
   final _feedbackService = GetIt.instance<FeedbackService>();
@@ -45,15 +46,16 @@ class _Activity1LevelScreenState
   void _initializeGame() async {
     isCorrectAnswerSelected = false;
     remainingAttempts = 3;
-    
+
     // Mostrar indicador de carga mientras se obtienen los datos
     setState(() {
       currentNumber = null;
       _isError = false;
     });
-    
+
     // Obtener un número aleatorio para el nivel actual
-    final number = await _activity1Service.getRandomNumberForLevel(widget.level.id);
+    final number =
+        await _activity1Service.getRandomNumberForLevel(widget.level.id);
     if (number == null) {
       if (mounted) {
         setState(() {
@@ -64,8 +66,9 @@ class _Activity1LevelScreenState
     }
 
     // Generar opciones para el número actual y mostrarlos
-    final options = await _activity1Service.generateOptionsForLevel(widget.level.id, number.number);
-    
+    final options = await _activity1Service.generateOptionsForLevel(
+        widget.level.id, number.number);
+
     // Actualizar el estado con el número y las opciones generadas
     if (mounted) {
       setState(() {
@@ -88,7 +91,7 @@ class _Activity1LevelScreenState
   Future<void> _playAudio() async {
     if (isPlayingAudio || currentNumber == null) return;
 
-    // Reproducir audio del número actual en namtrik y manejar errores  
+    // Reproducir audio del número actual en namtrik y manejar errores
     try {
       setState(() {
         isPlayingAudio = true;
@@ -96,7 +99,7 @@ class _Activity1LevelScreenState
 
       // Reproducir audio y vibrar al mismo tiempo para retroalimentación
       await _feedbackService.lightHapticFeedback();
-      if(currentNumber != null){
+      if (currentNumber != null) {
         await _activity1Service.playAudioForNumber(currentNumber!);
       }
 
@@ -152,6 +155,7 @@ class _Activity1LevelScreenState
 
     // Verificar si el nivel se ha completado y agregar puntos si es necesario
     if (!wasCompleted) {
+      // Agregar puntos al estado global y marcar el nivel como completado si es necesario
       final pointsAdded = await gameState.addPoints(1, widget.level.id - 1, 5);
       if (pointsAdded) {
         activitiesState.completeLevel(1, widget.level.id - 1);
@@ -162,7 +166,7 @@ class _Activity1LevelScreenState
         }
       }
 
-      // Mostrar diálogo de nivel completado si se agregaron puntos
+      // Mostrar diálogo de nivel completado si se agregaron puntos y continuar al siguiente nivel
       if (!mounted) return;
 
       // Mostrar diálogo de nivel completado si se agregaron puntos
@@ -195,25 +199,28 @@ class _Activity1LevelScreenState
                 Text(
                   '¡Ganaste 5 puntos!',
                   style: TextStyle(
-                    color: Colors.green.shade700,
+                    color: const Color(0xFFFF0000),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
                 // Botón para continuar al siguiente nivel o salir
                 const SizedBox(height: 16),
-                TextButton(
+                ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.blue,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFF0000),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
                   ),
-                  child: const Text(
-                    'Continuar',
-                    style: TextStyle(fontSize: 16),
-                  ),
+                  child: const Text('Continuar'),
                 ),
               ],
             ),
@@ -222,53 +229,75 @@ class _Activity1LevelScreenState
       );
     } else {
       if (!mounted) return;
-      
+
       // Mostrar diálogo de respuesta correcta si el nivel ya estaba completado
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('¡Correcto!'),
-          content: const Text('¡Muy bien! Has acertado nuevamente.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _initializeGame();
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.blue,
-              ),
-              child: const Text('Continuar'),
+        barrierDismissible: false,
+        builder: (context) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '¡Buen trabajo!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Ya has completado este nivel anteriormente.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+                // Espacio entre el mensaje y el botón de continuar al menú
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  // Botón de continuar al menú de actividad si el nivel ya estaba completado
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFF0000),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
+                  ),
+                  child: const Text('Continuar'),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
     }
   }
 
-  // Maneja la respuesta incorrecta del usuario y actualiza el estado del juego
-  void _handleIncorrectAnswer() async {
-    if (!mounted) return;
-
-    // Vibrar y mostrar un mensaje de error antes de actualizar el estado
-    await _feedbackService.lightHapticFeedback();
-    
-    // Actualizar el estado después de la vibración y mostrar un mensaje de error
+  // 
+  void _handleIncorrectAnswer() {
     setState(() {
       remainingAttempts--;
     });
-
-    // Mostrar diálogo de respuesta incorrecta si se agotan los intentos restantes
+    // Actualizar el estado para mostrar que la respuesta es incorrecta y vibrar al mismo tiempo
     if (remainingAttempts <= 0) {
-      if (!mounted) return;
-      
-      // Mostrar diálogo de respuesta incorrecta si se agotan los intentos
+      // Mostrar diálogo de sin intentos si el usuario ha agotado los intentos y volver al menú de actividad 1
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
           title: const Text('¡Sin intentos!'),
-          content: const Text('Has agotado tus intentos. Volviendo al menú de actividad.'),
+          content: const Text(
+              'Has agotado tus intentos. Volviendo al menú de actividad.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -276,7 +305,7 @@ class _Activity1LevelScreenState
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                foregroundColor: Colors.blue,
+                foregroundColor: const Color(0xFFD32F2F),
               ),
               child: const Text('Aceptar'),
             ),
@@ -284,9 +313,11 @@ class _Activity1LevelScreenState
         ),
       );
     } else {
+      // Mostrar mensaje de respuesta incorrecta y actualizar los intentos restantes
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Respuesta incorrecta. Te quedan $remainingAttempts intentos.'),
+          content: Text(
+              'Respuesta incorrecta. Te quedan $remainingAttempts intentos.'),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -351,7 +382,8 @@ class _Activity1LevelScreenState
         children: [
           InfoBar(
             remainingAttempts: remainingAttempts,
-            margin: const EdgeInsets.only(bottom: 24, left: 16, right: 16, top: 8),
+            margin:
+                const EdgeInsets.only(bottom: 24, left: 16, right: 16, top: 8),
           ),
           // Contenedor del número en namtrik con botón de audio
           Expanded(
@@ -367,12 +399,14 @@ class _Activity1LevelScreenState
                     margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Color(0xFFD32F2F), // Color de fondo del número en namtrik
+                      color: Color(
+                          0xFFD32F2F), // Color de fondo del número en namtrik
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         // Sombra para el contenedor del número en namtrik
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.3), // Color de la sombra del número en namtrik
+                          color: Colors.black.withOpacity(
+                              0.3), // Color de la sombra del número en namtrik
                           blurRadius: 10,
                           offset: const Offset(0, 5),
                         ),
@@ -385,9 +419,12 @@ class _Activity1LevelScreenState
                         LayoutBuilder(
                           builder: (context, constraints) {
                             // Calcular el tamaño base según el nivel actual
-                            double baseFontSize = widget.level.id <= 2 ? 48.0 : 
-                                                widget.level.id <= 4 ? 40.0 : 36.0;
-                            
+                            double baseFontSize = widget.level.id <= 2
+                                ? 48.0
+                                : widget.level.id <= 4
+                                    ? 40.0
+                                    : 36.0;
+
                             // Ajustar el tamaño base según el ancho disponible y el tamaño mínimo
                             return SizedBox(
                               width: constraints.maxWidth,
@@ -397,12 +434,14 @@ class _Activity1LevelScreenState
                                 style: TextStyle(
                                   fontSize: baseFontSize,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white, // Color del texto del número en namtrik
+                                  color: Colors
+                                      .white, // Color del texto del número en namtrik
                                   height: 1.3,
                                   letterSpacing: 1,
                                   shadows: const [
                                     Shadow(
-                                      color: Colors.black26, // Color de la sombra del texto del número en namtrik
+                                      color: Colors
+                                          .black26, // Color de la sombra del texto del número en namtrik
                                       offset: Offset(2, 2),
                                       blurRadius: 4,
                                     ),
@@ -416,7 +455,8 @@ class _Activity1LevelScreenState
                         const SizedBox(height: 16),
                         // Botón de audio mejorado para el número en namtrik
                         Material(
-                          color: Colors.white24, // Color de fondo del botón de audio del número en namtrik
+                          color: Colors
+                              .white24, // Color de fondo del botón de audio del número en namtrik
                           borderRadius: BorderRadius.circular(50),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(50),
@@ -430,7 +470,8 @@ class _Activity1LevelScreenState
                                     isPlayingAudio
                                         ? Icons.volume_up
                                         : Icons.volume_up_outlined,
-                                    color: Colors.white, // Color del icono de audio del número en namtrik
+                                    color: Colors
+                                        .white, // Color del icono de audio del número en namtrik
                                     size: 28,
                                   ),
                                   // Texto para el botón de audio del número en namtrik
@@ -438,7 +479,8 @@ class _Activity1LevelScreenState
                                   Text(
                                     'Escuchar',
                                     style: TextStyle(
-                                      color: Colors.white, // Color del texto del botón de audio del número en namtrik
+                                      color: Colors
+                                          .white, // Color del texto del botón de audio del número en namtrik
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -469,11 +511,13 @@ class _Activity1LevelScreenState
                           // Contenedor con la opción seleccionada por el usuario y su número
                           return Container(
                             decoration: BoxDecoration(
-                              color: Colors.white, // Color de fondo de la opción seleccionada por el usuario
+                              color: Colors
+                                  .white, // Color de fondo de la opción seleccionada por el usuario
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), // Color de la sombra de la opción seleccionada por el usuario
+                                  color: Colors.black.withOpacity(
+                                      0.1), // Color de la sombra de la opción seleccionada por el usuario
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 ),
@@ -481,7 +525,8 @@ class _Activity1LevelScreenState
                             ),
                             // Material con tinta para la opción seleccionada por el usuario
                             child: Material(
-                              color: Colors.transparent, // Color de fondo del material de la opción seleccionada por el usuario
+                              color: Colors
+                                  .transparent, // Color de fondo del material de la opción seleccionada por el usuario
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(15),
                                 onTap: isCorrectAnswerSelected
@@ -495,8 +540,10 @@ class _Activity1LevelScreenState
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
                                       color: isCorrectAnswerSelected
-                                          ? Colors.grey // Color del texto de la opción seleccionada por el usuario
-                                          : Colors.black87, // Color del texto de la opción seleccionada por el usuario
+                                          ? Colors
+                                              .grey // Color del texto de la opción seleccionada por el usuario
+                                          : Colors
+                                              .black87, // Color del texto de la opción seleccionada por el usuario
                                     ),
                                   ),
                                 ),

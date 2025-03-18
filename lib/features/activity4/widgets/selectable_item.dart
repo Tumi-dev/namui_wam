@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Estados de selección de un item en la actividad
 enum SelectionState {
   unselected,
   selected,
@@ -7,6 +8,7 @@ enum SelectionState {
   error,
 }
 
+// Widget que representa un item seleccionable
 class SelectableItem extends StatelessWidget {
   final String id;
   final Widget child;
@@ -15,6 +17,7 @@ class SelectableItem extends StatelessWidget {
   final VoidCallback onTap;
   final bool isEnabled;
 
+  // Constructor del widget SelectableItem
   const SelectableItem({
     super.key,
     required this.id,
@@ -25,6 +28,7 @@ class SelectableItem extends StatelessWidget {
     this.isEnabled = true,
   });
 
+  // Método para construir el widget SelectableItem
   @override
   Widget build(BuildContext context) {
     // Definir colores y bordes según el estado
@@ -33,33 +37,39 @@ class SelectableItem extends StatelessWidget {
     double borderWidth;
     double elevation;
 
+    // Definir colores y bordes según el estado del item
     switch (state) {
+      // Si el estado es unselected (no seleccionado) se muestra con un borde transparente
       case SelectionState.unselected:
-        backgroundColor = isImage ? Colors.transparent : Colors.green.shade700;
+        backgroundColor = isImage ? Colors.transparent : Colors.transparent;
         borderColor = Colors.transparent;
         borderWidth = 2.0;
         elevation = 2.0;
         break;
+      // Si el estado es selected (seleccionado) se muestra con un borde azul
       case SelectionState.selected:
-        backgroundColor = isImage ? Colors.transparent : Colors.green.shade700;
+        backgroundColor = isImage ? const Color(0xFFFF00FF) : const Color(0xFFFF00FF);
         borderColor = Colors.blue;
         borderWidth = 3.0;
         elevation = 4.0;
         break;
+      // Si el estado es matched (coincide con otro item) se muestra con un borde amarillo
       case SelectionState.matched:
-        backgroundColor = isImage ? Colors.transparent : Colors.green.shade700;
+        backgroundColor = isImage ? const Color(0xFF9C27B0) : const Color(0xFF9C27B0);
         borderColor = Colors.amber;
         borderWidth = 3.0;
         elevation = 4.0;
         break;
+      // Si el estado es error (no coincide con otro item) se muestra con un borde rojo
       case SelectionState.error:
-        backgroundColor = isImage ? Colors.transparent : Colors.green.shade700;
+        backgroundColor = isImage ? const Color(0xFF00FF00) : const Color(0xFF00FF00);
         borderColor = Colors.red;
         borderWidth = 3.0;
         elevation = 4.0;
         break;
     }
 
+    // Retornar el widget con la animación de la selección
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.all(8.0),

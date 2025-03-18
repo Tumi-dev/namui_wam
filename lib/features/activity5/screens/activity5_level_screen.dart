@@ -107,7 +107,7 @@ class _Activity5LevelScreenState extends BaseLevelScreenState<Activity5LevelScre
                 Text(
                   '¡Ganaste 5 puntos!',
                   style: TextStyle(
-                    color: Colors.green.shade700,
+                    color: const Color(0xFF00FF00),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -119,7 +119,8 @@ class _Activity5LevelScreenState extends BaseLevelScreenState<Activity5LevelScre
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade700,
+                    // Color de fondo lima y texto blanco para el botón de continuar
+                    backgroundColor: const Color(0xFF00FF00),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -169,7 +170,8 @@ class _Activity5LevelScreenState extends BaseLevelScreenState<Activity5LevelScre
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade700,
+                    // Color de fondo lima y texto blanco para el botón de continuar
+                    backgroundColor: const Color(0xFF00FF00),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -207,7 +209,8 @@ class _Activity5LevelScreenState extends BaseLevelScreenState<Activity5LevelScre
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                foregroundColor: Colors.blue,
+                // Color de texto verde fresco para el botón de aceptar
+                foregroundColor: const Color(0xFF4CAF50),
               ),
               child: const Text('Aceptar'),
             ),

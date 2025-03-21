@@ -5,7 +5,7 @@ import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/core/models/level_model.dart';
 import 'package:namui_wam/features/activity4/screens/activity4_level_screen.dart';
 
-// Clase para la pantalla de la actividad 4 en desarrollo
+// Clase para la pantalla de la actividad 4
 class Activity4Screen extends StatelessWidget {
   const Activity4Screen({super.key});
 
@@ -14,7 +14,7 @@ class Activity4Screen extends StatelessWidget {
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
-  // Navega hacia la pantalla de un nivel de la actividad 4 en desarrollo al seleccionar un nivel
+  // Navega hacia la pantalla de un nivel de la actividad 4 al seleccionar un nivel
   void _onLevelSelected(BuildContext context, LevelModel level) {
     // Navegar a la pantalla del nivel seleccionado de la actividad 4
     Navigator.push(
@@ -25,7 +25,7 @@ class Activity4Screen extends StatelessWidget {
     );
   }
 
-  // Construye la pantalla de la actividad 4 en desarrollo con los niveles disponibles
+  // Construye la pantalla de la actividad 4 con los niveles disponibles
   @override
   Widget build(BuildContext context) {
     return Consumer<ActivitiesState>(
@@ -33,7 +33,7 @@ class Activity4Screen extends StatelessWidget {
         final activity4 = activitiesState.getActivity(4);
         if (activity4 == null) return const SizedBox.shrink();
 
-        // Construir la pantalla de la actividad 4 en desarrollo con los niveles disponibles
+        // Construir la pantalla de la actividad 4 con los niveles disponibles
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -61,7 +61,7 @@ class Activity4Screen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 20),
                     const Icon(
-                      Icons.access_time, // Ícono de tiempo de la actividad 4 en desarrollo
+                      Icons.access_time, // Ícono de tiempo de la actividad 4
                       color: Colors.white,
                       size: 64,
                     ),
@@ -85,9 +85,9 @@ class Activity4Screen extends StatelessWidget {
     );
   }
 
-  // Construye una tarjeta para un nivel de la actividad 4 en desarrollo
+  // Construye una tarjeta para un nivel de la actividad 4
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
-    // Construir una tarjeta para un nivel de la actividad 4 en desarrollo
+    // Construir una tarjeta para un nivel de la actividad 4
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Card(

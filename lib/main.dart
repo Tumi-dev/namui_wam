@@ -28,6 +28,52 @@ void main() async {
   runApp(const MainApp());
 }
 
+/// Sincroniza el estado del juego guardado con el estado de las actividades
+/// Restaura los niveles completados y desbloqueados basado en GameState
+Future<void> syncGameStateWithActivities(ActivitiesState activitiesState, GameState gameState) async {
+  // Esperar a que GameState termine de cargar sus datos
+  await Future.delayed(const Duration(milliseconds: 500));
+  
+  final logger = getIt<LoggerService>();
+  logger.info('Iniciando sincronización de estados guardados');
+  
+  // Para cada actividad
+  for (var activityId = 1; activityId <= 6; activityId++) {
+    var activity = activitiesState.getActivity(activityId);
+    if (activity == null) continue;
+    
+    // Ignorar actividades especiales que tienen todos los niveles desbloqueados
+    if (activityId == 4 || activityId == 5) continue;
+    
+    // Para cada nivel en la actividad
+    for (var levelId = 0; levelId < activity.availableLevels.length; levelId++) {
+      // Si está completado en GameState, marcarlo como completado
+      if (gameState.isLevelCompleted(activityId, levelId)) {
+        logger.info('Restaurando nivel completado: Actividad $activityId, Nivel $levelId');
+        activity.completeLevel(levelId);
+      }
+    }
+    
+    // Verificar si hay niveles que deberían estar desbloqueados pero no completados
+    // Por ejemplo, si el nivel 1 y 2 están completados, el nivel 3 debe estar desbloqueado
+    for (var levelId = 0; levelId < activity.availableLevels.length; levelId++) {
+      var level = activity.getLevel(levelId);
+      if (level == null) continue;
+      
+      // Si el nivel anterior está completado pero este nivel está bloqueado, desbloquearlo
+      if (levelId > 0) {
+        var prevLevel = activity.getLevel(levelId - 1);
+        if (prevLevel != null && prevLevel.isCompleted && level.isLocked) {
+          logger.info('Desbloqueando nivel siguiente: Actividad $activityId, Nivel $levelId');
+          level.unlockLevel();
+        }
+      }
+    }
+  }
+  
+  logger.info('Sincronización de estados completada');
+}
+
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
@@ -47,6 +93,11 @@ class MainApp extends StatelessWidget {
     for (int i = 6; i <= 6; i++) {
       activitiesState.addActivity(ActivityLevels(activityId: i, levels: []));
     }
+    
+    // Sincronizar estado después de inicialización
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      syncGameStateWithActivities(activitiesState, gameState);
+    });
 
     return MultiProvider(
       providers: [

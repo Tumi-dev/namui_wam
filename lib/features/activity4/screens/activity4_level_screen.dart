@@ -516,16 +516,11 @@ class _Activity4LevelScreenState
   @override
   Widget buildLevelContent() {
     if (_isLoading) {
-      return const SizedBox(
-        height: 300,
-        child: Center(
-          // Mostrar un círculo de progreso blanco mientras se cargan los datos del nivel
-          child: CircularProgressIndicator(color: Colors.white),
-        ),
+      return const Center(
+        child: CircularProgressIndicator(),
       );
     }
 
-    // Construir contenido específico para cada nivel
     if (widget.level.id == 1) {
       return Column(
         children: [
@@ -567,10 +562,9 @@ class _Activity4LevelScreenState
             height: 300,
             child: Center(
               child: Text(
-                'Nivel ${widget.level.id} - En desarrollo',
+                'Nivel ${widget.level.id}',
                 style: const TextStyle(
-                  color:
-                      Colors.white, // Color del texto del nivel en desarrollo
+                  color: Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -1053,7 +1047,7 @@ class _Activity4LevelScreenState
         // Espacio adicional con el botón de confirmar la hora seleccionada nivel 3
         const SizedBox(height: 16),
 
-        // Botón de confirmar la hora seleccionada
+        // Botón de confirmar la hora seleccionada nivel 3
         ElevatedButton(
           onPressed: _checkTimeCorrect,
           style: ElevatedButton.styleFrom(

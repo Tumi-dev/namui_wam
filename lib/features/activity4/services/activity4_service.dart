@@ -21,7 +21,6 @@ class Activity4Service {
     return {
       'levelId': level.id,
       'description': level.description,
-      'status': 'En desarrollo',
     };
   }
 

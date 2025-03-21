@@ -55,11 +55,14 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Es el override de la clase StatelessWidget para build
+  // Es el override de la clase StatelessWidget para build el widget
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final logoSize = screenSize.width * 0.2; // 20% del ancho de la pantalla de home
+    // Calculamos el tamaño del logo como un porcentaje del ancho de la pantalla
+    // Esto permite que el logo se ajuste automáticamente a diferentes tamaños de pantalla
+    // y proporcione una experiencia de usuario más consistente.
+    final logoSize = screenSize.width * 0.3; //  30% del ancho de la pantalla
 
     // Es el cuerpo de la pantalla home
     return Scaffold(
@@ -81,24 +84,31 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // Logo adaptable a la pantalla home
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20), // 20% de la altura de la pantalla de home
-                child: Image.asset(
-                  'assets/images/1.logo-colibri.png',
-                  height: logoSize,
-                  width: logoSize,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              // Lista de botones de actividades
+              // Colocamos todo el contenido en un único ListView para que todo sea scrollable
               Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return _buildActivityButton(context, index + 1);
-                  },
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  children: [
+                    // Logo adaptable a la pantalla home (ahora dentro del ListView)
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Image.asset(
+                          'assets/images/1.logo-colibri.png',
+                          height: logoSize,
+                          width: logoSize,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    // Botones de actividades
+                    ...List.generate(
+                      6,
+                      (index) => _buildActivityButton(context, index + 1),
+                    ),
+                    // Espacio adicional al final para mejor UX
+                    const SizedBox(height: 16),
+                  ],
                 ),
               ),
             ],
@@ -128,7 +138,7 @@ class HomeScreen extends StatelessWidget {
           onPressed: () => _navigateToActivity(context, activityNumber),
           child: Row(
             children: [
-              // Número estilizado con un fondo
+              // Número estilizado con un fondo de color y un círculo
               Container(
                 width: 40,
                 height: 40,

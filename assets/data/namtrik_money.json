@@ -7,7 +7,7 @@
                     "50_1.png",
                     "50_2.png"
                 ],
-                "money_namtrik": "Trattrøtsi",
+                "money_namtrik": "Trattrɵtsi",
                 "audios_namtrik": "trattrø.wav tsi.wav"
             },
             {
@@ -34,7 +34,7 @@
                     "500_1.png",
                     "500_2.png"
                 ],
-                "money_namtrik": "Trattrøsrel",
+                "money_namtrik": "Trattrɵsrel",
                 "audios_namtrik": "trattrø.wav srel.wav"
             },
             {
@@ -49,7 +49,8 @@
             {
                 "number": 6,
                 "money_images": [
-                    "2000.jpg"
+                    "2000_1.jpg",
+                    "2000_2.jpg"
                 ],
                 "money_namtrik": "Paishik",
                 "audios_namtrik": "pa.wav ishik.wav"
@@ -57,15 +58,17 @@
             {
                 "number": 7,
                 "money_images": [
-                    "5000.jpg"
+                    "5000_1.jpg",
+                    "5000_2.jpg"
                 ],
-                "money_namtrik": "Trattrøishik",
+                "money_namtrik": "Trattrɵishik",
                 "audios_namtrik": "trattrø.wav ishik.wav"
             },
             {
                 "number": 8,
                 "money_images": [
-                    "10000.jpg"
+                    "10000_1.jpg",
+                    "10000_2.jpg"
                 ],
                 "money_namtrik": "Kantsiishik",
                 "audios_namtrik": "kan.wav tsi.wav ishik.wav"
@@ -73,7 +76,8 @@
             {
                 "number": 9,
                 "money_images": [
-                    "20000.jpg"
+                    "20000_1.jpg",
+                    "20000_2.jpg"
                 ],
                 "money_namtrik": "Patsiishik",
                 "audios_namtrik": "pa.wav tsi.wav ishik.wav"
@@ -81,15 +85,17 @@
             {
                 "number": 10,
                 "money_images": [
-                    "50000.jpg"
+                    "50000_1.jpg",
+                    "50000_2.jpg"
                 ],
-                "money_namtrik": "Trattrøtsiishik",
+                "money_namtrik": "Trattrɵtsiishik",
                 "audios_namtrik": "trattrø.wav tsi.wav ishik.wav"
             },
             {
                 "number": 11,
                 "money_images": [
-                    "100000.jpg"
+                    "100000_1.jpg",
+                    "100000_2.jpg"
                 ],
                 "money_namtrik": "Kansrelishik",
                 "audios_namtrik": "kan.wav srel.wav ishik.wav"

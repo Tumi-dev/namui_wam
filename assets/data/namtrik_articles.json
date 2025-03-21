@@ -1,0 +1,1238 @@
+{
+    "articles": {
+        "namui_wam": [
+            {
+                "number": 1,
+                "image_articles": "article_1.png",
+                "price_articles": 44000,
+                "name_price_namtrik": "Piptsi Pipishik",
+                "number_money_images": [
+                    9,
+                    9,
+                    6,
+                    6
+                ]
+            },
+            {
+                "number": 2,
+                "image_articles": "article_2.png",
+                "price_articles": 66000,
+                "name_price_namtrik": "Trattrɵkantsi Trattrɵkanishik",
+                "number_money_images": [
+                    10,
+                    8,
+                    7,
+                    5
+                ]
+            },
+            {
+                "number": 3,
+                "image_articles": "article_3.png",
+                "price_articles": 75500,
+                "name_price_namtrik": "Trattrɵpatsi Trattrɵishik Trattrɵsrel",
+                "number_money_images": [
+                    10,
+                    9,
+                    7,
+                    4
+                ]
+            },
+            {
+                "number": 4,
+                "image_articles": "article_4.png",
+                "price_articles": 58000,
+                "name_price_namtrik": "Trattrɵtsi Trattrɵpɵnishik",
+                "number_money_images": [
+                    10,
+                    7,
+                    6,
+                    5
+                ]
+            },
+            {
+                "number": 5,
+                "image_articles": "article_5.png",
+                "price_articles": 86000,
+                "name_price_namtrik": "Trattrɵpɵntsi Trattrɵkanishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    8,
+                    5
+                ]
+            },
+            {
+                "number": 6,
+                "image_articles": "article_6.png",
+                "price_articles": 57000,
+                "name_price_namtrik": "Trattrɵtsi Trattrɵpaishik",
+                "number_money_images": [
+                    10,
+                    7,
+                    5,
+                    5
+                ]
+            },
+            {
+                "number": 7,
+                "image_articles": "article_7.png",
+                "price_articles": 112000,
+                "name_price_namtrik": "Kansrel Kantsipaishik",
+                "number_money_images": [
+                    11,
+                    7,
+                    7,
+                    6
+                ]
+            },
+            {
+                "number": 8,
+                "image_articles": "article_8.png",
+                "price_articles": 64000,
+                "name_price_namtrik": "Trattrɵkantsi Pipishik",
+                "number_money_images": [
+                    10,
+                    8,
+                    6,
+                    6
+                ]
+            },
+            {
+                "number": 9,
+                "image_articles": "article_9.png",
+                "price_articles": 47000,
+                "name_price_namtrik": "Piptsi Trattrɵpaishik",
+                "number_money_images": [
+                    9,
+                    9,
+                    7,
+                    6
+                ]
+            },
+            {
+                "number": 10,
+                "image_articles": "article_10.png",
+                "price_articles": 36000,
+                "name_price_namtrik": "Pɵntsi Trattrɵkanishik",
+                "number_money_images": [
+                    9,
+                    8,
+                    7,
+                    5
+                ]
+            },
+            {
+                "number": 11,
+                "image_articles": "article_11.png",
+                "price_articles": 90000,
+                "name_price_namtrik": "Trattrɵpiptsiishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    9
+                ]
+            },
+            {
+                "number": 12,
+                "image_articles": "article_12.png",
+                "price_articles": 95000,
+                "name_price_namtrik": "Trattrɵpiptsi Trattrɵishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    9,
+                    7
+                ]
+            },
+            {
+                "number": 13,
+                "image_articles": "article_13.png",
+                "price_articles": 42500,
+                "name_price_namtrik": "Piptsi Paishik Trattrɵsrel",
+                "number_money_images": [
+                    9,
+                    9,
+                    6,
+                    4
+                ]
+            },
+            {
+                "number": 14,
+                "image_articles": "article_14.png",
+                "price_articles": 37000,
+                "name_price_namtrik": "Pɵntsi Trattrɵpaishik",
+                "number_money_images": [
+                    9,
+                    8,
+                    7,
+                    6
+                ]
+            },
+            {
+                "number": 15,
+                "image_articles": "article_15.png",
+                "price_articles": 53200,
+                "name_price_namtrik": "Trattrɵtsi pɵnishik Pasrel",
+                "number_money_images": [
+                    10,
+                    6,
+                    5,
+                    3
+                ]
+            },
+            {
+                "number": 16,
+                "image_articles": "article_16.png",
+                "price_articles": 62000,
+                "name_price_namtrik": "Trattrɵkantsi Paishik",
+                "number_money_images": [
+                    10,
+                    8,
+                    5,
+                    5
+                ]
+            },
+            {
+                "number": 17,
+                "image_articles": "article_17.png",
+                "price_articles": 67000,
+                "name_price_namtrik": "Trattrɵkantsi Trattrɵpaishik",
+                "number_money_images": [
+                    10,
+                    8,
+                    7,
+                    6
+                ]
+            },
+            {
+                "number": 18,
+                "image_articles": "article_18.png",
+                "price_articles": 71500,
+                "name_price_namtrik": "Trattrɵpatsi kanishik Trattrɵsrel",
+                "number_money_images": [
+                    10,
+                    9,
+                    5,
+                    4
+                ]
+            },
+            {
+                "number": 19,
+                "image_articles": "article_19.png",
+                "price_articles": 65000,
+                "name_price_namtrik": "Trattrɵkantsi Trattrɵishik",
+                "number_money_images": [
+                    10,
+                    8,
+                    6,
+                    6,
+                    5
+                ]
+            },
+            {
+                "number": 20,
+                "image_articles": "article_20.png",
+                "price_articles": 115000,
+                "name_price_namtrik": "Kansrel Kantsitrattrɵishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    8,
+                    7
+                ]
+            },
+            {
+                "number": 21,
+                "image_articles": "article_21.png",
+                "price_articles": 63000,
+                "name_price_namtrik": "Trattrɵkantsi pɵnishik",
+                "number_money_images": [
+                    10,
+                    8,
+                    6,
+                    5
+                ]
+            },
+            {
+                "number": 22,
+                "image_articles": "article_22.png",
+                "price_articles": 60300,
+                "name_price_namtrik": "Trattrɵkantsiishik Pɵnsrel",
+                "number_money_images": [
+                    10,
+                    8,
+                    3,
+                    2
+                ]
+            },
+            {
+                "number": 23,
+                "image_articles": "article_23.png",
+                "price_articles": 60700,
+                "name_price_namtrik": "Trattrɵkantsiishik Trattrɵpasrel",
+                "number_money_images": [
+                    10,
+                    8,
+                    4,
+                    3
+                ]
+            },
+            {
+                "number": 24,
+                "image_articles": "article_24.png",
+                "price_articles": 225000,
+                "name_price_namtrik": "Pasrel Patsitrattrɵishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    9,
+                    7
+                ]
+            },
+            {
+                "number": 25,
+                "image_articles": "article_25.png",
+                "price_articles": 82000,
+                "name_price_namtrik": "Trattrɵpɵntsi Paishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    8,
+                    5,
+                    5
+                ]
+            },
+            {
+                "number": 26,
+                "image_articles": "article_26.png",
+                "price_articles": 60600,
+                "name_price_namtrik": "Trattrɵkantsiishik Trattrɵkansrel",
+                "number_money_images": [
+                    10,
+                    8,
+                    4,
+                    2
+                ]
+            },
+            {
+                "number": 27,
+                "image_articles": "article_27.png",
+                "price_articles": 51500,
+                "name_price_namtrik": "Trattrɵtsi kanishik Trattrɵsrel",
+                "number_money_images": [
+                    9,
+                    9,
+                    8,
+                    5,
+                    4
+                ]
+            },
+            {
+                "number": 28,
+                "image_articles": "article_28.png",
+                "price_articles": 40500,
+                "name_price_namtrik": "Piptsiishik Trattrɵsrel",
+                "number_money_images": [
+                    9,
+                    9,
+                    3,
+                    3,
+                    2
+                ]
+            },
+            {
+                "number": 29,
+                "image_articles": "article_29.png",
+                "price_articles": 80500,
+                "name_price_namtrik": "Trattrɵpɵntsiishik Trattrɵsrel",
+                "number_money_images": [
+                    10,
+                    9,
+                    8,
+                    4
+                ]
+            },
+            {
+                "number": 30,
+                "image_articles": "article_30.png",
+                "price_articles": 50900,
+                "name_price_namtrik": "Trattrɵtsiishik Trattrɵpipsrel",
+                "number_money_images": [
+                    10,
+                    4,
+                    3,
+                    3
+                ]
+            },
+            {
+                "number": 31,
+                "image_articles": "article_31.png",
+                "price_articles": 106000,
+                "name_price_namtrik": "Kansrel Trattrɵkanishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    7,
+                    5
+                ]
+            },
+            {
+                "number": 32,
+                "image_articles": "article_32.png",
+                "price_articles": 93000,
+                "name_price_namtrik": "Trattrɵpiptsi pɵnishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    9,
+                    6,
+                    5
+                ]
+            },
+            {
+                "number": 33,
+                "image_articles": "article_33.png",
+                "price_articles": 62500,
+                "name_price_namtrik": "Trattrɵkantsi Paishik Trattrɵsrel",
+                "number_money_images": [
+                    10,
+                    8,
+                    6,
+                    4
+                ]
+            },
+            {
+                "number": 34,
+                "image_articles": "article_34.png",
+                "price_articles": 91500,
+                "name_price_namtrik": "Trattrɵpiptsi kanishik Trattrɵsrel",
+                "number_money_images": [
+                    10,
+                    9,
+                    9,
+                    5,
+                    4
+                ]
+            },
+            {
+                "number": 35,
+                "image_articles": "article_35.png",
+                "price_articles": 95000,
+                "name_price_namtrik": "Trattrɵpiptsi Trattrɵishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    9,
+                    7
+                ]
+            },
+            {
+                "number": 36,
+                "image_articles": "article_36.png",
+                "price_articles": 54000,
+                "name_price_namtrik": "Trattrɵtsi Pipishik",
+                "number_money_images": [
+                    10,
+                    6,
+                    6
+                ]
+            },
+            {
+                "number": 37,
+                "image_articles": "article_37.png",
+                "price_articles": 180000,
+                "name_price_namtrik": "Kansrel Trattrɵpɵntsiishik",
+                "number_money_images": [
+                    11,
+                    10,
+                    9,
+                    8
+                ]
+            },
+            {
+                "number": 38,
+                "image_articles": "article_38.png",
+                "price_articles": 170000,
+                "name_price_namtrik": "Kansrel Trattrɵpatsiishik",
+                "number_money_images": [
+                    11,
+                    10,
+                    9
+                ]
+            },
+            {
+                "number": 39,
+                "image_articles": "article_39.png",
+                "price_articles": 190000,
+                "name_price_namtrik": "Kansrel Trattrɵpiptsiishik",
+                "number_money_images": [
+                    11,
+                    10,
+                    9,
+                    8,
+                    8
+                ]
+            },
+            {
+                "number": 40,
+                "image_articles": "article_40.png",
+                "price_articles": 94000,
+                "name_price_namtrik": "Trattrɵpiptsi Pipishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    9,
+                    6,
+                    6
+                ]
+            },
+            {
+                "number": 41,
+                "image_articles": "article_41.png",
+                "price_articles": 91000,
+                "name_price_namtrik": "Trattrɵpiptsi kanishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    9,
+                    4,
+                    4
+                ]
+            },
+            {
+                "number": 42,
+                "image_articles": "article_42.png",
+                "price_articles": 155000,
+                "name_price_namtrik": "Kansrel Trattrɵtsi Trattrɵishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    10,
+                    7
+                ]
+            },
+            {
+                "number": 43,
+                "image_articles": "article_43.png",
+                "price_articles": 195000,
+                "name_price_namtrik": "Kansrel Trattrɵpiptsi Trattrɵishik",
+                "number_money_images": [
+                    11,
+                    10,
+                    9,
+                    9,
+                    7
+                ]
+            },
+            {
+                "number": 44,
+                "image_articles": "article_44.png",
+                "price_articles": 210000,
+                "name_price_namtrik": "Pasrel Kantsiishik",
+                "number_money_images": [
+                    11,
+                    10,
+                    10,
+                    8
+                ]
+            },
+            {
+                "number": 45,
+                "image_articles": "article_45.png",
+                "price_articles": 135000,
+                "name_price_namtrik": "Kansrel Pɵntsi Trattrɵishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    9,
+                    8,
+                    7
+                ]
+            },
+            {
+                "number": 46,
+                "image_articles": "article_46.png",
+                "price_articles": 185000,
+                "name_price_namtrik": "Kansrel Trattrɵpɵntsi Trattrɵishik",
+                "number_money_images": [
+                    11,
+                    10,
+                    9,
+                    8,
+                    7
+                ]
+            },
+            {
+                "number": 47,
+                "image_articles": "article_47.png",
+                "price_articles": 175000,
+                "name_price_namtrik": "Kansrel Trattrɵpatsi Trattrɵishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    10,
+                    9,
+                    7
+                ]
+            },
+            {
+                "number": 48,
+                "image_articles": "article_48.png",
+                "price_articles": 245000,
+                "name_price_namtrik": "Pasrel Piptsi Trattrɵishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    9,
+                    9,
+                    7
+                ]
+            },
+            {
+                "number": 49,
+                "image_articles": "article_49.png",
+                "price_articles": 114000,
+                "name_price_namtrik": "Kansrel Kantsipipishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    8,
+                    6,
+                    6
+                ]
+            },
+            {
+                "number": 50,
+                "image_articles": "article_50.png",
+                "price_articles": 212000,
+                "name_price_namtrik": "Pasrel Kantsipaishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    7,
+                    7,
+                    6
+                ]
+            },
+            {
+                "number": 51,
+                "image_articles": "article_51.png",
+                "price_articles": 215000,
+                "name_price_namtrik": "Pasrel Kantsitrattrɵishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    7,
+                    7,
+                    7
+                ]
+            },
+            {
+                "number": 52,
+                "image_articles": "article_52.png",
+                "price_articles": 46000,
+                "name_price_namtrik": "Piptsi Trattrɵkanishik",
+                "number_money_images": [
+                    9,
+                    9,
+                    7,
+                    4,
+                    4
+                ]
+            },
+            {
+                "number": 53,
+                "image_articles": "article_53.png",
+                "price_articles": 87000,
+                "name_price_namtrik": "Trattrɵpɵntsi Trattrɵpaishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    8,
+                    7,
+                    6
+                ]
+            },
+            {
+                "number": 54,
+                "image_articles": "article_54.png",
+                "price_articles": 230000,
+                "name_price_namtrik": "Pasrel Pɵntsi ishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    8,
+                    8,
+                    8
+                ]
+            },
+            {
+                "number": 55,
+                "image_articles": "article_55.png",
+                "price_articles": 110000,
+                "name_price_namtrik": "Kansrel Kantsiishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    7,
+                    7
+                ]
+            },
+            {
+                "number": 56,
+                "image_articles": "article_56.png",
+                "price_articles": 75000,
+                "name_price_namtrik": "Trattrɵpatsi Trattrɵishik",
+                "number_money_images": [
+                    9,
+                    9,
+                    9,
+                    8,
+                    7
+                ]
+            },
+            {
+                "number": 57,
+                "image_articles": "article_57.png",
+                "price_articles": 76000,
+                "name_price_namtrik": "Trattrɵpatsi Trattrɵkanishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    6,
+                    6,
+                    6
+                ]
+            },
+            {
+                "number": 58,
+                "image_articles": "article_58.png",
+                "price_articles": 82000,
+                "name_price_namtrik": "Trattrɵpɵntsi Paishik",
+                "number_money_images": [
+                    9,
+                    9,
+                    9,
+                    9,
+                    6
+                ]
+            },
+            {
+                "number": 59,
+                "image_articles": "article_59.png",
+                "price_articles": 150000,
+                "name_price_namtrik": "Kansrel Trattrɵtsiishik",
+                "number_money_images": [
+                    11,
+                    9,
+                    9,
+                    7,
+                    7
+                ]
+            },
+            {
+                "number": 60,
+                "image_articles": "article_60.png",
+                "price_articles": 147000,
+                "name_price_namtrik": "Kansrel Piptsi Trattrɵpaishik",
+                "number_money_images": [
+                    11,
+                    9,
+                    9,
+                    7,
+                    6
+                ]
+            },
+            {
+                "number": 61,
+                "image_articles": "article_61.png",
+                "price_articles": 140000,
+                "name_price_namtrik": "Kansrel Piptsiishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    9,
+                    8,
+                    8
+                ]
+            },
+            {
+                "number": 62,
+                "image_articles": "article_62.png",
+                "price_articles": 400000,
+                "name_price_namtrik": "Pipsrelishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    11,
+                    11
+                ]
+            },
+            {
+                "number": 63,
+                "image_articles": "article_63.png",
+                "price_articles": 400000,
+                "name_price_namtrik": "Pipsrelishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    11,
+                    10,
+                    10
+                ]
+            },
+            {
+                "number": 64,
+                "image_articles": "article_64.png",
+                "price_articles": 500000,
+                "name_price_namtrik": "Trattrɵsrelishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    11,
+                    11,
+                    11
+                ]
+            },
+            {
+                "number": 65,
+                "image_articles": "article_65.png",
+                "price_articles": 350000,
+                "name_price_namtrik": "Pɵnsrel Trattrɵtsiishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    11,
+                    10
+                ]
+            },
+            {
+                "number": 66,
+                "image_articles": "article_66.png",
+                "price_articles": 240000,
+                "name_price_namtrik": "Pasrel Piptsiishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    9,
+                    8,
+                    8
+                ]
+            },
+            {
+                "number": 67,
+                "image_articles": "article_67.png",
+                "price_articles": 400000,
+                "name_price_namtrik": "Pipsrelishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    11,
+                    11
+                ]
+            },
+            {
+                "number": 68,
+                "image_articles": "article_68.png",
+                "price_articles": 300000,
+                "name_price_namtrik": "Pɵnsrelishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    10,
+                    10
+                ]
+            },
+            {
+                "number": 69,
+                "image_articles": "article_69.png",
+                "price_articles": 360000,
+                "name_price_namtrik": "Pɵnsrel Trattrɵkantsiishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    11,
+                    10,
+                    8
+                ]
+            },
+            {
+                "number": 70,
+                "image_articles": "article_70.png",
+                "price_articles": 340000,
+                "name_price_namtrik": "Pɵnsrel Piptsiishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    11,
+                    9,
+                    9
+                ]
+            },
+            {
+                "number": 71,
+                "image_articles": "article_71.png",
+                "price_articles": 200000,
+                "name_price_namtrik": "Pasrelishik",
+                "number_money_images": [
+                    11,
+                    10,
+                    9,
+                    9,
+                    8
+                ]
+            },
+            {
+                "number": 72,
+                "image_articles": "article_72.png",
+                "price_articles": 250000,
+                "name_price_namtrik": "Pasrel Trattrɵtsiishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    9,
+                    9,
+                    8
+                ]
+            },
+            {
+                "number": 73,
+                "image_articles": "article_73.png",
+                "price_articles": 220000,
+                "name_price_namtrik": "Pasrel Patsiishik",
+                "number_money_images": [
+                    11,
+                    10,
+                    10,
+                    8,
+                    8
+                ]
+            },
+            {
+                "number": 74,
+                "image_articles": "article_74.png",
+                "price_articles": 320000,
+                "name_price_namtrik": "Pɵnsrel Patsiishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    10,
+                    10,
+                    9
+                ]
+            },
+            {
+                "number": 75,
+                "image_articles": "article_75.png",
+                "price_articles": 290000,
+                "name_price_namtrik": "Pasrel Trattrɵpiptsiishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    10,
+                    9,
+                    9
+                ]
+            },
+            {
+                "number": 76,
+                "image_articles": "article_76.png",
+                "price_articles": 214000,
+                "name_price_namtrik": "Pasrel Kantsipipishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    8,
+                    6,
+                    6
+                ]
+            },
+            {
+                "number": 77,
+                "image_articles": "article_77.png",
+                "price_articles": 113000,
+                "name_price_namtrik": "Kansrel Kantsipɵnishik",
+                "number_money_images": [
+                    11,
+                    8,
+                    6,
+                    4,
+                    4
+                ]
+            },
+            {
+                "number": 78,
+                "image_articles": "article_78.png",
+                "price_articles": 315000,
+                "name_price_namtrik": "Pɵnsrel Kantsitrattrɵishik",
+                "number_money_images": [
+                    11,
+                    11,
+                    11,
+                    8,
+                    7
+                ]
+            },
+            {
+                "number": 79,
+                "image_articles": "article_79.png",
+                "price_articles": 122000,
+                "name_price_namtrik": "Kansrel Patsipaishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    8,
+                    8,
+                    6
+                ]
+            },
+            {
+                "number": 80,
+                "image_articles": "article_80.png",
+                "price_articles": 180000,
+                "name_price_namtrik": "Kansrel Trattrɵpɵntsiishik",
+                "number_money_images": [
+                    10,
+                    10,
+                    10,
+                    9,
+                    8
+                ]
+            },
+            {
+                "number": 81,
+                "image_articles": "article_81.png",
+                "price_articles": 60000,
+                "name_price_namtrik": "Trattrɵkantsiishik",
+                "number_money_images": [
+                    9,
+                    9,
+                    8,
+                    7,
+                    7
+                ]
+            },
+            {
+                "number": 82,
+                "image_articles": "article_82.png",
+                "price_articles": 105000,
+                "name_price_namtrik": "Kansrel Trattrɵishik",
+                "number_money_images": [
+                    10,
+                    9,
+                    9,
+                    8,
+                    7
+                ]
+            },
+            {
+                "number": 83,
+                "image_articles": "article_83.png",
+                "price_articles": 116000,
+                "name_price_namtrik": "Kansrel Kantsitrattrɵkanishik",
+                "number_money_images": [
+                    11,
+                    7,
+                    7,
+                    7,
+                    5
+                ]
+            },
+            {
+                "number": 84,
+                "image_articles": "article_84.png",
+                "price_articles": 57000,
+                "name_price_namtrik": "Trattrɵtsi Trattrɵpaishik",
+                "number_money_images": [
+                    9,
+                    9,
+                    8,
+                    7,
+                    6
+                ]
+            },
+            {
+                "number": 85,
+                "image_articles": "article_85.png",
+                "price_articles": 55000,
+                "name_price_namtrik": "Trattrɵtsi Trattrɵishik",
+                "number_money_images": [
+                    9,
+                    8,
+                    8,
+                    8,
+                    7
+                ]
+            },
+            {
+                "number": 86,
+                "image_articles": "article_86.png",
+                "price_articles": 4500,
+                "name_price_namtrik": "Pipishik Trattrɵsrel",
+                "number_money_images": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    4
+                ]
+            },
+            {
+                "number": 87,
+                "image_articles": "article_87.png",
+                "price_articles": 6000,
+                "name_price_namtrik": "Trattrɵkanishik",
+                "number_money_images": [
+                    6,
+                    6,
+                    5,
+                    4,
+                    4
+                ]
+            },
+            {
+                "number": 88,
+                "image_articles": "article_88.png",
+                "price_articles": 7500,
+                "name_price_namtrik": "Trattrɵpaishik Trattrɵsrel",
+                "number_money_images": [
+                    6,
+                    6,
+                    6,
+                    5,
+                    4
+                ]
+            },
+            {
+                "number": 89,
+                "image_articles": "article_89.png",
+                "price_articles": 5000,
+                "name_price_namtrik": "Trattrɵishik",
+                "number_money_images": [
+                    6,
+                    5,
+                    5,
+                    4,
+                    4
+                ]
+            },
+            {
+                "number": 90,
+                "image_articles": "article_90.png",
+                "price_articles": 4900,
+                "name_price_namtrik": "Pipishik Trattrɵpipsrel",
+                "number_money_images": [
+                    6,
+                    6,
+                    4,
+                    3,
+                    3
+                ]
+            },
+            {
+                "number": 91,
+                "image_articles": "article_91.png",
+                "price_articles": 6200,
+                "name_price_namtrik": "Trattrɵkanishik Pasrel",
+                "number_money_images": [
+                    6,
+                    6,
+                    5,
+                    5,
+                    3
+                ]
+            },
+            {
+                "number": 92,
+                "image_articles": "article_92.png",
+                "price_articles": 8500,
+                "name_price_namtrik": "Trattrɵpɵnishik Trattrɵsrel",
+                "number_money_images": [
+                    6,
+                    6,
+                    6,
+                    6,
+                    4
+                ]
+            },
+            {
+                "number": 93,
+                "image_articles": "article_93.png",
+                "price_articles": 7000,
+                "name_price_namtrik": "Trattrɵpaishik",
+                "number_money_images": [
+                    6,
+                    6,
+                    6,
+                    4,
+                    4
+                ]
+            },
+            {
+                "number": 94,
+                "image_articles": "article_94.png",
+                "price_articles": 6500,
+                "name_price_namtrik": "Trattrɵkanishik Trattrɵsrel",
+                "number_money_images": [
+                    7,
+                    5,
+                    3,
+                    3,
+                    2
+                ]
+            },
+            {
+                "number": 95,
+                "image_articles": "article_95.png",
+                "price_articles": 5500,
+                "name_price_namtrik": "Trattrɵishik Trattrɵsrel",
+                "number_money_images": [
+                    7,
+                    4,
+                    4,
+                    1,
+                    1
+                ]
+            },
+            {
+                "number": 96,
+                "image_articles": "article_96.png",
+                "price_articles": 5200,
+                "name_price_namtrik": "Trattrɵishik Pasrel",
+                "number_money_images": [
+                    6,
+                    5,
+                    5,
+                    5,
+                    3
+                ]
+            },
+            {
+                "number": 97,
+                "image_articles": "article_97.png",
+                "price_articles": 5300,
+                "name_price_namtrik": "Trattrɵishik Pɵnsrel",
+                "number_money_images": [
+                    7,
+                    2,
+                    2,
+                    1,
+                    1
+                ]
+            },
+            {
+                "number": 98,
+                "image_articles": "article_98.png",
+                "price_articles": 17500,
+                "name_price_namtrik": "Kantsitrattrɵpaishik Trattrɵsrel",
+                "number_money_images": [
+                    7,
+                    7,
+                    7,
+                    6,
+                    4
+                ]
+            }
+        ]
+    }
+}

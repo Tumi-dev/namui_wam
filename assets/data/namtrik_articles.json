@@ -127,7 +127,9 @@
                 "price_articles": 90000,
                 "name_price_namtrik": "Trattrɵpiptsiishik",
                 "number_money_images": [
-                    10,
+                    9,
+                    9,
+                    8,
                     9,
                     9
                 ]
@@ -432,9 +434,11 @@
                 "price_articles": 54000,
                 "name_price_namtrik": "Trattrɵtsi Pipishik",
                 "number_money_images": [
-                    10,
+                    9,
                     6,
-                    6
+                    8,
+                    6,
+                    9
                 ]
             },
             {
@@ -455,8 +459,10 @@
                 "price_articles": 170000,
                 "name_price_namtrik": "Kansrel Trattrɵpatsiishik",
                 "number_money_images": [
+                    9,
+                    9,
+                    8,
                     11,
-                    10,
                     9
                 ]
             },

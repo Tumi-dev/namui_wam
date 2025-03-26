@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/core/models/game_state.dart';
-import 'package:namui_wam/core/templates/base_level_screen.dart';
+import 'package:namui_wam/core/templates/scrollable_level_screen.dart';
 import 'package:namui_wam/core/services/feedback_service.dart';
 import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/features/activity1/services/activity1_service.dart';
 import 'package:namui_wam/features/activity1/models/number_word.dart';
 
 // Clase para la pantalla de un nivel de la actividad 1
-class Activity1LevelScreen extends BaseLevelScreen {
+class Activity1LevelScreen extends ScrollableLevelScreen {
   const Activity1LevelScreen({
     super.key,
     required level,
@@ -22,7 +22,7 @@ class Activity1LevelScreen extends BaseLevelScreen {
 
 // Clase para el estado de la pantalla de un nivel de la actividad 1
 class _Activity1LevelScreenState
-    extends BaseLevelScreenState<Activity1LevelScreen>
+    extends ScrollableLevelScreenState<Activity1LevelScreen>
     with WidgetsBindingObserver {
   NumberWord? currentNumber;
   List<int> numberOptions = [];
@@ -354,212 +354,184 @@ class _Activity1LevelScreenState
     super.dispose();
   }
 
-  // Construye la barra de puntuación y los intentos restantes para la actividad 1
-  Widget buildScoreAndAttempts() {
-    // Retornamos un widget vacío para no mostrar la barra original
-    return const SizedBox.shrink();
-  }
-
   // Construye el contenido del nivel de la actividad 1 con el número actual
   @override
   Widget buildLevelContent() {
     if (_isError) {
       return const Center(
-        child: Text('Error al cargar el nivel'),
+        child: Text('Error al cargar el nivel', style: TextStyle(color: Colors.white)),
       );
     }
 
     // Mostrar indicador de carga mientras se obtienen los datos del nivel
     if (currentNumber == null) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(color: Colors.white),
       );
     }
 
-    // Construir la pantalla del nivel con el número actual y las opciones
-    return SafeArea(
-      child: Column(
-        children: [
-          InfoBar(
-            remainingAttempts: remainingAttempts,
-            margin:
-                const EdgeInsets.only(bottom: 24, left: 16, right: 16, top: 8),
-          ),
-          // Contenedor del número en namtrik con botón de audio
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Contenedor del número en namtrik con botón de audio
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Color(
-                          0xFFD32F2F), // Color de fondo del número en namtrik
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        // Sombra para el contenedor del número en namtrik
-                        BoxShadow(
-                          color: Colors.black.withOpacity(
-                              0.3), // Color de la sombra del número en namtrik
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    // Columna con el número en namtrik y botón de audio
-                    child: Column(
-                      children: [
-                        // Texto responsivo con tamaño mínimo garantizado para el número
-                        LayoutBuilder(
-                          builder: (context, constraints) {
-                            // Calcular el tamaño base según el nivel actual
-                            double baseFontSize = widget.level.id <= 2
-                                ? 48.0
-                                : widget.level.id <= 4
-                                    ? 40.0
-                                    : 36.0;
+    // Obtener el tamaño de la pantalla para diseño responsivo
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
 
-                            // Ajustar el tamaño base según el ancho disponible y el tamaño mínimo
-                            return SizedBox(
-                              width: constraints.maxWidth,
-                              child: Text(
-                                currentNumber!.word,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: baseFontSize,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors
-                                      .white, // Color del texto del número en namtrik
-                                  height: 1.3,
-                                  letterSpacing: 1,
-                                  shadows: const [
-                                    Shadow(
-                                      color: Colors
-                                          .black26, // Color de la sombra del texto del número en namtrik
-                                      offset: Offset(2, 2),
-                                      blurRadius: 4,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+    // Construir la pantalla del nivel con el número actual y las opciones
+    return Column(
+      children: [
+        InfoBar(
+          remainingAttempts: remainingAttempts,
+          margin: const EdgeInsets.only(bottom: 24),
+        ),
+        // Contenedor del número en namtrik con botón de audio
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Color(0xFFD32F2F), // Color de fondo del número en namtrik
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              // Sombra para el contenedor del número en namtrik
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3), // Color de la sombra del número en namtrik
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          // Columna con el número en namtrik y botón de audio
+          child: Column(
+            children: [
+              // Texto responsivo con tamaño mínimo garantizado para el número
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  // Calcular el tamaño base según el nivel actual
+                  double baseFontSize = widget.level.id <= 2
+                      ? 48.0
+                      : widget.level.id <= 4
+                          ? 40.0
+                          : 36.0;
+
+                  // Ajustar el tamaño base según el ancho disponible y el tamaño mínimo
+                  return SizedBox(
+                    width: constraints.maxWidth,
+                    child: Text(
+                      currentNumber!.word,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: baseFontSize,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white, // Color del texto del número en namtrik
+                        height: 1.3,
+                        letterSpacing: 1,
+                        shadows: const [
+                          Shadow(
+                            color: Colors.black26, // Color de la sombra del texto del número en namtrik
+                            offset: Offset(2, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              // Espacio entre el número en namtrik y el botón de audio
+              const SizedBox(height: 16),
+              // Botón de audio mejorado para el número en namtrik
+              Material(
+                color: Colors.white24, // Color de fondo del botón de audio del número en namtrik
+                borderRadius: BorderRadius.circular(50),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(50),
+                  onTap: isPlayingAudio ? null : _playAudio,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          isPlayingAudio ? Icons.volume_up : Icons.volume_up_outlined,
+                          color: Colors.white, // Color del icono de audio del número en namtrik
+                          size: 28,
                         ),
-                        // Espacio entre el número en namtrik y el botón de audio
-                        const SizedBox(height: 16),
-                        // Botón de audio mejorado para el número en namtrik
-                        Material(
-                          color: Colors
-                              .white24, // Color de fondo del botón de audio del número en namtrik
-                          borderRadius: BorderRadius.circular(50),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(50),
-                            onTap: isPlayingAudio ? null : _playAudio,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    isPlayingAudio
-                                        ? Icons.volume_up
-                                        : Icons.volume_up_outlined,
-                                    color: Colors
-                                        .white, // Color del icono de audio del número en namtrik
-                                    size: 28,
-                                  ),
-                                  // Texto para el botón de audio del número en namtrik
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Escuchar',
-                                    style: TextStyle(
-                                      color: Colors
-                                          .white, // Color del texto del botón de audio del número en namtrik
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                        // Texto para el botón de audio del número en namtrik
+                        const SizedBox(width: 8),
+                        Text(
+                          'Escuchar',
+                          style: TextStyle(
+                            color: Colors.white, // Color del texto del botón de audio del número en namtrik
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  // Espacio entre el número en namtrik y las opciones
-                  const SizedBox(height: 24),
-                  // Grid responsivo de opciones para el número actual
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      final crossAxisCount = constraints.maxWidth > 400 ? 2 : 1;
-                      // Retornar un grid con las opciones para el número actual y el usuario
-                      return GridView.count(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: crossAxisCount,
-                        mainAxisSpacing: 16,
-                        crossAxisSpacing: 16,
-                        childAspectRatio: 3,
-                        children: numberOptions.map((number) {
-                          // Contenedor con la opción seleccionada por el usuario y su número
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors
-                                  .white, // Color de fondo de la opción seleccionada por el usuario
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(
-                                      0.1), // Color de la sombra de la opción seleccionada por el usuario
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            // Material con tinta para la opción seleccionada por el usuario
-                            child: Material(
-                              color: Colors
-                                  .transparent, // Color de fondo del material de la opción seleccionada por el usuario
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(15),
-                                onTap: isCorrectAnswerSelected
-                                    ? null
-                                    : () => _handleNumberSelection(number),
-                                // Centro con el número de la opción seleccionada por el usuario
-                                child: Center(
-                                  child: Text(
-                                    number.toString(),
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: isCorrectAnswerSelected
-                                          ? Colors
-                                              .grey // Color del texto de la opción seleccionada por el usuario
-                                          : Colors
-                                              .black87, // Color del texto de la opción seleccionada por el usuario
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      );
-                    },
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+        // Espacio entre el número en namtrik y las opciones
+        const SizedBox(height: 24),
+        // Grid responsivo de opciones para el número actual
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final crossAxisCount = constraints.maxWidth > 400 ? 2 : 1;
+              // Retornar un grid con las opciones para el número actual y el usuario
+              return GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 3,
+                children: numberOptions.map((number) {
+                  // Contenedor con la opción seleccionada por el usuario y su número
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Color de fondo de la opción seleccionada por el usuario
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1), // Color de la sombra de la opción seleccionada por el usuario
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    // Material con tinta para la opción seleccionada por el usuario
+                    child: Material(
+                      color: Colors.transparent, // Color de fondo del material de la opción seleccionada por el usuario
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(15),
+                        onTap: isCorrectAnswerSelected ? null : () => _handleNumberSelection(number),
+                        // Centro con el número de la opción seleccionada por el usuario
+                        child: Center(
+                          child: Text(
+                            number.toString(),
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: isCorrectAnswerSelected
+                                  ? Colors.grey // Color del texto de la opción seleccionada por el usuario
+                                  : Colors.black87, // Color del texto de la opción seleccionada por el usuario
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
+            },
+          ),
+        ),
+        // Espacio adicional al final para asegurar que todos los elementos sean visibles en landscape
+        SizedBox(height: isLandscape ? 20 : 40),
+      ],
     );
   }
 }

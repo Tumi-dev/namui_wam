@@ -5,6 +5,9 @@ import 'package:namui_wam/core/templates/base_level_screen.dart';
 import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/core/models/game_state.dart';
 import 'package:namui_wam/features/activity2/services/activity2_service.dart';
+import 'package:namui_wam/core/constants/activity_descriptions.dart';
+import 'package:namui_wam/core/widgets/game_description_widget.dart';
+import 'package:namui_wam/core/themes/app_theme.dart';
 
 class Activity2LevelScreen extends BaseLevelScreen {
   const Activity2LevelScreen({
@@ -304,7 +307,42 @@ class _Activity2LevelScreenState
   }
 
   @override
-  Widget buildLevelContent() {
+  Widget build(BuildContext context) {
+    // Sobrescribimos completamente el método build para tener control total del layout
+    // Esto evita la duplicación de la descripción del juego
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop();
+        return false;
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: AppTheme.backArrowIcon,
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text(
+            widget.level.description,
+            style: AppTheme.levelTitleStyle,
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: AppTheme.mainGradient,
+          ),
+          child: SafeArea(
+            child: _buildContent(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Método privado para construir el contenido principal con scroll
+  Widget _buildContent() {
     if (widget.level.id > 7) {
       return const Center(child: Text('Nivel en desarrollo'));
     }
@@ -322,117 +360,133 @@ class _Activity2LevelScreenState
       );
     }
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Column(
-            children: [
-              InfoBar(
-                remainingAttempts: remainingAttempts,
-                margin: const EdgeInsets.only(bottom: 24),
+    // Obtenemos el tamaño de la pantalla para adaptarnos a diferentes orientaciones
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
+
+    // SOLUCIÓN ESTABLE: Usamos ListView para que todo sea desplazable
+    return ListView(
+      // Desactivamos el efecto de rebote para evitar problemas
+      physics: const ClampingScrollPhysics(),
+      children: [
+        // Descripción del juego (ahora solo aparece una vez)
+        Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 500, // Límite máximo para evitar extensión excesiva en modo horizontal
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              child: GameDescriptionWidget(
+                description: ActivityGameDescriptions.getDescriptionForActivity(2),
               ),
-              if (currentNumber != null) ...[
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    // Fondo blanco para el número actual para que se destaque
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        // Sombra suave para el número actual para que se destaque
-                        color: Colors.black.withOpacity(
-                            0.2),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    currentNumber!['number'].toString(),
-                    style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                // Espacio entre el número y el input de respuesta para que se vea mejor
-                const SizedBox(height: 16),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: _answerController,
-                    decoration: InputDecoration(
-                      hintText: 'Escribe el número en namuiwam',
-                      hintStyle: TextStyle(
-                        // Cambiar el color del hint para que sea más visible
-                        color:
-                            Colors.white, // Color de texto blanco para el hint
-                        fontSize: 14,
-                      ),
-                      filled: true,
-                      // Cambiar el color de fondo del input para que sea más visible y se destaque
-                      fillColor: const Color(0xFF1976D2), //
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        // Cambiar el color del borde para que sea más visible
-                        borderSide:
-                            const BorderSide(color: Colors.white, width: 2),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    style: const TextStyle(
-                      color:
-                          Colors.white, // Color de texto blanco para el input
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.center,
-                    cursorColor:
-                        Colors.white, // Color del cursor blanco para el input
-                  ),
-                ),
-                // Espacio entre el input y el botón de validación
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: checkAnswer,
-                  style: ElevatedButton.styleFrom(
-                    // Cambiar el color de fondo del botón para que se destaque
-                    backgroundColor: const Color(
-                        0xFF00FFFF), // Color aqua para el botón de validación
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    elevation:
-                        5, // Añadir una sombra suave al botón para que se destaque
-                  ),
-                  child: const Text(
-                    'Validar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      // Cambiar el color del texto para que sea más visible
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ],
+            ),
           ),
         ),
-      ),
+        InfoBar(
+          remainingAttempts: remainingAttempts,
+          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        ),
+        if (currentNumber != null) ...[
+          // Centrar el contenido horizontalmente
+          Center(
+            child: Container(
+              width: isLandscape ? screenSize.width * 0.3 : screenSize.width * 0.4,
+              padding: const EdgeInsets.all(24),
+              margin: const EdgeInsets.symmetric(vertical: 16.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Text(
+                currentNumber!['number'].toString(),
+                style: const TextStyle(
+                  fontSize: 48,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          // Campo de texto con padding adecuado
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            child: TextField(
+              controller: _answerController,
+              decoration: InputDecoration(
+                hintText: 'Yu pɵr muntsillan',
+                hintStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+                filled: true,
+                fillColor: const Color(0xFF1976D2),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Colors.white, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              ),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+              cursorColor: Colors.white,
+            ),
+          ),
+          // Botón centrado con margen adecuado
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: ElevatedButton(
+                onPressed: checkAnswer,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF00FFFF),
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 5,
+                ),
+                child: const Text(
+                  'Validar',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // Espacio adicional al final para mejor experiencia de desplazamiento
+          const SizedBox(height: 40),
+        ],
+      ],
     );
+  }
+
+  @override
+  Widget buildLevelContent() {
+    // Método requerido por BaseLevelScreen pero no lo usamos
+    // En su lugar usamos nuestra propia implementación en _buildContent()
+    return Container();
   }
 
   @override

@@ -8,6 +8,7 @@
                     "50_2.png"
                 ],
                 "money_namtrik": "Trattrɵtsi",
+                "value_money": 50,
                 "audios_namtrik": "trattrø.wav tsi.wav"
             },
             {
@@ -17,6 +18,7 @@
                     "100_2.png"
                 ],
                 "money_namtrik": "Kansrel",
+                "value_money": 100,
                 "audios_namtrik": "kan.wav srel.wav"
             },
             {
@@ -26,6 +28,7 @@
                     "200_2.png"
                 ],
                 "money_namtrik": "Pasrel",
+                "value_money": 200,
                 "audios_namtrik": "pa.wav srel.wav"
             },
             {
@@ -35,6 +38,7 @@
                     "500_2.png"
                 ],
                 "money_namtrik": "Trattrɵsrel",
+                "value_money": 500,
                 "audios_namtrik": "trattrø.wav srel.wav"
             },
             {
@@ -44,6 +48,7 @@
                     "1000_2.png"
                 ],
                 "money_namtrik": "Kanishik",
+                "value_money": 1000,
                 "audios_namtrik": "kan.wav ishik.wav"
             },
             {
@@ -53,6 +58,7 @@
                     "2000_2.jpg"
                 ],
                 "money_namtrik": "Paishik",
+                "value_money": 2000,
                 "audios_namtrik": "pa.wav ishik.wav"
             },
             {
@@ -62,6 +68,7 @@
                     "5000_2.jpg"
                 ],
                 "money_namtrik": "Trattrɵishik",
+                "value_money": 5000,
                 "audios_namtrik": "trattrø.wav ishik.wav"
             },
             {
@@ -71,6 +78,7 @@
                     "10000_2.jpg"
                 ],
                 "money_namtrik": "Kantsiishik",
+                "value_money": 10000,
                 "audios_namtrik": "kan.wav tsi.wav ishik.wav"
             },
             {
@@ -80,6 +88,7 @@
                     "20000_2.jpg"
                 ],
                 "money_namtrik": "Patsiishik",
+                "value_money": 20000,
                 "audios_namtrik": "pa.wav tsi.wav ishik.wav"
             },
             {
@@ -89,6 +98,7 @@
                     "50000_2.jpg"
                 ],
                 "money_namtrik": "Trattrɵtsiishik",
+                "value_money": 50000,
                 "audios_namtrik": "trattrø.wav tsi.wav ishik.wav"
             },
             {
@@ -98,6 +108,7 @@
                     "100000_2.jpg"
                 ],
                 "money_namtrik": "Kansrelishik",
+                "value_money": 100000,
                 "audios_namtrik": "kan.wav srel.wav ishik.wav"
             }
         ]

@@ -1,0 +1,3636 @@
+{
+    "money_l3": {
+        "namui_wam": [
+            {
+                "number": 1,
+                "number_money_images": [
+                    1,
+                    4,
+                    2,
+                    3
+                ],
+                "total_money": 850,
+                "name_total_namtrik": "Trattrɵpɵnsrel Trattrɵtsi"
+            },
+            {
+                "number": 2,
+                "number_money_images": [
+                    2,
+                    3,
+                    5,
+                    1
+                ],
+                "total_money": 1350,
+                "name_total_namtrik": "Kanishik Pɵnsrel Trattrɵtsi"
+            },
+            {
+                "number": 3,
+                "number_money_images": [
+                    6,
+                    2,
+                    1,
+                    3
+                ],
+                "total_money": 2350,
+                "name_total_namtrik": "Paishik Pɵnsrel Trattrɵtsi"
+            },
+            {
+                "number": 4,
+                "number_money_images": [
+                    7,
+                    3,
+                    1,
+                    2
+                ],
+                "total_money": 5350,
+                "name_total_namtrik": "Trattrɵishik Pɵnsrel Trattrɵtsi"
+            },
+            {
+                "number": 5,
+                "number_money_images": [
+                    8,
+                    2,
+                    3,
+                    1
+                ],
+                "total_money": 10350,
+                "name_total_namtrik": "Kantsiishik Pɵnsrel Trattrɵtsi"
+            },
+            {
+                "number": 6,
+                "number_money_images": [
+                    9,
+                    3,
+                    1,
+                    2
+                ],
+                "total_money": 20350,
+                "name_total_namtrik": "Patsiishik Pɵnsrel Trattrɵtsi"
+            },
+            {
+                "number": 7,
+                "number_money_images": [
+                    10,
+                    1,
+                    3,
+                    2
+                ],
+                "total_money": 50350,
+                "name_total_namtrik": "Trattrɵtsiishik Pɵnsrel Trattrɵtsi"
+            },
+            {
+                "number": 8,
+                "number_money_images": [
+                    2,
+                    3,
+                    1,
+                    11
+                ],
+                "total_money": 100350,
+                "name_total_namtrik": "Kansrelishik Pɵnsrel Trattrɵtsi"
+            },
+            {
+                "number": 9,
+                "number_money_images": [
+                    4,
+                    2,
+                    1,
+                    5
+                ],
+                "total_money": 1650,
+                "name_total_namtrik": "Kanishik Trattrɵkansrel Trattrɵtsi"
+            },
+            {
+                "number": 10,
+                "number_money_images": [
+                    4,
+                    2,
+                    6,
+                    1
+                ],
+                "total_money": 2650,
+                "name_total_namtrik": "Paishik Trattrɵkansrel Trattrɵtsi"
+            },
+            {
+                "number": 11,
+                "number_money_images": [
+                    1,
+                    7,
+                    4,
+                    2
+                ],
+                "total_money": 5650,
+                "name_total_namtrik": "Trattrɵishik Trattrɵkansrel Trattrɵtsi"
+            },
+            {
+                "number": 12,
+                "number_money_images": [
+                    2,
+                    4,
+                    1,
+                    8
+                ],
+                "total_money": 10650,
+                "name_total_namtrik": "Kantsiishik Trattrɵkansrel Trattrɵtsi"
+            },
+            {
+                "number": 13,
+                "number_money_images": [
+                    2,
+                    9,
+                    4,
+                    1
+                ],
+                "total_money": 20650,
+                "name_total_namtrik": "Patsiishik Trattrɵkansrel Trattrɵtsi"
+            },
+            {
+                "number": 14,
+                "number_money_images": [
+                    10,
+                    4,
+                    2,
+                    1
+                ],
+                "total_money": 50650,
+                "name_total_namtrik": "Trattrɵtsiishik Trattrɵkansrel Trattrɵtsi"
+            },
+            {
+                "number": 15,
+                "number_money_images": [
+                    4,
+                    2,
+                    11,
+                    1
+                ],
+                "total_money": 100650,
+                "name_total_namtrik": "Kansrelishik Trattrɵkansrel Trattrɵtsi"
+            },
+            {
+                "number": 16,
+                "number_money_images": [
+                    6,
+                    2,
+                    1,
+                    5
+                ],
+                "total_money": 3150,
+                "name_total_namtrik": "Pɵnishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 17,
+                "number_money_images": [
+                    1,
+                    7,
+                    5,
+                    2
+                ],
+                "total_money": 6150,
+                "name_total_namtrik": "Trattrɵkanishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 18,
+                "number_money_images": [
+                    1,
+                    5,
+                    8,
+                    2
+                ],
+                "total_money": 11150,
+                "name_total_namtrik": "Kantsikanishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 19,
+                "number_money_images": [
+                    2,
+                    9,
+                    1,
+                    5
+                ],
+                "total_money": 21150,
+                "name_total_namtrik": "Patsikanishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 20,
+                "number_money_images": [
+                    2,
+                    5,
+                    1,
+                    10
+                ],
+                "total_money": 51150,
+                "name_total_namtrik": "Trattrɵtsi kanishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 21,
+                "number_money_images": [
+                    5,
+                    1,
+                    11,
+                    2
+                ],
+                "total_money": 101150,
+                "name_total_namtrik": "Kansrel kanishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 22,
+                "number_money_images": [
+                    6,
+                    7,
+                    1,
+                    2
+                ],
+                "total_money": 7150,
+                "name_total_namtrik": "Trattrɵpaishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 23,
+                "number_money_images": [
+                    8,
+                    1,
+                    6,
+                    2
+                ],
+                "total_money": 12150,
+                "name_total_namtrik": "Kantsipaishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 24,
+                "number_money_images": [
+                    6,
+                    2,
+                    9,
+                    1
+                ],
+                "total_money": 22150,
+                "name_total_namtrik": "Patsipaishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 25,
+                "number_money_images": [
+                    10,
+                    1,
+                    2,
+                    6
+                ],
+                "total_money": 52150,
+                "name_total_namtrik": "Trattrɵtsi Paishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 26,
+                "number_money_images": [
+                    11,
+                    6,
+                    2,
+                    1
+                ],
+                "total_money": 102150,
+                "name_total_namtrik": "Kansrel Paishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 27,
+                "number_money_images": [
+                    7,
+                    1,
+                    2,
+                    8
+                ],
+                "total_money": 15150,
+                "name_total_namtrik": "Kantsitrattrɵishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 28,
+                "number_money_images": [
+                    1,
+                    7,
+                    9,
+                    2
+                ],
+                "total_money": 25150,
+                "name_total_namtrik": "Patsitrattrɵishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 29,
+                "number_money_images": [
+                    1,
+                    10,
+                    2,
+                    7
+                ],
+                "total_money": 55150,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 30,
+                "number_money_images": [
+                    2,
+                    7,
+                    11,
+                    1
+                ],
+                "total_money": 105150,
+                "name_total_namtrik": "Kansrel Trattrɵishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 31,
+                "number_money_images": [
+                    1,
+                    2,
+                    8,
+                    9
+                ],
+                "total_money": 30150,
+                "name_total_namtrik": "Pɵntsi ishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 32,
+                "number_money_images": [
+                    10,
+                    1,
+                    2,
+                    8
+                ],
+                "total_money": 60150,
+                "name_total_namtrik": "Trattrɵkantsiishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 33,
+                "number_money_images": [
+                    8,
+                    2,
+                    1,
+                    11
+                ],
+                "total_money": 110150,
+                "name_total_namtrik": "Kansrel Kantsiishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 34,
+                "number_money_images": [
+                    10,
+                    1,
+                    9,
+                    2
+                ],
+                "total_money": 70150,
+                "name_total_namtrik": "Trattrɵpatsiishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 35,
+                "number_money_images": [
+                    11,
+                    2,
+                    9,
+                    1
+                ],
+                "total_money": 120150,
+                "name_total_namtrik": "Kansrel Patsiishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 36,
+                "number_money_images": [
+                    11,
+                    2,
+                    10,
+                    1
+                ],
+                "total_money": 150150,
+                "name_total_namtrik": "Kansrel Trattrɵtsiishik Kansrel Trattrɵtsi"
+            },
+            {
+                "number": 37,
+                "number_money_images": [
+                    5,
+                    3,
+                    4,
+                    1
+                ],
+                "total_money": 1750,
+                "name_total_namtrik": "Kanishik Trattrɵpasrel Trattrɵtsi"
+            },
+            {
+                "number": 38,
+                "number_money_images": [
+                    3,
+                    1,
+                    4,
+                    6
+                ],
+                "total_money": 2750,
+                "name_total_namtrik": "Paishik Trattrɵpasrel Trattrɵtsi"
+            },
+            {
+                "number": 39,
+                "number_money_images": [
+                    1,
+                    7,
+                    3,
+                    4
+                ],
+                "total_money": 5750,
+                "name_total_namtrik": "Trattrɵishik Trattrɵpasrel Trattrɵtsi"
+            },
+            {
+                "number": 40,
+                "number_money_images": [
+                    8,
+                    3,
+                    1,
+                    4
+                ],
+                "total_money": 10750,
+                "name_total_namtrik": "Kantsiishik Trattrɵpasrel Trattrɵtsi"
+            },
+            {
+                "number": 41,
+                "number_money_images": [
+                    4,
+                    1,
+                    9,
+                    3
+                ],
+                "total_money": 20750,
+                "name_total_namtrik": "Patsiishik Trattrɵpasrel Trattrɵtsi"
+            },
+            {
+                "number": 42,
+                "number_money_images": [
+                    4,
+                    10,
+                    1,
+                    3
+                ],
+                "total_money": 50750,
+                "name_total_namtrik": "Trattrɵtsiishik Trattrɵpasrel Trattrɵtsi"
+            },
+            {
+                "number": 43,
+                "number_money_images": [
+                    3,
+                    11,
+                    1,
+                    4
+                ],
+                "total_money": 100750,
+                "name_total_namtrik": "Kansrelishik Trattrɵpasrel Trattrɵtsi"
+            },
+            {
+                "number": 44,
+                "number_money_images": [
+                    1,
+                    3,
+                    6,
+                    5
+                ],
+                "total_money": 3250,
+                "name_total_namtrik": "Pɵnishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 45,
+                "number_money_images": [
+                    3,
+                    5,
+                    1,
+                    7
+                ],
+                "total_money": 6250,
+                "name_total_namtrik": "Trattrɵkanishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 46,
+                "number_money_images": [
+                    8,
+                    3,
+                    5,
+                    1
+                ],
+                "total_money": 11250,
+                "name_total_namtrik": "Kantsikanishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 47,
+                "number_money_images": [
+                    5,
+                    3,
+                    9,
+                    1
+                ],
+                "total_money": 21250,
+                "name_total_namtrik": "Patsikanishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 48,
+                "number_money_images": [
+                    10,
+                    1,
+                    5,
+                    3
+                ],
+                "total_money": 51250,
+                "name_total_namtrik": "Trattrɵtsi kanishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 49,
+                "number_money_images": [
+                    3,
+                    1,
+                    11,
+                    5
+                ],
+                "total_money": 101250,
+                "name_total_namtrik": "Kansrel kanishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 50,
+                "number_money_images": [
+                    3,
+                    7,
+                    6,
+                    1
+                ],
+                "total_money": 7250,
+                "name_total_namtrik": "Trattrɵpaishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 51,
+                "number_money_images": [
+                    1,
+                    3,
+                    6,
+                    8
+                ],
+                "total_money": 12250,
+                "name_total_namtrik": "Kantsipaishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 52,
+                "number_money_images": [
+                    9,
+                    1,
+                    6,
+                    3
+                ],
+                "total_money": 22250,
+                "name_total_namtrik": "Patsipaishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 53,
+                "number_money_images": [
+                    6,
+                    1,
+                    3,
+                    10
+                ],
+                "total_money": 52250,
+                "name_total_namtrik": "Trattrɵtsi Paishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 54,
+                "number_money_images": [
+                    6,
+                    1,
+                    3,
+                    11
+                ],
+                "total_money": 102250,
+                "name_total_namtrik": "Kansrel Paishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 55,
+                "number_money_images": [
+                    8,
+                    7,
+                    1,
+                    3
+                ],
+                "total_money": 15250,
+                "name_total_namtrik": "Kantsitrattrɵishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 56,
+                "number_money_images": [
+                    3,
+                    1,
+                    7,
+                    9
+                ],
+                "total_money": 25250,
+                "name_total_namtrik": "Patsitrattrɵishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 57,
+                "number_money_images": [
+                    3,
+                    1,
+                    7,
+                    10
+                ],
+                "total_money": 55250,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 58,
+                "number_money_images": [
+                    7,
+                    3,
+                    1,
+                    11
+                ],
+                "total_money": 105250,
+                "name_total_namtrik": "Kansrel Trattrɵishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 59,
+                "number_money_images": [
+                    8,
+                    9,
+                    3,
+                    1
+                ],
+                "total_money": 30250,
+                "name_total_namtrik": "Pɵntsi ishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 60,
+                "number_money_images": [
+                    1,
+                    10,
+                    3,
+                    8
+                ],
+                "total_money": 60250,
+                "name_total_namtrik": "Trattrɵkantsiishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 61,
+                "number_money_images": [
+                    11,
+                    3,
+                    1,
+                    8
+                ],
+                "total_money": 110250,
+                "name_total_namtrik": "Kansrel Kantsiishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 62,
+                "number_money_images": [
+                    9,
+                    10,
+                    1,
+                    3
+                ],
+                "total_money": 70250,
+                "name_total_namtrik": "Trattrɵpatsiishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 63,
+                "number_money_images": [
+                    9,
+                    11,
+                    3,
+                    1
+                ],
+                "total_money": 120250,
+                "name_total_namtrik": "Kansrel Patsiishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 64,
+                "number_money_images": [
+                    10,
+                    11,
+                    1,
+                    3
+                ],
+                "total_money": 150250,
+                "name_total_namtrik": "Kansrel Trattrɵtsiishik Pasrel Trattrɵtsi"
+            },
+            {
+                "number": 65,
+                "number_money_images": [
+                    1,
+                    5,
+                    6,
+                    4
+                ],
+                "total_money": 3550,
+                "name_total_namtrik": "Pɵnishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 66,
+                "number_money_images": [
+                    1,
+                    5,
+                    7,
+                    4
+                ],
+                "total_money": 6550,
+                "name_total_namtrik": "Trattrɵkanishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 67,
+                "number_money_images": [
+                    5,
+                    1,
+                    8,
+                    4
+                ],
+                "total_money": 11550,
+                "name_total_namtrik": "Kantsikanishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 68,
+                "number_money_images": [
+                    9,
+                    5,
+                    1,
+                    4
+                ],
+                "total_money": 21550,
+                "name_total_namtrik": "Patsikanishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 69,
+                "number_money_images": [
+                    1,
+                    5,
+                    10,
+                    4
+                ],
+                "total_money": 51550,
+                "name_total_namtrik": "Trattrɵtsi kanishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 70,
+                "number_money_images": [
+                    5,
+                    11,
+                    4,
+                    1
+                ],
+                "total_money": 101550,
+                "name_total_namtrik": "Kansrel kanishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 71,
+                "number_money_images": [
+                    4,
+                    1,
+                    6,
+                    7
+                ],
+                "total_money": 7550,
+                "name_total_namtrik": "Trattrɵpaishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 72,
+                "number_money_images": [
+                    1,
+                    4,
+                    6,
+                    8
+                ],
+                "total_money": 12550,
+                "name_total_namtrik": "Kantsipaishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 73,
+                "number_money_images": [
+                    1,
+                    6,
+                    9,
+                    4
+                ],
+                "total_money": 22550,
+                "name_total_namtrik": "Patsipaishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 74,
+                "number_money_images": [
+                    10,
+                    1,
+                    6,
+                    4
+                ],
+                "total_money": 52550,
+                "name_total_namtrik": "Trattrɵtsi Paishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 75,
+                "number_money_images": [
+                    1,
+                    6,
+                    4,
+                    11
+                ],
+                "total_money": 102550,
+                "name_total_namtrik": "Kansrel Paishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 76,
+                "number_money_images": [
+                    1,
+                    4,
+                    8,
+                    7
+                ],
+                "total_money": 15550,
+                "name_total_namtrik": "Kantsitrattrɵishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 77,
+                "number_money_images": [
+                    1,
+                    9,
+                    4,
+                    7
+                ],
+                "total_money": 25550,
+                "name_total_namtrik": "Patsitrattrɵishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 78,
+                "number_money_images": [
+                    1,
+                    10,
+                    7,
+                    4
+                ],
+                "total_money": 55550,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 79,
+                "number_money_images": [
+                    7,
+                    11,
+                    1,
+                    4
+                ],
+                "total_money": 105550,
+                "name_total_namtrik": "Kansrel Trattrɵishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 80,
+                "number_money_images": [
+                    9,
+                    4,
+                    1,
+                    8
+                ],
+                "total_money": 30550,
+                "name_total_namtrik": "Pɵntsi ishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 81,
+                "number_money_images": [
+                    10,
+                    1,
+                    4,
+                    8
+                ],
+                "total_money": 60550,
+                "name_total_namtrik": "Trattrɵkantsiishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 82,
+                "number_money_images": [
+                    8,
+                    1,
+                    11,
+                    4
+                ],
+                "total_money": 110550,
+                "name_total_namtrik": "Kansrel Kantsiishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 83,
+                "number_money_images": [
+                    1,
+                    10,
+                    9,
+                    4
+                ],
+                "total_money": 70550,
+                "name_total_namtrik": "Trattrɵpatsiishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 84,
+                "number_money_images": [
+                    1,
+                    4,
+                    11,
+                    9
+                ],
+                "total_money": 120550,
+                "name_total_namtrik": "Kansrel Patsiishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 85,
+                "number_money_images": [
+                    10,
+                    11,
+                    1,
+                    4
+                ],
+                "total_money": 150550,
+                "name_total_namtrik": "Kansrel Trattrɵtsiishik Trattrɵsrel Trattrɵtsi"
+            },
+            {
+                "number": 86,
+                "number_money_images": [
+                    5,
+                    1,
+                    7,
+                    6
+                ],
+                "total_money": 8050,
+                "name_total_namtrik": "Trattrɵpɵnishik Trattrɵtsi"
+            },
+            {
+                "number": 87,
+                "number_money_images": [
+                    8,
+                    1,
+                    5,
+                    6
+                ],
+                "total_money": 13050,
+                "name_total_namtrik": "Kantsipɵnishik Trattrɵtsi"
+            },
+            {
+                "number": 88,
+                "number_money_images": [
+                    9,
+                    5,
+                    6,
+                    1
+                ],
+                "total_money": 23050,
+                "name_total_namtrik": "Patsipɵnishik Trattrɵtsi"
+            },
+            {
+                "number": 89,
+                "number_money_images": [
+                    10,
+                    1,
+                    6,
+                    5
+                ],
+                "total_money": 53050,
+                "name_total_namtrik": "Trattrɵtsi pɵnishik Trattrɵtsi"
+            },
+            {
+                "number": 90,
+                "number_money_images": [
+                    1,
+                    11,
+                    5,
+                    6
+                ],
+                "total_money": 103050,
+                "name_total_namtrik": "Kansrel pɵnishik Trattrɵtsi"
+            },
+            {
+                "number": 91,
+                "number_money_images": [
+                    7,
+                    1,
+                    5,
+                    8
+                ],
+                "total_money": 16050,
+                "name_total_namtrik": "Kantsitrattrɵkanishik Trattrɵtsi"
+            },
+            {
+                "number": 92,
+                "number_money_images": [
+                    1,
+                    7,
+                    9,
+                    5
+                ],
+                "total_money": 26050,
+                "name_total_namtrik": "Patsitrattrɵkanishik Trattrɵtsi"
+            },
+            {
+                "number": 93,
+                "number_money_images": [
+                    1,
+                    10,
+                    7,
+                    5
+                ],
+                "total_money": 56050,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵkanishik Trattrɵtsi"
+            },
+            {
+                "number": 94,
+                "number_money_images": [
+                    7,
+                    5,
+                    11,
+                    1
+                ],
+                "total_money": 106050,
+                "name_total_namtrik": "Kansrel Trattrɵkanishik Trattrɵtsi"
+            },
+            {
+                "number": 95,
+                "number_money_images": [
+                    8,
+                    9,
+                    5,
+                    1
+                ],
+                "total_money": 31050,
+                "name_total_namtrik": "Pɵntsi kanishik Trattrɵtsi"
+            },
+            {
+                "number": 96,
+                "number_money_images": [
+                    5,
+                    1,
+                    10,
+                    8
+                ],
+                "total_money": 61050,
+                "name_total_namtrik": "Trattrɵkantsi kanishik Trattrɵtsi"
+            },
+            {
+                "number": 97,
+                "number_money_images": [
+                    1,
+                    8,
+                    11,
+                    5
+                ],
+                "total_money": 111050,
+                "name_total_namtrik": "Kansrel Kantsikanishik Trattrɵtsi"
+            },
+            {
+                "number": 98,
+                "number_money_images": [
+                    9,
+                    10,
+                    1,
+                    5
+                ],
+                "total_money": 71050,
+                "name_total_namtrik": "Trattrɵpatsi kanishik Trattrɵtsi"
+            },
+            {
+                "number": 99,
+                "number_money_images": [
+                    11,
+                    5,
+                    9,
+                    1
+                ],
+                "total_money": 121050,
+                "name_total_namtrik": "Kansrel Patsikanishik Trattrɵtsi"
+            },
+            {
+                "number": 100,
+                "number_money_images": [
+                    11,
+                    5,
+                    1,
+                    10
+                ],
+                "total_money": 151050,
+                "name_total_namtrik": "Kansrel Trattrɵtsi kanishik Trattrɵtsi"
+            },
+            {
+                "number": 101,
+                "number_money_images": [
+                    6,
+                    7,
+                    8,
+                    1
+                ],
+                "total_money": 17050,
+                "name_total_namtrik": "Kantsitrattrɵpaishik Trattrɵtsi"
+            },
+            {
+                "number": 102,
+                "number_money_images": [
+                    7,
+                    1,
+                    9,
+                    6
+                ],
+                "total_money": 27050,
+                "name_total_namtrik": "Patsitrattrɵpaishik Trattrɵtsi"
+            },
+            {
+                "number": 103,
+                "number_money_images": [
+                    1,
+                    7,
+                    6,
+                    10
+                ],
+                "total_money": 57050,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵpaishik Trattrɵtsi"
+            },
+            {
+                "number": 104,
+                "number_money_images": [
+                    11,
+                    6,
+                    1,
+                    7
+                ],
+                "total_money": 107050,
+                "name_total_namtrik": "Kansrel Trattrɵpaishik Trattrɵtsi"
+            },
+            {
+                "number": 105,
+                "number_money_images": [
+                    6,
+                    8,
+                    9,
+                    1
+                ],
+                "total_money": 32050,
+                "name_total_namtrik": "Pɵntsi Paishik Trattrɵtsi"
+            },
+            {
+                "number": 106,
+                "number_money_images": [
+                    8,
+                    1,
+                    10,
+                    6
+                ],
+                "total_money": 62050,
+                "name_total_namtrik": "Trattrɵkantsi Paishik Trattrɵtsi"
+            },
+            {
+                "number": 107,
+                "number_money_images": [
+                    6,
+                    1,
+                    8,
+                    11
+                ],
+                "total_money": 112050,
+                "name_total_namtrik": "Kansrel Kantsipaishik Trattrɵtsi"
+            },
+            {
+                "number": 108,
+                "number_money_images": [
+                    1,
+                    6,
+                    9,
+                    10
+                ],
+                "total_money": 72050,
+                "name_total_namtrik": "Trattrɵpatsi Paishik Trattrɵtsi"
+            },
+            {
+                "number": 109,
+                "number_money_images": [
+                    9,
+                    1,
+                    6,
+                    11
+                ],
+                "total_money": 122050,
+                "name_total_namtrik": "Kansrel Patsipaishik Trattrɵtsi"
+            },
+            {
+                "number": 110,
+                "number_money_images": [
+                    10,
+                    11,
+                    1,
+                    6
+                ],
+                "total_money": 152050,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Paishik Trattrɵtsi"
+            },
+            {
+                "number": 111,
+                "number_money_images": [
+                    7,
+                    9,
+                    8,
+                    1
+                ],
+                "total_money": 35050,
+                "name_total_namtrik": "Pɵntsi Trattrɵishik Trattrɵtsi"
+            },
+            {
+                "number": 112,
+                "number_money_images": [
+                    10,
+                    1,
+                    8,
+                    7
+                ],
+                "total_money": 65050,
+                "name_total_namtrik": "Trattrɵkantsi Trattrɵishik Trattrɵtsi"
+            },
+            {
+                "number": 113,
+                "number_money_images": [
+                    7,
+                    8,
+                    1,
+                    11
+                ],
+                "total_money": 115050,
+                "name_total_namtrik": "Kansrel Kantsitrattrɵishik Trattrɵtsi"
+            },
+            {
+                "number": 114,
+                "number_money_images": [
+                    7,
+                    1,
+                    10,
+                    9
+                ],
+                "total_money": 75050,
+                "name_total_namtrik": "Trattrɵpatsi Trattrɵishik Trattrɵtsi"
+            },
+            {
+                "number": 115,
+                "number_money_images": [
+                    11,
+                    9,
+                    1,
+                    7
+                ],
+                "total_money": 125050,
+                "name_total_namtrik": "Kansrel Patsitrattrɵishik Trattrɵtsi"
+            },
+            {
+                "number": 116,
+                "number_money_images": [
+                    1,
+                    7,
+                    10,
+                    11
+                ],
+                "total_money": 155050,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Trattrɵishik Trattrɵtsi"
+            },
+            {
+                "number": 117,
+                "number_money_images": [
+                    1,
+                    8,
+                    10,
+                    9
+                ],
+                "total_money": 80050,
+                "name_total_namtrik": "Trattrɵpɵntsiishik Trattrɵtsi"
+            },
+            {
+                "number": 118,
+                "number_money_images": [
+                    11,
+                    9,
+                    1,
+                    8
+                ],
+                "total_money": 130050,
+                "name_total_namtrik": "Kansrel Pɵntsi ishik Trattrɵtsi"
+            },
+            {
+                "number": 119,
+                "number_money_images": [
+                    10,
+                    11,
+                    8,
+                    1
+                ],
+                "total_money": 160050,
+                "name_total_namtrik": "Kansrel Trattrɵkantsiishik Trattrɵtsi"
+            },
+            {
+                "number": 120,
+                "number_money_images": [
+                    1,
+                    9,
+                    11,
+                    10
+                ],
+                "total_money": 170050,
+                "name_total_namtrik": "Kansrel Trattrɵpatsiishik Trattrɵtsi"
+            },
+            {
+                "number": 121,
+                "number_money_images": [
+                    2,
+                    4,
+                    3,
+                    5
+                ],
+                "total_money": 1800,
+                "name_total_namtrik": "Kanishik Trattrɵpɵnsrel"
+            },
+            {
+                "number": 122,
+                "number_money_images": [
+                    3,
+                    4,
+                    6,
+                    2
+                ],
+                "total_money": 2800,
+                "name_total_namtrik": "Paishik Trattrɵpɵnsrel"
+            },
+            {
+                "number": 123,
+                "number_money_images": [
+                    2,
+                    7,
+                    3,
+                    4
+                ],
+                "total_money": 5800,
+                "name_total_namtrik": "Trattrɵishik Trattrɵpɵnsrel"
+            },
+            {
+                "number": 124,
+                "number_money_images": [
+                    8,
+                    2,
+                    4,
+                    3
+                ],
+                "total_money": 10800,
+                "name_total_namtrik": "Kantsiishik Trattrɵpɵnsrel"
+            },
+            {
+                "number": 125,
+                "number_money_images": [
+                    2,
+                    9,
+                    4,
+                    3
+                ],
+                "total_money": 20800,
+                "name_total_namtrik": "Patsiishik Trattrɵpɵnsrel"
+            },
+            {
+                "number": 126,
+                "number_money_images": [
+                    2,
+                    10,
+                    3,
+                    4
+                ],
+                "total_money": 50800,
+                "name_total_namtrik": "Trattrɵtsiishik Trattrɵpɵnsrel"
+            },
+            {
+                "number": 127,
+                "number_money_images": [
+                    4,
+                    3,
+                    11,
+                    2
+                ],
+                "total_money": 100800,
+                "name_total_namtrik": "Kansrelishik Trattrɵpɵnsrel"
+            },
+            {
+                "number": 128,
+                "number_money_images": [
+                    5,
+                    6,
+                    2,
+                    3
+                ],
+                "total_money": 3300,
+                "name_total_namtrik": "Pɵnishik Pɵnsrel"
+            },
+            {
+                "number": 129,
+                "number_money_images": [
+                    2,
+                    5,
+                    3,
+                    7
+                ],
+                "total_money": 6300,
+                "name_total_namtrik": "Trattrɵkanishik Pɵnsrel"
+            },
+            {
+                "number": 130,
+                "number_money_images": [
+                    5,
+                    8,
+                    3,
+                    2
+                ],
+                "total_money": 11300,
+                "name_total_namtrik": "Kantsikanishik Pɵnsrel"
+            },
+            {
+                "number": 131,
+                "number_money_images": [
+                    3,
+                    2,
+                    5,
+                    9
+                ],
+                "total_money": 21300,
+                "name_total_namtrik": "Patsikanishik Pɵnsrel"
+            },
+            {
+                "number": 132,
+                "number_money_images": [
+                    10,
+                    3,
+                    2,
+                    5
+                ],
+                "total_money": 51300,
+                "name_total_namtrik": "Trattrɵtsi kanishik Pɵnsrel"
+            },
+            {
+                "number": 133,
+                "number_money_images": [
+                    11,
+                    2,
+                    5,
+                    3
+                ],
+                "total_money": 101300,
+                "name_total_namtrik": "Kansrel kanishik Pɵnsrel"
+            },
+            {
+                "number": 134,
+                "number_money_images": [
+                    3,
+                    7,
+                    2,
+                    6
+                ],
+                "total_money": 7300,
+                "name_total_namtrik": "Trattrɵpaishik Pɵnsrel"
+            },
+            {
+                "number": 135,
+                "number_money_images": [
+                    8,
+                    6,
+                    3,
+                    2
+                ],
+                "total_money": 12300,
+                "name_total_namtrik": "Kantsipaishik Pɵnsrel"
+            },
+            {
+                "number": 136,
+                "number_money_images": [
+                    6,
+                    9,
+                    2,
+                    3
+                ],
+                "total_money": 22300,
+                "name_total_namtrik": "Patsipaishik Pɵnsrel"
+            },
+            {
+                "number": 137,
+                "number_money_images": [
+                    2,
+                    3,
+                    6,
+                    10
+                ],
+                "total_money": 52300,
+                "name_total_namtrik": "Trattrɵtsi Paishik Pɵnsrel"
+            },
+            {
+                "number": 138,
+                "number_money_images": [
+                    6,
+                    2,
+                    11,
+                    3
+                ],
+                "total_money": 102300,
+                "name_total_namtrik": "Kansrel Paishik Pɵnsrel"
+            },
+            {
+                "number": 139,
+                "number_money_images": [
+                    2,
+                    3,
+                    7,
+                    8
+                ],
+                "total_money": 15300,
+                "name_total_namtrik": "Kantsitrattrɵishik Pɵnsrel"
+            },
+            {
+                "number": 140,
+                "number_money_images": [
+                    9,
+                    2,
+                    3,
+                    7
+                ],
+                "total_money": 25300,
+                "name_total_namtrik": "Patsitrattrɵishik Pɵnsrel"
+            },
+            {
+                "number": 141,
+                "number_money_images": [
+                    7,
+                    3,
+                    2,
+                    10
+                ],
+                "total_money": 55300,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵishik Pɵnsrel"
+            },
+            {
+                "number": 142,
+                "number_money_images": [
+                    11,
+                    2,
+                    3,
+                    7
+                ],
+                "total_money": 105300,
+                "name_total_namtrik": "Kansrel Trattrɵishik Pɵnsrel"
+            },
+            {
+                "number": 143,
+                "number_money_images": [
+                    9,
+                    3,
+                    2,
+                    8
+                ],
+                "total_money": 30300,
+                "name_total_namtrik": "Pɵntsi ishik Pɵnsrel"
+            },
+            {
+                "number": 144,
+                "number_money_images": [
+                    3,
+                    10,
+                    2,
+                    8
+                ],
+                "total_money": 60300,
+                "name_total_namtrik": "Trattrɵkantsiishik Pɵnsrel"
+            },
+            {
+                "number": 145,
+                "number_money_images": [
+                    3,
+                    8,
+                    2,
+                    11
+                ],
+                "total_money": 110300,
+                "name_total_namtrik": "Kansrel Kantsiishik Pɵnsrel"
+            },
+            {
+                "number": 146,
+                "number_money_images": [
+                    10,
+                    3,
+                    2,
+                    9
+                ],
+                "total_money": 70300,
+                "name_total_namtrik": "Trattrɵpatsiishik Pɵnsrel"
+            },
+            {
+                "number": 147,
+                "number_money_images": [
+                    2,
+                    3,
+                    11,
+                    9
+                ],
+                "total_money": 120300,
+                "name_total_namtrik": "Kansrel Patsiishik Pɵnsrel"
+            },
+            {
+                "number": 148,
+                "number_money_images": [
+                    3,
+                    2,
+                    10,
+                    11
+                ],
+                "total_money": 150300,
+                "name_total_namtrik": "Kansrel Trattrɵtsiishik Pɵnsrel"
+            },
+            {
+                "number": 149,
+                "number_money_images": [
+                    4,
+                    5,
+                    2,
+                    6
+                ],
+                "total_money": 3600,
+                "name_total_namtrik": "Pɵnishik Trattrɵkansrel"
+            },
+            {
+                "number": 150,
+                "number_money_images": [
+                    2,
+                    5,
+                    4,
+                    7
+                ],
+                "total_money": 6600,
+                "name_total_namtrik": "Trattrɵkanishik Trattrɵkansrel"
+            },
+            {
+                "number": 151,
+                "number_money_images": [
+                    5,
+                    8,
+                    2,
+                    4
+                ],
+                "total_money": 11600,
+                "name_total_namtrik": "Kantsikanishik Trattrɵkansrel"
+            },
+            {
+                "number": 152,
+                "number_money_images": [
+                    5,
+                    4,
+                    9,
+                    2
+                ],
+                "total_money": 21600,
+                "name_total_namtrik": "Patsikanishik Trattrɵkansrel"
+            },
+            {
+                "number": 153,
+                "number_money_images": [
+                    2,
+                    4,
+                    5,
+                    10
+                ],
+                "total_money": 51600,
+                "name_total_namtrik": "Trattrɵtsi kanishik Trattrɵkansrel"
+            },
+            {
+                "number": 154,
+                "number_money_images": [
+                    2,
+                    5,
+                    4,
+                    11
+                ],
+                "total_money": 101600,
+                "name_total_namtrik": "Kansrel kanishik Trattrɵkansrel"
+            },
+            {
+                "number": 155,
+                "number_money_images": [
+                    6,
+                    2,
+                    7,
+                    4
+                ],
+                "total_money": 7600,
+                "name_total_namtrik": "Trattrɵpaishik Trattrɵkansrel"
+            },
+            {
+                "number": 156,
+                "number_money_images": [
+                    6,
+                    2,
+                    4,
+                    8
+                ],
+                "total_money": 12600,
+                "name_total_namtrik": "Kantsipaishik Trattrɵkansrel"
+            },
+            {
+                "number": 157,
+                "number_money_images": [
+                    6,
+                    4,
+                    9,
+                    2
+                ],
+                "total_money": 22600,
+                "name_total_namtrik": "Patsipaishik Trattrɵkansrel"
+            },
+            {
+                "number": 158,
+                "number_money_images": [
+                    4,
+                    6,
+                    10,
+                    2
+                ],
+                "total_money": 52600,
+                "name_total_namtrik": "Trattrɵtsi Paishik Trattrɵkansrel"
+            },
+            {
+                "number": 159,
+                "number_money_images": [
+                    6,
+                    2,
+                    4,
+                    11
+                ],
+                "total_money": 102600,
+                "name_total_namtrik": "Kansrel Paishik Trattrɵkansrel"
+            },
+            {
+                "number": 160,
+                "number_money_images": [
+                    4,
+                    8,
+                    2,
+                    7
+                ],
+                "total_money": 15600,
+                "name_total_namtrik": "Kantsitrattrɵishik Trattrɵkansrel"
+            },
+            {
+                "number": 161,
+                "number_money_images": [
+                    2,
+                    4,
+                    7,
+                    9
+                ],
+                "total_money": 25600,
+                "name_total_namtrik": "Patsitrattrɵishik Trattrɵkansrel"
+            },
+            {
+                "number": 162,
+                "number_money_images": [
+                    2,
+                    4,
+                    7,
+                    10
+                ],
+                "total_money": 55600,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵishik Trattrɵkansrel"
+            },
+            {
+                "number": 163,
+                "number_money_images": [
+                    7,
+                    2,
+                    4,
+                    11
+                ],
+                "total_money": 105600,
+                "name_total_namtrik": "Kansrel Trattrɵishik Trattrɵkansrel"
+            },
+            {
+                "number": 164,
+                "number_money_images": [
+                    2,
+                    4,
+                    9,
+                    8
+                ],
+                "total_money": 30600,
+                "name_total_namtrik": "Pɵntsi ishik Trattrɵkansrel"
+            },
+            {
+                "number": 165,
+                "number_money_images": [
+                    8,
+                    10,
+                    2,
+                    4
+                ],
+                "total_money": 60600,
+                "name_total_namtrik": "Trattrɵkantsiishik Trattrɵkansrel"
+            },
+            {
+                "number": 166,
+                "number_money_images": [
+                    11,
+                    8,
+                    2,
+                    4
+                ],
+                "total_money": 110600,
+                "name_total_namtrik": "Kansrel Kantsiishik Trattrɵkansrel"
+            },
+            {
+                "number": 167,
+                "number_money_images": [
+                    9,
+                    4,
+                    2,
+                    10
+                ],
+                "total_money": 70600,
+                "name_total_namtrik": "Trattrɵpatsiishik Trattrɵkansrel"
+            },
+            {
+                "number": 168,
+                "number_money_images": [
+                    2,
+                    4,
+                    9,
+                    11
+                ],
+                "total_money": 120600,
+                "name_total_namtrik": "Kansrel Patsiishik Trattrɵkansrel"
+            },
+            {
+                "number": 169,
+                "number_money_images": [
+                    4,
+                    10,
+                    11,
+                    2
+                ],
+                "total_money": 150600,
+                "name_total_namtrik": "Kansrel Trattrɵtsiishik Trattrɵkansrel"
+            },
+            {
+                "number": 170,
+                "number_money_images": [
+                    7,
+                    5,
+                    2,
+                    6
+                ],
+                "total_money": 8100,
+                "name_total_namtrik": "Trattrɵpɵnishik Kansrel"
+            },
+            {
+                "number": 171,
+                "number_money_images": [
+                    8,
+                    6,
+                    5,
+                    2
+                ],
+                "total_money": 13100,
+                "name_total_namtrik": "Kantsipɵnishik Kansrel"
+            },
+            {
+                "number": 172,
+                "number_money_images": [
+                    9,
+                    6,
+                    2,
+                    5
+                ],
+                "total_money": 23100,
+                "name_total_namtrik": "Patsipɵnishik Kansrel"
+            },
+            {
+                "number": 173,
+                "number_money_images": [
+                    10,
+                    2,
+                    6,
+                    5
+                ],
+                "total_money": 53100,
+                "name_total_namtrik": "Trattrɵtsi pɵnishik Kansrel"
+            },
+            {
+                "number": 174,
+                "number_money_images": [
+                    2,
+                    5,
+                    11,
+                    6
+                ],
+                "total_money": 103100,
+                "name_total_namtrik": "Kansrel pɵnishik Kansrel"
+            },
+            {
+                "number": 175,
+                "number_money_images": [
+                    8,
+                    5,
+                    2,
+                    7
+                ],
+                "total_money": 16100,
+                "name_total_namtrik": "Kantsitrattrɵkanishik Kansrel"
+            },
+            {
+                "number": 176,
+                "number_money_images": [
+                    2,
+                    5,
+                    7,
+                    9
+                ],
+                "total_money": 26100,
+                "name_total_namtrik": "Patsitrattrɵkanishik Kansrel"
+            },
+            {
+                "number": 177,
+                "number_money_images": [
+                    2,
+                    7,
+                    5,
+                    10
+                ],
+                "total_money": 56100,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵkanishik Kansrel"
+            },
+            {
+                "number": 178,
+                "number_money_images": [
+                    11,
+                    2,
+                    5,
+                    7
+                ],
+                "total_money": 106100,
+                "name_total_namtrik": "Kansrel Trattrɵkanishik Kansrel"
+            },
+            {
+                "number": 179,
+                "number_money_images": [
+                    8,
+                    2,
+                    9,
+                    5
+                ],
+                "total_money": 31100,
+                "name_total_namtrik": "Pɵntsi kanishik Kansrel"
+            },
+            {
+                "number": 180,
+                "number_money_images": [
+                    2,
+                    5,
+                    10,
+                    8
+                ],
+                "total_money": 61100,
+                "name_total_namtrik": "Trattrɵkantsi kanishik Kansrel"
+            },
+            {
+                "number": 181,
+                "number_money_images": [
+                    11,
+                    8,
+                    2,
+                    5
+                ],
+                "total_money": 111100,
+                "name_total_namtrik": "Kansrel Kantsikanishik Kansrel"
+            },
+            {
+                "number": 182,
+                "number_money_images": [
+                    2,
+                    9,
+                    10,
+                    5
+                ],
+                "total_money": 71100,
+                "name_total_namtrik": "Trattrɵpatsi kanishik Kansrel"
+            },
+            {
+                "number": 183,
+                "number_money_images": [
+                    9,
+                    2,
+                    11,
+                    5
+                ],
+                "total_money": 121100,
+                "name_total_namtrik": "Kansrel Patsikanishik Kansrel"
+            },
+            {
+                "number": 184,
+                "number_money_images": [
+                    5,
+                    10,
+                    2,
+                    11
+                ],
+                "total_money": 151100,
+                "name_total_namtrik": "Kansrel Trattrɵtsi kanishik Kansrel"
+            },
+            {
+                "number": 185,
+                "number_money_images": [
+                    7,
+                    6,
+                    8,
+                    2
+                ],
+                "total_money": 17100,
+                "name_total_namtrik": "Kantsitrattrɵpaishik Kansrel"
+            },
+            {
+                "number": 186,
+                "number_money_images": [
+                    6,
+                    7,
+                    9,
+                    2
+                ],
+                "total_money": 27100,
+                "name_total_namtrik": "Patsitrattrɵpaishik Kansrel"
+            },
+            {
+                "number": 187,
+                "number_money_images": [
+                    2,
+                    6,
+                    7,
+                    10
+                ],
+                "total_money": 57100,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵpaishik Kansrel"
+            },
+            {
+                "number": 188,
+                "number_money_images": [
+                    11,
+                    6,
+                    2,
+                    7
+                ],
+                "total_money": 107100,
+                "name_total_namtrik": "Kansrel Trattrɵpaishik Kansrel"
+            },
+            {
+                "number": 189,
+                "number_money_images": [
+                    9,
+                    8,
+                    2,
+                    6
+                ],
+                "total_money": 32100,
+                "name_total_namtrik": "Pɵntsi Paishik Kansrel"
+            },
+            {
+                "number": 190,
+                "number_money_images": [
+                    10,
+                    8,
+                    6,
+                    2
+                ],
+                "total_money": 62100,
+                "name_total_namtrik": "Trattrɵkantsi Paishik Kansrel"
+            },
+            {
+                "number": 191,
+                "number_money_images": [
+                    8,
+                    6,
+                    11,
+                    2
+                ],
+                "total_money": 112100,
+                "name_total_namtrik": "Kansrel Kantsipaishik Kansrel"
+            },
+            {
+                "number": 192,
+                "number_money_images": [
+                    6,
+                    10,
+                    2,
+                    9
+                ],
+                "total_money": 72100,
+                "name_total_namtrik": "Trattrɵpatsi Paishik Kansrel"
+            },
+            {
+                "number": 193,
+                "number_money_images": [
+                    6,
+                    11,
+                    2,
+                    9
+                ],
+                "total_money": 122100,
+                "name_total_namtrik": "Kansrel Patsipaishik Kansrel"
+            },
+            {
+                "number": 194,
+                "number_money_images": [
+                    11,
+                    6,
+                    2,
+                    10
+                ],
+                "total_money": 152100,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Paishik Kansrel"
+            },
+            {
+                "number": 195,
+                "number_money_images": [
+                    2,
+                    9,
+                    8,
+                    7
+                ],
+                "total_money": 35100,
+                "name_total_namtrik": "Pɵntsi Trattrɵishik Kansrel"
+            },
+            {
+                "number": 196,
+                "number_money_images": [
+                    8,
+                    10,
+                    2,
+                    7
+                ],
+                "total_money": 65100,
+                "name_total_namtrik": "Trattrɵkantsi Trattrɵishik Kansrel"
+            },
+            {
+                "number": 197,
+                "number_money_images": [
+                    7,
+                    8,
+                    11,
+                    2
+                ],
+                "total_money": 115100,
+                "name_total_namtrik": "Kansrel Kantsitrattrɵishik Kansrel"
+            },
+            {
+                "number": 198,
+                "number_money_images": [
+                    2,
+                    9,
+                    7,
+                    10
+                ],
+                "total_money": 75100,
+                "name_total_namtrik": "Trattrɵpatsi Trattrɵishik Kansrel"
+            },
+            {
+                "number": 199,
+                "number_money_images": [
+                    2,
+                    11,
+                    9,
+                    7
+                ],
+                "total_money": 125100,
+                "name_total_namtrik": "Kansrel Patsitrattrɵishik Kansrel"
+            },
+            {
+                "number": 200,
+                "number_money_images": [
+                    2,
+                    10,
+                    7,
+                    11
+                ],
+                "total_money": 155100,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Trattrɵishik Kansrel"
+            },
+            {
+                "number": 201,
+                "number_money_images": [
+                    9,
+                    8,
+                    2,
+                    10
+                ],
+                "total_money": 80100,
+                "name_total_namtrik": "Trattrɵpɵntsiishik Kansrel"
+            },
+            {
+                "number": 202,
+                "number_money_images": [
+                    11,
+                    9,
+                    2,
+                    8
+                ],
+                "total_money": 130100,
+                "name_total_namtrik": "Kansrel Pɵntsi ishik Kansrel"
+            },
+            {
+                "number": 203,
+                "number_money_images": [
+                    10,
+                    11,
+                    8,
+                    2
+                ],
+                "total_money": 160100,
+                "name_total_namtrik": "Kansrel Trattrɵkantsiishik Kansrel"
+            },
+            {
+                "number": 204,
+                "number_money_images": [
+                    10,
+                    11,
+                    2,
+                    9
+                ],
+                "total_money": 170100,
+                "name_total_namtrik": "Kansrel Trattrɵpatsiishik Kansrel"
+            },
+            {
+                "number": 205,
+                "number_money_images": [
+                    4,
+                    6,
+                    5,
+                    3
+                ],
+                "total_money": 3700,
+                "name_total_namtrik": "Pɵnishik Trattrɵpasrel"
+            },
+            {
+                "number": 206,
+                "number_money_images": [
+                    7,
+                    4,
+                    3,
+                    5
+                ],
+                "total_money": 6700,
+                "name_total_namtrik": "Trattrɵkanishik Trattrɵpasrel"
+            },
+            {
+                "number": 207,
+                "number_money_images": [
+                    3,
+                    4,
+                    8,
+                    5
+                ],
+                "total_money": 11700,
+                "name_total_namtrik": "Kantsikanishik Trattrɵpasrel"
+            },
+            {
+                "number": 208,
+                "number_money_images": [
+                    9,
+                    3,
+                    4,
+                    5
+                ],
+                "total_money": 21700,
+                "name_total_namtrik": "Patsikanishik Trattrɵpasrel"
+            },
+            {
+                "number": 209,
+                "number_money_images": [
+                    5,
+                    10,
+                    3,
+                    4
+                ],
+                "total_money": 51700,
+                "name_total_namtrik": "Trattrɵtsi kanishik Trattrɵpasrel"
+            },
+            {
+                "number": 210,
+                "number_money_images": [
+                    11,
+                    5,
+                    3,
+                    4
+                ],
+                "total_money": 101700,
+                "name_total_namtrik": "Kansrel kanishik Trattrɵpasrel"
+            },
+            {
+                "number": 211,
+                "number_money_images": [
+                    6,
+                    7,
+                    3,
+                    4
+                ],
+                "total_money": 7700,
+                "name_total_namtrik": "Trattrɵpaishik Trattrɵpasrel"
+            },
+            {
+                "number": 212,
+                "number_money_images": [
+                    4,
+                    3,
+                    8,
+                    6
+                ],
+                "total_money": 12700,
+                "name_total_namtrik": "Kantsipaishik Trattrɵpasrel"
+            },
+            {
+                "number": 213,
+                "number_money_images": [
+                    6,
+                    9,
+                    4,
+                    3
+                ],
+                "total_money": 22700,
+                "name_total_namtrik": "Patsipaishik Trattrɵpasrel"
+            },
+            {
+                "number": 214,
+                "number_money_images": [
+                    6,
+                    4,
+                    10,
+                    3
+                ],
+                "total_money": 52700,
+                "name_total_namtrik": "Trattrɵtsi Paishik Trattrɵpasrel"
+            },
+            {
+                "number": 215,
+                "number_money_images": [
+                    4,
+                    3,
+                    11,
+                    6
+                ],
+                "total_money": 102700,
+                "name_total_namtrik": "Kansrel Paishik Trattrɵpasrel"
+            },
+            {
+                "number": 216,
+                "number_money_images": [
+                    3,
+                    7,
+                    4,
+                    8
+                ],
+                "total_money": 15700,
+                "name_total_namtrik": "Kantsitrattrɵishik Trattrɵpasrel"
+            },
+            {
+                "number": 217,
+                "number_money_images": [
+                    7,
+                    3,
+                    9,
+                    4
+                ],
+                "total_money": 25700,
+                "name_total_namtrik": "Patsitrattrɵishik Trattrɵpasrel"
+            },
+            {
+                "number": 218,
+                "number_money_images": [
+                    3,
+                    10,
+                    7,
+                    4
+                ],
+                "total_money": 55700,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵishik Trattrɵpasrel"
+            },
+            {
+                "number": 219,
+                "number_money_images": [
+                    7,
+                    4,
+                    3,
+                    11
+                ],
+                "total_money": 105700,
+                "name_total_namtrik": "Kansrel Trattrɵishik Trattrɵpasrel"
+            },
+            {
+                "number": 220,
+                "number_money_images": [
+                    8,
+                    9,
+                    3,
+                    4
+                ],
+                "total_money": 30700,
+                "name_total_namtrik": "Pɵntsi ishik Trattrɵpasrel"
+            },
+            {
+                "number": 221,
+                "number_money_images": [
+                    10,
+                    8,
+                    3,
+                    4
+                ],
+                "total_money": 60700,
+                "name_total_namtrik": "Trattrɵkantsiishik Trattrɵpasrel"
+            },
+            {
+                "number": 222,
+                "number_money_images": [
+                    3,
+                    8,
+                    4,
+                    11
+                ],
+                "total_money": 110700,
+                "name_total_namtrik": "Kansrel Kantsiishik Trattrɵpasrel"
+            },
+            {
+                "number": 223,
+                "number_money_images": [
+                    3,
+                    9,
+                    10,
+                    4
+                ],
+                "total_money": 70700,
+                "name_total_namtrik": "Trattrɵpatsiishik Trattrɵpasrel"
+            },
+            {
+                "number": 224,
+                "number_money_images": [
+                    9,
+                    4,
+                    3,
+                    11
+                ],
+                "total_money": 120700,
+                "name_total_namtrik": "Kansrel Patsiishik Trattrɵpasrel"
+            },
+            {
+                "number": 225,
+                "number_money_images": [
+                    11,
+                    4,
+                    3,
+                    10
+                ],
+                "total_money": 150700,
+                "name_total_namtrik": "Kansrel Trattrɵtsiishik Trattrɵpasrel"
+            },
+            {
+                "number": 226,
+                "number_money_images": [
+                    3,
+                    5,
+                    6,
+                    7
+                ],
+                "total_money": 8200,
+                "name_total_namtrik": "Trattrɵpɵnishik Pasrel"
+            },
+            {
+                "number": 227,
+                "number_money_images": [
+                    8,
+                    6,
+                    5,
+                    3
+                ],
+                "total_money": 13200,
+                "name_total_namtrik": "Kantsipɵnishik Pasrel"
+            },
+            {
+                "number": 228,
+                "number_money_images": [
+                    3,
+                    9,
+                    6,
+                    5
+                ],
+                "total_money": 23200,
+                "name_total_namtrik": "Patsipɵnishik Pasrel"
+            },
+            {
+                "number": 229,
+                "number_money_images": [
+                    6,
+                    5,
+                    10,
+                    3
+                ],
+                "total_money": 53200,
+                "name_total_namtrik": "Trattrɵtsi pɵnishik Pasrel"
+            },
+            {
+                "number": 230,
+                "number_money_images": [
+                    11,
+                    6,
+                    3,
+                    5
+                ],
+                "total_money": 103200,
+                "name_total_namtrik": "Kansrel pɵnishik Pasrel"
+            },
+            {
+                "number": 231,
+                "number_money_images": [
+                    7,
+                    3,
+                    8,
+                    5
+                ],
+                "total_money": 16200,
+                "name_total_namtrik": "Kantsitrattrɵkanishik Pasrel"
+            },
+            {
+                "number": 232,
+                "number_money_images": [
+                    7,
+                    3,
+                    5,
+                    9
+                ],
+                "total_money": 26200,
+                "name_total_namtrik": "Patsitrattrɵkanishik Pasrel"
+            },
+            {
+                "number": 233,
+                "number_money_images": [
+                    7,
+                    10,
+                    3,
+                    5
+                ],
+                "total_money": 56200,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵkanishik Pasrel"
+            },
+            {
+                "number": 234,
+                "number_money_images": [
+                    11,
+                    3,
+                    5,
+                    7
+                ],
+                "total_money": 106200,
+                "name_total_namtrik": "Kansrel Trattrɵkanishik Pasrel"
+            },
+            {
+                "number": 235,
+                "number_money_images": [
+                    8,
+                    3,
+                    9,
+                    5
+                ],
+                "total_money": 31200,
+                "name_total_namtrik": "Pɵntsi kanishik Pasrel"
+            },
+            {
+                "number": 236,
+                "number_money_images": [
+                    5,
+                    3,
+                    10,
+                    8
+                ],
+                "total_money": 61200,
+                "name_total_namtrik": "Trattrɵkantsi kanishik Pasrel"
+            },
+            {
+                "number": 237,
+                "number_money_images": [
+                    5,
+                    11,
+                    8,
+                    3
+                ],
+                "total_money": 111200,
+                "name_total_namtrik": "Kansrel Kantsikanishik Pasrel"
+            },
+            {
+                "number": 238,
+                "number_money_images": [
+                    9,
+                    10,
+                    5,
+                    3
+                ],
+                "total_money": 71200,
+                "name_total_namtrik": "Trattrɵpatsi kanishik Pasrel"
+            },
+            {
+                "number": 239,
+                "number_money_images": [
+                    5,
+                    9,
+                    3,
+                    11
+                ],
+                "total_money": 121200,
+                "name_total_namtrik": "Kansrel Patsikanishik Pasrel"
+            },
+            {
+                "number": 240,
+                "number_money_images": [
+                    10,
+                    3,
+                    11,
+                    5
+                ],
+                "total_money": 151200,
+                "name_total_namtrik": "Kansrel Trattrɵtsi kanishik Pasrel"
+            },
+            {
+                "number": 241,
+                "number_money_images": [
+                    8,
+                    6,
+                    3,
+                    7
+                ],
+                "total_money": 17200,
+                "name_total_namtrik": "Kantsitrattrɵpaishik Pasrel"
+            },
+            {
+                "number": 242,
+                "number_money_images": [
+                    7,
+                    9,
+                    3,
+                    6
+                ],
+                "total_money": 27200,
+                "name_total_namtrik": "Patsitrattrɵpaishik Pasrel"
+            },
+            {
+                "number": 243,
+                "number_money_images": [
+                    7,
+                    10,
+                    3,
+                    6
+                ],
+                "total_money": 57200,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵpaishik Pasrel"
+            },
+            {
+                "number": 244,
+                "number_money_images": [
+                    11,
+                    7,
+                    6,
+                    3
+                ],
+                "total_money": 107200,
+                "name_total_namtrik": "Kansrel Trattrɵpaishik Pasrel"
+            },
+            {
+                "number": 245,
+                "number_money_images": [
+                    9,
+                    3,
+                    8,
+                    6
+                ],
+                "total_money": 32200,
+                "name_total_namtrik": "Pɵntsi Paishik Pasrel"
+            },
+            {
+                "number": 246,
+                "number_money_images": [
+                    3,
+                    6,
+                    10,
+                    8
+                ],
+                "total_money": 62200,
+                "name_total_namtrik": "Trattrɵkantsi Paishik Pasrel"
+            },
+            {
+                "number": 247,
+                "number_money_images": [
+                    6,
+                    11,
+                    8,
+                    3
+                ],
+                "total_money": 112200,
+                "name_total_namtrik": "Kansrel Kantsipaishik Pasrel"
+            },
+            {
+                "number": 248,
+                "number_money_images": [
+                    3,
+                    6,
+                    9,
+                    10
+                ],
+                "total_money": 72200,
+                "name_total_namtrik": "Trattrɵpatsi Paishik Pasrel"
+            },
+            {
+                "number": 249,
+                "number_money_images": [
+                    3,
+                    9,
+                    11,
+                    6
+                ],
+                "total_money": 122200,
+                "name_total_namtrik": "Kansrel Patsipaishik Pasrel"
+            },
+            {
+                "number": 250,
+                "number_money_images": [
+                    10,
+                    6,
+                    11,
+                    3
+                ],
+                "total_money": 152200,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Paishik Pasrel"
+            },
+            {
+                "number": 251,
+                "number_money_images": [
+                    7,
+                    8,
+                    3,
+                    9
+                ],
+                "total_money": 35200,
+                "name_total_namtrik": "Pɵntsi Trattrɵishik Pasrel"
+            },
+            {
+                "number": 252,
+                "number_money_images": [
+                    8,
+                    3,
+                    7,
+                    10
+                ],
+                "total_money": 65200,
+                "name_total_namtrik": "Trattrɵkantsi Trattrɵishik Pasrel"
+            },
+            {
+                "number": 253,
+                "number_money_images": [
+                    3,
+                    7,
+                    8,
+                    11
+                ],
+                "total_money": 115200,
+                "name_total_namtrik": "Kansrel Kantsitrattrɵishik Pasrel"
+            },
+            {
+                "number": 254,
+                "number_money_images": [
+                    10,
+                    7,
+                    3,
+                    9
+                ],
+                "total_money": 75200,
+                "name_total_namtrik": "Trattrɵpatsi Trattrɵishik Pasrel"
+            },
+            {
+                "number": 255,
+                "number_money_images": [
+                    3,
+                    7,
+                    11,
+                    9
+                ],
+                "total_money": 125200,
+                "name_total_namtrik": "Kansrel Patsitrattrɵishik Pasrel"
+            },
+            {
+                "number": 256,
+                "number_money_images": [
+                    11,
+                    7,
+                    3,
+                    10
+                ],
+                "total_money": 155200,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Trattrɵishik Pasrel"
+            },
+            {
+                "number": 257,
+                "number_money_images": [
+                    8,
+                    10,
+                    3,
+                    9
+                ],
+                "total_money": 80200,
+                "name_total_namtrik": "Trattrɵpɵntsiishik Pasrel"
+            },
+            {
+                "number": 258,
+                "number_money_images": [
+                    9,
+                    11,
+                    3,
+                    8
+                ],
+                "total_money": 130200,
+                "name_total_namtrik": "Kansrel Pɵntsi ishik Pasrel"
+            },
+            {
+                "number": 259,
+                "number_money_images": [
+                    10,
+                    3,
+                    8,
+                    11
+                ],
+                "total_money": 160200,
+                "name_total_namtrik": "Kansrel Trattrɵkantsiishik Pasrel"
+            },
+            {
+                "number": 260,
+                "number_money_images": [
+                    9,
+                    10,
+                    11,
+                    3
+                ],
+                "total_money": 170200,
+                "name_total_namtrik": "Kansrel Trattrɵpatsiishik Pasrel"
+            },
+            {
+                "number": 261,
+                "number_money_images": [
+                    5,
+                    6,
+                    4,
+                    7
+                ],
+                "total_money": 8500,
+                "name_total_namtrik": "Trattrɵpɵnishik Trattrɵsrel"
+            },
+            {
+                "number": 262,
+                "number_money_images": [
+                    4,
+                    6,
+                    5,
+                    8
+                ],
+                "total_money": 13500,
+                "name_total_namtrik": "Kantsipɵnishik Trattrɵsrel"
+            },
+            {
+                "number": 263,
+                "number_money_images": [
+                    6,
+                    9,
+                    4,
+                    5
+                ],
+                "total_money": 23500,
+                "name_total_namtrik": "Patsipɵnishik Trattrɵsrel"
+            },
+            {
+                "number": 264,
+                "number_money_images": [
+                    6,
+                    10,
+                    5,
+                    4
+                ],
+                "total_money": 53500,
+                "name_total_namtrik": "Trattrɵtsi pɵnishik Trattrɵsrel"
+            },
+            {
+                "number": 265,
+                "number_money_images": [
+                    6,
+                    5,
+                    11,
+                    4
+                ],
+                "total_money": 103500,
+                "name_total_namtrik": "Kansrel pɵnishik Trattrɵsrel"
+            },
+            {
+                "number": 266,
+                "number_money_images": [
+                    7,
+                    4,
+                    5,
+                    8
+                ],
+                "total_money": 16500,
+                "name_total_namtrik": "Kantsitrattrɵkanishik Trattrɵsrel"
+            },
+            {
+                "number": 267,
+                "number_money_images": [
+                    9,
+                    4,
+                    7,
+                    5
+                ],
+                "total_money": 26500,
+                "name_total_namtrik": "Patsitrattrɵkanishik Trattrɵsrel"
+            },
+            {
+                "number": 268,
+                "number_money_images": [
+                    7,
+                    5,
+                    4,
+                    10
+                ],
+                "total_money": 56500,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵkanishik Trattrɵsrel"
+            },
+            {
+                "number": 269,
+                "number_money_images": [
+                    7,
+                    4,
+                    5,
+                    11
+                ],
+                "total_money": 106500,
+                "name_total_namtrik": "Kansrel Trattrɵkanishik Trattrɵsrel"
+            },
+            {
+                "number": 270,
+                "number_money_images": [
+                    9,
+                    5,
+                    8,
+                    4
+                ],
+                "total_money": 31500,
+                "name_total_namtrik": "Pɵntsi kanishik Trattrɵsrel"
+            },
+            {
+                "number": 271,
+                "number_money_images": [
+                    5,
+                    10,
+                    8,
+                    4
+                ],
+                "total_money": 61500,
+                "name_total_namtrik": "Trattrɵkantsi kanishik Trattrɵsrel"
+            },
+            {
+                "number": 272,
+                "number_money_images": [
+                    11,
+                    4,
+                    8,
+                    5
+                ],
+                "total_money": 111500,
+                "name_total_namtrik": "Kansrel Kantsikanishik Trattrɵsrel"
+            },
+            {
+                "number": 273,
+                "number_money_images": [
+                    9,
+                    4,
+                    10,
+                    5
+                ],
+                "total_money": 71500,
+                "name_total_namtrik": "Trattrɵpatsi kanishik Trattrɵsrel"
+            },
+            {
+                "number": 274,
+                "number_money_images": [
+                    9,
+                    5,
+                    4,
+                    11
+                ],
+                "total_money": 121500,
+                "name_total_namtrik": "Kansrel Patsikanishik Trattrɵsrel"
+            },
+            {
+                "number": 275,
+                "number_money_images": [
+                    5,
+                    10,
+                    11,
+                    4
+                ],
+                "total_money": 151500,
+                "name_total_namtrik": "Kansrel Trattrɵtsi kanishik Trattrɵsrel"
+            },
+            {
+                "number": 276,
+                "number_money_images": [
+                    8,
+                    6,
+                    4,
+                    7
+                ],
+                "total_money": 17500,
+                "name_total_namtrik": "Kantsitrattrɵpaishik Trattrɵsrel"
+            },
+            {
+                "number": 277,
+                "number_money_images": [
+                    4,
+                    9,
+                    7,
+                    6
+                ],
+                "total_money": 27500,
+                "name_total_namtrik": "Patsitrattrɵpaishik Trattrɵsrel"
+            },
+            {
+                "number": 278,
+                "number_money_images": [
+                    4,
+                    7,
+                    6,
+                    10
+                ],
+                "total_money": 57500,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵpaishik Trattrɵsrel"
+            },
+            {
+                "number": 279,
+                "number_money_images": [
+                    11,
+                    6,
+                    7,
+                    4
+                ],
+                "total_money": 107500,
+                "name_total_namtrik": "Kansrel Trattrɵpaishik Trattrɵsrel"
+            },
+            {
+                "number": 280,
+                "number_money_images": [
+                    9,
+                    4,
+                    8,
+                    6
+                ],
+                "total_money": 32500,
+                "name_total_namtrik": "Pɵntsi Paishik Trattrɵsrel"
+            },
+            {
+                "number": 281,
+                "number_money_images": [
+                    4,
+                    6,
+                    10,
+                    8
+                ],
+                "total_money": 62500,
+                "name_total_namtrik": "Trattrɵkantsi Paishik Trattrɵsrel"
+            },
+            {
+                "number": 282,
+                "number_money_images": [
+                    11,
+                    6,
+                    8,
+                    4
+                ],
+                "total_money": 112500,
+                "name_total_namtrik": "Kansrel Kantsipaishik Trattrɵsrel"
+            },
+            {
+                "number": 283,
+                "number_money_images": [
+                    10,
+                    6,
+                    4,
+                    9
+                ],
+                "total_money": 72500,
+                "name_total_namtrik": "Trattrɵpatsi Paishik Trattrɵsrel"
+            },
+            {
+                "number": 284,
+                "number_money_images": [
+                    6,
+                    4,
+                    9,
+                    11
+                ],
+                "total_money": 122500,
+                "name_total_namtrik": "Kansrel Patsipaishik Trattrɵsrel"
+            },
+            {
+                "number": 285,
+                "number_money_images": [
+                    10,
+                    4,
+                    11,
+                    6
+                ],
+                "total_money": 152500,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Paishik Trattrɵsrel"
+            },
+            {
+                "number": 286,
+                "number_money_images": [
+                    8,
+                    7,
+                    9,
+                    4
+                ],
+                "total_money": 35500,
+                "name_total_namtrik": "Pɵntsi Trattrɵishik Trattrɵsrel"
+            },
+            {
+                "number": 287,
+                "number_money_images": [
+                    8,
+                    7,
+                    10,
+                    4
+                ],
+                "total_money": 65500,
+                "name_total_namtrik": "Trattrɵkantsi Trattrɵishik Trattrɵsrel"
+            },
+            {
+                "number": 288,
+                "number_money_images": [
+                    4,
+                    8,
+                    11,
+                    7
+                ],
+                "total_money": 115500,
+                "name_total_namtrik": "Kansrel Kantsitrattrɵishik Trattrɵsrel"
+            },
+            {
+                "number": 289,
+                "number_money_images": [
+                    4,
+                    9,
+                    10,
+                    7
+                ],
+                "total_money": 75500,
+                "name_total_namtrik": "Trattrɵpatsi Trattrɵishik Trattrɵsrel"
+            },
+            {
+                "number": 290,
+                "number_money_images": [
+                    9,
+                    7,
+                    4,
+                    11
+                ],
+                "total_money": 125500,
+                "name_total_namtrik": "Kansrel Patsitrattrɵishik Trattrɵsrel"
+            },
+            {
+                "number": 291,
+                "number_money_images": [
+                    4,
+                    10,
+                    7,
+                    11
+                ],
+                "total_money": 155500,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Trattrɵishik Trattrɵsrel"
+            },
+            {
+                "number": 292,
+                "number_money_images": [
+                    10,
+                    8,
+                    9,
+                    4
+                ],
+                "total_money": 80500,
+                "name_total_namtrik": "Trattrɵpɵntsiishik Trattrɵsrel"
+            },
+            {
+                "number": 293,
+                "number_money_images": [
+                    11,
+                    4,
+                    9,
+                    8
+                ],
+                "total_money": 130500,
+                "name_total_namtrik": "Kansrel Pɵntsi ishik Trattrɵsrel"
+            },
+            {
+                "number": 294,
+                "number_money_images": [
+                    11,
+                    8,
+                    4,
+                    10
+                ],
+                "total_money": 160500,
+                "name_total_namtrik": "Kansrel Trattrɵkantsiishik Trattrɵsrel"
+            },
+            {
+                "number": 295,
+                "number_money_images": [
+                    11,
+                    9,
+                    4,
+                    10
+                ],
+                "total_money": 170500,
+                "name_total_namtrik": "Kansrel Trattrɵpatsiishik Trattrɵsrel"
+            },
+            {
+                "number": 296,
+                "number_money_images": [
+                    6,
+                    7,
+                    5,
+                    8
+                ],
+                "total_money": 18000,
+                "name_total_namtrik": "Kantsitrattrɵpɵnishik"
+            },
+            {
+                "number": 297,
+                "number_money_images": [
+                    7,
+                    9,
+                    5,
+                    6
+                ],
+                "total_money": 28000,
+                "name_total_namtrik": "Patsitrattrɵpɵnishik"
+            },
+            {
+                "number": 298,
+                "number_money_images": [
+                    7,
+                    10,
+                    5,
+                    6
+                ],
+                "total_money": 58000,
+                "name_total_namtrik": "Trattrɵtsi Trattrɵpɵnishik"
+            },
+            {
+                "number": 299,
+                "number_money_images": [
+                    7,
+                    11,
+                    6,
+                    5
+                ],
+                "total_money": 108000,
+                "name_total_namtrik": "Kansrel Trattrɵpɵnishik"
+            },
+            {
+                "number": 300,
+                "number_money_images": [
+                    9,
+                    5,
+                    6,
+                    8
+                ],
+                "total_money": 33000,
+                "name_total_namtrik": "Pɵntsi pɵnishik"
+            },
+            {
+                "number": 301,
+                "number_money_images": [
+                    5,
+                    10,
+                    8,
+                    6
+                ],
+                "total_money": 63000,
+                "name_total_namtrik": "Trattrɵkantsi pɵnishik"
+            },
+            {
+                "number": 302,
+                "number_money_images": [
+                    6,
+                    8,
+                    5,
+                    11
+                ],
+                "total_money": 113000,
+                "name_total_namtrik": "Kansrel Kantsipɵnishik"
+            },
+            {
+                "number": 303,
+                "number_money_images": [
+                    5,
+                    6,
+                    10,
+                    9
+                ],
+                "total_money": 73000,
+                "name_total_namtrik": "Trattrɵpatsi pɵnishik"
+            },
+            {
+                "number": 304,
+                "number_money_images": [
+                    9,
+                    6,
+                    5,
+                    11
+                ],
+                "total_money": 123000,
+                "name_total_namtrik": "Kansrel Patsipɵnishik"
+            },
+            {
+                "number": 305,
+                "number_money_images": [
+                    10,
+                    11,
+                    5,
+                    6
+                ],
+                "total_money": 153000,
+                "name_total_namtrik": "Kansrel Trattrɵtsi pɵnishik"
+            },
+            {
+                "number": 306,
+                "number_money_images": [
+                    9,
+                    5,
+                    7,
+                    8
+                ],
+                "total_money": 36000,
+                "name_total_namtrik": "Pɵntsi Trattrɵkanishik"
+            },
+            {
+                "number": 307,
+                "number_money_images": [
+                    5,
+                    8,
+                    7,
+                    10
+                ],
+                "total_money": 66000,
+                "name_total_namtrik": "Trattrɵkantsi Trattrɵkanishik"
+            },
+            {
+                "number": 308,
+                "number_money_images": [
+                    5,
+                    11,
+                    8,
+                    7
+                ],
+                "total_money": 116000,
+                "name_total_namtrik": "Kansrel Kantsitrattrɵkanishik"
+            },
+            {
+                "number": 309,
+                "number_money_images": [
+                    5,
+                    10,
+                    9,
+                    7
+                ],
+                "total_money": 76000,
+                "name_total_namtrik": "Trattrɵpatsi Trattrɵkanishik"
+            },
+            {
+                "number": 310,
+                "number_money_images": [
+                    11,
+                    5,
+                    9,
+                    7
+                ],
+                "total_money": 126000,
+                "name_total_namtrik": "Kansrel Patsitrattrɵkanishik"
+            },
+            {
+                "number": 311,
+                "number_money_images": [
+                    7,
+                    11,
+                    5,
+                    10
+                ],
+                "total_money": 156000,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Trattrɵkanishik"
+            },
+            {
+                "number": 312,
+                "number_money_images": [
+                    5,
+                    9,
+                    8,
+                    10
+                ],
+                "total_money": 81000,
+                "name_total_namtrik": "Trattrɵpɵntsi kanishik"
+            },
+            {
+                "number": 313,
+                "number_money_images": [
+                    9,
+                    11,
+                    5,
+                    8
+                ],
+                "total_money": 131000,
+                "name_total_namtrik": "Kansrel Pɵntsi kanishik"
+            },
+            {
+                "number": 314,
+                "number_money_images": [
+                    5,
+                    11,
+                    8,
+                    10
+                ],
+                "total_money": 161000,
+                "name_total_namtrik": "Kansrel Trattrɵkantsi kanishik"
+            },
+            {
+                "number": 315,
+                "number_money_images": [
+                    10,
+                    11,
+                    9,
+                    5
+                ],
+                "total_money": 171000,
+                "name_total_namtrik": "Kansrel Trattrɵpatsi kanishik"
+            },
+            {
+                "number": 316,
+                "number_money_images": [
+                    6,
+                    8,
+                    9,
+                    7
+                ],
+                "total_money": 37000,
+                "name_total_namtrik": "Pɵntsi Trattrɵpaishik"
+            },
+            {
+                "number": 317,
+                "number_money_images": [
+                    6,
+                    7,
+                    10,
+                    8
+                ],
+                "total_money": 67000,
+                "name_total_namtrik": "Trattrɵkantsi Trattrɵpaishik"
+            },
+            {
+                "number": 318,
+                "number_money_images": [
+                    7,
+                    8,
+                    6,
+                    11
+                ],
+                "total_money": 117000,
+                "name_total_namtrik": "Kansrel Kantsitrattrɵpaishik"
+            },
+            {
+                "number": 319,
+                "number_money_images": [
+                    10,
+                    6,
+                    7,
+                    9
+                ],
+                "total_money": 77000,
+                "name_total_namtrik": "Trattrɵpatsi Trattrɵpaishik"
+            },
+            {
+                "number": 320,
+                "number_money_images": [
+                    7,
+                    6,
+                    11,
+                    9
+                ],
+                "total_money": 127000,
+                "name_total_namtrik": "Kansrel Patsitrattrɵpaishik"
+            },
+            {
+                "number": 321,
+                "number_money_images": [
+                    11,
+                    10,
+                    6,
+                    7
+                ],
+                "total_money": 157000,
+                "name_total_namtrik": "Kansrel Trattrɵtsi Trattrɵpaishik"
+            },
+            {
+                "number": 322,
+                "number_money_images": [
+                    6,
+                    10,
+                    8,
+                    9
+                ],
+                "total_money": 82000,
+                "name_total_namtrik": "Trattrɵpɵntsi Paishik"
+            },
+            {
+                "number": 323,
+                "number_money_images": [
+                    8,
+                    6,
+                    11,
+                    9
+                ],
+                "total_money": 132000,
+                "name_total_namtrik": "Kansrel Pɵntsi Paishik"
+            },
+            {
+                "number": 324,
+                "number_money_images": [
+                    8,
+                    6,
+                    10,
+                    11
+                ],
+                "total_money": 162000,
+                "name_total_namtrik": "Kansrel Trattrɵkantsi Paishik"
+            },
+            {
+                "number": 325,
+                "number_money_images": [
+                    10,
+                    9,
+                    6,
+                    11
+                ],
+                "total_money": 172000,
+                "name_total_namtrik": "Kansrel Trattrɵpatsi Paishik"
+            },
+            {
+                "number": 326,
+                "number_money_images": [
+                    9,
+                    8,
+                    7,
+                    10
+                ],
+                "total_money": 85000,
+                "name_total_namtrik": "Trattrɵpɵntsi Trattrɵishik"
+            },
+            {
+                "number": 327,
+                "number_money_images": [
+                    11,
+                    8,
+                    7,
+                    9
+                ],
+                "total_money": 135000,
+                "name_total_namtrik": "Kansrel Pɵntsi Trattrɵishik"
+            },
+            {
+                "number": 328,
+                "number_money_images": [
+                    10,
+                    11,
+                    7,
+                    8
+                ],
+                "total_money": 165000,
+                "name_total_namtrik": "Kansrel Trattrɵkantsi Trattrɵishik"
+            },
+            {
+                "number": 329,
+                "number_money_images": [
+                    7,
+                    9,
+                    11,
+                    10
+                ],
+                "total_money": 175000,
+                "name_total_namtrik": "Kansrel Trattrɵpatsi Trattrɵishik"
+            },
+            {
+                "number": 330,
+                "number_money_images": [
+                    9,
+                    10,
+                    8,
+                    11
+                ],
+                "total_money": 180000,
+                "name_total_namtrik": "Kansrel Trattrɵpɵntsiishik"
+            }
+        ]
+    }
+}

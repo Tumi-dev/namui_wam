@@ -204,4 +204,122 @@ class Activity5Service {
     
     return -1; // No se encontró la opción correcta
   }
+
+  /// Obtiene 4 imágenes aleatorias de dinero para el nivel 3
+  Future<List<NamtrikMoneyModel>> getLevel3Data() async {
+    // Asegurarse de que los datos de dinero estén cargados
+    if (_moneyItems.isEmpty) {
+      await getLevelData(LevelModel(
+        id: 1, 
+        title: 'Nivel 1', 
+        description: 'Descripción', 
+        difficulty: 1
+      ));
+    }
+    
+    // Cargar el archivo JSON específico para el nivel 3
+    final String response = await rootBundle.loadString('assets/data/a4_l3_namuiwam_money.json');
+    final data = await json.decode(response);
+    
+    // Obtener un elemento aleatorio del JSON
+    final moneyL3List = data['money_l3']['namui_wam'] as List;
+    final randomIndex = _random.nextInt(moneyL3List.length);
+    final randomMoneyL3 = moneyL3List[randomIndex];
+    
+    // Obtener los números de las imágenes de dinero
+    final List<int> numberMoneyImages = List<int>.from(randomMoneyL3['number_money_images']);
+    
+    // Obtener las monedas correspondientes a esos números
+    List<NamtrikMoneyModel> result = [];
+    for (var number in numberMoneyImages) {
+      final item = getMoneyItemByNumber(number);
+      if (item != null) {
+        result.add(item);
+      }
+    }
+    
+    return result;
+  }
+
+  /// Obtiene el nombre total en Namtrik para el nivel 3
+  Future<Map<String, dynamic>> getLevel3NamtrikNames() async {
+    // Cargar el archivo JSON específico para el nivel 3
+    final String response = await rootBundle.loadString('assets/data/a4_l3_namuiwam_money.json');
+    final data = await json.decode(response);
+    
+    // Obtener un elemento aleatorio del JSON
+    final moneyL3List = data['money_l3']['namui_wam'] as List;
+    final randomIndex = _random.nextInt(moneyL3List.length);
+    final randomMoneyL3 = moneyL3List[randomIndex];
+    
+    // Obtener el nombre total en Namtrik
+    final String correctNamtrikName = randomMoneyL3['name_total_namtrik'];
+    
+    // Obtener otros 3 nombres aleatorios diferentes del correcto
+    List<String> incorrectNames = [];
+    List<int> usedIndices = [randomIndex];
+    
+    while (incorrectNames.length < 3) {
+      int newIndex = _random.nextInt(moneyL3List.length);
+      if (!usedIndices.contains(newIndex)) {
+        usedIndices.add(newIndex);
+        incorrectNames.add(moneyL3List[newIndex]['name_total_namtrik']);
+      }
+    }
+    
+    // Obtener los números de las imágenes de dinero
+    final List<int> numberMoneyImages = List<int>.from(randomMoneyL3['number_money_images']);
+    
+    return {
+      'correctName': correctNamtrikName,
+      'incorrectNames': incorrectNames,
+      'numberMoneyImages': numberMoneyImages,
+      'randomIndex': randomIndex,
+    };
+  }
+
+  /// Obtiene datos sincronizados para el nivel 3
+  Future<Map<String, dynamic>> getSynchronizedLevel3Data() async {
+    // Cargar el archivo JSON específico para el nivel 3
+    final String response = await rootBundle.loadString('assets/data/a4_l3_namuiwam_money.json');
+    final data = await json.decode(response);
+    
+    // Obtener un elemento aleatorio del JSON
+    final moneyL3List = data['money_l3']['namui_wam'] as List;
+    final randomIndex = _random.nextInt(moneyL3List.length);
+    final randomMoneyL3 = moneyL3List[randomIndex];
+    
+    // Obtener el nombre total en Namtrik
+    final String correctNamtrikName = randomMoneyL3['name_total_namtrik'];
+    
+    // Obtener otros 3 nombres aleatorios diferentes del correcto
+    List<String> incorrectNames = [];
+    List<int> usedIndices = [randomIndex];
+    
+    while (incorrectNames.length < 3) {
+      int newIndex = _random.nextInt(moneyL3List.length);
+      if (!usedIndices.contains(newIndex)) {
+        usedIndices.add(newIndex);
+        incorrectNames.add(moneyL3List[newIndex]['name_total_namtrik']);
+      }
+    }
+    
+    // Obtener los números de las imágenes de dinero
+    final List<int> numberMoneyImages = List<int>.from(randomMoneyL3['number_money_images']);
+    
+    // Obtener las monedas correspondientes a esos números
+    List<NamtrikMoneyModel> moneyItems = [];
+    for (var number in numberMoneyImages) {
+      final item = getMoneyItemByNumber(number);
+      if (item != null) {
+        moneyItems.add(item);
+      }
+    }
+    
+    return {
+      'correctName': correctNamtrikName,
+      'incorrectNames': incorrectNames,
+      'moneyItems': moneyItems,
+    };
+  }
 }

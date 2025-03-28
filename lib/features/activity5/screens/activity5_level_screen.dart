@@ -46,6 +46,14 @@ class _Activity5LevelScreenState
   // Mapa para controlar qué imagen se muestra para cada denominación (true = segunda imagen, false = primera imagen)
   Map<int, bool> _showingSecondImage = {};
 
+  // Variables para el nivel 3 con nombres en namtrik
+  String _correctNamtrikName = '';
+  List<String> _incorrectNamtrikNames = [];
+  List<String> _shuffledNamtrikNames = [];
+  int _correctNameIndex = -1;
+  int? _selectedNameIndex;
+  bool _showNameFeedback = false;
+
   // Inicializa el estado de la pantalla de un nivel de la actividad 5
   @override
   void initState() {
@@ -83,6 +91,25 @@ class _Activity5LevelScreenState
           );
           _optionsGenerated = true;
         }
+        
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      } else if (widget.level.id == 3) {
+        // Para el nivel 3, cargar datos sincronizados (imágenes y nombres en namtrik)
+        final syncData = await _activity5Service.getSynchronizedLevel3Data();
+        
+        // Actualizar los datos del nivel 3
+        _moneyItems = List<NamtrikMoneyModel>.from(syncData['moneyItems']);
+        _correctNamtrikName = syncData['correctName'];
+        _incorrectNamtrikNames = List<String>.from(syncData['incorrectNames']);
+        
+        // Mezclar los nombres para mostrarlos en los 4 recuadros
+        _shuffledNamtrikNames = [_correctNamtrikName, ..._incorrectNamtrikNames];
+        _shuffledNamtrikNames.shuffle();
+        _correctNameIndex = _shuffledNamtrikNames.indexOf(_correctNamtrikName);
         
         if (mounted) {
           setState(() {
@@ -328,6 +355,78 @@ class _Activity5LevelScreenState
     }
   }
   
+  // Maneja la selección de un nombre en namtrik en el nivel 3
+  void _handleNameSelection(int index) {
+    if (_showNameFeedback) return; // No permitir cambios durante el feedback
+    
+    setState(() {
+      _selectedNameIndex = index;
+      _showNameFeedback = true;
+      
+      // Actualizar el número de intentos restantes si la respuesta es incorrecta
+      if (index != _correctNameIndex) {
+        decrementAttempts();
+      } else {
+        isCorrectAnswerSelected = true;
+      }
+    });
+    
+    // Programar el reinicio del feedback después de un tiempo
+    Future.delayed(Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          _showNameFeedback = false;
+          
+          if (index == _correctNameIndex) {
+            // Respuesta correcta - mostrar diálogo y registrar puntos
+            _handleLevelComplete();
+          } else {
+            // Respuesta incorrecta - cargar nuevas imágenes y nombres o mostrar diálogo de sin intentos
+            if (remainingAttempts <= 0) {
+              _handleOutOfAttempts();
+            } else {
+              // Cargar nuevas imágenes y nombres
+              _resetLevel3();
+            }
+          }
+        });
+      }
+    });
+  }
+  
+  // Reinicia el nivel 3 con nuevas imágenes y nombres
+  Future<void> _resetLevel3() async {
+    setState(() {
+      _isLoading = true;
+      _selectedNameIndex = null;
+      isCorrectAnswerSelected = false;
+      
+      // Reiniciar intentos solo si se seleccionó la respuesta correcta
+      if (isCorrectAnswerSelected) {
+        resetAttempts();
+      }
+    });
+    
+    // Cargar datos sincronizados para el nivel 3
+    final syncData = await _activity5Service.getSynchronizedLevel3Data();
+    
+    // Actualizar los datos del nivel 3
+    _moneyItems = List<NamtrikMoneyModel>.from(syncData['moneyItems']);
+    _correctNamtrikName = syncData['correctName'];
+    _incorrectNamtrikNames = List<String>.from(syncData['incorrectNames']);
+    
+    // Mezclar los nombres para mostrarlos en los 4 recuadros
+    _shuffledNamtrikNames = [_correctNamtrikName, ..._incorrectNamtrikNames];
+    _shuffledNamtrikNames.shuffle();
+    _correctNameIndex = _shuffledNamtrikNames.indexOf(_correctNamtrikName);
+    
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   // Método para disminuir el número de intentos
   void decrementAttempts() {
     if (remainingAttempts > 0) {
@@ -596,70 +695,205 @@ class _Activity5LevelScreenState
     );
   }
   
-  // Método para mostrar la imagen ampliada con sombra del artículo en el nivel 2
-  void _showEnlargedImage(String imagePath) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.85), // Fondo más oscuro
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.black.withOpacity(0.7), // Fondo oscuro para la imagen
-          insetPadding: EdgeInsets.all(20),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Imagen ampliada con sombra
-              Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.9,
-                  maxHeight: MediaQuery.of(context).size.height * 0.7,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  // Sombra suave alrededor de la imagen para mejorar el contraste
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white.withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    _activity5Service.getArticleImagePath(imagePath),
-                    fit: BoxFit.contain,
-                  ),
+  // Widget para construir la cuadrícula de imágenes de dinero para el nivel 3
+  Widget _buildMoneyGrid() {
+    if (_moneyItems.isEmpty) {
+      return const Center(
+        child: Text('No se encontraron datos',
+            style: TextStyle(color: Colors.white, fontSize: 18)),
+      );
+    }
+
+    // Obtener el tamaño de la pantalla para diseño responsivo
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Barra de información con intentos
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 16),
+          ),
+          
+          // Contenedor único que muestra las imágenes de dinero
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.3),
+                width: 1,
+              ),
+            ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Determinar el tamaño de las imágenes basado en la orientación
+                final double containerWidth = constraints.maxWidth;
+                
+                // En landscape, mostrar en una sola fila; en portrait, mostrar en 2x2
+                final int crossAxisCount = isLandscape ? _moneyItems.length : 2;
+                final double spacing = 12;
+                
+                // Calcular el ancho de cada elemento basado en la orientación
+                double itemWidth;
+                if (isLandscape) {
+                  // En landscape, dividir el ancho entre el número de elementos
+                  itemWidth = (containerWidth - (spacing * (crossAxisCount - 1))) / crossAxisCount;
+                } else {
+                  // En portrait, mantener 2 columnas
+                  itemWidth = (containerWidth - spacing) / 2;
+                }
+                
+                // Ajustar la altura para mantener la proporción
+                final double itemHeight = itemWidth * 0.6;
+                
+                return Wrap(
+                  spacing: spacing,
+                  runSpacing: spacing,
+                  alignment: WrapAlignment.center,
+                  children: _moneyItems.map((item) {
+                    return Container(
+                      width: itemWidth,
+                      height: itemHeight,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Al tocar la imagen, mostrarla ampliada
+                          _showEnlargedMoneyImage(item.moneyImages[0]);
+                        },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // Imagen del dinero (solo cara A)
+                            Image.asset(
+                              _activity5Service.getMoneyImagePath(item.moneyImages[0]),
+                              fit: BoxFit.contain,
+                            ),
+                            // Indicador visual para que el usuario sepa que puede tocar la imagen
+                            Positioned(
+                              bottom: 5,
+                              right: 5,
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Icon(
+                                  Icons.zoom_in,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          ),
+          
+          // Espacio entre el contenedor de imágenes y los recuadros
+          SizedBox(height: 24),
+          
+          // 4 recuadros vacíos
+          ..._buildEmptyBoxes(isLandscape),
+        ],
+      ),
+    );
+  }
+  
+  // Método para construir los 4 recuadros vacíos
+  List<Widget> _buildEmptyBoxes(bool isLandscape) {
+    // Lista para almacenar los recuadros
+    List<Widget> boxes = [];
+    
+    // Calcular el ancho máximo para los recuadros en modo horizontal
+    final screenWidth = MediaQuery.of(context).size.width;
+    final boxWidth = isLandscape ? 350.0 : screenWidth - 32; // 32 = margen horizontal total
+    
+    // Crear 4 recuadros con nombres en namtrik
+    for (int i = 0; i < 4; i++) {
+      // Determinar el estilo del recuadro basado en si está seleccionado y si es correcto
+      Color borderColor = Colors.white.withOpacity(0.3);
+      Color bgColor = Colors.black.withOpacity(0.1);
+      IconData? feedbackIcon;
+      
+      if (_showNameFeedback && _selectedNameIndex == i) {
+        if (i == _correctNameIndex) {
+          borderColor = Colors.green;
+          bgColor = Colors.green.withOpacity(0.2);
+          feedbackIcon = Icons.check_circle;
+        } else {
+          borderColor = Colors.red;
+          bgColor = Colors.red.withOpacity(0.2);
+          feedbackIcon = Icons.cancel;
+        }
+      } else if (_selectedNameIndex == i) {
+        borderColor = Colors.white;
+        bgColor = Colors.white.withOpacity(0.1);
+      }
+      
+      boxes.add(
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              if (_selectedNameIndex == null || !_showNameFeedback) {
+                _handleNameSelection(i);
+              }
+            },
+            child: Container(
+              width: boxWidth,
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: borderColor,
+                  width: 1.5,
                 ),
               ),
-              // Botón para cerrar
-              Positioned(
-                top: 0,
-                right: 0,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.7),
-                      shape: BoxShape.circle,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Texto del nombre en namtrik
+                  Expanded(
+                    child: Text(
+                      _shuffledNamtrikNames.isNotEmpty ? _shuffledNamtrikNames[i] : '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.white,
+                  ),
+                  
+                  // Icono de feedback si corresponde
+                  if (_showNameFeedback && _selectedNameIndex == i && feedbackIcon != null)
+                    Icon(
+                      feedbackIcon,
+                      color: i == _correctNameIndex ? Colors.green : Colors.red,
                       size: 24,
                     ),
-                  ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    }
+    
+    return boxes;
   }
 
   // Widget para mostrar las imágenes en un PageView (reemplazando el carrusel)
@@ -826,7 +1060,140 @@ class _Activity5LevelScreenState
             )
           : widget.level.id == 1
               ? _buildPageView()
-              : _buildArticleWidget(),
+              : widget.level.id == 2
+                  ? _buildArticleWidget()
+                  : _buildMoneyGrid(),
+    );
+  }
+
+  // Método para mostrar la imagen ampliada con sombra del artículo en el nivel 2
+  void _showEnlargedImage(String imagePath) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.85), // Fondo más oscuro
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.black.withOpacity(0.7), // Fondo oscuro para la imagen
+          insetPadding: EdgeInsets.all(20),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Imagen ampliada con sombra
+              Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                  maxHeight: MediaQuery.of(context).size.height * 0.7,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  // Sombra suave alrededor de la imagen para mejorar el contraste
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    _activity5Service.getArticleImagePath(imagePath),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              // Botón para cerrar
+              Positioned(
+                top: 0,
+                right: 0,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.7),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Método para mostrar la imagen ampliada de dinero
+  void _showEnlargedMoneyImage(String imagePath) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.85),
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.black.withOpacity(0.7),
+          insetPadding: EdgeInsets.all(20),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Imagen ampliada con sombra
+              Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                  maxHeight: MediaQuery.of(context).size.height * 0.7,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    _activity5Service.getMoneyImagePath(imagePath),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              // Botón para cerrar
+              Positioned(
+                top: 0,
+                right: 0,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.7),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -101,10 +101,27 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Botones de actividades
-                    ...List.generate(
-                      6,
-                      (index) => _buildActivityButton(context, index + 1),
+                    // Botones de actividades - ahora con LayoutBuilder para adaptarse a la orientación
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+                        final maxButtonWidth = isLandscape ? 450.0 : constraints.maxWidth;
+                        
+                        return Column(
+                          children: List.generate(
+                            6,
+                            (index) => Center(
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  maxWidth: maxButtonWidth,
+                                ),
+                                width: double.infinity,
+                                child: _buildActivityButton(context, index + 1),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     // Espacio adicional al final para mejor UX
                     const SizedBox(height: 16),
@@ -124,7 +141,7 @@ class HomeScreen extends StatelessWidget {
     final colorIndex = activityNumber - 1;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.only(bottom: 16), // Aumentado el margen inferior para mejor separación
       child: Container(
         height: 70, // Altura reducida para un diseño más minimalista
         child: ElevatedButton(
@@ -133,7 +150,7 @@ class HomeScreen extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24), // Aumentado el padding horizontal para mejor legibilidad
           ),
           onPressed: () => _navigateToActivity(context, activityNumber),
           child: Row(
@@ -153,7 +170,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 12), // Aumentado el espacio para mejor legibilidad
               // Descripción de la actividad con un estilo y un número de actividad
               Expanded(
                 child: Text(
@@ -163,8 +180,6 @@ class HomeScreen extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // Espacio entre el número y la descripción
-              const SizedBox(width: 8),
               // Flecha indicativa para indicar que es un botón de actividad
               AppTheme.levelArrowIcon,
             ],

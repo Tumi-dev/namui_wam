@@ -56,11 +56,26 @@ class Activity1Screen extends StatelessWidget {
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: ListView.builder(
-                  itemCount: activity1.availableLevels.length,
-                  itemBuilder: (context, index) {
-                    final level = activity1.availableLevels[index];
-                    return _buildLevelCard(context, level);
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+                    final maxButtonWidth = isLandscape ? 450.0 : constraints.maxWidth;
+                    
+                    return ListView.builder(
+                      itemCount: activity1.availableLevels.length,
+                      itemBuilder: (context, index) {
+                        final level = activity1.availableLevels[index];
+                        return Center(
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: maxButtonWidth,
+                            ),
+                            width: double.infinity,
+                            child: _buildLevelCard(context, level),
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
               ),
@@ -76,7 +91,7 @@ class Activity1Screen extends StatelessWidget {
     final bool isLocked = level.isLocked;
     
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: Card(
         elevation: 4,
         // Cambia el color de la tarjeta si el nivel está bloqueado o no
@@ -85,7 +100,7 @@ class Activity1Screen extends StatelessWidget {
           onTap: () => _onLevelSelected(context, level),
           child: Container(
             height: 72,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Row(
               children: [
                 Container(

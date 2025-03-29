@@ -387,7 +387,7 @@ class _Activity1LevelScreenState
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Color(0xFFD32F2F), // Color de fondo del número en namtrik
+            color: const Color(0xFFFF0000), // Color de fondo del número en namtrik
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               // Sombra para el contenedor del número en namtrik
@@ -425,7 +425,7 @@ class _Activity1LevelScreenState
                         letterSpacing: 1,
                         shadows: const [
                           Shadow(
-                            color: Colors.black26, // Color de la sombra del texto del número en namtrik
+                            color: Colors.black, // Color de la sombra del texto del número en namtrik
                             offset: Offset(2, 2),
                             blurRadius: 4,
                           ),
@@ -439,7 +439,7 @@ class _Activity1LevelScreenState
               const SizedBox(height: 16),
               // Botón de audio mejorado para el número en namtrik
               Material(
-                color: Colors.white24, // Color de fondo del botón de audio del número en namtrik
+                color: Colors.white38, // Color de fondo del botón de audio del número en namtrik
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(50),
@@ -455,13 +455,13 @@ class _Activity1LevelScreenState
                           size: 28,
                         ),
                         // Texto para el botón de audio del número en namtrik
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 8), // Espacio entre el icono y el texto
                         Text(
                           'Escuchar',
                           style: TextStyle(
                             color: Colors.white, // Color del texto del botón de audio del número en namtrik
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 16, // Tamaño del texto del botón de audio del número en namtrik
+                            fontWeight: FontWeight.w500, // Peso del texto del botón de audio del número en namtrik
                           ),
                         ),
                       ],
@@ -473,51 +473,58 @@ class _Activity1LevelScreenState
           ),
         ),
         // Espacio entre el número en namtrik y las opciones
-        const SizedBox(height: 24),
+        const SizedBox(height: 50),
         // Grid responsivo de opciones para el número actual
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final crossAxisCount = constraints.maxWidth > 400 ? 2 : 1;
-              // Retornar un grid con las opciones para el número actual y el usuario
-              return GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: crossAxisCount,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 3,
+              final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+              final maxButtonWidth = isLandscape ? 400.0 : constraints.maxWidth;
+              
+              // Retornar una columna con las opciones para el número actual
+              return Column(
                 children: numberOptions.map((number) {
                   // Contenedor con la opción seleccionada por el usuario y su número
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white, // Color de fondo de la opción seleccionada por el usuario
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1), // Color de la sombra de la opción seleccionada por el usuario
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    // Material con tinta para la opción seleccionada por el usuario
-                    child: Material(
-                      color: Colors.transparent, // Color de fondo del material de la opción seleccionada por el usuario
-                      child: InkWell(
+                  return Center(
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxWidth: maxButtonWidth,
+                      ),
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(bottom: 24),
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFD32F2F), // Color de fondo de la opción seleccionada por el usuario
                         borderRadius: BorderRadius.circular(15),
-                        onTap: isCorrectAnswerSelected ? null : () => _handleNumberSelection(number),
-                        // Centro con el número de la opción seleccionada por el usuario
-                        child: Center(
-                          child: Text(
-                            number.toString(),
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: isCorrectAnswerSelected
-                                  ? Colors.grey // Color del texto de la opción seleccionada por el usuario
-                                  : Colors.black87, // Color del texto de la opción seleccionada por el usuario
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.transparent, // Color de la sombra de la opción seleccionada por el usuario
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      // Material con tinta para la opción seleccionada por el usuario
+                      child: Material(
+                        color: Colors.transparent, // Color de fondo del material de la opción seleccionada por el usuario
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(15),
+                          onTap: isCorrectAnswerSelected ? null : () => _handleNumberSelection(number),
+                          // Centro con el número de la opción seleccionada por el usuario
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Center(
+                              child: Text(
+                                number.toString(),
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: isCorrectAnswerSelected
+                                      ? Colors.grey // Color del texto de la opción seleccionada por el usuario
+                                      : Colors.white, // Color del texto de la opción seleccionada por el usuario
+                                ),
+                              ),
                             ),
                           ),
                         ),

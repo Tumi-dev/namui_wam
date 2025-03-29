@@ -288,7 +288,7 @@ class _Activity2LevelScreenState
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFF1976D2),
+                foregroundColor: const Color(0xFF1976D2), // Color del texto del botón
               ),
               child: const Text('Aceptar'),
             ),
@@ -390,28 +390,37 @@ class _Activity2LevelScreenState
         if (currentNumber != null) ...[
           // Centrar el contenido horizontalmente
           Center(
+            // Contenedor del número en namtrik
             child: Container(
-              width: isLandscape ? screenSize.width * 0.3 : screenSize.width * 0.4,
-              padding: const EdgeInsets.all(24),
+              constraints: BoxConstraints(
+                maxWidth: isLandscape ? 450.0 : screenSize.width * 0.8,
+                minWidth: 120.0,
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
               margin: const EdgeInsets.symmetric(vertical: 16.0),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: const Color(0xFF1976D2), // Color de fondo azul medio del contenedor
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: const Color(0xFF00FFFF), // Sombra del contenedor
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              child: Text(
-                currentNumber!['number'].toString(),
-                style: const TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
+              // Texto del número en namtrik
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  currentNumber!['number'].toString(), // Número en namtrik
+                  style: const TextStyle(
+                    color: Colors.white, // Color del texto
+                    fontSize: 48, // Tamaño del texto base
+                    fontWeight: FontWeight.bold, // Texto en negrita
+                  ),
+                  textAlign: TextAlign.center, // Alineación del texto
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -427,14 +436,14 @@ class _Activity2LevelScreenState
                   fontSize: 16,
                 ),
                 filled: true,
-                fillColor: const Color(0xFF1976D2),
+                fillColor: const Color(0xFF1976D2), // Color de fondo del campo de texto
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Colors.white, width: 2),
+                  borderSide: const BorderSide(color: Color(0xFF00FFFF), width: 2), // Sombra del contenedor de texto
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -442,12 +451,13 @@ class _Activity2LevelScreenState
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               ),
+              // Estilo del texto del campo de texto
               style: const TextStyle(
-                color: Colors.white,
+                color: Colors.white, // Color del texto del campo de texto
                 fontSize: 16,
               ),
               textAlign: TextAlign.center,
-              cursorColor: Colors.white,
+              cursorColor: Colors.white, // Color del cursor del campo de texto
             ),
           ),
           // Botón centrado con margen adecuado

@@ -62,16 +62,31 @@ class Activity5Screen extends StatelessWidget {
                     const Icon(
                       Icons.attach_money,
                       // Color de icono blanco para la actividad 5 en desarrollo
-                      color: Colors.white,
+                      color: Color(0xFF4CAF50),
                       size: 64,
                     ),
                     const SizedBox(height: 30),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: activity5.availableLevels.length,
-                        itemBuilder: (context, index) {
-                          final level = activity5.availableLevels[index];
-                          return _buildLevelCard(context, level);
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+                          final maxButtonWidth = isLandscape ? 450.0 : constraints.maxWidth;
+                          
+                          return ListView.builder(
+                            itemCount: activity5.availableLevels.length,
+                            itemBuilder: (context, index) {
+                              final level = activity5.availableLevels[index];
+                              return Center(
+                                child: Container(
+                                  constraints: BoxConstraints(
+                                    maxWidth: maxButtonWidth,
+                                  ),
+                                  width: double.infinity,
+                                  child: _buildLevelCard(context, level),
+                                ),
+                              );
+                            },
+                          );
                         },
                       ),
                     ),
@@ -89,7 +104,7 @@ class Activity5Screen extends StatelessWidget {
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
     // Construir una tarjeta para un nivel de la actividad 5 en desarrollo
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: Card(
         elevation: 4,
         // Color de fondo verde y texto blanco para la tarjeta del nivel
@@ -98,7 +113,7 @@ class Activity5Screen extends StatelessWidget {
           onTap: () => _onLevelSelected(context, level),
           child: Container(
             height: 72,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Row(
               children: [
                 Container(

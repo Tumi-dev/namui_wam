@@ -580,14 +580,14 @@ class _Activity4LevelScreenState
   Widget _buildLevel1Content() {
     // Obtener tamaño de pantalla para diseño responsivo en nivel 1
     final screenSize = MediaQuery.of(context).size;
-    final isLandscape = screenSize.width > screenSize.height;
+    final isLandscape = screenSize.width > screenSize.height; // true si es landscape, false si es portrait
 
     // Calcular tamaño de los elementos según la orientación en nivel 1
     final double clockSize =
-        isLandscape ? screenSize.width * 0.15 : screenSize.width * 0.35;
+        isLandscape ? screenSize.width * 0.15 : screenSize.width * 0.35; // 15% en landscape, 35% en portrait de los relojes
 
     // Determinar el número de elementos por fila según orientación en nivel 1
-    final int clocksPerRow = isLandscape ? 4 : 2;
+    final int clocksPerRow = isLandscape ? 4 : 2; // 4 en landscape, 2 en portrait de los relojes
 
     return Column(
       children: [
@@ -596,7 +596,7 @@ class _Activity4LevelScreenState
           padding: const EdgeInsets.only(bottom: 12.0),
           child: Center(
             child: Text(
-              'Selecciona reloj u hora en namtrik',
+              'Empareja reloj y hora en namtrik',
               style: const TextStyle(
                 color: Colors
                     .white, // Color del texto de instrucción para el usuario
@@ -657,27 +657,27 @@ class _Activity4LevelScreenState
           },
         ),
 
-        // Espacio adicional entre secciones de relojes y textos en namtrik (sin el título que fue eliminado) nivel 1
+        // Espacio adicional entre secciones de relojes y textos en namtrik nivel 1
         const SizedBox(height: 16),
 
-        // Grid de textos en namtrik (sin el título que fue eliminado) nivel 1
+        // Grid de textos en namtrik nivel 1
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: clocksPerRow,
-            childAspectRatio: 1.5,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+            crossAxisCount: clocksPerRow, // Hace referencia a la cantidad de relojes por fila
+            childAspectRatio: 1.5, // Hace referencia a la proporción de la altura al ancho de los textos
+            crossAxisSpacing: 2, // Hace referencia al espaciado entre los textos en el eje horizontal
+            mainAxisSpacing: 2, // Hace referencia al espaciado entre los textos en el eje vertical
           ),
           // Construir elementos seleccionables con texto de namtrik en nivel 1
           itemCount: _shuffledNamtrik.length,
           itemBuilder: (context, index) {
             final item = _shuffledNamtrik[index];
             final id = item['id'];
-            final isMatched = _matchedPairs.values.contains(id);
-            final isSelected = _selectedNamtrikId == id;
-            final isError = _showErrorAnimation && isSelected;
+            final isMatched = _matchedPairs.values.contains(id); // Determina si el texto ya ha sido emparejado
+            final isSelected = _selectedNamtrikId == id; // Determina si el texto actual ha sido seleccionado
+            final isError = _showErrorAnimation && isSelected; // Determina si hay un error en la selección
 
             // Determinar el estado de selección en nivel 1
             SelectionState state = SelectionState.unselected;
@@ -701,11 +701,11 @@ class _Activity4LevelScreenState
                   style: TextStyle(
                     // Estilo de los textos en namtrik (color blanco, negrita, tamaño 16) nivel 1
                     color: Colors.white,
-                    fontSize: isLandscape ? 14 : 16,
+                    fontSize: isLandscape ? 16 : 16, // Tamaño del texto en namtrik (16 en landscape, 16 en portrait)
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
-                  maxLines: 2,
+                  maxLines: 2, // Máximo 2 líneas de texto
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -730,7 +730,7 @@ class _Activity4LevelScreenState
         isLandscape ? screenSize.width * 0.25 : screenSize.width * 0.7;
 
     // Calcular número de botones por fila según orientación
-    final int optionsPerRow = isLandscape ? 4 : 2;
+    final int optionsPerRow = isLandscape ? 4 : 2; // 4 en landscape, 2 en portrait
 
     return Column(
       children: [
@@ -742,7 +742,7 @@ class _Activity4LevelScreenState
             style: const TextStyle(
               // Estilo de la instrucción para el usuario (color blanco, negrita, tamaño 18)
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 18, // Tamaño 18 para la instrucción
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
@@ -790,12 +790,13 @@ class _Activity4LevelScreenState
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8), // Padding 8 para las opciones de respuesta
               ),
+              // Texto de la opción de respuesta en nivel 2
               child: Text(
                 option['hour_namtrik'],
                 style: TextStyle(
-                  fontSize: isLandscape ? 14 : 16,
+                  fontSize: isLandscape ? 16 : 16, // Tamaño 16 en landscape, 16 en portrait
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -835,11 +836,11 @@ class _Activity4LevelScreenState
 
     return Column(
       children: [
-        // Instrucción para el usuario
+        // Texto de instrucción para el usuario
         Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: Text(
-            'Ajusta el reloj para indicar la hora:',
+            'Ajusta el reloj para indicar la hora',
             style: TextStyle(
               color: Colors
                   .white, // Color del texto de instrucción para el usuario
@@ -868,10 +869,10 @@ class _Activity4LevelScreenState
         // Texto de la hora en namtrik debajo de la imagen del reloj
         Container(
           margin: const EdgeInsets.only(bottom: 24.0),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0), // Tamaño del texto de la hora en namtrik
           decoration: BoxDecoration(
             // Fondo púrpura elegante con bordes redondeados y sombra suave para el texto de la hora en namtrik
-            color: const Color(0xFF9C27B0),
+            color: const Color(0xFF9C27B0), //
             borderRadius: BorderRadius.circular(12.0),
             boxShadow: [
               BoxShadow(
@@ -1045,7 +1046,7 @@ class _Activity4LevelScreenState
         ),
 
         // Espacio adicional con el botón de confirmar la hora seleccionada nivel 3
-        const SizedBox(height: 16),
+        const SizedBox(height: 40),
 
         // Botón de confirmar la hora seleccionada nivel 3
         ElevatedButton(

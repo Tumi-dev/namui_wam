@@ -62,16 +62,31 @@ class Activity4Screen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Icon(
                       Icons.access_time, // Ícono de tiempo de la actividad 4
-                      color: Colors.white,
+                      color: Color(0xFF9C27B0),
                       size: 64,
                     ),
                     const SizedBox(height: 30),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: activity4.availableLevels.length,
-                        itemBuilder: (context, index) {
-                          final level = activity4.availableLevels[index];
-                          return _buildLevelCard(context, level);
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+                          final maxButtonWidth = isLandscape ? 450.0 : constraints.maxWidth;
+                          
+                          return ListView.builder(
+                            itemCount: activity4.availableLevels.length,
+                            itemBuilder: (context, index) {
+                              final level = activity4.availableLevels[index];
+                              return Center(
+                                child: Container(
+                                  constraints: BoxConstraints(
+                                    maxWidth: maxButtonWidth,
+                                  ),
+                                  width: double.infinity,
+                                  child: _buildLevelCard(context, level),
+                                ),
+                              );
+                            },
+                          );
                         },
                       ),
                     ),
@@ -89,7 +104,7 @@ class Activity4Screen extends StatelessWidget {
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
     // Construir una tarjeta para un nivel de la actividad 4
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: Card(
         elevation: 4,
         // Color púrpura elegante para la tarjeta del nivel de la actividad 4
@@ -98,7 +113,7 @@ class Activity4Screen extends StatelessWidget {
           onTap: () => _onLevelSelected(context, level),
           child: Container(
             height: 72,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Row(
               children: [
                 Container(

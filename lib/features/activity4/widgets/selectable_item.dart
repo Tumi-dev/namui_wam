@@ -46,24 +46,24 @@ class SelectableItem extends StatelessWidget {
         borderWidth = 2.0;
         elevation = 2.0;
         break;
-      // Si el estado es selected (seleccionado) se muestra con un borde azul
+      // Si el estado es selected (seleccionado) se muestra con un borde amarillo
       case SelectionState.selected:
         backgroundColor = isImage ? const Color(0xFFFF00FF) : const Color(0xFFFF00FF);
-        borderColor = Colors.blue;
+        borderColor = const Color(0xFFFFFF00);
         borderWidth = 3.0;
         elevation = 4.0;
         break;
-      // Si el estado es matched (coincide con otro item) se muestra con un borde amarillo
+      // Si el estado es matched (coincide con otro item) se muestra con un borde verde fresco
       case SelectionState.matched:
         backgroundColor = isImage ? const Color(0xFF9C27B0) : const Color(0xFF9C27B0);
-        borderColor = Colors.amber;
+        borderColor = const Color(0xFF4CAF50);
         borderWidth = 3.0;
         elevation = 4.0;
         break;
-      // Si el estado es error (no coincide con otro item) se muestra con un borde rojo
+      // Si el estado es error (no coincide con otro item) se muestra con un borde aqua
       case SelectionState.error:
-        backgroundColor = isImage ? const Color(0xFF00FF00) : const Color(0xFF00FF00);
-        borderColor = Colors.red;
+        backgroundColor = isImage ? const Color(0xFFFF0000) : const Color(0xFFFF0000);
+        borderColor = const Color(0xFF00FFFF);
         borderWidth = 3.0;
         elevation = 4.0;
         break;

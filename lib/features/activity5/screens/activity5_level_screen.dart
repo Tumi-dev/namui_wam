@@ -81,17 +81,16 @@ class _Activity5LevelScreenState
       } else if (widget.level.id == 2) {
         // Para el nivel 2, cargar un artículo aleatorio
         _currentArticle = await _activity5Service.getRandomArticle();
-        
+
         // Generar opciones de dinero para el nivel 2
         if (_currentArticle != null && !_optionsGenerated) {
-          _moneyOptions = await _activity5Service.generateOptionsForLevel2(_currentArticle!);
+          _moneyOptions = await _activity5Service
+              .generateOptionsForLevel2(_currentArticle!);
           _correctOptionIndex = _activity5Service.findCorrectOptionIndex(
-              _moneyOptions, 
-              _currentArticle!.numberMoneyImages
-          );
+              _moneyOptions, _currentArticle!.numberMoneyImages);
           _optionsGenerated = true;
         }
-        
+
         if (mounted) {
           setState(() {
             _isLoading = false;
@@ -100,17 +99,20 @@ class _Activity5LevelScreenState
       } else if (widget.level.id == 3) {
         // Para el nivel 3, cargar datos sincronizados (imágenes y nombres en namtrik)
         final syncData = await _activity5Service.getSynchronizedLevel3Data();
-        
+
         // Actualizar los datos del nivel 3
         _moneyItems = List<NamtrikMoneyModel>.from(syncData['moneyItems']);
         _correctNamtrikName = syncData['correctName'];
         _incorrectNamtrikNames = List<String>.from(syncData['incorrectNames']);
-        
+
         // Mezclar los nombres para mostrarlos en los 4 recuadros
-        _shuffledNamtrikNames = [_correctNamtrikName, ..._incorrectNamtrikNames];
+        _shuffledNamtrikNames = [
+          _correctNamtrikName,
+          ..._incorrectNamtrikNames
+        ];
         _shuffledNamtrikNames.shuffle();
         _correctNameIndex = _shuffledNamtrikNames.indexOf(_correctNamtrikName);
-        
+
         if (mounted) {
           setState(() {
             _isLoading = false;
@@ -130,11 +132,11 @@ class _Activity5LevelScreenState
   // Maneja la selección de una opción en el nivel 2
   void _handleOptionSelection(int index) {
     if (_showFeedback) return; // No permitir cambios durante el feedback
-    
+
     setState(() {
       _selectedOptionIndex = index;
       _showFeedback = true;
-      
+
       // Actualizar el número de intentos restantes si la respuesta es incorrecta
       if (index != _correctOptionIndex) {
         decrementAttempts();
@@ -142,13 +144,13 @@ class _Activity5LevelScreenState
         isCorrectAnswerSelected = true;
       }
     });
-    
+
     // Programar el reinicio del feedback después de un tiempo
     Future.delayed(Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
           _showFeedback = false;
-          
+
           if (index == _correctOptionIndex) {
             // Respuesta correcta - mostrar diálogo y registrar puntos
             _handleLevelComplete();
@@ -165,7 +167,7 @@ class _Activity5LevelScreenState
       }
     });
   }
-  
+
   // Maneja cuando se agotan los intentos
   void _handleOutOfAttempts() {
     showDialog(
@@ -190,7 +192,7 @@ class _Activity5LevelScreenState
       ),
     );
   }
-  
+
   // Maneja cuando el usuario completa el nivel correctamente
   void _handleLevelComplete() async {
     // Actualizar el estado del juego y mostrar el diálogo de respuesta correcta
@@ -320,7 +322,7 @@ class _Activity5LevelScreenState
       );
     }
   }
-  
+
   // Reinicia el nivel 2 con un nuevo artículo
   Future<void> _resetLevel2() async {
     setState(() {
@@ -328,41 +330,40 @@ class _Activity5LevelScreenState
       _selectedOptionIndex = null;
       _optionsGenerated = false;
       isCorrectAnswerSelected = false;
-      
+
       // Reiniciar intentos solo si se seleccionó la respuesta correcta
       if (isCorrectAnswerSelected) {
         resetAttempts();
       }
     });
-    
+
     // Cargar un nuevo artículo aleatorio
     _currentArticle = await _activity5Service.getRandomArticle();
-    
+
     // Generar nuevas opciones
     if (_currentArticle != null) {
-      _moneyOptions = await _activity5Service.generateOptionsForLevel2(_currentArticle!);
+      _moneyOptions =
+          await _activity5Service.generateOptionsForLevel2(_currentArticle!);
       _correctOptionIndex = _activity5Service.findCorrectOptionIndex(
-          _moneyOptions, 
-          _currentArticle!.numberMoneyImages
-      );
+          _moneyOptions, _currentArticle!.numberMoneyImages);
       _optionsGenerated = true;
     }
-    
+
     if (mounted) {
       setState(() {
         _isLoading = false;
       });
     }
   }
-  
+
   // Maneja la selección de un nombre en namtrik en el nivel 3
   void _handleNameSelection(int index) {
     if (_showNameFeedback) return; // No permitir cambios durante el feedback
-    
+
     setState(() {
       _selectedNameIndex = index;
       _showNameFeedback = true;
-      
+
       // Actualizar el número de intentos restantes si la respuesta es incorrecta
       if (index != _correctNameIndex) {
         decrementAttempts();
@@ -370,13 +371,13 @@ class _Activity5LevelScreenState
         isCorrectAnswerSelected = true;
       }
     });
-    
+
     // Programar el reinicio del feedback después de un tiempo
     Future.delayed(Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
           _showNameFeedback = false;
-          
+
           if (index == _correctNameIndex) {
             // Respuesta correcta - mostrar diálogo y registrar puntos
             _handleLevelComplete();
@@ -393,33 +394,33 @@ class _Activity5LevelScreenState
       }
     });
   }
-  
+
   // Reinicia el nivel 3 con nuevas imágenes y nombres
   Future<void> _resetLevel3() async {
     setState(() {
       _isLoading = true;
       _selectedNameIndex = null;
       isCorrectAnswerSelected = false;
-      
+
       // Reiniciar intentos solo si se seleccionó la respuesta correcta
       if (isCorrectAnswerSelected) {
         resetAttempts();
       }
     });
-    
+
     // Cargar datos sincronizados para el nivel 3
     final syncData = await _activity5Service.getSynchronizedLevel3Data();
-    
+
     // Actualizar los datos del nivel 3
     _moneyItems = List<NamtrikMoneyModel>.from(syncData['moneyItems']);
     _correctNamtrikName = syncData['correctName'];
     _incorrectNamtrikNames = List<String>.from(syncData['incorrectNames']);
-    
+
     // Mezclar los nombres para mostrarlos en los 4 recuadros
     _shuffledNamtrikNames = [_correctNamtrikName, ..._incorrectNamtrikNames];
     _shuffledNamtrikNames.shuffle();
     _correctNameIndex = _shuffledNamtrikNames.indexOf(_correctNamtrikName);
-    
+
     if (mounted) {
       setState(() {
         _isLoading = false;
@@ -435,7 +436,7 @@ class _Activity5LevelScreenState
       });
     }
   }
-  
+
   // Método para restablecer el número de intentos al valor inicial
   void resetAttempts() {
     setState(() {
@@ -499,9 +500,9 @@ class _Activity5LevelScreenState
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.transparent, // Color de fondo
-          boxShadow: [
-            BoxShadow(color: Colors.transparent), // Color de sombra
-          ],
+//         boxShadow: [
+//           BoxShadow(color: Colors.transparent), // Color de sombra
+//         ],
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -532,14 +533,14 @@ class _Activity5LevelScreenState
       ),
     );
   }
-  
+
   // Widget para mostrar una opción de dinero nivel 2
   Widget _buildMoneyOption(List<NamtrikMoneyModel> option, int optionIndex) {
     // Determinar el estilo de la opción basado en si está seleccionada y si es correcta
     Color borderColor = const Color(0xFF4CAF50); // Color del borde
     Color bgColor = Colors.transparent; // Color de fondo
     IconData? feedbackIcon;
-    
+
     // Si se muestra la retroalimentación y la opción seleccionada es correcta o incorrecta
     if (_showFeedback && _selectedOptionIndex == optionIndex) {
       if (optionIndex == _correctOptionIndex) {
@@ -555,52 +556,98 @@ class _Activity5LevelScreenState
       borderColor = Colors.white;
       bgColor = Colors.white.withOpacity(0.1);
     }
-    
-    // Generar el widget de la opción con las imágenes del dinero
-    return GestureDetector(
-      onTap: () {
-        if (_selectedOptionIndex == null || !_showFeedback) {
-          _handleOptionSelection(optionIndex);
-        }
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          border: Border.all(color: borderColor, width: 2),
-          borderRadius: BorderRadius.circular(12),
-          color: bgColor,
-        ),
-        child: Column(
-          children: [
-            // Imágenes de las monedas en filas horizontales con un espacio entre ellas en el nivel 2
-            Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 8,
-              runSpacing: 8,
-              children: option.map((item) {
-                return Container(
-                  width: 80,
-                  height: 80,
-                  child: Image.asset(
-                    _activity5Service.getMoneyImagePath(item.moneyImages[0]),
-                    fit: BoxFit.contain,
-                  ),
-                );
-              }).toList(),
-            ),
-            
-            // Icono de feedback si corresponde para la opción seleccionada del artículo del nivel 2
-            if (_showFeedback && _selectedOptionIndex == optionIndex && feedbackIcon != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Icon(
-                  feedbackIcon,
-                  color: optionIndex == _correctOptionIndex ? Colors.green : Colors.red,
-                  size: 24,
-                ),
+
+    // Obtener el tamaño de la pantalla para diseño responsivo
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
+    final maxContainerWidth = isLandscape ? 450.0 : screenSize.width * 0.9;
+
+    // Calcular el tamaño óptimo para las imágenes basado en la orientación
+    // y el número de elementos en la opción
+    final int itemCount = option.length;
+    final double imageSize = isLandscape
+        ? (itemCount <= 2
+            ? 100.0
+            : itemCount <= 4
+                ? 90.0
+                : 80.0)
+        : (itemCount <= 2
+            ? 110.0
+            : itemCount <= 4
+                ? 100.0
+                : 90.0);
+
+    // Generar el widget de la opción con las imágenes del dinero nivel 2
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          if (_selectedOptionIndex == null || !_showFeedback) {
+            _handleOptionSelection(optionIndex);
+          }
+        },
+        // GestureDetector para manejar el evento de tap
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: maxContainerWidth,
+          ),
+          width: double.infinity,
+          margin: const EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal:
+                  16), // Espacio vertical y horizontal entre las opciones
+          padding: const EdgeInsets.all(16), // Espacio interno del contenedor
+          decoration: BoxDecoration(
+            border: Border.all(
+                color: borderColor, width: 2), // Borde del contenedor
+            borderRadius: BorderRadius.circular(12), // Bordes redondeados
+            color: bgColor, // Color de fondo del contenedor
+          ),
+          // Columna principal para organizar el contenido del contenedor
+          child: Column(
+            children: [
+              // Imágenes de las monedas en filas horizontales con un espacio entre ellas en el nivel 2
+              Wrap(
+                alignment: WrapAlignment
+                    .center, // Alineación horizontal de las imágenes
+                spacing: 8, // Espacio entre las imágenes
+                runSpacing: 8, // Espacio entre las filas
+                // Generar las imágenes de las monedas en el nivel 2
+                children: option.map((item) {
+                  return Container(
+                    width:
+                        imageSize, // Tamaño de las imágenes dirección horizontal
+                    height:
+                        imageSize, // Tamaño de las imágenes dirección vertical
+                    // ClipRRect para redondear las imágenes
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        _activity5Service
+                            .getMoneyImagePath(item.moneyImages[0]),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-          ],
+
+              // Icono de feedback si corresponde para la opción seleccionada del artículo del nivel 2
+              if (_showFeedback &&
+                  _selectedOptionIndex == optionIndex &&
+                  feedbackIcon != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16), // Espacio superior
+                  child: Icon(
+                    feedbackIcon, // Icono de feedback
+                    color: optionIndex == _correctOptionIndex
+                        ? const Color(0xFF00FF00)
+                        : const Color(
+                            0xFFFF0000), // Color del icono (verde para correcto, rojo para incorrecto)
+                    size: 32, // Tamaño del icono
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -615,90 +662,116 @@ class _Activity5LevelScreenState
       );
     }
 
-    // Obtener el tamaño de la pantalla para adaptar la imagen del artículo en el nivel 2
+    // Obtener el tamaño de la pantalla para diseño responsivo
     final screenSize = MediaQuery.of(context).size;
     final isLandscape = screenSize.width > screenSize.height;
+    final maxContainerWidth = isLandscape ? 450.0 : screenSize.width * 0.9;
 
     // Widget Column para el artículo del nivel 2
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InfoBar(
-          remainingAttempts: remainingAttempts,
-          margin: const EdgeInsets.only(bottom: 16),
-        ),
-        // Imagen del artículo del nivel 2
-        Container(
-          width: double.infinity,
-          height: isLandscape ? screenSize.height * 0.4 : screenSize.height * 0.35,
-          padding: const EdgeInsets.all(16),
-          // Color transparente de la imagen del artículo del nivel 2
-          decoration: BoxDecoration(
-            color: Colors.transparent,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 16),
           ),
-          // Stack para colocar la lupa sobre la imagen
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Imagen del artículo del nivel 2
-              Image.asset(
-                _activity5Service.getArticleImagePath(_currentArticle!.imageArticle),
-                fit: BoxFit.contain,
+          // Imagen del artículo del nivel 2
+          Center(
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth: maxContainerWidth,
+                maxHeight: isLandscape
+                    ? screenSize.height * 0.4
+                    : screenSize.height * 0.35,
               ),
-              // Botón de lupa (visible en ambos modos) del artículo del nivel 2
-              Positioned(
-                bottom: 10,
-                right: 10,
-                child: InkWell(
-                  onTap: () => _showEnlargedImage(_currentArticle!.imageArticle),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.6),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.zoom_in,
-                      color: Colors.white,
-                      size: 28,
+              width: double.infinity,
+              padding: const EdgeInsets.all(
+                  1), // Ajustar el padding para que la imagen no se vea tan grande
+              // Stack para colocar la lupa sobre la imagen del artículo del nivel 2
+              child: Stack(
+                alignment: Alignment
+                    .center, // Alineación central de los elementos del Stack
+                children: [
+                  // Imagen del artículo del nivel 2
+                  Image.asset(
+                    _activity5Service.getArticleImagePath(_currentArticle!
+                        .imageArticle), // Ruta de la imagen del artículo del nivel 2
+                    fit: BoxFit
+                        .contain, // Tamaño de la imagen del artículo del nivel 2
+                  ),
+                  // Botón de lupa (visible en ambos modos) del artículo del nivel 2
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: InkWell(
+                      onTap: () =>
+                          _showEnlargedImage(_currentArticle!.imageArticle),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.6),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.zoom_in,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 12),
-        // Nombre del artículo en Namtrik (solo lectura) nivel 2
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-          // Color verde fresco de la caja del nombre del artículo en Namtrik (solo lectura) nivel 2
-          decoration: BoxDecoration(
-            color: const Color(0xFF4CAF50), // Verde fresco
-            borderRadius: BorderRadius.circular(12),
-          ),
-          // Texto del valor del artículo en Namtrik (solo lectura) nivel 2
-          child: Text(
-            _currentArticle!.namePriceNamtrik,
-            style: TextStyle(
-              color: Colors.white, // Color blanco
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
-        SizedBox(height: 16),
-        
-        // Opciones de dinero (solo lectura) nivel 3
-        if (_moneyOptions.isNotEmpty)
-          ..._moneyOptions.asMap().entries.map((entry) {
-            return _buildMoneyOption(entry.value, entry.key);
-          }).toList(),
-      ],
+          const SizedBox(height: 16),
+          // Nombre del artículo en Namtrik (solo lectura) nivel 2
+          Center(
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth: maxContainerWidth,
+              ),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+              // Color verde fresco de la caja del nombre del artículo en Namtrik (solo lectura) nivel 2
+              decoration: BoxDecoration(
+                color: const Color(0xFF4CAF50), // Verde fresco
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(
+                        0xFF00FF00), // Sombra lima de la caja del nombre del artículo en Namtrik (solo lectura) nivel 2
+                    blurRadius: 8, // Radio de la sombra
+                    offset: const Offset(0,
+                        4), // Desplazamiento de la sombra 10 para x y 0 para y
+                  ),
+                ],
+              ),
+              // Texto del valor del artículo en Namtrik (solo lectura) nivel 2
+              child: Text(
+                _currentArticle!.namePriceNamtrik,
+                style: TextStyle(
+                  color: Colors.white, // Color blanco
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+
+          // Opciones de dinero (solo lectura) nivel 3
+          if (_moneyOptions.isNotEmpty)
+            ..._moneyOptions.asMap().entries.map((entry) {
+              return _buildMoneyOption(entry.value, entry.key);
+            }).toList(),
+        ],
+      ),
     );
   }
-  
+
   // Widget para construir la cuadrícula de imágenes de dinero para el nivel 3
   Widget _buildMoneyGrid() {
     if (_moneyItems.isEmpty) {
@@ -721,7 +794,7 @@ class _Activity5LevelScreenState
             remainingAttempts: remainingAttempts,
             margin: const EdgeInsets.only(bottom: 16),
           ),
-          
+
           // Contenedor único que muestra las imágenes de dinero (solo lectura) nivel 3
           Container(
             width: double.infinity,
@@ -739,24 +812,26 @@ class _Activity5LevelScreenState
               builder: (context, constraints) {
                 // Determinar el tamaño de las imágenes basado en la orientación
                 final double containerWidth = constraints.maxWidth;
-                
+
                 // En landscape, mostrar en una sola fila; en portrait, mostrar en 2x2
                 final int crossAxisCount = isLandscape ? _moneyItems.length : 2;
                 final double spacing = 12;
-                
+
                 // Calcular el ancho de cada elemento basado en la orientación
                 double itemWidth;
                 if (isLandscape) {
                   // En landscape, dividir el ancho entre el número de elementos
-                  itemWidth = (containerWidth - (spacing * (crossAxisCount - 1))) / crossAxisCount;
+                  itemWidth =
+                      (containerWidth - (spacing * (crossAxisCount - 1))) /
+                          crossAxisCount;
                 } else {
                   // En portrait, mantener 2 columnas
                   itemWidth = (containerWidth - spacing) / 2;
                 }
-                
+
                 // Ajustar la altura para mantener la proporción
                 final double itemHeight = itemWidth * 0.6;
-                
+
                 // Widget para construir la cuadrícula de imágenes de dinero (solo lectura) nivel 3
                 return Wrap(
                   spacing: spacing,
@@ -767,34 +842,14 @@ class _Activity5LevelScreenState
                       width: itemWidth,
                       height: itemHeight,
                       child: GestureDetector(
-                        onTap: () {
-                          // Al tocar la imagen, mostrarla ampliada (solo lectura) nivel 3
-                          _showEnlargedMoneyImage(item.moneyImages[0]);
-                        },
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
                             // Imagen del dinero (solo cara A) (solo lectura) nivel 3
                             Image.asset(
-                              _activity5Service.getMoneyImagePath(item.moneyImages[0]),
+                              _activity5Service
+                                  .getMoneyImagePath(item.moneyImages[0]),
                               fit: BoxFit.contain,
-                            ),
-                            // Indicador visual para que el usuario sepa que puede tocar la imagen (solo lectura) nivel 3
-                            Positioned(
-                              bottom: 5,
-                              right: 5,
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.6),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Icon(
-                                  Icons.zoom_in,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                              ),
                             ),
                           ],
                         ),
@@ -805,33 +860,34 @@ class _Activity5LevelScreenState
               },
             ),
           ),
-          
+
           // Espacio entre el contenedor de imágenes y los recuadros
           SizedBox(height: 24),
-          
+
           // 4 recuadros del nivel 3
           ..._buildEmptyBoxes(isLandscape),
         ],
       ),
     );
   }
-  
+
   // Método para construir los 4 recuadros del nivel 3
   List<Widget> _buildEmptyBoxes(bool isLandscape) {
     // Lista para almacenar los recuadros del nivel 3
     List<Widget> boxes = [];
-    
+
     // Calcular el ancho máximo para los recuadros en modo horizontal
     final screenWidth = MediaQuery.of(context).size.width;
-    final boxWidth = isLandscape ? 450.0 : screenWidth - 32; // 32 = margen horizontal total
-    
+    final boxWidth =
+        isLandscape ? 450.0 : screenWidth - 32; // 32 = margen horizontal total
+
     // Crear 4 recuadros con nombres en namtrik del nivel 3
     for (int i = 0; i < 4; i++) {
       // Determinar el estilo del recuadro basado en si está seleccionado y si es correcto
       Color borderColor = Colors.transparent;
       Color bgColor = const Color(0xFF4CAF50);
       IconData? feedbackIcon;
-      
+
       // Si se muestra la retroalimentación y el nombre seleccionado es el correcto o incorrecto nivel 3
       if (_showNameFeedback && _selectedNameIndex == i) {
         if (i == _correctNameIndex) {
@@ -847,7 +903,7 @@ class _Activity5LevelScreenState
         borderColor = Colors.white;
         bgColor = Colors.white.withOpacity(0.1);
       }
-      
+
       // Agregar el recuadro al contenedor del nivel 3
       boxes.add(
         Center(
@@ -860,7 +916,8 @@ class _Activity5LevelScreenState
             // Recuadro de nombres del nivel 3
             child: Container(
               width: boxWidth,
-              margin: const EdgeInsets.only(bottom: 16), // Espacio entre los recuadros de nombres
+              margin: const EdgeInsets.only(
+                  bottom: 16), // Espacio entre los recuadros de nombres
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               decoration: BoxDecoration(
                 color: bgColor,
@@ -876,21 +933,30 @@ class _Activity5LevelScreenState
                   // Texto del nombre en namtrik nivel 3
                   Expanded(
                     child: Text(
-                      _shuffledNamtrikNames.isNotEmpty ? _shuffledNamtrikNames[i] : '',
+                      _shuffledNamtrikNames.isNotEmpty
+                          ? _shuffledNamtrikNames[i]
+                          : '',
                       style: TextStyle(
                         color: Colors.white, // Color del texto del nombre
                         fontSize: 18, // Tamaño del texto del nombre
-                        fontWeight: FontWeight.w500, // Grosor del texto del nombre
+                        fontWeight:
+                            FontWeight.w500, // Grosor del texto del nombre
                       ),
-                      textAlign: TextAlign.center, // Alineación del texto del nombre
+                      textAlign:
+                          TextAlign.center, // Alineación del texto del nombre
                     ),
                   ),
-                  
+
                   // Icono de feedback si corresponde (solo para el nombre seleccionado) nivel 3
-                  if (_showNameFeedback && _selectedNameIndex == i && feedbackIcon != null)
+                  if (_showNameFeedback &&
+                      _selectedNameIndex == i &&
+                      feedbackIcon != null)
                     Icon(
                       feedbackIcon,
-                      color: i == _correctNameIndex ? Colors.green : Colors.red, // Color del icono de feedback correcto (verde) o incorrecto (rojo)
+                      color: i == _correctNameIndex
+                          ? Colors.green
+                          : Colors
+                              .red, // Color del icono de feedback correcto (verde) o incorrecto (rojo)
                       size: 24, // Tamaño del icono de feedback
                     ),
                 ],
@@ -900,7 +966,7 @@ class _Activity5LevelScreenState
         ),
       );
     }
-    
+
     return boxes;
   }
 
@@ -966,27 +1032,36 @@ class _Activity5LevelScreenState
                 // Color del círculo de la indicación de página
                 color: _currentIndex == entry.key
                     ? Colors.white // Color del círculo actual
-                    : Colors.white.withOpacity(0.4), // Opacidad del círculo no actual
+                    : Colors.white
+                        .withOpacity(0.4), // Opacidad del círculo no actual
               ),
             );
           }).toList(),
         ),
-        // Espacio entre el indicador de página y el nombre del artículo nivel 2
+        // Espacio entre el indicador de página y el nombre del dinero nivel 1
         const SizedBox(height: 20),
         if (_currentIndex < _moneyItems.length)
           Column(
             mainAxisSize: MainAxisSize
                 .min, // Para evitar que ocupe más espacio del necesario
             children: [
-              // Nombre del artículo en Namtrik (solo lectura)
+              // Nombre del dinero en namtrik (solo lectura) nivel 1
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-                // Color verde fresco de la caja del nombre del artículo en Namtrik (solo lectura)
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                // Color verde fresco de la caja del nombre del dinero en namtrik (solo lectura) nivel 1
                 decoration: BoxDecoration(
                   color: const Color(0xFF4CAF50), // Verde fresco
                   borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF00FF00),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                // Texto del valor del artículo en Namtrik (solo lectura)
+                // Texto del valor del dinero en namtrik (solo lectura) nivel 1
                 child: Text(
                   _moneyItems[_currentIndex].moneyNamtrik,
                   style: TextStyle(
@@ -997,18 +1072,21 @@ class _Activity5LevelScreenState
                   textAlign: TextAlign.center,
                 ),
               ),
-              // Espacio adicional para asegurar que no haya espacio blanco en portrait 
+              // Espacio adicional para asegurar que no haya espacio blanco en portrait
               const SizedBox(height: 20),
               // Botón de Escuchar del nivel 1
               ElevatedButton(
-                onPressed: _isPlayingAudio ? null : _playMoneyAudio, // Deshabilitar el botón si se está reproduciendo el audio
+                onPressed: _isPlayingAudio
+                    ? null
+                    : _playMoneyAudio, // Deshabilitar el botón si se está reproduciendo el audio
                 // Deshabilitar el botón visualmente mientras se reproduce el audio
                 style: ElevatedButton.styleFrom(
                   // Color lima del botón
                   backgroundColor: const Color(0xFF00FF00), // Color lima
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30), // Bordes redondeados del botón
+                    borderRadius: BorderRadius.circular(
+                        30), // Bordes redondeados del botón
                   ),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
@@ -1084,7 +1162,8 @@ class _Activity5LevelScreenState
       barrierColor: Colors.black.withOpacity(0.85), // Fondo más oscuro
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: Colors.black.withOpacity(0.7), // Fondo oscuro para la imagen
+          backgroundColor:
+              Colors.black.withOpacity(0.7), // Fondo oscuro para la imagen
           insetPadding: EdgeInsets.all(20),
           child: Stack(
             alignment: Alignment.center,
@@ -1130,71 +1209,6 @@ class _Activity5LevelScreenState
                       shape: BoxShape.circle,
                     ),
                     // Sombra suave alrededor del botón para mejorar el contraste
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // Método para mostrar la imagen ampliada de dinero nivel 3
-  void _showEnlargedMoneyImage(String imagePath) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.black.withOpacity(0.7),
-          insetPadding: EdgeInsets.all(20),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Imagen ampliada con sombra
-              Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.9,
-                  maxHeight: MediaQuery.of(context).size.height * 0.7,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white.withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    _activity5Service.getMoneyImagePath(imagePath),
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              // Botón para cerrar
-              Positioned(
-                top: 0,
-                right: 0,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.7),
-                      shape: BoxShape.circle,
-                    ),
                     child: const Icon(
                       Icons.close,
                       color: Colors.white,

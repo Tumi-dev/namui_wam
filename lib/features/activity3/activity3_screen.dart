@@ -25,8 +25,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
   int? _currentNumber;
   bool _isKeyboardVisible = false;
 
-  // Define el color de fondo verde profundo que se ve en la imagen
-  final Color _boxColor = const Color(0xFFFFC107); // Es el color de la imagen en la pantalla de inicio
+  // Define el color de fondo amarillo dorado del contenedor de texto
+  final Color _boxColor = const Color(0xFFFFC107);
 
   @override
   void initState() {
@@ -296,6 +296,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             controller: _numberController,
                             style: const TextStyle(color: Colors.white), // Color blanco para el texto del campo de texto 
                             keyboardType: TextInputType.number,
+                            cursorColor: Colors.white,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                               LengthLimitingTextInputFormatter(7),
@@ -323,14 +324,19 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             decoration: InputDecoration(
                               hintText: 'Digita el número',
                               hintStyle: TextStyle(
-                                // Color gris para el texto de sugerencia en el campo de texto
+                                // Color gris texto de sugerencia en el campo de digitar número
                                 color: Colors.grey[700],
+                                fontSize: 16,
                               ),
                               filled: true,
                               fillColor: _boxColor,
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: const BorderSide(color: Color(0xFFFFFF00), width: 4), // Sombra del contenedor de texto
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
@@ -338,11 +344,12 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                               ),
                             ),
                           ),
+                          // Texto Namtrikmai del contenedor de texto del número
                           const SizedBox(height: 20),
                           const Text(
                             'Namtrikmai',
                             style: TextStyle(
-                              color: Colors.white, // Color blanco para el texto de la pantalla de inicio
+                              color: Colors.white, // Color blanco para el texto Namtrikmai del contenedor de texto del número
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -350,7 +357,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                           const SizedBox(height: 8),
                           Container(
                             width: double.infinity,
-                            // Adjust minimum height based on screen size and keyboard visibility
+                            // Ajuste de altura del contenedor de texto del número
                             constraints: BoxConstraints(
                               minHeight: _isKeyboardVisible && isSmallScreen ? 80 : 100,
                             ),
@@ -371,15 +378,15 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                                         : _namtrikResult,
                                     style: TextStyle(
                                       color: _namtrikResult.isEmpty
-                                          ? Colors.grey[700] // Color gris para el texto de resultado vacío en la pantalla de inicio
-                                          : Colors.white, // Color blanco para el texto de resultado en la pantalla de inicio
+                                          ? Colors.grey[700] // Color gris texto del contenedor resultado vacío del número
+                                          : Colors.white, // Color blanco texto del contenedor resultado del número
                                       fontSize: 16,
                                     ),
                                   ),
                           ),
-                          // Adjust spacing based on screen size and keyboard visibility
+                          // Ajuste de espaciado del contenedor de texto del número
                           SizedBox(height: _isKeyboardVisible && isSmallScreen ? 16 : 24),
-                          // Action buttons row
+                          // Fila de botones de acción
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -436,8 +443,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
   }) {
     // Colores para los botones activos e inactivos
     final Color backgroundColor = isActive 
-        ? const Color(0xFFFFFF00) // Color para botones activos en la pantalla de inicio
-        : const Color(0xFFFFFF00).withOpacity(0.5); // Color para botones inactivos en la pantalla de inicio
+        ? const Color(0xFFFFC107) // Color para botones activos en la pantalla de inicio
+        : const Color(0xFFFFC107).withOpacity(0.5); // Color para botones inactivos en la pantalla de inicio
     
     final Color iconColor = isActive 
         ? Colors.white // Color blanco para botones activos en la pantalla de inicio
@@ -445,7 +452,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
     
     // Especial color de los botones de reproducción (playing)
     final Color playingColor = isPlaying 
-        ? const Color(0xFF4CAF50) // 
+        ? const Color(0xFFFFFF00) // Color verde fresco para botones de reproducción
         : iconColor;
     
     // Ajustes de tamaño y estilo según el tamaño de la pantalla

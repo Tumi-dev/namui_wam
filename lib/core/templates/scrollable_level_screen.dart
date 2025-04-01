@@ -11,6 +11,7 @@ abstract class ScrollableLevelScreen extends StatefulWidget {
   final LevelModel level;
   final int activityNumber;
 
+  // Constructor de la pantalla de nivel con desplazamiento
   const ScrollableLevelScreen({
     super.key,
     required this.level,
@@ -18,11 +19,13 @@ abstract class ScrollableLevelScreen extends StatefulWidget {
   });
 }
 
+// Estado de la pantalla de nivel con desplazamiento
 abstract class ScrollableLevelScreenState<T extends ScrollableLevelScreen> extends State<T> {
   int remainingAttempts = 3;
   int totalScore = 0;
   final ScrollController scrollController = ScrollController();
 
+  // Maneja el evento de presionar el botón de regresar 
   void _handleBackButton() {
     Navigator.of(context).pop();
   }
@@ -31,12 +34,14 @@ abstract class ScrollableLevelScreenState<T extends ScrollableLevelScreen> exten
   /// para proporcionar el contenido específico del nivel
   Widget buildLevelContent();
 
+  // Limpia los controladores al desmontar el widget  
   @override
   void dispose() {
     scrollController.dispose();
     super.dispose();
   }
 
+  // Construye el widget de la pantalla de nivel con desplazamiento
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

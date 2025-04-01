@@ -62,7 +62,8 @@ class Activity4Screen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Icon(
                       Icons.access_time, // Ícono de tiempo de la actividad 4
-                      color: Color(0xFF9C27B0),
+                      // Color de icono fucsia para la actividad 4
+                      color: Color(0xFFFF00FF),
                       size: 64,
                     ),
                     const SizedBox(height: 30),

@@ -280,6 +280,16 @@ class Activity5Service {
 
   /// Obtiene datos sincronizados para el nivel 3
   Future<Map<String, dynamic>> getSynchronizedLevel3Data() async {
+    // Asegurarse de que los datos de dinero estén cargados
+    if (_moneyItems.isEmpty) {
+      await getLevelData(LevelModel(
+        id: 1, 
+        title: 'Nivel 1', 
+        description: 'Descripción', 
+        difficulty: 1
+      ));
+    }
+    
     // Cargar el archivo JSON específico para el nivel 3
     final String response = await rootBundle.loadString('assets/data/a4_l3_namuiwam_money.json');
     final data = await json.decode(response);

@@ -20,13 +20,13 @@ class InfoBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       margin: margin,
       decoration: BoxDecoration(
-        color: Colors.green.shade700,
+        color: const Color(0xFF4CAF50),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+            color: const Color(0xFFFFC107),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -36,7 +36,7 @@ class InfoBar extends StatelessWidget {
           if (showAttempts && remainingAttempts != null) ...[
             Row(
               children: [
-                const Icon(Icons.refresh, color: Colors.amber),
+                const Icon(Icons.refresh, color: Color(0xFFFFC107)),
                 const SizedBox(width: 8),
                 Text(
                   'Intentos: $remainingAttempts',
@@ -52,7 +52,7 @@ class InfoBar extends StatelessWidget {
           Consumer<GameState>(
             builder: (context, gameState, _) => Row(
               children: [
-                const Icon(Icons.star, color: Colors.amber),
+                const Icon(Icons.star, color: Color(0xFFFFC107)),
                 const SizedBox(width: 8),
                 Text(
                   'Puntos: ${gameState.globalPoints}',

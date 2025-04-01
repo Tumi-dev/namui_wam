@@ -392,9 +392,9 @@ class _Activity1LevelScreenState
             boxShadow: [
               // Sombra para el contenedor del número en namtrik
               BoxShadow(
-                color: Colors.black.withOpacity(0.3), // Color de la sombra del número en namtrik
-                blurRadius: 10,
-                offset: const Offset(0, 5),
+                color: const Color(0xFFD32F2F), // Color de la sombra del número en namtrik
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -499,9 +499,9 @@ class _Activity1LevelScreenState
                         borderRadius: BorderRadius.circular(15),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.transparent, // Color de la sombra de la opción seleccionada por el usuario
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
+                            color: const Color(0xFFFF0000), // Color de la sombra de la opción seleccionada por el usuario
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),

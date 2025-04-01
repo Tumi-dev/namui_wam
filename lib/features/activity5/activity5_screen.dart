@@ -5,7 +5,7 @@ import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/core/models/level_model.dart';
 import 'package:namui_wam/features/activity5/screens/activity5_level_screen.dart';
 
-// Clase para la pantalla de la actividad 5 en desarrollo
+// Clase para la pantalla de la actividad 5
 class Activity5Screen extends StatelessWidget {
   const Activity5Screen({super.key});
 
@@ -14,7 +14,7 @@ class Activity5Screen extends StatelessWidget {
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
-  // Navega hacia la pantalla de un nivel de la actividad 5 en desarrollo al seleccionar un nivel
+  // Navega hacia la pantalla de un nivel de la actividad 5 al seleccionar un nivel
   void _onLevelSelected(BuildContext context, LevelModel level) {
     // Navegar a la pantalla del nivel seleccionado de la actividad 5
     Navigator.push(
@@ -25,7 +25,7 @@ class Activity5Screen extends StatelessWidget {
     );
   }
 
-  // Construye la pantalla de la actividad 5 en desarrollo con los niveles disponibles
+  // Construye la pantalla de la actividad 5 con los niveles disponibles
   @override
   Widget build(BuildContext context) {
     return Consumer<ActivitiesState>(
@@ -33,7 +33,7 @@ class Activity5Screen extends StatelessWidget {
         final activity5 = activitiesState.getActivity(5);
         if (activity5 == null) return const SizedBox.shrink();
 
-        // Construir la pantalla de la actividad 5 en desarrollo con los niveles disponibles
+        // Construir la pantalla de la actividad 5 con los niveles disponibles
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -45,7 +45,7 @@ class Activity5Screen extends StatelessWidget {
               'Anwan ashipelɵ kɵkun',
               style: AppTheme.activityTitleStyle,
             ),
-            // Color de fondo transparente y elevación 0 para la barra de la actividad 5 en desarrollo
+            // Color de fondo transparente y elevación 0 para la barra de la actividad 5
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
@@ -61,8 +61,8 @@ class Activity5Screen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Icon(
                       Icons.attach_money,
-                      // Color de icono blanco para la actividad 5 en desarrollo
-                      color: Color(0xFF4CAF50),
+                      // Color de icono lima para la actividad 5
+                      color: Color(0xFF00FF00),
                       size: 64,
                     ),
                     const SizedBox(height: 30),
@@ -100,9 +100,9 @@ class Activity5Screen extends StatelessWidget {
     );
   }
 
-  // Construye una tarjeta para un nivel de la actividad 5 en desarrollo
+  // Construye una tarjeta para un nivel de la actividad 5
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
-    // Construir una tarjeta para un nivel de la actividad 5 en desarrollo
+    // Construir una tarjeta para un nivel de la actividad 5
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Card(

@@ -4,10 +4,12 @@ import 'package:namui_wam/core/themes/app_theme.dart';
 import 'package:namui_wam/core/constants/activity_descriptions.dart';
 import 'package:namui_wam/core/widgets/game_description_widget.dart';
 
+// Base de la pantalla de un nivel
 abstract class BaseLevelScreen extends StatefulWidget {
   final LevelModel level;
   final int activityNumber;
 
+  // Constructor de la pantalla base
   const BaseLevelScreen({
     super.key,
     required this.level,
@@ -15,16 +17,20 @@ abstract class BaseLevelScreen extends StatefulWidget {
   });
 }
 
+// Estado de la pantalla base
 abstract class BaseLevelScreenState<T extends BaseLevelScreen> extends State<T> {
   int remainingAttempts = 2;
   int totalScore = 0;
 
+  // Maneja el evento de presionar el botón de regresar
   void _handleBackButton() {
     Navigator.of(context).pop();
   }
 
+  // Construye el contenido del nivel
   Widget buildLevelContent();
 
+  // Construye el widget de la pantalla base
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -32,6 +38,7 @@ abstract class BaseLevelScreenState<T extends BaseLevelScreen> extends State<T> 
         _handleBackButton();
         return false;
       },
+      // El scafold de la pantalla base
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -43,13 +50,15 @@ abstract class BaseLevelScreenState<T extends BaseLevelScreen> extends State<T> 
             widget.level.description,
             style: AppTheme.levelTitleStyle,
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent, // Color transparente de la AppBar
           elevation: 0,
         ),
+        // El cuerpo de la pantalla base
         body: Container(
           decoration: BoxDecoration(
             gradient: AppTheme.mainGradient,
           ),
+          // El área segura de la pantalla base
           child: SafeArea(
             child: Column(
               children: [

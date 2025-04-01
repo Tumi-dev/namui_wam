@@ -580,14 +580,18 @@ class _Activity4LevelScreenState
   Widget _buildLevel1Content() {
     // Obtener tamaño de pantalla para diseño responsivo en nivel 1
     final screenSize = MediaQuery.of(context).size;
-    final isLandscape = screenSize.width > screenSize.height; // true si es landscape, false si es portrait
+    final isLandscape = screenSize.width >
+        screenSize.height; // true si es landscape, false si es portrait
 
     // Calcular tamaño de los elementos según la orientación en nivel 1
-    final double clockSize =
-        isLandscape ? screenSize.width * 0.15 : screenSize.width * 0.35; // 15% en landscape, 35% en portrait de los relojes
+    final double clockSize = isLandscape
+        ? screenSize.width * 0.15
+        : screenSize.width *
+            0.35; // 15% en landscape, 35% en portrait de los relojes
 
     // Determinar el número de elementos por fila según orientación en nivel 1
-    final int clocksPerRow = isLandscape ? 4 : 2; // 4 en landscape, 2 en portrait de los relojes
+    final int clocksPerRow =
+        isLandscape ? 4 : 2; // 4 en landscape, 2 en portrait de los relojes
 
     return Column(
       children: [
@@ -665,19 +669,26 @@ class _Activity4LevelScreenState
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: clocksPerRow, // Hace referencia a la cantidad de relojes por fila
-            childAspectRatio: 1.5, // Hace referencia a la proporción de la altura al ancho de los textos
-            crossAxisSpacing: 2, // Hace referencia al espaciado entre los textos en el eje horizontal
-            mainAxisSpacing: 2, // Hace referencia al espaciado entre los textos en el eje vertical
+            crossAxisCount:
+                clocksPerRow, // Hace referencia a la cantidad de relojes por fila
+            childAspectRatio:
+                1.5, // Hace referencia a la proporción de la altura al ancho de los textos
+            crossAxisSpacing:
+                2, // Hace referencia al espaciado entre los textos en el eje horizontal
+            mainAxisSpacing:
+                2, // Hace referencia al espaciado entre los textos en el eje vertical
           ),
           // Construir elementos seleccionables con texto de namtrik en nivel 1
           itemCount: _shuffledNamtrik.length,
           itemBuilder: (context, index) {
             final item = _shuffledNamtrik[index];
             final id = item['id'];
-            final isMatched = _matchedPairs.values.contains(id); // Determina si el texto ya ha sido emparejado
-            final isSelected = _selectedNamtrikId == id; // Determina si el texto actual ha sido seleccionado
-            final isError = _showErrorAnimation && isSelected; // Determina si hay un error en la selección
+            final isMatched = _matchedPairs.values
+                .contains(id); // Determina si el texto ya ha sido emparejado
+            final isSelected = _selectedNamtrikId ==
+                id; // Determina si el texto actual ha sido seleccionado
+            final isError = _showErrorAnimation &&
+                isSelected; // Determina si hay un error en la selección
 
             // Determinar el estado de selección en nivel 1
             SelectionState state = SelectionState.unselected;
@@ -701,7 +712,9 @@ class _Activity4LevelScreenState
                   style: TextStyle(
                     // Estilo de los textos en namtrik (color blanco, negrita, tamaño 16) nivel 1
                     color: Colors.white,
-                    fontSize: isLandscape ? 16 : 16, // Tamaño del texto en namtrik (16 en landscape, 16 en portrait)
+                    fontSize: isLandscape
+                        ? 16
+                        : 16, // Tamaño del texto en namtrik (16 en landscape, 16 en portrait)
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -730,7 +743,8 @@ class _Activity4LevelScreenState
         isLandscape ? screenSize.width * 0.25 : screenSize.width * 0.7;
 
     // Calcular número de botones por fila según orientación
-    final int optionsPerRow = isLandscape ? 4 : 2; // 4 en landscape, 2 en portrait
+    final int optionsPerRow =
+        isLandscape ? 4 : 2; // 4 en landscape, 2 en portrait
 
     return Column(
       children: [
@@ -790,13 +804,16 @@ class _Activity4LevelScreenState
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: const EdgeInsets.all(8), // Padding 8 para las opciones de respuesta
+                padding: const EdgeInsets.all(
+                    8), // Padding 8 para las opciones de respuesta
               ),
               // Texto de la opción de respuesta en nivel 2
               child: Text(
                 option['hour_namtrik'],
                 style: TextStyle(
-                  fontSize: isLandscape ? 16 : 16, // Tamaño 16 en landscape, 16 en portrait
+                  fontSize: isLandscape
+                      ? 16
+                      : 16, // Tamaño 16 en landscape, 16 en portrait
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -869,7 +886,9 @@ class _Activity4LevelScreenState
         // Texto de la hora en namtrik debajo de la imagen del reloj
         Container(
           margin: const EdgeInsets.only(bottom: 24.0),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0), // Tamaño del texto de la hora en namtrik
+          padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 12.0), // Tamaño del texto de la hora en namtrik
           decoration: BoxDecoration(
             // Fondo púrpura elegante con bordes redondeados y sombra suave para el texto de la hora en namtrik
             color: const Color(0xFF9C27B0), //
@@ -877,9 +896,9 @@ class _Activity4LevelScreenState
             boxShadow: [
               BoxShadow(
                 // Sombra suave con opacidad 30% y desplazamiento de 3 puntos hacia abajo
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 5,
-                offset: const Offset(0, 3),
+                color: const Color(0xFFFF00FF),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -895,11 +914,12 @@ class _Activity4LevelScreenState
           ),
         ),
 
-        // Selectores de hora y minuto
+        // Selectores de hora y minuto del nivel 3
         Padding(
           padding: contentPadding,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment
+                .center, // Alinea los selectores de hora y minuto
             children: [
               // Selector de hora
               Expanded(
@@ -920,11 +940,11 @@ class _Activity4LevelScreenState
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal:
-                              12.0), // Padding interno para el selector de hora
+                              12.0), // Padding interno para el selector de hora nivel 3
                       decoration: BoxDecoration(
-                        // Fondo blanco con bordes redondeados para el selector de hora
-                        color: Colors
-                            .white, // Fondo blanco para el selector de hora
+                        // Fondo púrpura elegante con bordes redondeados para el selector de hora
+                        color: const Color(
+                            0xFF9C27B0), // Fondo púrpura elegante para el selector de hora
                         borderRadius: BorderRadius.circular(
                             8.0), // Bordes redondeados para el selector de hora
                       ),
@@ -932,32 +952,31 @@ class _Activity4LevelScreenState
                       child: DropdownButton<int>(
                         value: _selectedHour, // Hora seleccionada por defecto
                         isExpanded: true, // Expansión del selector de hora
-                        icon: const Icon(Icons
-                            .arrow_drop_down), // Icono de flecha hacia abajo
-                        iconSize: 24, // Tamaño del icono de flecha hacia abajo
+                        icon: const Icon(Icons.arrow_drop_down, 
+                            color: Colors.white), // Icono de flecha hacia abajo en color blanco
+                        iconSize: 34, // Tamaño del icono de flecha hacia abajo
                         elevation: 16, // Elevación del menú desplegable
+                        dropdownColor: const Color(0xFF9C27B0),
                         // Estilo del texto de la hora seleccionado
                         style: const TextStyle(
                           // Color del texto de la hora seleccionada
                           color: Colors.black,
                           fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                        // Contenedor transparente para la línea inferior del selector de hora
-                        underline: Container(
-                          height: 0,
-                          color: Colors.transparent,
-                        ),
+                        // Controlador de selección de hora
                         onChanged: _handleHourChanged,
                         items: hours.map<DropdownMenuItem<int>>((int value) {
                           return DropdownMenuItem<int>(
                             value: value,
                             child: Text(
-                              value.toString().padLeft(2, '0'),
+                              value.toString().padLeft(2,
+                                  '0'), // Asegura que la hora tenga 2 dígitos
                               style: TextStyle(
                                 // Estilo del texto de la hora seleccionada (rojo si hay error)
                                 color: _showErrorAnimationLevel3
                                     ? Colors.red
-                                    : Colors.black,
+                                    : Colors.white,
                               ),
                             ),
                           );
@@ -1000,27 +1019,27 @@ class _Activity4LevelScreenState
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       decoration: BoxDecoration(
-                        // Fondo blanco con bordes redondeados para el selector de minuto
-                        color: Colors.white,
+                        // Fondo púrpura elegante con bordes redondeados para el selector de minuto
+                        color: const Color(
+                            0xFF9C27B0), // Fondo púrpura elegante para el selector de minuto
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       // Selector de minuto con lista de minutos y controlador de selección
                       child: DropdownButton<int>(
                         value: _selectedMinute,
                         isExpanded: true,
-                        icon: const Icon(Icons.arrow_drop_down),
-                        iconSize: 24,
+                        icon: const Icon(Icons.arrow_drop_down, 
+                            color: Colors.white), // Icono de flecha hacia abajo en color blanco
+                        iconSize: 34,
                         elevation: 16,
+                        dropdownColor: const Color(0xFF9C27B0),
                         style: const TextStyle(
                           // Estilo del texto del minuto seleccionado (negro, tamaño 18)
                           color: Colors.black,
                           fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                        underline: Container(
-                          height: 0,
-                          // Línea inferior transparente para el selector de minutos
-                          color: Colors.transparent,
-                        ),
+                        // Controlador de selección de minutos
                         onChanged: _handleMinuteChanged,
                         items: minutes.map<DropdownMenuItem<int>>((int value) {
                           return DropdownMenuItem<int>(
@@ -1031,7 +1050,7 @@ class _Activity4LevelScreenState
                                 // Estilo del texto del minuto seleccionado (rojo si hay error)
                                 color: _showErrorAnimationLevel3
                                     ? Colors.red
-                                    : Colors.black,
+                                    : Colors.white,
                               ),
                             ),
                           );

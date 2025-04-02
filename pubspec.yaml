@@ -36,6 +36,7 @@ flutter:
     - assets/images/money/
     - assets/data/
     - assets/data/a4_l3_namuiwam_money.json
+    - assets/data/a4_l4_namuiwam_money.json
     - assets/data/namtrik_articles.json
     - assets/data/namtrik_hours.json
     - assets/data/namtrik_money.json

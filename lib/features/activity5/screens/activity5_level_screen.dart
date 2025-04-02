@@ -8,6 +8,7 @@ import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/features/activity5/services/activity5_service.dart';
 import 'package:namui_wam/features/activity5/models/namtrik_money_model.dart';
 import 'package:namui_wam/features/activity5/models/namtrik_article_model.dart';
+import 'dart:math';
 
 // Cambiado para usar ScrollableLevelScreen en lugar de BaseLevelScreen
 class Activity5LevelScreen extends ScrollableLevelScreen {
@@ -53,6 +54,22 @@ class _Activity5LevelScreenState
   int _correctNameIndex = -1;
   int? _selectedNameIndex;
   bool _showNameFeedback = false;
+
+  // Variables para el nivel 4
+  bool _level4DataLoaded = false;
+  List<String> _level4NamtrikNames = [];
+  String _currentLevel4NamtrikName = '';
+  List<String> _moneyImages = [];
+  bool _moneyImagesLoaded = false;
+  // Variables adicionales para la actividad 5 del nivel 4
+  List<int> _selectedMoneyIndices = [];
+  int _currentTotalValue = 0;
+  int _targetTotalValue = 0;
+  Map<int, int> _numberIndexToValue = {};
+  List<int> _targetMoneyNumbers = [];
+  bool _showLevel4Feedback = false;
+  bool _isCorrectLevel4Answer = false;
+  bool _hasEarnedPointsLevel4 = false;
 
   // Inicializa el estado de la pantalla de un nivel de la actividad 5
   @override
@@ -115,6 +132,24 @@ class _Activity5LevelScreenState
 
         if (mounted) {
           setState(() {
+            _isLoading = false;
+          });
+        }
+      } else if (widget.level.id == 4) {
+        // Para el nivel 4, cargar datos de nombres en namtrik del archivo JSON
+        final level4NamtrikNames = await _activity5Service.getLevel4NamtrikNames();
+        _level4NamtrikNames = level4NamtrikNames;
+        
+        // Seleccionar un nombre aleatorio
+        _selectRandomLevel4Name();
+
+        // Cargar imágenes de dinero
+        _moneyImages = await _activity5Service.getAllMoneyImages();
+        _moneyImagesLoaded = true;
+
+        if (mounted) {
+          setState(() {
+            _level4DataLoaded = true;
             _isLoading = false;
           });
         }
@@ -466,7 +501,7 @@ class _Activity5LevelScreenState
     }
   }
 
-  // Reproduce los audios para el valor del dinero actual
+  // Reproduce los audios para el valor del dinero actual (nivel 1)
   Future<void> _playMoneyAudio() async {
     if (_currentIndex >= _moneyItems.length) return;
 
@@ -713,6 +748,7 @@ class _Activity5LevelScreenState
                           color: Colors.black.withOpacity(0.6),
                           shape: BoxShape.circle,
                         ),
+                        // Sombra suave alrededor del botón para mejorar el contraste
                         child: const Icon(
                           Icons.zoom_in,
                           color: Colors.white,
@@ -869,105 +905,6 @@ class _Activity5LevelScreenState
         ],
       ),
     );
-  }
-
-  // Método para construir los 4 recuadros del nivel 3
-  List<Widget> _buildEmptyBoxes(bool isLandscape) {
-    // Lista para almacenar los recuadros del nivel 3
-    List<Widget> boxes = [];
-
-    // Calcular el ancho máximo para los recuadros en modo horizontal
-    final screenWidth = MediaQuery.of(context).size.width;
-    final boxWidth =
-        isLandscape ? 450.0 : screenWidth - 32; // 32 = margen horizontal total
-
-    // Crear 4 recuadros con nombres en namtrik del nivel 3
-    for (int i = 0; i < 4; i++) {
-      // Determinar el estilo del recuadro basado en si está seleccionado y si es correcto
-      Color borderColor = Colors.transparent;
-      Color bgColor = const Color(0xFF4CAF50);
-      IconData? feedbackIcon;
-
-      // Si se muestra la retroalimentación y el nombre seleccionado es el correcto o incorrecto nivel 3
-      if (_showNameFeedback && _selectedNameIndex == i) {
-        if (i == _correctNameIndex) {
-          borderColor = const Color(0xFF00FF00);
-          bgColor = Color(0xFF00FF00).withOpacity(0.2);
-          feedbackIcon = Icons.check_circle;
-        } else {
-          borderColor = const Color(0xFFFF0000);
-          bgColor = Color(0xFFFF0000).withOpacity(0.2);
-          feedbackIcon = Icons.cancel;
-        }
-      } else if (_selectedNameIndex == i) {
-        borderColor = Colors.white;
-        bgColor = Colors.white.withOpacity(0.1);
-      }
-
-      // Agregar el recuadro al contenedor del nivel 3
-      boxes.add(
-        Center(
-          child: GestureDetector(
-            onTap: () {
-              if (_selectedNameIndex == null || !_showNameFeedback) {
-                _handleNameSelection(i);
-              }
-            },
-            // Recuadro de nombres del nivel 3
-            child: Container(
-              width: boxWidth,
-              margin: const EdgeInsets.only(
-                  bottom: 16), // Espacio entre los recuadros de nombres
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: borderColor,
-                  width: 1.5,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Texto del nombre en namtrik nivel 3
-                  Expanded(
-                    child: Text(
-                      _shuffledNamtrikNames.isNotEmpty
-                          ? _shuffledNamtrikNames[i]
-                          : '',
-                      style: TextStyle(
-                        color: Colors.white, // Color del texto del nombre
-                        fontSize: 18, // Tamaño del texto del nombre
-                        fontWeight:
-                            FontWeight.w500, // Grosor del texto del nombre
-                      ),
-                      textAlign:
-                          TextAlign.center, // Alineación del texto del nombre
-                    ),
-                  ),
-
-                  // Icono de feedback si corresponde (solo para el nombre seleccionado) nivel 3
-                  if (_showNameFeedback &&
-                      _selectedNameIndex == i &&
-                      feedbackIcon != null)
-                    Icon(
-                      feedbackIcon,
-                      color: i == _correctNameIndex
-                          ? Colors.green
-                          : Colors
-                              .red, // Color del icono de feedback correcto (verde) o incorrecto (rojo)
-                      size: 24, // Tamaño del icono de feedback
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    return boxes;
   }
 
   // Widget para mostrar las imágenes en un PageView (reemplazando el carrusel) nivel 3
@@ -1151,8 +1088,487 @@ class _Activity5LevelScreenState
               ? _buildPageView()
               : widget.level.id == 2
                   ? _buildArticleWidget()
-                  : _buildMoneyGrid(),
+                  : widget.level.id == 3
+                      ? _buildMoneyGrid()
+                      : _level4DataLoaded
+                          ? _buildLevel4Content()
+                          : const Center(
+                              child: Text(
+                                'Cargando datos...',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
     );
+  }
+
+  // Método para construir el contenido del nivel 4 con dos recuadros
+  Widget _buildLevel4Content() {
+    // Obtener el tamaño de la pantalla para diseño responsivo
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
+
+    // Definir el ancho máximo para los recuadros en modo horizontal
+    final double containerWidth = isLandscape
+        ? 450.0 // Ancho máximo fijo en landscape
+        : screenSize.width - 32; // Ancho completo disponible en portrait (con margen)
+
+    return SingleChildScrollView(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Barra de información con intentos y puntos (nivel 4)
+            InfoBar(
+              remainingAttempts: remainingAttempts,
+              margin: const EdgeInsets.only(bottom: 16),
+            ),
+            
+            // Primer recuadro (nivel 4)
+            Container(
+              width: containerWidth,
+              margin: const EdgeInsets.only(bottom: 16), // Margen inferior para separación
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16), // Padding horizontal aumentado
+              decoration: BoxDecoration(
+                color: const Color(0xFF4CAF50),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF00FF00),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              // Mostrar el texto en namtrik seleccionado aleatoriamente
+              child: Center(
+                child: Text(
+                  _currentLevel4NamtrikName,
+                  style: const TextStyle(
+                    color: Colors.white, // Color del texto
+                    fontSize: 24, // Tamaño del texto aumentado para mejor visibilidad
+                    fontWeight: FontWeight.bold, // Texto en negrita para destacar
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            // Segundo recuadro (nivel 4)
+            Container(
+              width: containerWidth,
+              margin: const EdgeInsets.only(bottom: 16), // Margen inferior para separación
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16), // Padding horizontal aumentado
+              decoration: BoxDecoration(
+                color: _showLevel4Feedback
+                    ? (_isCorrectLevel4Answer
+                        ? const Color(0xFF00FF00).withOpacity(0.2) // Lima transparente para respuesta correcta
+                        : const Color(0xFFFF0000).withOpacity(0.2)) // Rojo transparente para respuesta incorrecta
+                    : const Color(0xFF4CAF50), // Verde fresco por defecto
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: _showLevel4Feedback
+                      ? (_isCorrectLevel4Answer
+                          ? const Color(0xFF00FF00) // Lima para respuesta correcta
+                          : const Color(0xFFFF0000)) // Rojo para respuesta incorrecta
+                      : Colors.transparent, // Transparente por defecto
+                ),
+              ),
+              child: SizedBox(
+                height: 50,
+                child: Center(
+                  child: Text(
+                    _currentTotalValue > 0 ? '$_currentTotalValue' : '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            
+            // Imágenes de dinero en una cuadrícula (nivel 4)
+            if (_moneyImagesLoaded)
+              Container(
+                width: containerWidth,
+                margin: const EdgeInsets.only(bottom: 24, top: 16),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // 3 imágenes por fila para mejor visualización
+                    childAspectRatio: 1.2, // Proporción para que las imágenes no se vean estiradas
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemCount: _moneyImages.length,
+                  itemBuilder: (context, index) {
+                    // Determinar si esta imagen está seleccionada
+                    final isSelected = _selectedMoneyIndices.contains(index + 1);
+                    
+                    return GestureDetector(
+                      onTap: () {
+                        if (!_showLevel4Feedback) {
+                          _handleMoneyImageTap(index);
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: isSelected 
+                              ? const Color(0xFF4CAF50).withOpacity(0.3) // Color de selección (verde fresco) con 30% de opacidad
+                              : Colors.transparent, // Color transparente por defecto fondo de la imagen
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSelected
+                                ? const Color(0xFF00FF00) // Borde de selección (lima)
+                                : const Color(0xFF4CAF50), // Color de borde (verde fresco)
+                            width: isSelected ? 2 : 1,
+                          ),
+                        ),
+                        // Padding para dar espacio entre las imágenes
+                        padding: const EdgeInsets.all(1),
+                        child: Stack(
+                          children: [
+                            // Imagen del dinero
+                            Positioned.fill(
+                              child: Image.asset(
+                                _activity5Service.getMoneyImagePath(_moneyImages[index]),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            
+                            // Indicador de selección (opcional)
+                            if (isSelected)
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF00FF00),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 12,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Método para manejar el tap en una imagen de dinero para el nivel 4
+  void _handleMoneyImageTap(int index) {
+    if (_showLevel4Feedback) return; // No permitir interacción durante el feedback
+    
+    // Obtener el número correspondiente a esta imagen
+    final moneyNumber = index + 1; // El índice es 0-based, pero los números en el JSON son 1-based
+    
+    setState(() {
+      // Permitir seleccionar la misma imagen múltiples veces
+      // Agregar el índice a la lista de seleccionados
+      _selectedMoneyIndices.add(moneyNumber);
+      
+      // Agregar el valor correspondiente a la suma
+      final valueToAdd = _numberIndexToValue[moneyNumber] ?? 0;
+      _currentTotalValue += valueToAdd;
+      
+      // Verificar si el usuario ha excedido el valor objetivo
+      if (_currentTotalValue > _targetTotalValue) {
+        // Sobrepasó el valor total
+        _showLevel4Feedback = true;
+        _isCorrectLevel4Answer = false;
+        
+        // Reproducir alerta de audio
+        _activity5Service.playAlertAudio('valor_excedido');
+        
+        // Decrementar intentos
+        decrementAttempts();
+        
+        // Después de un tiempo, reiniciar el nivel con un nuevo nombre aleatorio
+        Future.delayed(Duration(seconds: 2), () {
+          if (mounted) {
+            setState(() {
+              _showLevel4Feedback = false;
+              
+              // Verificar si quedan intentos
+              if (remainingAttempts <= 0) {
+                _handleOutOfAttempts();
+              } else {
+                // Reiniciar con un nuevo nombre aleatorio
+                _selectRandomLevel4Name();
+              }
+            });
+          }
+        });
+      } else if (_currentTotalValue == _targetTotalValue) {
+        // Verificar si la selección del usuario corresponde con los valores objetivo
+        // Este paso verifica que se hayan seleccionado todos los elementos necesarios
+        bool hasCorrectCombination = true;
+        
+        // Crear mapas de frecuencia para comparar las selecciones con los objetivos
+        Map<int, int> selectedFrequency = {};
+        Map<int, int> targetFrequency = {};
+        
+        // Contar frecuencia de cada número en las selecciones del usuario
+        for (int num in _selectedMoneyIndices) {
+          selectedFrequency[num] = (selectedFrequency[num] ?? 0) + 1;
+        }
+        
+        // Contar frecuencia de cada número en los objetivos
+        for (int num in _targetMoneyNumbers) {
+          targetFrequency[num] = (targetFrequency[num] ?? 0) + 1;
+        }
+        
+        // Comparar los mapas de frecuencia
+        // Para cada número en el objetivo, verificar que aparezca la misma cantidad de veces en las selecciones
+        for (int key in targetFrequency.keys) {
+          if ((selectedFrequency[key] ?? 0) != targetFrequency[key]) {
+            hasCorrectCombination = false;
+            break;
+          }
+        }
+        
+        // También verificar que no haya números adicionales en las selecciones
+        for (int key in selectedFrequency.keys) {
+          if ((targetFrequency[key] ?? 0) != selectedFrequency[key]) {
+            hasCorrectCombination = false;
+            break;
+          }
+        }
+        
+        _showLevel4Feedback = true;
+        _isCorrectLevel4Answer = hasCorrectCombination;
+        
+        if (hasCorrectCombination) {
+          // La respuesta es correcta - mostrar diálogo de éxito
+          Future.delayed(Duration(seconds: 1), () {
+            if (mounted) {
+              // Verificar si ya se han ganado puntos para este nivel
+              final activitiesState = ActivitiesState.of(context);
+              final gameState = GameState.of(context);
+              final wasCompleted = gameState.isLevelCompleted(5, widget.level.id - 1);
+              
+              if (!wasCompleted && !_hasEarnedPointsLevel4) {
+                // Primera vez que completa correctamente - otorgar 5 puntos
+                gameState.addPoints(5, widget.level.id - 1, 5).then((pointsAdded) {
+                  if (pointsAdded) {
+                    activitiesState.completeLevel(5, widget.level.id - 1);
+                    setState(() {
+                      totalScore = gameState.globalPoints;
+                      _hasEarnedPointsLevel4 = true;
+                    });
+                    
+                    // Mostrar diálogo de felicitación con puntos ganados
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                '¡Felicitaciones!',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                '¡Ganaste 5 puntos!',
+                                style: TextStyle(
+                                  color: const Color(0xFF00FF00), // Lima
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  // Reiniciar con un nuevo nombre aleatorio
+                                  setState(() {
+                                    _showLevel4Feedback = false;
+                                    _selectRandomLevel4Name();
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF00FF00), // Lima
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32, vertical: 12),
+                                ),
+                                child: const Text('Continuar'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                });
+              } else {
+                // Ya ha completado el nivel anteriormente - sólo mostrar mensaje de buen trabajo
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            '¡Buen trabajo!',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Ya habías completado este nivel anteriormente.',
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              // Reiniciar con un nuevo nombre aleatorio
+                              setState(() {
+                                _showLevel4Feedback = false;
+                                _selectRandomLevel4Name();
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF00FF00), // Lima
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 32, vertical: 12),
+                            ),
+                            child: const Text('Aceptar'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+            }
+          });
+        } else {
+          // La combinación no es correcta, pero el valor total está bien
+          // Reproducir alerta de audio (opcional)
+          _activity5Service.playAlertAudio('combinacion_incorrecta');
+          
+          // Decrementar intentos
+          decrementAttempts();
+          
+          // Después de un tiempo, reiniciar el nivel
+          Future.delayed(Duration(seconds: 2), () {
+            if (mounted) {
+              setState(() {
+                _showLevel4Feedback = false;
+                
+                // Verificar si quedan intentos
+                if (remainingAttempts <= 0) {
+                  _handleOutOfAttempts();
+                } else {
+                  // Reiniciar la selección pero mantener el mismo nombre
+                  _selectedMoneyIndices = [];
+                  _currentTotalValue = 0;
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  }
+
+  // Método para seleccionar un nombre aleatorio del nivel 4
+  void _selectRandomLevel4Name() {
+    if (_level4NamtrikNames.isNotEmpty) {
+      setState(() {
+        // Limpiar selecciones anteriores
+        _selectedMoneyIndices = [];
+        _currentTotalValue = 0;
+        _showLevel4Feedback = false;
+        _isCorrectLevel4Answer = false;
+        
+        // Seleccionar un nombre aleatorio del nivel 4
+        final randomIndex = Random().nextInt(_level4NamtrikNames.length);
+        _currentLevel4NamtrikName = _level4NamtrikNames[randomIndex];
+        
+        // Cargar los valores objetivo de la base de datos
+        _loadTargetMoneyValues();
+      });
+    }
+  }
+  
+  // Método para cargar los valores objetivo del nombre seleccionado del nivel 4
+  Future<void> _loadTargetMoneyValues() async {
+    try {
+      // Obtener los datos del nivel 4 para el nombre seleccionado
+      final targetData = await _activity5Service.getLevel4MoneyValuesForName(_currentLevel4NamtrikName);
+      
+      if (targetData != null) {
+        setState(() {
+          _targetTotalValue = targetData['total_money'];
+          _targetMoneyNumbers = List<int>.from(targetData['number_money_images']);
+        });
+      }
+      
+      // Cargar mapeo de índices de número a valores monetarios
+      await _loadMoneyValueMapping();
+    } catch (e) {
+      debugPrint('Error cargando valores objetivo: $e');
+    }
+  }
+  
+  // Método para cargar el mapeo de índices de número a valores monetarios del nivel 4
+  Future<void> _loadMoneyValueMapping() async {
+    try {
+      final moneyItems = await _activity5Service.getAllMoneyItems();
+      
+      if (moneyItems.isNotEmpty) {
+        setState(() {
+          _numberIndexToValue = {};
+          for (var item in moneyItems) {
+            _numberIndexToValue[item.number] = item.valueMoney;
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint('Error cargando mapeo de valores: $e');
+    }
   }
 
   // Método para mostrar la imagen ampliada con sombra del artículo en el nivel 2
@@ -1222,5 +1638,104 @@ class _Activity5LevelScreenState
         );
       },
     );
+  }
+
+  // Método para construir los 4 recuadros del nivel 3
+  List<Widget> _buildEmptyBoxes(bool isLandscape) {
+    // Lista para almacenar los recuadros del nivel 3
+    List<Widget> boxes = [];
+
+    // Calcular el ancho máximo para los recuadros en modo horizontal
+    final screenWidth = MediaQuery.of(context).size.width;
+    final boxWidth =
+        isLandscape ? 450.0 : screenWidth - 32; // 32 = margen horizontal total
+
+    // Crear 4 recuadros con nombres en namtrik del nivel 3
+    for (int i = 0; i < 4; i++) {
+      // Determinar el estilo del recuadro basado en si está seleccionado y si es correcto
+      Color borderColor = Colors.transparent;
+      Color bgColor = const Color(0xFF4CAF50);
+      IconData? feedbackIcon;
+
+      // Si se muestra la retroalimentación y el nombre seleccionado es el correcto o incorrecto nivel 3
+      if (_showNameFeedback && _selectedNameIndex == i) {
+        if (i == _correctNameIndex) {
+          borderColor = const Color(0xFF00FF00);
+          bgColor = Color(0xFF00FF00).withOpacity(0.2);
+          feedbackIcon = Icons.check_circle;
+        } else {
+          borderColor = const Color(0xFFFF0000);
+          bgColor = Color(0xFFFF0000).withOpacity(0.2);
+          feedbackIcon = Icons.cancel;
+        }
+      } else if (_selectedNameIndex == i) {
+        borderColor = Colors.white;
+        bgColor = Colors.white.withOpacity(0.1);
+      }
+
+      // Agregar el recuadro al contenedor del nivel 3
+      boxes.add(
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              if (_selectedNameIndex == null || !_showNameFeedback) {
+                _handleNameSelection(i);
+              }
+            },
+            // Recuadro de nombres del nivel 3
+            child: Container(
+              width: boxWidth,
+              margin: const EdgeInsets.only(
+                  bottom: 16), // Espacio entre los recuadros de nombres
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: borderColor,
+                  width: 1.5,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Texto del nombre en namtrik nivel 3
+                  Expanded(
+                    child: Text(
+                      _shuffledNamtrikNames.isNotEmpty
+                          ? _shuffledNamtrikNames[i]
+                          : '',
+                      style: TextStyle(
+                        color: Colors.white, // Color del texto del nombre
+                        fontSize: 18, // Tamaño del texto del nombre
+                        fontWeight:
+                            FontWeight.w500, // Grosor del texto del nombre
+                      ),
+                      textAlign:
+                          TextAlign.center, // Alineación del texto del nombre
+                    ),
+                  ),
+
+                  // Icono de feedback si corresponde (solo para el nombre seleccionado) nivel 3
+                  if (_showNameFeedback &&
+                      _selectedNameIndex == i &&
+                      feedbackIcon != null)
+                    Icon(
+                      feedbackIcon,
+                      color: i == _correctNameIndex
+                          ? Colors.green
+                          : Colors
+                              .red, // Color del icono de feedback correcto (verde) o incorrecto (rojo)
+                      size: 24, // Tamaño del icono de feedback
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return boxes;
   }
 }

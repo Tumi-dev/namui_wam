@@ -332,4 +332,89 @@ class Activity5Service {
       'moneyItems': moneyItems,
     };
   }
+
+  /// Obtiene los nombres en namtrik para el nivel 3
+  Future<List<String>> getNamtrikNames() async {
+    await getArticlesData(); // Asegurarse de que los artículos estén cargados
+    return _articleItems.map((article) => article.namePriceNamtrik).toList();
+  }
+
+  /// Carga los datos del nivel 4 desde el archivo JSON
+  Future<List<String>> getLevel4NamtrikNames() async {
+    // Cargar el archivo JSON
+    final String response = await rootBundle.loadString('assets/data/a4_l4_namuiwam_money.json');
+    final data = await json.decode(response);
+    
+    // Extraer los nombres en namtrik del JSON
+    final List<String> namtrikNames = (data['money_l4']['namui_wam'] as List)
+        .map((item) => item['name_total_namtrik'] as String)
+        .toList();
+    
+    return namtrikNames;
+  }
+
+  /// Obtiene todas las imágenes de dinero (solo lado A) para el nivel 4
+  Future<List<String>> getAllMoneyImages() async {
+    if (_moneyItems.isEmpty) {
+      await getLevelData(LevelModel(
+        id: 1, 
+        title: 'Nivel 1', 
+        description: 'Descripción del nivel', 
+        difficulty: 1
+      ));
+    }
+    
+    // Obtener solo las imágenes del lado A (primera imagen de cada par)
+    final List<String> moneyImages = _moneyItems
+        .map((item) => item.moneyImages.isNotEmpty ? item.moneyImages[0] : '')
+        .where((image) => image.isNotEmpty)
+        .toList();
+    
+    return moneyImages;
+  }
+
+  /// Obtiene los valores objetivo del dinero para el nombre seleccionado en el nivel 4
+  Future<Map<String, dynamic>?> getLevel4MoneyValuesForName(String namtrikName) async {
+    // Cargar el archivo JSON
+    final String response = await rootBundle.loadString('assets/data/a4_l4_namuiwam_money.json');
+    final data = await json.decode(response);
+    
+    // Buscar el elemento con el nombre coincidente
+    final moneyL4List = data['money_l4']['namui_wam'] as List;
+    
+    for (var item in moneyL4List) {
+      if (item['name_total_namtrik'] == namtrikName) {
+        return {
+          'number_money_images': item['number_money_images'],
+          'total_money': item['total_money'],
+        };
+      }
+    }
+    
+    return null;
+  }
+
+  /// Obtiene todos los items de dinero para el nivel 4
+  Future<List<NamtrikMoneyModel>> getAllMoneyItems() async {
+    if (_moneyItems.isEmpty) {
+      await getLevelData(LevelModel(
+        id: 1, 
+        title: 'Nivel 1', 
+        description: 'Descripción', 
+        difficulty: 1
+      ));
+    }
+    
+    return _moneyItems;
+  }
+  
+  /// Reproduce un mensaje de audio de alerta para el nivel 4
+  Future<void> playAlertAudio(String message) async {
+    // Detener cualquier audio previo
+    await _audioService.stopAudio();
+    
+    // Reproducir el audio de alerta
+    final audioPath = 'audio/alerts/$message.wav';
+    await _audioService.playAudio(audioPath);
+  }
 }

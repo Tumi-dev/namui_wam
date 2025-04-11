@@ -12,7 +12,7 @@ dependencies:
   shared_preferences: ^2.2.2
   provider: ^6.1.1
   audioplayers: ^6.2.0
-  get_it: ^7.6.7
+  get_it: ^8.0.3
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   logger: ^2.0.2+1
@@ -23,7 +23,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   hive_generator: ^2.0.1
   build_runner: ^2.4.8
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.3.10
 
 # Configuración para flutter_launcher_icons
@@ -52,14 +52,33 @@ flutter:
   
   assets:
     - assets/audio/
+    - assets/audio/dictionary/animals/
+    - assets/audio/dictionary/body_parts/
+    - assets/audio/dictionary/colors/
+    - assets/audio/dictionary/dress/
+    - assets/audio/dictionary/edible_plants/
+    - assets/audio/dictionary/greetings/
+    - assets/audio/dictionary/medicinal_plants/
+    - assets/audio/dictionary/neologisms/
+    - assets/audio/dictionary/trees/
     - assets/audio/namtrik_numbers/
     - assets/images/
     - assets/images/articles/
     - assets/images/clocks/
+    - assets/images/dictionary/animals/
+    - assets/images/dictionary/body_parts/
+    - assets/images/dictionary/colors/
+    - assets/images/dictionary/dress/
+    - assets/images/dictionary/edible_plants/
+    - assets/images/dictionary/greetings/
+    - assets/images/dictionary/medicinal_plants/
+    - assets/images/dictionary/neologisms/
+    - assets/images/dictionary/trees/
     - assets/images/money/
     - assets/data/
     - assets/data/a4_l3_namuiwam_money.json
     - assets/data/a4_l4_namuiwam_money.json
+    - assets/data/a5_namuiwam_dictionary.json
     - assets/data/namtrik_articles.json
     - assets/data/namtrik_hours.json
     - assets/data/namtrik_money.json

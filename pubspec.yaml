@@ -16,6 +16,8 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   logger: ^2.0.2+1
+  sqflite: ^2.3.3
+  path_provider: ^2.1.3
 
 dev_dependencies:
   flutter_test:
@@ -52,28 +54,30 @@ flutter:
   
   assets:
     - assets/audio/
-    - assets/audio/dictionary/animals/
-    - assets/audio/dictionary/body_parts/
-    - assets/audio/dictionary/colors/
-    - assets/audio/dictionary/dress/
-    - assets/audio/dictionary/edible_plants/
-    - assets/audio/dictionary/greetings/
-    - assets/audio/dictionary/medicinal_plants/
-    - assets/audio/dictionary/neologisms/
-    - assets/audio/dictionary/trees/
+    - assets/audio/dictionary/
+    - assets/audio/dictionary/animales/
+    - assets/audio/dictionary/arboles/
+    - assets/audio/dictionary/colores/
+    - assets/audio/dictionary/neologismos/
+    - assets/audio/dictionary/partescuerpo/
+    - assets/audio/dictionary/plantascomestibles/
+    - assets/audio/dictionary/plantasmedicinales/
+    - assets/audio/dictionary/saludos/
+    - assets/audio/dictionary/vestido/
     - assets/audio/namtrik_numbers/
     - assets/images/
     - assets/images/articles/
     - assets/images/clocks/
-    - assets/images/dictionary/animals/
-    - assets/images/dictionary/body_parts/
-    - assets/images/dictionary/colors/
-    - assets/images/dictionary/dress/
-    - assets/images/dictionary/edible_plants/
-    - assets/images/dictionary/greetings/
-    - assets/images/dictionary/medicinal_plants/
-    - assets/images/dictionary/neologisms/
-    - assets/images/dictionary/trees/
+    - assets/images/dictionary/
+    - assets/images/dictionary/animales/
+    - assets/images/dictionary/arboles/
+    - assets/images/dictionary/colores/
+    - assets/images/dictionary/neologismos/
+    - assets/images/dictionary/partescuerpo/
+    - assets/images/dictionary/plantascomestibles/
+    - assets/images/dictionary/plantasmedicinales/
+    - assets/images/dictionary/saludos/
+    - assets/images/dictionary/vestido/
     - assets/images/money/
     - assets/data/
     - assets/data/a4_l3_namuiwam_money.json

@@ -58,6 +58,7 @@ class HomeScreen extends StatelessWidget {
   // Es el override de la clase StatelessWidget para build el widget
   @override
   Widget build(BuildContext context) {
+    print('*** HomeScreen build ejecutado (print directo) ***');
     final screenSize = MediaQuery.of(context).size;
     // Calculamos el tamaño del logo como un porcentaje del ancho de la pantalla
     // Esto permite que el logo se ajuste automáticamente a diferentes tamaños de pantalla

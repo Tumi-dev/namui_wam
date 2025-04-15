@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
+import 'package:namui_wam/features/activity6/screens/dictionary_domain_screen.dart';
 
 class Activity6Screen extends StatelessWidget {
   const Activity6Screen({super.key});
@@ -21,23 +22,14 @@ class Activity6Screen extends StatelessWidget {
           'Wammeran tulisha manchípik kui asamik pɵrik',
           style: AppTheme.activityTitleStyle,
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent, // Color de fondo transparente de la AppBar
         elevation: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: AppTheme.mainGradient,
         ),
-        child: const Center(
-          child: Text(
-            'Actividad 6 - En desarrollo',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        child: DictionaryDomainScreen(),
       ),
     );
   }

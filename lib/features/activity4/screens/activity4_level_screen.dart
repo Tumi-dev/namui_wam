@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/models/level_model.dart';
 import 'package:namui_wam/core/models/game_state.dart';
 import 'package:namui_wam/core/models/activities_state.dart';
 import 'package:namui_wam/core/templates/scrollable_level_screen.dart';
@@ -12,10 +11,8 @@ import 'dart:math';
 // Clase para la pantalla de un nivel de la actividad 4
 class Activity4LevelScreen extends ScrollableLevelScreen {
   // Constructor de la clase que recibe el nivel de la actividad
-  const Activity4LevelScreen({
-    Key? key,
-    required LevelModel level,
-  }) : super(level: level, activityNumber: 4);
+  const Activity4LevelScreen({super.key, required super.level})
+      : super(activityNumber: 4);
 
   // Crea el estado mutable para la clase de la pantalla de un nivel de la actividad 4
   @override
@@ -32,7 +29,7 @@ class _Activity4LevelScreenState
   // Variables para el juego del nivel 1
   String? _selectedClockId;
   String? _selectedNamtrikId;
-  Map<String, String> _matchedPairs = {};
+  final Map<String, String> _matchedPairs = {};
   bool _showErrorAnimation = false;
 
   // Listas desordenadas para mostrar los elementos del juego nivel 1
@@ -346,147 +343,67 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Maneja el evento cuando se completa el nivel con éxito
-  void _handleLevelComplete() async {
-    // Actualizar el estado del juego y mostrar el diálogo de respuesta correcta
-    final activitiesState = ActivitiesState.of(context);
-    final gameState = GameState.of(context);
-
-    // Verificar si el nivel se ha completado y agregar puntos si es necesario
-    final wasCompleted = gameState.isLevelCompleted(4, widget.level.id - 1);
-
-    if (!wasCompleted) {
-      final pointsAdded = await gameState.addPoints(4, widget.level.id - 1, 5);
-      if (pointsAdded) {
-        activitiesState.completeLevel(4, widget.level.id - 1);
-        if (mounted) {
-          setState(() {
-            totalScore = gameState.globalPoints;
-          });
-        }
-      }
-
-      // Mostrar diálogo de nivel completado si se agregaron puntos con éxito
-      if (!mounted) return;
-
-      // Mostrar mensaje de éxito con puntos ganados si es la primera vez que se completa el nivel
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  '¡Felicitaciones!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+  void _showLevelCompletedDialog({required bool wasCompleted}) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                wasCompleted ? '¡Buen trabajo!' : '¡Felicitaciones!',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                // Espacio adicional entre el título y el texto de felicitaciones
-                const SizedBox(height: 16),
+              ),
+              const SizedBox(height: 16),
+              if (!wasCompleted)
                 Text(
                   '¡Ganaste 5 puntos!',
-                  style: TextStyle(
-                    // Texto en fucsia con negrita y tamaño 16 para los puntos ganados
-                    color: const Color(0xFFFF00FF),
+                  style: const TextStyle(
+                    color: Color(0xFFFF00FF),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
-                ),
-                // Espacio adicional entre el texto de felicitaciones y el botón de continuar
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    // Botón fucsia con texto blanco y bordes redondeados para continuar
-                    backgroundColor: const Color(0xFFFF00FF),
-                    // Texto blanco en negrita y tamaño 16 con padding interno para el botón de continuar
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
-                  ),
-                  child: const Text('Continuar'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    } else {
-      // Mostrar mensaje de nivel ya completado anteriormente si no se agregaron puntos
-      if (!mounted) return;
-
-      // Mostrar mensaje de éxito si el nivel ya se ha completado anteriormente
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  '¡Buen trabajo!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                // Espacio adicional entre el título y el texto de felicitaciones
-                const SizedBox(height: 16),
+                )
+              else
                 const Text(
                   'Ya has completado este nivel anteriormente.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16),
                 ),
-                // Espacio adicional entre el texto de felicitaciones y el botón de continuar
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                  // Botón verde con texto blanco y bordes redondeados para continuar
-                  style: ElevatedButton.styleFrom(
-                    // Botón verde con texto blanco y bordes redondeados para continuar
-                    backgroundColor: const Color(0xFFFF00FF),
-                    // Texto blanco en negrita y tamaño 16 para el botón de continuar
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFF00FF),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  child: const Text('Continuar'),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                 ),
-              ],
-            ),
+                child: const Text('Continuar'),
+              ),
+            ],
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 
-  // Maneja el evento cuando se agotan los intentos en un nivel
-  void _handleOutOfAttempts() {
+  void _showNoAttemptsDialog() {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -500,9 +417,7 @@ class _Activity4LevelScreenState
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
-            // Botón de aceptar con texto azul y sin negrita para volver al menú de actividad
             style: TextButton.styleFrom(
-              // Color de texto púrpura elegante para el botón de aceptar
               foregroundColor: const Color(0xFF9C27B0),
             ),
             child: const Text('Aceptar'),
@@ -510,6 +425,31 @@ class _Activity4LevelScreenState
         ],
       ),
     );
+  }
+
+  // Maneja el evento cuando se completa el nivel con éxito
+  void _handleLevelComplete() async {
+    final activitiesState = ActivitiesState.of(context);
+    final gameState = GameState.of(context);
+    final wasCompleted = gameState.isLevelCompleted(4, widget.level.id - 1);
+    if (!wasCompleted) {
+      final pointsAdded = await gameState.addPoints(4, widget.level.id - 1, 5);
+      if (pointsAdded) {
+        activitiesState.completeLevel(4, widget.level.id - 1);
+        if (mounted) {
+          setState(() {
+            totalScore = gameState.globalPoints;
+          });
+        }
+      }
+    }
+    if (!mounted) return;
+    _showLevelCompletedDialog(wasCompleted: wasCompleted);
+  }
+
+  // Maneja el evento cuando se agotan los intentos en un nivel
+  void _handleOutOfAttempts() {
+    _showNoAttemptsDialog();
   }
 
   // Construye el contenido específico del nivel de la actividad 4
@@ -880,7 +820,7 @@ class _Activity4LevelScreenState
             ),
           ),
 
-        // Espacio adicional entre la imagen del reloj y el texto de la hora en namtrik (sin el título que fue eliminado) nivel 3
+        // Espacio adicional entre la imagen del reloj y el texto de la hora en namtrik nivel 3
         const SizedBox(height: 16),
 
         // Texto de la hora en namtrik debajo de la imagen del reloj
@@ -952,8 +892,9 @@ class _Activity4LevelScreenState
                       child: DropdownButton<int>(
                         value: _selectedHour, // Hora seleccionada por defecto
                         isExpanded: true, // Expansión del selector de hora
-                        icon: const Icon(Icons.arrow_drop_down, 
-                            color: Colors.white), // Icono de flecha hacia abajo en color blanco
+                        icon: const Icon(Icons.arrow_drop_down,
+                            color: Colors
+                                .white), // Icono de flecha hacia abajo en color blanco
                         iconSize: 34, // Tamaño del icono de flecha hacia abajo
                         elevation: 16, // Elevación del menú desplegable
                         dropdownColor: const Color(0xFF9C27B0),
@@ -1028,8 +969,9 @@ class _Activity4LevelScreenState
                       child: DropdownButton<int>(
                         value: _selectedMinute,
                         isExpanded: true,
-                        icon: const Icon(Icons.arrow_drop_down, 
-                            color: Colors.white), // Icono de flecha hacia abajo en color blanco
+                        icon: const Icon(Icons.arrow_drop_down,
+                            color: Colors
+                                .white), // Icono de flecha hacia abajo en color blanco
                         iconSize: 34,
                         elevation: 16,
                         dropdownColor: const Color(0xFF9C27B0),

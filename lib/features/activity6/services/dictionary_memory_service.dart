@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+import 'dart:convert'; // Re-added necessary import
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:namui_wam/core/di/service_locator.dart';
@@ -39,7 +39,7 @@ class DictionaryMemoryService {
   };
 
   DictionaryMemoryService() {
-    print('*** DictionaryMemoryService constructor llamado (print directo) ***');
+    _logger.info('*** DictionaryMemoryService constructor llamado ***'); // Use logger instead of print
     _logger.info('DictionaryMemoryService constructor llamado');
     _logger.info('DictionaryMemoryService creado. Inicializando data load...');
     initialize();
@@ -128,8 +128,7 @@ class DictionaryMemoryService {
         _logger.debug('Using overridden path name for "$domainName": "$domainPathName"');
       }
       // Default path if no override
-      final String domainImagePath = _getDomainImagePath(domainPathName);
-      _logger.debug('Calculated domain path name for "$domainName": "$domainPathName", Image path: "$domainImagePath"');
+      _logger.debug('Calculated domain path name for "$domainName": "$domainPathName", Image path: "${_getDomainImagePath(domainPathName)}"');
       // --- End Calculate Domain Path Name ---
 
       if (domainName == 'Saludos') {
@@ -214,6 +213,7 @@ class DictionaryMemoryService {
       for (final entryData in domainDataList) {
         if (entryData is! Map<String, dynamic>) continue;
 
+        // --- Extract data for generic entries ---
         final String namKey = '${keyPrefix}_namtrik';
         final String spaKey = '${keyPrefix}_spanish';
         final String imgKey = '${keyPrefix}_image';
@@ -230,7 +230,7 @@ class DictionaryMemoryService {
           _logger.warning('Missing or empty Nam/Spa data for an entry in "$domainName". Skipping entry.');
           continue;
         }
-        
+
         // Construct full paths
         final String imagePathEntry = (imgFileName != null && imgFileName.isNotEmpty)
             ? 'assets/images/dictionary/$domainPathName/$imgFileName'

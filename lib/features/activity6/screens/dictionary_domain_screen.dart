@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:namui_wam/core/di/service_locator.dart';
-// import 'package:namui_wam/core/services/logger_service.dart'; // Remove unused import
 import 'package:namui_wam/features/activity6/models/semantic_domain.dart';
-import 'package:namui_wam/features/activity6/services/dictionary_memory_service.dart'; 
+import 'package:namui_wam/features/activity6/services/dictionary_memory_service.dart';
 import 'package:namui_wam/core/services/logger_service.dart';
-import 'dictionary_entries_screen.dart'; 
+import 'dictionary_entries_screen.dart';
 
 class DictionaryDomainScreen extends StatelessWidget {
   DictionaryDomainScreen({super.key}) {

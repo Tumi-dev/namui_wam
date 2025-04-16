@@ -1,10 +1,13 @@
 import 'dart:math';
+import 'package:namui_wam/core/di/service_locator.dart'; // Added for GetIt
+import 'package:namui_wam/core/services/logger_service.dart'; // Added for LoggerService
 import 'package:namui_wam/core/services/number_data_service.dart';
 import 'package:namui_wam/core/services/audio_service.dart';
 import 'package:namui_wam/features/activity1/models/number_word.dart';
 
 /// Service to centralize the logic for Activity 1
 class Activity1Service {
+  final LoggerService _logger = getIt<LoggerService>(); // Added logger instance
   final NumberDataService _numberDataService;
   final AudioService _audioService;
   final Random _random = Random();
@@ -64,14 +67,14 @@ class Activity1Service {
       // Get a random number in the range for this level
       final numberData = await _numberDataService.getRandomNumberInRange(start, end);
       if (numberData == null || numberData.isEmpty) {
-        print('No se encontraron datos para el nivel $level en el rango $start-$end');
+        _logger.warning('No se encontraron datos para el nivel $level en el rango $start-$end'); // Use logger
         return null;
       }
       
       // Get audio files
       final audioFilesString = numberData['audio_files']?.toString() ?? '';
       if (audioFilesString.isEmpty) {
-        print('No se encontraron archivos de audio para el número ${numberData['number']}');
+        _logger.warning('No se encontraron archivos de audio para el número ${numberData['number']}'); // Use logger
       }
       
       final List<String> audioFiles = audioFilesString
@@ -87,8 +90,8 @@ class Activity1Service {
         audioFiles: audioFiles,
         level: level,
       );
-    } catch (e) {
-      print('Error getting random number for level $level: $e');
+    } catch (e, stackTrace) { // Added stackTrace
+      _logger.error('Error getting random number for level $level: $e', e, stackTrace); // Use logger
       return null;
     }
   }
@@ -129,8 +132,8 @@ class Activity1Service {
       final result = options.toList();
       result.shuffle(_random);
       return result;
-    } catch (e) {
-      print('Error generating options for level $level: $e');
+    } catch (e, stackTrace) { // Added stackTrace
+      _logger.error('Error generating options for level $level: $e', e, stackTrace); // Use logger
       
       // Fallback: generate basic options
       return _generateFallbackOptions(correctNumber, start, end);

@@ -10,10 +10,8 @@ import 'package:namui_wam/core/widgets/game_description_widget.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
 
 class Activity2LevelScreen extends BaseLevelScreen {
-  const Activity2LevelScreen({
-    super.key,
-    required level,
-  }) : super(level: level, activityNumber: 2);
+  const Activity2LevelScreen({super.key, required super.level})
+      : super(activityNumber: 2);
 
   @override
   State<Activity2LevelScreen> createState() => _Activity2LevelScreenState();
@@ -24,12 +22,13 @@ class _Activity2LevelScreenState
   final _activity2Service = GetIt.instance<Activity2Service>();
   final TextEditingController _answerController = TextEditingController();
   Map<String, dynamic>? currentNumber;
-  int remainingAttempts = 3;
   bool _isLoading = true;
+  Color? _inputBorderColor;
 
   @override
   void initState() {
     super.initState();
+    remainingAttempts = 3; // Cambia el valor inicial solo aquí
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (widget.level.id <= 7) {
         await loadNumbers();
@@ -44,13 +43,11 @@ class _Activity2LevelScreenState
     });
   }
 
-  Future<void> loadNumbers() async {
+  Future<void> _fetchRandomNumber({bool clearAnswer = false}) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
-      setState(() {
-        _isLoading = true;
-      });
-
-      // Get a random number for this level using the Activity2Service
       final randomNumber =
           await _activity2Service.getRandomNumberForLevel(widget.level.id);
 
@@ -69,6 +66,7 @@ class _Activity2LevelScreenState
 
       setState(() {
         currentNumber = randomNumber;
+        if (clearAnswer) _answerController.clear();
         _isLoading = false;
       });
     } catch (e) {
@@ -82,41 +80,12 @@ class _Activity2LevelScreenState
     }
   }
 
+  Future<void> loadNumbers() async {
+    await _fetchRandomNumber(clearAnswer: false);
+  }
+
   Future<void> selectRandomNumber() async {
-    try {
-      setState(() {
-        _isLoading = true;
-      });
-
-      // Get a random number for this level using the Activity2Service
-      final randomNumber =
-          await _activity2Service.getRandomNumberForLevel(widget.level.id);
-
-      if (!mounted) return;
-
-      if (randomNumber == null || randomNumber.isEmpty) {
-        setState(() {
-          _isLoading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('No hay números disponibles para este nivel')),
-        );
-        return;
-      }
-
-      setState(() {
-        currentNumber = randomNumber;
-        _answerController.clear();
-        _isLoading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
-      print('Error al seleccionar número aleatorio: $e');
-    }
+    await _fetchRandomNumber(clearAnswer: true);
   }
 
   Future<void> checkAnswer() async {
@@ -133,17 +102,101 @@ class _Activity2LevelScreenState
     }
   }
 
+  void _showLevelCompletedDialog({required bool wasCompleted}) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                wasCompleted ? '¡Buen trabajo!' : '¡Felicitaciones!',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                wasCompleted
+                    ? 'Ya has completado este nivel anteriormente.'
+                    : 'Has desbloqueado el siguiente nivel',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 16),
+              ),
+              if (!wasCompleted) ...[
+                const SizedBox(height: 16),
+                const Text(
+                  '¡Ganaste 5 puntos!',
+                  style: TextStyle(
+                    color: Color(0xFF00FFFF),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF00FFFF),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                ),
+                child: const Text('Continuar'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showNoAttemptsDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('¡Sin intentos!'),
+        content: const Text(
+            'Has agotado tus intentos. Volviendo al menú de actividad.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFF1976D2),
+            ),
+            child: const Text('Aceptar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _handleCorrectAnswer() async {
     final activitiesState = ActivitiesState.of(context);
     final gameState = GameState.of(context);
     if (!mounted) return;
 
-    // Verificar si el nivel ya estaba completado
     final wasCompleted = gameState.isLevelCompleted(2, widget.level.id - 1);
 
-    // Actualizar el estado para mostrar que la respuesta es correcta y restablecer los intentos restantes
     if (!wasCompleted) {
-      // Añadir puntos solo si el nivel no estaba completado previamente y se agregaron puntos
       final pointsAdded = await gameState.addPoints(2, widget.level.id - 1, 5);
       if (pointsAdded) {
         activitiesState.completeLevel(2, widget.level.id - 1);
@@ -153,148 +206,19 @@ class _Activity2LevelScreenState
           });
         }
       }
-
-      // Mostrar diálogo de nivel completado si se agregaron puntos y no estaba completado
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  '¡Felicitaciones!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Has desbloqueado el siguiente nivel',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  '¡Ganaste 5 puntos!',
-                  style: TextStyle(
-                    color: const Color(0xFF00FFFF),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                // Botón para continuar al siguiente nivel o salir
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00FFFF),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
-                  ),
-                  child: const Text('Continuar'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    } else {
-      if (!mounted) return;
-
-      // Si el nivel ya estaba completado, mostrar un mensaje diferente
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  '¡Buen trabajo!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Ya has completado este nivel anteriormente.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-                // Espacio entre el mensaje y el botón de continuar al menú
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                  // Botón de continuar al menú de actividad si el nivel ya estaba completado
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00FFFF),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
-                  ),
-                  child: const Text('Continuar'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
     }
+    _showLevelCompletedDialog(wasCompleted: wasCompleted);
   }
 
   void _handleIncorrectAnswer() {
-    setState(() {
-      remainingAttempts--;
-    });
-
+    if (remainingAttempts > 0) {
+      setState(() {
+        remainingAttempts--;
+        _inputBorderColor = Colors.red;
+      });
+    }
     if (remainingAttempts <= 0) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: const Text('¡Sin intentos!'),
-          content: const Text(
-              'Has agotado tus intentos. Volviendo al menú de actividad.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFF1976D2), // Color del texto del botón
-              ),
-              child: const Text('Aceptar'),
-            ),
-          ],
-        ),
-      );
+      _showNoAttemptsDialog();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -310,10 +234,12 @@ class _Activity2LevelScreenState
   Widget build(BuildContext context) {
     // Sobrescribimos completamente el método build para tener control total del layout
     // Esto evita la duplicación de la descripción del juego
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(context).pop();
-        return false;
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          Navigator.of(context).pop();
+        }
       },
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -373,12 +299,15 @@ class _Activity2LevelScreenState
         Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: 500, // Límite máximo para evitar extensión excesiva en modo horizontal
+              maxWidth:
+                  500, // Límite máximo para evitar extensión excesiva en modo horizontal
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
               child: GameDescriptionWidget(
-                description: ActivityGameDescriptions.getDescriptionForActivity(2),
+                description:
+                    ActivityGameDescriptions.getDescriptionForActivity(2),
               ),
             ),
           ),
@@ -399,7 +328,8 @@ class _Activity2LevelScreenState
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
               margin: const EdgeInsets.symmetric(vertical: 16.0),
               decoration: BoxDecoration(
-                color: const Color(0xFF1976D2), // Color de fondo azul medio del contenedor
+                color: const Color(
+                    0xFF1976D2), // Color de fondo azul medio del contenedor
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
@@ -426,7 +356,8 @@ class _Activity2LevelScreenState
           ),
           // Campo de texto con padding adecuado
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
             child: TextField(
               controller: _answerController,
               decoration: InputDecoration(
@@ -436,20 +367,28 @@ class _Activity2LevelScreenState
                   fontSize: 16,
                 ),
                 filled: true,
-                fillColor: const Color(0xFF1976D2), // Color de fondo del campo de texto
+                fillColor: const Color(
+                    0xFF1976D2), // Color de fondo del campo de texto
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFF00FFFF), width: 2), // Sombra del contenedor de texto
+                  borderSide: BorderSide(
+                    color: _inputBorderColor ?? const Color(0xFF00FFFF),
+                    width: 2,
+                  ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(
+                    color: _inputBorderColor ?? Colors.transparent,
+                    width: 2,
+                  ),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               ),
               // Estilo del texto del campo de texto
               style: const TextStyle(
@@ -458,6 +397,13 @@ class _Activity2LevelScreenState
               ),
               textAlign: TextAlign.center,
               cursorColor: Colors.white, // Color del cursor del campo de texto
+              onChanged: (_) {
+                if (_inputBorderColor != null) {
+                  setState(() {
+                    _inputBorderColor = null;
+                  });
+                }
+              },
             ),
           ),
           // Botón centrado con margen adecuado
@@ -468,7 +414,8 @@ class _Activity2LevelScreenState
                 onPressed: checkAnswer,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF00FFFF),
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

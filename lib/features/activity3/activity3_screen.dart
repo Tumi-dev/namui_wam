@@ -13,7 +13,8 @@ class Activity3Screen extends StatefulWidget {
   State<Activity3Screen> createState() => _Activity3ScreenState();
 }
 
-class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingObserver {
+class _Activity3ScreenState extends State<Activity3Screen>
+    with WidgetsBindingObserver {
   final TextEditingController _numberController = TextEditingController();
   final Activity3Service _activity3Service = getIt<Activity3Service>();
   final ScrollController _scrollController = ScrollController();
@@ -24,6 +25,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
   bool _isPlayingAudio = false;
   int? _currentNumber;
   bool _isKeyboardVisible = false;
+  Color? _inputBorderColor;
 
   // Define el color de fondo amarillo dorado del contenedor de texto
   final Color _boxColor = const Color(0xFFFFC107);
@@ -51,8 +53,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // Stop audio if app goes to background or is inactive
-    if (state == AppLifecycleState.paused || 
-        state == AppLifecycleState.inactive || 
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) {
       _stopAudioIfPlaying();
     }
@@ -84,6 +86,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
         _hasInvalidInput = false;
         _isAudioAvailable = false;
         _currentNumber = null;
+        _inputBorderColor = null;
       });
       return;
     }
@@ -98,8 +101,9 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
         _hasInvalidInput = true;
         _isAudioAvailable = false;
         _currentNumber = null;
+        _inputBorderColor = Colors.red;
       });
-      
+
       // If user tries to enter more after "0", revert back to just "0"
       if (text.length > 1) {
         _numberController.text = "0";
@@ -109,11 +113,12 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
       }
       return;
     }
-    
+
     // If previous input was invalid but now it's valid, reset the flag
     if (_hasInvalidInput && _activity3Service.isValidNumber(number)) {
       setState(() {
         _hasInvalidInput = false;
+        _inputBorderColor = null;
       });
     }
 
@@ -122,21 +127,26 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
         _isLoading = true;
         _isAudioAvailable = false;
         _currentNumber = number;
+        _inputBorderColor = null;
       });
 
       try {
-        final namtrikValue = await _activity3Service.getNamtrikForNumber(number!);
-        
+        final namtrikValue =
+            await _activity3Service.getNamtrikForNumber(number!);
+
         // Check if audio is available for this number
-        final audioFiles = await _activity3Service.getAudioFilesForNumber(number);
+        final audioFiles =
+            await _activity3Service.getAudioFilesForNumber(number);
         final hasAudio = audioFiles.isNotEmpty;
-        
+
+        if (!mounted) return;
         setState(() {
           _namtrikResult = namtrikValue;
           _isLoading = false;
           _isAudioAvailable = hasAudio;
         });
       } catch (e) {
+        if (!mounted) return;
         setState(() {
           _namtrikResult = 'Error: $e';
           _isLoading = false;
@@ -150,6 +160,7 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
         _hasInvalidInput = true;
         _isAudioAvailable = false;
         _currentNumber = null;
+        _inputBorderColor = Colors.red;
       });
     }
   }
@@ -184,8 +195,10 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
 
   // Function to handle the copy button press
   void _handleCopyPressed() {
-    if (_namtrikResult.isNotEmpty && _namtrikResult != 'Resultado del número' && 
-        !_namtrikResult.startsWith('El número debe') && !_namtrikResult.startsWith('Error')) {
+    if (_namtrikResult.isNotEmpty &&
+        _namtrikResult != 'Resultado del número' &&
+        !_namtrikResult.startsWith('El número debe') &&
+        !_namtrikResult.startsWith('Error')) {
       Clipboard.setData(ClipboardData(text: _namtrikResult));
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -205,8 +218,10 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
 
   // Function to handle the share button press
   void _handleSharePressed() {
-    if (_namtrikResult.isNotEmpty && _namtrikResult != 'Resultado del número' && 
-        !_namtrikResult.startsWith('El número debe') && !_namtrikResult.startsWith('Error')) {
+    if (_namtrikResult.isNotEmpty &&
+        _namtrikResult != 'Resultado del número' &&
+        !_namtrikResult.startsWith('El número debe') &&
+        !_namtrikResult.startsWith('Error')) {
       // This would typically use a share plugin, but for now we'll just show a message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -228,16 +243,16 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
   Widget build(BuildContext context) {
     // Check if keyboard is visible
     _isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
-    
+
     // Get screen dimensions
     final screenSize = MediaQuery.of(context).size;
     final isSmallScreen = screenSize.height < 600;
-    
-    return WillPopScope(
-      onWillPop: () async {
+
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
         // Stop audio when back button is pressed
         _stopAudioIfPlaying();
-        return true; // Allow the back navigation
       },
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -250,7 +265,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
             'Muntsielan namtrikmai yunɵmarɵpik',
             style: AppTheme.activityTitleStyle,
           ),
-          backgroundColor: Colors.transparent, // Transparente para mostrar el gradiente de fondo
+          backgroundColor: Colors
+              .transparent, // Transparente para mostrar el gradiente de fondo
           elevation: 0,
         ),
         // Use resizeToAvoidBottomInset to prevent keyboard from pushing content
@@ -279,14 +295,19 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                           if (!(_isKeyboardVisible && isSmallScreen))
                             Center(
                               child: GameDescriptionWidget(
-                                description: ActivityGameDescriptions.getDescriptionForActivity(3),
+                                description: ActivityGameDescriptions
+                                    .getDescriptionForActivity(3),
                               ),
                             ),
-                          SizedBox(height: _isKeyboardVisible && isSmallScreen ? 10 : 40),
+                          SizedBox(
+                              height: _isKeyboardVisible && isSmallScreen
+                                  ? 10
+                                  : 40),
                           const Text(
                             'Muntsik wan yu pɵr',
                             style: TextStyle(
-                              color: Colors.white, // Color blanco para el texto de la pantalla de inicio
+                              color: Colors
+                                  .white, // Color blanco para el texto de la pantalla de inicio
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -294,16 +315,21 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                           const SizedBox(height: 8),
                           TextField(
                             controller: _numberController,
-                            style: const TextStyle(color: Colors.white), // Color blanco para el texto del campo de texto 
+                            style: const TextStyle(
+                                color: Colors
+                                    .white), // Color blanco para el texto del campo de texto
                             keyboardType: TextInputType.number,
                             cursorColor: Colors.white,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                               LengthLimitingTextInputFormatter(7),
                               // Custom input formatter to handle "0" input
-                              TextInputFormatter.withFunction((oldValue, newValue) {
+                              TextInputFormatter.withFunction(
+                                  (oldValue, newValue) {
                                 // If we have an invalid input (like "0") and user is trying to add more digits
-                                if (_hasInvalidInput && newValue.text.length > oldValue.text.length) {
+                                if (_hasInvalidInput &&
+                                    newValue.text.length >
+                                        oldValue.text.length) {
                                   return oldValue; // Prevent the change
                                 }
                                 return newValue; // Allow the change
@@ -311,7 +337,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             ],
                             onTap: () {
                               // When the text field is tapped, scroll to ensure it's visible
-                              Future.delayed(const Duration(milliseconds: 300), () {
+                              Future.delayed(const Duration(milliseconds: 300),
+                                  () {
                                 if (_scrollController.hasClients) {
                                   _scrollController.animateTo(
                                     _scrollController.position.maxScrollExtent,
@@ -320,6 +347,13 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                                   );
                                 }
                               });
+                            },
+                            onChanged: (_) {
+                              if (_inputBorderColor != null) {
+                                setState(() {
+                                  _inputBorderColor = null;
+                                });
+                              }
                             },
                             decoration: InputDecoration(
                               hintText: 'Digita el número',
@@ -336,7 +370,19 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Color(0xFFFFFF00), width: 4), // Sombra del contenedor de texto
+                                borderSide: BorderSide(
+                                  color: _inputBorderColor ??
+                                      const Color(0xFFFFFF00),
+                                  width: 4,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(
+                                  color:
+                                      _inputBorderColor ?? Colors.transparent,
+                                  width: 2,
+                                ),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
@@ -349,7 +395,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                           const Text(
                             'Namtrikmai',
                             style: TextStyle(
-                              color: Colors.white, // Color blanco para el texto Namtrikmai del contenedor de texto del número
+                              color: Colors
+                                  .white, // Color blanco para el texto Namtrikmai del contenedor de texto del número
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -359,7 +406,9 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             width: double.infinity,
                             // Ajuste de altura del contenedor de texto del número
                             constraints: BoxConstraints(
-                              minHeight: _isKeyboardVisible && isSmallScreen ? 80 : 100,
+                              minHeight: _isKeyboardVisible && isSmallScreen
+                                  ? 80
+                                  : 100,
                             ),
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
@@ -369,7 +418,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                             child: _isLoading
                                 ? const Center(
                                     child: CircularProgressIndicator(
-                                      color: Colors.white, // Color blanco para el indicador de carga en la pantalla de inicio de la actividad
+                                      color: Colors
+                                          .white, // Color blanco para el indicador de carga en la pantalla de inicio de la actividad
                                     ),
                                   )
                                 : Text(
@@ -378,14 +428,19 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                                         : _namtrikResult,
                                     style: TextStyle(
                                       color: _namtrikResult.isEmpty
-                                          ? Colors.grey[700] // Color gris texto del contenedor resultado vacío del número
-                                          : Colors.white, // Color blanco texto del contenedor resultado del número
+                                          ? Colors.grey[
+                                              700] // Color gris texto del contenedor resultado vacío del número
+                                          : Colors
+                                              .white, // Color blanco texto del contenedor resultado del número
                                       fontSize: 16,
                                     ),
                                   ),
                           ),
                           // Ajuste de espaciado del contenedor de texto del número
-                          SizedBox(height: _isKeyboardVisible && isSmallScreen ? 16 : 24),
+                          SizedBox(
+                              height: _isKeyboardVisible && isSmallScreen
+                                  ? 16
+                                  : 24),
                           // Fila de botones de acción
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -394,10 +449,13 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                               _buildActionButton(
                                 icon: Icons.volume_up,
                                 label: 'Escuchar',
-                                onPressed: _isAudioAvailable ? _handleListenPressed : null,
+                                onPressed: _isAudioAvailable
+                                    ? _handleListenPressed
+                                    : null,
                                 isActive: _isAudioAvailable,
                                 isPlaying: _isPlayingAudio,
-                                isSmallScreen: _isKeyboardVisible && isSmallScreen,
+                                isSmallScreen:
+                                    _isKeyboardVisible && isSmallScreen,
                               ),
                               // Copy button
                               _buildActionButton(
@@ -405,7 +463,8 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                                 label: 'Copiar',
                                 onPressed: _handleCopyPressed,
                                 isActive: true,
-                                isSmallScreen: _isKeyboardVisible && isSmallScreen,
+                                isSmallScreen:
+                                    _isKeyboardVisible && isSmallScreen,
                               ),
                               // Share button
                               _buildActionButton(
@@ -413,12 +472,16 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
                                 label: 'Compartir',
                                 onPressed: _handleSharePressed,
                                 isActive: true,
-                                isSmallScreen: _isKeyboardVisible && isSmallScreen,
+                                isSmallScreen:
+                                    _isKeyboardVisible && isSmallScreen,
                               ),
                             ],
                           ),
                           // Add extra space at the bottom when keyboard is visible
-                          SizedBox(height: _isKeyboardVisible ? MediaQuery.of(context).viewInsets.bottom : 20),
+                          SizedBox(
+                              height: _isKeyboardVisible
+                                  ? MediaQuery.of(context).viewInsets.bottom
+                                  : 20),
                         ],
                       ),
                     ),
@@ -442,50 +505,62 @@ class _Activity3ScreenState extends State<Activity3Screen> with WidgetsBindingOb
     bool isSmallScreen = false,
   }) {
     // Colores para los botones activos e inactivos
-    final Color backgroundColor = isActive 
-        ? const Color(0xFFFFC107) // Color para botones activos en la pantalla de inicio
-        : const Color(0xFFFFC107).withOpacity(0.5); // Color para botones inactivos en la pantalla de inicio
-    
-    final Color iconColor = isActive 
-        ? Colors.white // Color blanco para botones activos en la pantalla de inicio
-        : Colors.white.withOpacity(0.5); // Opacidad para botones inactivos en la pantalla de inicio
-    
+    final Color backgroundColor = isActive
+        ? const Color(
+            0xFFFFC107) // Color para botones activos en la pantalla de inicio
+        : const Color(0xFFFFC107)
+            .withValues(alpha: 128, red: 255, green: 193, blue: 7); // 50% alpha
+
+    final Color iconColor = isActive
+        ? Colors
+            .white // Color blanco para botones activos en la pantalla de inicio
+        : Colors.white.withValues(
+            alpha: 128, red: 255, green: 255, blue: 255); // 50% alpha
+
     // Especial color de los botones de reproducción (playing)
-    final Color playingColor = isPlaying 
-        ? const Color(0xFFFFFF00) // Color verde fresco para botones de reproducción
+    final Color playingColor = isPlaying
+        ? const Color(
+            0xFFFFFF00) // Color verde fresco para botones de reproducción
         : iconColor;
-    
+
     // Ajustes de tamaño y estilo según el tamaño de la pantalla
     final double buttonSize = isSmallScreen ? 40.0 : 56.0;
     final double iconSize = isSmallScreen ? 18.0 : 24.0;
     final double fontSize = isSmallScreen ? 10.0 : 12.0;
-    
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            shape: const CircleBorder(),
-            padding: EdgeInsets.all(isSmallScreen ? 10 : 16),
-            backgroundColor: backgroundColor,
-            minimumSize: Size(buttonSize, buttonSize),
+
+    return Semantics(
+      button: true,
+      enabled: isActive,
+      label: label + (isPlaying ? ' (reproduciendo)' : ''),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: EdgeInsets.all(isSmallScreen ? 10 : 16),
+              backgroundColor: backgroundColor,
+              minimumSize: Size(buttonSize, buttonSize),
+            ),
+            child: Icon(
+              icon,
+              size: iconSize,
+              color: isPlaying
+                  ? playingColor
+                  : iconColor, // Use playing color if playing
+            ),
           ),
-          child: Icon(
-            icon, 
-            size: iconSize,
-            color: isPlaying ? playingColor : iconColor, // Use playing color if playing
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white, // Color blanco para el texto de los botones
+              fontSize: fontSize,
+            ),
           ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.white, // Color blanco para el texto de los botones 
-            fontSize: fontSize,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

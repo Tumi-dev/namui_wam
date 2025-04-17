@@ -14,10 +14,10 @@ class HomeScreen extends StatelessWidget {
   static const List<String> activityDescriptions = [
     'Muntsik mɵik kɵtasha sɵl lau',
     'Muntsikelan pөram kusrekun',
-    'Muntsielan namtrikmai yunɵmarɵpik',
     'Nɵsik utɵwan asam kusrekun',
     'Anwan ashipelɵ kɵkun',
     'Wammeran tulisha manchípik kui asamik pɵrik',
+    'Muntsielan namtrikmai yunɵmarɵpik',
   ];
 
   // Lista de colores para los fondos de los botones

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:namui_wam/core/di/service_locator.dart';
 import 'package:namui_wam/core/services/audio_player_service.dart';
-import 'package:namui_wam/features/activity6/models/semantic_domain.dart';
-import 'package:namui_wam/features/activity6/models/dictionary_entry.dart';
-import 'package:namui_wam/features/activity6/services/dictionary_memory_service.dart';
+import 'package:namui_wam/features/activity5/models/semantic_domain.dart';
+import 'package:namui_wam/features/activity5/models/dictionary_entry.dart';
+import 'package:namui_wam/features/activity5/services/activity5_service.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
 
 class DictionaryEntriesScreen extends StatefulWidget {
@@ -17,8 +17,8 @@ class DictionaryEntriesScreen extends StatefulWidget {
 }
 
 class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
-  final DictionaryMemoryService _dictionaryService =
-      getIt<DictionaryMemoryService>();
+  final Activity5Service _dictionaryService =
+      getIt<Activity5Service>();
   final AudioPlayerService _audioPlayerService = getIt<AudioPlayerService>();
   late Future<List<DictionaryEntry>> _entriesFuture;
 
@@ -104,7 +104,7 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
 
       return Card(
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        color: const Color(0xFFFF7043),
+        color: const Color(0xFF4CAF50),
         elevation: 4.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -232,7 +232,7 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
       return Card(
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         color: const Color(
-            0xFFFF7043), // Naranja coral - mismo color que los botones de dominio
+            0xFF4CAF50), // Naranja coral - mismo color que los botones de dominio
         elevation: 4.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),

@@ -6,11 +6,11 @@ class ActivityLevelDescriptions {
   /// Descripciones para la Actividad 2 - Aprendamos a escribir los números
   static const activity2 = _Activity2Descriptions();
 
-  /// Descripciones para la Actividad 4 - Aprendamos a ver la hora
-  static const activity4 = _Activity4Descriptions();
+  /// Descripciones para la Actividad 3 - Aprendamos a ver la hora
+  static const activity3 = _Activity3Descriptions();
 
-  /// Descripciones para la Actividad 5 - Aprendamos a contar el dinero
-  static const activity5 = _Activity5Descriptions();
+  /// Descripciones para la Actividad 4 - Aprendamos a contar el dinero
+  static const activity4 = _Activity4Descriptions();
 }
 
 /// Descripciones específicas para los niveles de la Actividad 1
@@ -39,18 +39,18 @@ class _Activity2Descriptions {
   final String level7 = 'Trattrɵpa nepunik';
 }
 
-/// Descripciones específicas para los niveles de la Actividad 4
-class _Activity4Descriptions {
-  const _Activity4Descriptions();
+/// Descripciones específicas para los niveles de la Actividad 3
+class _Activity3Descriptions {
+  const _Activity3Descriptions();
 
   final String level1 = 'Utɵwan lata marɵp';
   final String level2 = 'Utɵwan wetɵpeñ';
   final String level3 = 'Utɵwan malsrɵ';
 }
 
-/// Descripciones específicas para los niveles de la Actividad 5
-class _Activity5Descriptions {
-  const _Activity5Descriptions();
+/// Descripciones específicas para los niveles de la Actividad 4
+class _Activity4Descriptions {
+  const _Activity4Descriptions();
 
   final String level1 = 'Anwan ashipelө kөkun';
   final String level2 = 'Mayaweik kөtash';

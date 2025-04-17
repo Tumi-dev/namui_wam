@@ -1,10 +1,10 @@
 class ActivityGameDescriptions {
   static const String activity1GameDescription = 'Mɵik sɵlkɵtash';
   static const String activity2GameDescription = 'Muntsillan namtrikmai pɵr';
-  static const String activity3GameDescription = 'Yunɵmar';
-  static const String activity4GameDescription = 'Nɵsik utɵwan';
-  static const String activity5GameDescription = 'Anwan ashkun';
-  static const String activity6GameDescription = 'Wammeran pɵrik';
+  static const String activity3GameDescription = 'Nɵsik utɵwan';
+  static const String activity4GameDescription = 'Anwan ashkun';
+  static const String activity5GameDescription = 'Wammeran pɵrik';
+  static const String activity6GameDescription = 'Yunɵmar';
 
   static String getDescriptionForActivity(int activityNumber) {
     switch (activityNumber) {

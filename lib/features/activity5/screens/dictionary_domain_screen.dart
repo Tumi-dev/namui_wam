@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namui_wam/core/di/service_locator.dart';
-import 'package:namui_wam/features/activity6/models/semantic_domain.dart';
-import 'package:namui_wam/features/activity6/services/dictionary_memory_service.dart';
+import 'package:namui_wam/features/activity5/models/semantic_domain.dart';
+import 'package:namui_wam/features/activity5/services/activity5_service.dart';
 import 'package:namui_wam/core/services/logger_service.dart';
 import 'dictionary_entries_screen.dart';
 
@@ -14,8 +14,8 @@ class DictionaryDomainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DictionaryMemoryService dictionaryService = getIt<DictionaryMemoryService>();
-    final Future<List<SemanticDomain>> domainsFuture = dictionaryService.getAllDomains();
+    final activity5Service = getIt<Activity5Service>();
+    final Future<List<SemanticDomain>> domainsFuture = activity5Service.getAllDomains();
 
     return FutureBuilder<List<SemanticDomain>>(
       future: domainsFuture,
@@ -53,7 +53,7 @@ class DictionaryDomainScreen extends StatelessWidget {
     return Card(
       elevation: 4.0,
       clipBehavior: Clip.antiAlias,
-      color: const Color(0xFFFF7043), // Naranja coral
+      color: const Color(0xFF4CAF50), // Naranja coral
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),

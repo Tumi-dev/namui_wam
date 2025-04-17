@@ -20,4 +20,10 @@ final activity4Levels = [
     description: ActivityLevelDescriptions.activity4.level3,
     difficulty: 3,
   ),
+  LevelModel(
+    id: 4,
+    title: 'Nivel 4',
+    description: ActivityLevelDescriptions.activity4.level4,
+    difficulty: 4,
+  ),
 ];

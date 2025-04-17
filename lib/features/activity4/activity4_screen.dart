@@ -42,10 +42,10 @@ class Activity4Screen extends StatelessWidget {
               onPressed: () => _navigateToHome(context),
             ),
             title: const Text(
-              'Nɵsik utɵwan asam kusrekun',
+              'Anwan ashipelɵ kɵkun',
               style: AppTheme.activityTitleStyle,
             ),
-            // Fondo transparente para la barra de la aplicación
+            // Color de fondo transparente y elevación 0 para la barra de la actividad 5
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
@@ -53,7 +53,6 @@ class Activity4Screen extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: AppTheme.mainGradient,
             ),
-            // SafeArea para evitar que el contenido se salga de los límites de la pantalla
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -61,8 +60,8 @@ class Activity4Screen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 20),
                     const Icon(
-                      Icons.access_time, // Ícono de tiempo de la actividad 4
-                      // Color de icono fucsia para la actividad 4
+                      Icons.attach_money,
+                      // Color de icono lima para la actividad 5
                       color: Color(0xFFFF00FF),
                       size: 64,
                     ),
@@ -108,7 +107,7 @@ class Activity4Screen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Card(
         elevation: 4,
-        // Color púrpura elegante para la tarjeta del nivel de la actividad 4
+        // Color de fondo verde y texto blanco para la tarjeta del nivel
         color: const Color(0xFF9C27B0),
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
@@ -121,7 +120,7 @@ class Activity4Screen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    // Color púrpura elegante para el círculo del número del nivel
+                    // Forma circular para el número del nivel en la tarjeta
                     color: const Color(0xFFFF00FF),
                     shape: BoxShape.circle,
                   ),
@@ -139,13 +138,15 @@ class Activity4Screen extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Color del texto de la descripción del nivel
+                      // Color de texto blanco para la descripción del nivel
+                      color: Colors.white,
                     ),
                   ),
                 ),
                 const Icon(
                   Icons.arrow_forward,
-                  color: Colors.white, // Color del ícono de flecha
+                  // Color de la flecha blanca para la tarjeta del nivel
+                  color: Colors.white,
                 ),
               ],
             ),

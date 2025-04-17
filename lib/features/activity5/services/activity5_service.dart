@@ -1,428 +1,352 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/services/audio_service.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/features/activity5/models/namtrik_money_model.dart';
-import 'package:namui_wam/features/activity5/models/namtrik_article_model.dart';
+import 'dart:async';
+import 'dart:convert'; // Re-added necessary import
+
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:namui_wam/core/di/service_locator.dart';
+import 'package:namui_wam/core/services/logger_service.dart';
+import 'package:namui_wam/features/activity5/models/dictionary_entry.dart';
+import 'package:namui_wam/features/activity5/models/semantic_domain.dart';
 
 class Activity5Service {
-  final _audioService = GetIt.instance<AudioService>();
-  List<NamtrikMoneyModel> _moneyItems = [];
-  List<NamtrikArticleModel> _articleItems = [];
-  final _random = Random();
+  final LoggerService _logger = getIt<LoggerService>();
 
-  /// Carga los datos del nivel desde el archivo JSON
-  Future<List<NamtrikMoneyModel>> getLevelData(LevelModel level) async {
-    if (_moneyItems.isNotEmpty) {
-      return _moneyItems;
-    }
+  List<SemanticDomain> _cachedDomains = [];
+  Map<int, List<DictionaryEntry>> _cachedEntriesByDomainId = {};
+  // Use a map for quick entry lookup by ID if needed later
+  Map<int, DictionaryEntry> _cachedEntriesById = {};
 
-    // Cargar el archivo JSON
-    final String response =
-        await rootBundle.loadString('assets/data/namtrik_money.json');
-    final data = await json.decode(response);
+  final Completer<void> _loadCompleter = Completer<void>();
+  bool _isLoadComplete = false;
 
-    // Extraer los datos del JSON
-    _moneyItems = (data['money']['namui_wam'] as List)
-        .map((item) => NamtrikMoneyModel.fromJson(item))
-        .toList();
+  // Map domain names to their JSON key prefixes
+  final Map<String, String> _domainToKeyPrefixMap = {
+    'Animales': 'animal',
+    'Arboles': 'arbol', 
+    'Colores': 'color',
+    'Neologismos': 'neologismo',
+    'Partes del cuerpo': 'pdc', 
+    'Plantas comestibles': 'pc', 
+    'Plantas medicinales': 'pm', 
+    'Saludos': 'saludo', 
+    'Vestido': 'vestido',
+  };
 
-    return _moneyItems;
+  // Map domain names to their specific asset folder path names if they differ from the calculated default
+  final Map<String, String> _domainPathOverrides = {
+    'Partes del cuerpo': 'partescuerpo',
+    'Plantas comestibles': 'plantascomestibles',
+    'Plantas medicinales': 'plantasmedicinales',
+  };
+
+  Activity5Service() {
+    _logger.info('*** Activity5Service constructor llamado ***'); // Use logger instead of print
+    _logger.info('Activity5Service constructor llamado');
+    _logger.info('Activity5Service creado. Inicializando data load...');
+    initialize();
   }
 
-  /// Carga los datos de artículos desde el archivo JSON
-  Future<List<NamtrikArticleModel>> getArticlesData() async {
-    if (_articleItems.isNotEmpty) {
-      return _articleItems;
-    }
-
-    // Cargar el archivo JSON
-    final String response =
-        await rootBundle.loadString('assets/data/namtrik_articles.json');
-    final data = await json.decode(response);
-
-    // Extraer los datos del JSON
-    _articleItems = (data['articles']['namui_wam'] as List)
-        .map((item) => NamtrikArticleModel.fromJson(item))
-        .toList();
-
-    return _articleItems;
-  }
-
-  /// Obtiene un artículo aleatorio para mostrar
-  Future<NamtrikArticleModel?> getRandomArticle() async {
-    final articles = await getArticlesData();
-    if (articles.isEmpty) return null;
-
-    return articles[_random.nextInt(articles.length)];
-  }
-
-  /// Obtiene la ruta de la imagen de un artículo
-  String getArticleImagePath(String imageName) {
-    return 'assets/images/articles/$imageName';
-  }
-
-  /// Obtiene la imagen completa del dinero en Namtrik
-  String getMoneyImagePath(String imageName) {
-    return 'assets/images/money/$imageName';
-  }
-
-  /// Obtiene los datos de un elemento específico por su número
-  NamtrikMoneyModel? getMoneyItemByNumber(int number) {
+  Future<void> initialize() async {
+    if (_isLoadComplete) return; 
     try {
-      return _moneyItems.firstWhere((item) => item.number == number);
-    } catch (e) {
-      return null;
+      await _loadDataFromJson();
+      _isLoadComplete = true;
+      _loadCompleter.complete();
+      _logger.info('Activity5Service: Dictionary data loaded into memory successfully.');
+    } catch (e, stackTrace) {
+      _logger.error('Activity5Service: Failed to load dictionary data into memory', e, stackTrace);
+      _loadCompleter.completeError(e, stackTrace);
     }
   }
 
-  /// Reproduce secuencialmente los archivos de audio para un valor monetario en namtrik
-  Future<void> playAudioForMoneyNamtrik(String audiosNamtrik) async {
-    // Detener cualquier audio previo
-    await _audioService.stopAudio();
-
-    // Separar la cadena de nombres de archivos de audio
-    final audioFiles = audiosNamtrik.split(' ');
-
-    // Reproducir cada archivo de audio en secuencia
-    for (var audioFile in audioFiles) {
-      final audioPath = 'audio/namtrik_numbers/$audioFile';
-      await _audioService.playAudio(audioPath);
-
-      // Esperar a que termine la reproducción antes de reproducir el siguiente
-      await Future.delayed(const Duration(milliseconds: 700));
+  Future<void> _waitUntilLoaded() async {
+    if (!_isLoadComplete) {
+       _logger.info('Waiting for dictionary data load to complete...');
+      await _loadCompleter.future;
+       _logger.info('Activity5Service: Dictionary data load finished. Proceeding.');
     }
   }
 
-  /// Obtiene las monedas correspondientes a los números especificados
-  List<NamtrikMoneyModel> getMoneyItemsByNumbers(List<int> numbers) {
-    List<NamtrikMoneyModel> result = [];
-
-    for (var number in numbers) {
-      final item = getMoneyItemByNumber(number);
-      if (item != null) {
-        result.add(item);
-      }
-    }
-
-    return result;
+  String _getDomainImagePath(String domainNameFormatted) {
+    return 'assets/images/dictionary/$domainNameFormatted.png';
   }
 
-  /// Genera opciones para el nivel 2, incluyendo una opción correcta y tres incorrectas
-  Future<List<List<NamtrikMoneyModel>>> generateOptionsForLevel2(
-      NamtrikArticleModel article) async {
-    // Asegurarse de que los datos de dinero estén cargados
-    if (_moneyItems.isEmpty) {
-      await getLevelData(LevelModel(
-          id: 1, title: 'Nivel 1', description: 'Descripción', difficulty: 1));
+  String _calculateDomainPathName(String domainName) {
+    return domainName.toLowerCase().replaceAll(' ', '_');
+  }
+
+  Future<void> _loadDataFromJson() async {
+    _logger.info('Activity5Service: Starting to load dictionary data from JSON into memory...');
+    final String jsonString = await rootBundle.loadString('assets/data/a5_namuiwam_dictionary.json');
+    final Map<String, dynamic> dictionaryData = json.decode(jsonString);
+    _logger.info('Activity5Service: JSON data decoded successfully.');
+
+    final dynamic dictionaryContent = dictionaryData['dictionary'];
+    if (dictionaryContent == null || dictionaryContent is! Map<String, dynamic>) {
+      _logger.error('Activity5Service: Structure error: Missing or invalid "dictionary" key at the root. Data: $dictionaryData');
+      throw Exception('Invalid JSON structure: Root "dictionary" key not found or invalid.');
     }
 
-    // La opción correcta basada en los números en numberMoneyImages
-    final correctOption = getMoneyItemsByNumbers(article.numberMoneyImages);
+    final dynamic namuiWamData = dictionaryContent['namui_wam'];
+    if (namuiWamData == null || namuiWamData is! List || namuiWamData.isEmpty) {
+       _logger.error('Activity5Service: Structure error: Missing, invalid, or empty "namui_wam" list inside "dictionary". Data: $dictionaryContent');
+      throw Exception('Invalid JSON structure: "namui_wam" list not found or invalid.');
+    }
 
-    // Generar 3 opciones incorrectas
-    List<List<NamtrikMoneyModel>> allOptions = [correctOption];
+    final dynamic firstElement = namuiWamData[0];
+    Map<String, dynamic> domainsMap = {};
+    if (firstElement is Map<String, dynamic>) {
+      domainsMap = firstElement;
+       _logger.info('Activity5Service: Successfully extracted domains map from JSON structure.');
+    } else {
+      _logger.error('Activity5Service: Structure error: First element inside "namui_wam" list is not a Map. Data: $firstElement');
+      throw Exception('Invalid JSON structure: Expected a Map as the first element in "namui_wam" list.');
+    }
 
-    // Continuar generando opciones hasta tener 4 en total
-    while (allOptions.length < 4) {
-      // Crear una nueva opción incorrecta
-      List<NamtrikMoneyModel> newOption = [];
-      final size = article.numberMoneyImages
-          .length; // Mantener el mismo tamaño que la opción correcta
+    _logger.info('Found ${domainsMap.length} potential domains in the JSON object.');
 
-      // Obtener números disponibles (excluyendo los que ya están en la opción correcta)
-      List<int> availableNumbers = List.generate(
-              _moneyItems.length, (i) => i + 1)
-          .where(
-              (numberValue) => !article.numberMoneyImages.contains(numberValue))
-          .toList();
+    _cachedDomains = [];
+    _cachedEntriesByDomainId = {};
+    _cachedEntriesById = {};
 
-      // Si no hay suficientes números disponibles, usar algunos de la opción correcta
-      if (availableNumbers.length < size) {
-        availableNumbers.addAll(article.numberMoneyImages
-            .sublist(0, size - availableNumbers.length));
+    for (final domainName in domainsMap.keys) {
+      final domainDataList = domainsMap[domainName];
+      if (domainDataList == null || domainDataList is! List) continue;
+
+      final String? keyPrefix = _domainToKeyPrefixMap[domainName];
+
+      if (keyPrefix == null) {
+        _logger.warning('No key prefix mapping found for domain: "$domainName". Skipping.');
+        continue;
       }
 
-      // Seleccionar aleatoriamente "size" números para la nueva opción
-      availableNumbers.shuffle(_random);
-      List<int> selectedNumbers = availableNumbers.take(size).toList();
+      _logger.info('Processing domain: "$domainName" using keyPrefix: "$keyPrefix"');
 
-      // Obtener los items correspondientes
-      newOption = getMoneyItemsByNumbers(selectedNumbers);
+      // --- Calculate Domain Path Name (with override) ---
+      String domainPathName = _calculateDomainPathName(domainName);
+      if (_domainPathOverrides.containsKey(domainName)) {
+        domainPathName = _domainPathOverrides[domainName]!;
+        _logger.debug('Using overridden path name for "$domainName": "$domainPathName"');
+      }
+      // Default path if no override
+      _logger.debug('Calculated domain path name for "$domainName": "$domainPathName", Image path: "${_getDomainImagePath(domainPathName)}"');
+      // --- End Calculate Domain Path Name ---
 
-      // Verificar que esta opción no sea igual a ninguna de las existentes
-      bool isDuplicate = false;
-      for (var option in allOptions) {
-        if (_areOptionsEqual(option, newOption)) {
-          isDuplicate = true;
-          break;
+      if (domainName == 'Saludos') {
+        _logger.info('Handling special domain: Saludos');
+        List<DictionaryEntry> currentDomainEntries = []; 
+
+        int saludosDomainId = -1;
+        var existingSaludosDomain = _cachedDomains.firstWhere((d) => d.name == domainName, orElse: () => SemanticDomain(id: -1, name: '', imagePath: ''));
+        if (existingSaludosDomain.id == -1) {
+          saludosDomainId = _cachedDomains.length + 1;
+          final imagePath = _getDomainImagePath(domainPathName);
+          final domain = SemanticDomain(id: saludosDomainId, name: domainName, imagePath: imagePath);
+          _cachedDomains.add(domain);
+          _logger.debug('Added domain placeholder: ID=$saludosDomainId, Name=$domainName, Image=$imagePath');
+        } else {
+          saludosDomainId = existingSaludosDomain.id;
+           _logger.debug('Domain "$domainName" already exists with ID=$saludosDomainId. Adding entries.');
+        }
+
+        for (final entryData in domainDataList) {
+          if (entryData is! Map<String, dynamic>) continue;
+
+          final String? namQuestion = entryData['saludop_namtrik'];
+          final String? spaQuestion = entryData['saludop_spanish'];
+          final String? namAnswer = entryData['saludor_namtrik'];
+          final String? spaAnswer = entryData['saludor_spanish'];
+          final String? imgFileName = entryData['saludo_image']; 
+          final String? audioQFileName = entryData['saludop_audio'];
+          final String? audioAFileName = entryData['saludor_audio'];
+
+          _logger.debug('Extracted Saludo Entry: NamQ=$namQuestion, SpaQ=$spaQuestion, NamA=$namAnswer, SpaA=$spaAnswer, Img=$imgFileName, AudioQ=$audioQFileName, AudioA=$audioAFileName');
+            
+          final String imagePathGreeting = (imgFileName != null && imgFileName.isNotEmpty)
+              ? 'assets/images/dictionary/$domainPathName/$imgFileName'
+              : '';
+          final String audioPathQ = (audioQFileName != null && audioQFileName.isNotEmpty)
+              ? 'assets/audio/dictionary/$domainPathName/$audioQFileName'
+              : '';
+          final String audioPathA = (audioAFileName != null && audioAFileName.isNotEmpty)
+              ? 'assets/audio/dictionary/$domainPathName/$audioAFileName'
+              : '';
+
+          if (namQuestion == null || spaQuestion == null || namAnswer == null || spaAnswer == null) {
+             _logger.warning('Skipping Saludos entry due to missing text fields: $entryData');
+             continue;
+          }
+
+          try {
+            final int entryId = _cachedEntriesById.length + currentDomainEntries.length + 1;
+            final entry = DictionaryEntry(
+              id: entryId,
+              domainId: saludosDomainId,
+              namtrik: null, 
+              spanish: null, 
+              imagePath: null, 
+              audioPath: null, 
+              greetings_ask_namtrik: namQuestion,
+              greetings_ask_spanish: spaQuestion,
+              greetings_answer_namtrik: namAnswer,
+              greetings_answer_spanish: spaAnswer,
+              images_greetings: imagePathGreeting,
+              audio_greetings_ask: audioPathQ,
+              audio_greetings_answer: audioPathA,
+            );
+            currentDomainEntries.add(entry);
+            _logger.debug('Created Saludos entry: ID=$entryId, Q=$namQuestion, A=$namAnswer');
+          } catch (e, stacktrace) {
+             _logger.error(
+              'Error processing Saludos entry: $e',
+              e,
+              stacktrace,
+            );
+          }
+        }
+        _cachedEntriesById.addAll({for (var entry in currentDomainEntries) entry.id: entry});
+        _logger.info('Added ${currentDomainEntries.length} entries for special domain "$domainName"');
+
+        continue; 
+      }
+
+      List<DictionaryEntry> currentDomainEntries = [];
+      for (final entryData in domainDataList) {
+        if (entryData is! Map<String, dynamic>) continue;
+
+        // --- Extract data for generic entries ---
+        final String namKey = '${keyPrefix}_namtrik';
+        final String spaKey = '${keyPrefix}_spanish';
+        final String imgKey = '${keyPrefix}_image';
+        final String audioKey = '${keyPrefix}_audio';
+
+        final String? nam = entryData[namKey];
+        final String? spa = entryData[spaKey];
+        final String? imgFileName = entryData[imgKey];
+        final String? audioFileName = entryData[audioKey];
+
+        _logger.debug('Attempted extraction for "$domainName": Nam="$nam" ($namKey), Spa="$spa" ($spaKey), Img="$imgFileName" ($imgKey), Audio="$audioFileName" ($audioKey)');
+
+        if (nam == null || spa == null || nam.isEmpty || spa.isEmpty) {
+          _logger.warning('Missing or empty Nam/Spa data for an entry in "$domainName". Skipping entry.');
+          continue;
+        }
+
+        // Construct full paths
+        final String imagePathEntry = (imgFileName != null && imgFileName.isNotEmpty)
+            ? 'assets/images/dictionary/$domainPathName/$imgFileName'
+            : ''; // Handle missing image
+        final String audioPath = (audioFileName != null && audioFileName.isNotEmpty)
+            ? 'assets/audio/dictionary/$domainPathName/$audioFileName'
+            : ''; // Handle missing audio
+
+        _logger.debug('Processing entry for "$domainName": Nam="$nam", Spa="$spa", ImagePath="$imagePathEntry", AudioPath="$audioPath"');
+
+        try {
+          int domainIdToAdd = -1;
+          // Find existing domain or add new one
+          var existingDomain = _cachedDomains.firstWhere((d) => d.name == domainName, orElse: () => SemanticDomain(id: -1, name: '', imagePath: '')); // Placeholder for check
+          if (existingDomain.id == -1) { // Domain doesn't exist, add it
+            domainIdToAdd = _cachedDomains.length + 1;
+            final imagePath = _getDomainImagePath(domainPathName);
+            final domain = SemanticDomain(
+              id: domainIdToAdd,
+              name: domainName,
+              imagePath: imagePath,
+            );
+            _cachedDomains.add(domain);
+            _logger.debug('Domain added: ID=$domainIdToAdd, Name=$domainName, Image=$imagePath');
+          } else {
+            domainIdToAdd = existingDomain.id;
+            _logger.debug('Domain "$domainName" already exists with ID=$domainIdToAdd. Adding entries.');
+          }
+
+          final int entryId = _cachedEntriesById.length + currentDomainEntries.length + 1;
+          final entry = DictionaryEntry(
+            id: entryId,
+            domainId: domainIdToAdd, // Assign correct domainId
+            namtrik: nam, // Use correct field name
+            spanish: spa,
+            audioPath: audioPath,
+            imagePath: imagePathEntry,
+          );
+          currentDomainEntries.add(entry);
+          _logger.debug('Created generic entry: ID=$entryId, Nam=$nam, Spa=$spa');
+        } catch (e, stacktrace) {
+          _logger.error(
+            'Error processing entry for domain "$domainName" (Nam: $nam, Spa: $spa): $e',
+            e, // Pass error as positional argument
+            stacktrace, // Pass stack trace as positional argument
+          );
         }
       }
 
-      if (!isDuplicate && newOption.length == size) {
-        allOptions.add(newOption);
-      }
-    }
-
-    // Mezclar las opciones para que la correcta no esté siempre en la misma posición
-    allOptions.shuffle();
-
-    return allOptions;
-  }
-
-  /// Verifica si dos opciones son iguales comparando sus números
-  bool _areOptionsEqual(
-      List<NamtrikMoneyModel> option1, List<NamtrikMoneyModel> option2) {
-    if (option1.length != option2.length) return false;
-
-    final numbers1 = option1.map((item) => item.number).toList()..sort();
-    final numbers2 = option2.map((item) => item.number).toList()..sort();
-
-    for (int i = 0; i < numbers1.length; i++) {
-      if (numbers1[i] != numbers2[i]) return false;
-    }
-
-    return true;
-  }
-
-  /// Encuentra el índice de la opción correcta en la lista de opciones
-  int findCorrectOptionIndex(
-      List<List<NamtrikMoneyModel>> options, List<int> correctNumbers) {
-    for (int i = 0; i < options.length; i++) {
-      List<int> optionNumbers = options[i].map((item) => item.number).toList()
-        ..sort();
-      List<int> correctSorted = List.from(correctNumbers)..sort();
-
-      if (optionNumbers.length != correctSorted.length) continue;
-
-      bool allMatch = true;
-      for (int j = 0; j < optionNumbers.length; j++) {
-        if (optionNumbers[j] != correctSorted[j]) {
-          allMatch = false;
-          break;
+      // Add the domain and its entries if any entries were successfully created
+      if (currentDomainEntries.isNotEmpty) { // Now this variable is used
+        // Assign the correct domainId to entries and add them
+        for (var entry in currentDomainEntries) {
+          final correctedEntry = DictionaryEntry(
+            id: entry.id,
+            domainId: entry.domainId, // Assign correct domainId
+            namtrik: entry.namtrik,  // Use correct field name
+            spanish: entry.spanish,
+            audioPath: entry.audioPath,
+            imagePath: entry.imagePath,
+          );
+          _cachedEntriesById[correctedEntry.id] = correctedEntry;
         }
-      }
 
-      if (allMatch) return i;
-    }
-
-    return -1; // No se encontró la opción correcta
-  }
-
-  /// Obtiene 4 imágenes aleatorias de dinero para el nivel 3
-  Future<List<NamtrikMoneyModel>> getLevel3Data() async {
-    // Asegurarse de que los datos de dinero estén cargados
-    if (_moneyItems.isEmpty) {
-      await getLevelData(LevelModel(
-          id: 1, title: 'Nivel 1', description: 'Descripción', difficulty: 1));
-    }
-
-    // Cargar el archivo JSON específico para el nivel 3
-    final String response =
-        await rootBundle.loadString('assets/data/a4_l3_namuiwam_money.json');
-    final data = await json.decode(response);
-
-    // Obtener un elemento aleatorio del JSON
-    final moneyL3List = data['money_l3']['namui_wam'] as List;
-    final randomIndex = _random.nextInt(moneyL3List.length);
-    final randomMoneyL3 = moneyL3List[randomIndex];
-
-    // Obtener los números de las imágenes de dinero
-    final List<int> numberMoneyImages =
-        List<int>.from(randomMoneyL3['number_money_images']);
-
-    // Obtener las monedas correspondientes a esos números
-    List<NamtrikMoneyModel> result = [];
-    for (var number in numberMoneyImages) {
-      final item = getMoneyItemByNumber(number);
-      if (item != null) {
-        result.add(item);
+        _logger.info('Added ${currentDomainEntries.length} entries for domain "$domainName" with domainId ${currentDomainEntries.first.domainId}');
+      } else {
+        _logger.warning('No valid entries processed for domain: "$domainName". It might appear empty.');
       }
     }
 
-    return result;
-  }
-
-  /// Obtiene el nombre total en Namtrik para el nivel 3
-  Future<Map<String, dynamic>> getLevel3NamtrikNames() async {
-    // Cargar el archivo JSON específico para el nivel 3
-    final String response =
-        await rootBundle.loadString('assets/data/a4_l3_namuiwam_money.json');
-    final data = await json.decode(response);
-
-    // Obtener un elemento aleatorio del JSON
-    final moneyL3List = data['money_l3']['namui_wam'] as List;
-    final randomIndex = _random.nextInt(moneyL3List.length);
-    final randomMoneyL3 = moneyL3List[randomIndex];
-
-    // Obtener el nombre total en Namtrik
-    final String correctNamtrikName = randomMoneyL3['name_total_namtrik'];
-
-    // Obtener otros 3 nombres aleatorios diferentes del correcto
-    List<String> incorrectNames = [];
-    List<int> usedIndices = [randomIndex];
-
-    while (incorrectNames.length < 3) {
-      int newIndex = _random.nextInt(moneyL3List.length);
-      if (!usedIndices.contains(newIndex)) {
-        usedIndices.add(newIndex);
-        incorrectNames.add(moneyL3List[newIndex]['name_total_namtrik']);
+    // --- Populate the _cachedEntriesByDomainId map --- 
+    _cachedEntriesByDomainId = {}; // Ensure it's clear before populating
+    for (final entry in _cachedEntriesById.values) {
+      if (!_cachedEntriesByDomainId.containsKey(entry.domainId)) {
+        _cachedEntriesByDomainId[entry.domainId] = [];
       }
+      _cachedEntriesByDomainId[entry.domainId]!.add(entry);
     }
+    _logger.info('Finished grouping ${_cachedEntriesById.length} total entries into ${_cachedEntriesByDomainId.length} domains.');
 
-    // Obtener los números de las imágenes de dinero
-    final List<int> numberMoneyImages =
-        List<int>.from(randomMoneyL3['number_money_images']);
-
-    return {
-      'correctName': correctNamtrikName,
-      'incorrectNames': incorrectNames,
-      'numberMoneyImages': numberMoneyImages,
-      'randomIndex': randomIndex,
-    };
+    _logger.info('Finished processing all domains.');
   }
 
-  /// Obtiene datos sincronizados para el nivel 3
-  Future<Map<String, dynamic>> getSynchronizedLevel3Data() async {
-    // Asegurarse de que los datos de dinero estén cargados
-    if (_moneyItems.isEmpty) {
-      await getLevelData(LevelModel(
-          id: 1, title: 'Nivel 1', description: 'Descripción', difficulty: 1));
+  Future<List<SemanticDomain>> getAllDomains() async {
+    await _waitUntilLoaded();
+    _logger.info('Returning ${_cachedDomains.length} domains from memory.');
+    return List.unmodifiable(_cachedDomains); 
+  }
+
+  Future<List<DictionaryEntry>> getEntriesForDomain(int domainId) async {
+    await _waitUntilLoaded();
+    final entries = _cachedEntriesByDomainId[domainId] ?? [];
+    _logger.info('Returning ${entries.length} entries for domainId $domainId from memory.');
+    return List.unmodifiable(entries);
+  }
+
+  Future<DictionaryEntry?> getEntryDetails(int entryId) async {
+    await _waitUntilLoaded();
+    final entry = _cachedEntriesById[entryId];
+    _logger.info('Returning details for entryId $entryId from memory: ${entry != null ? 'Found' : 'Not Found'}.');
+    return entry; 
+  }
+
+  Future<List<DictionaryEntry>> searchEntries(String query) async {
+    await _waitUntilLoaded();
+    if (query.isEmpty) {
+      return [];
     }
-
-    // Cargar el archivo JSON específico para el nivel 3
-    final String response =
-        await rootBundle.loadString('assets/data/a4_l3_namuiwam_money.json');
-    final data = await json.decode(response);
-
-    // Obtener un elemento aleatorio del JSON
-    final moneyL3List = data['money_l3']['namui_wam'] as List;
-    final randomIndex = _random.nextInt(moneyL3List.length);
-    final randomMoneyL3 = moneyL3List[randomIndex];
-
-    // Obtener el nombre total en Namtrik
-    final String correctNamtrikName = randomMoneyL3['name_total_namtrik'];
-
-    // Obtener otros 3 nombres aleatorios diferentes del correcto
-    List<String> incorrectNames = [];
-    List<int> usedIndices = [randomIndex];
-
-    while (incorrectNames.length < 3) {
-      int newIndex = _random.nextInt(moneyL3List.length);
-      if (!usedIndices.contains(newIndex)) {
-        usedIndices.add(newIndex);
-        incorrectNames.add(moneyL3List[newIndex]['name_total_namtrik']);
-      }
-    }
-
-    // Obtener los números de las imágenes de dinero
-    final List<int> numberMoneyImages =
-        List<int>.from(randomMoneyL3['number_money_images']);
-
-    // Obtener las monedas correspondientes a esos números
-    List<NamtrikMoneyModel> moneyItems = [];
-    for (var number in numberMoneyImages) {
-      final item = getMoneyItemByNumber(number);
-      if (item != null) {
-        moneyItems.add(item);
-      }
-    }
-
-    return {
-      'correctName': correctNamtrikName,
-      'incorrectNames': incorrectNames,
-      'moneyItems': moneyItems,
-    };
-  }
-
-  /// Obtiene los nombres en namtrik para el nivel 3
-  Future<List<String>> getNamtrikNames() async {
-    await getArticlesData(); // Asegurarse de que los artículos estén cargados
-    return _articleItems.map((article) => article.namePriceNamtrik).toList();
-  }
-
-  /// Carga los datos del nivel 4 desde el archivo JSON
-  Future<List<String>> getLevel4NamtrikNames() async {
-    // Cargar el archivo JSON
-    final String response =
-        await rootBundle.loadString('assets/data/a4_l4_namuiwam_money.json');
-    final data = await json.decode(response);
-
-    // Extraer los nombres en namtrik del JSON
-    final List<String> namtrikNames = (data['money_l4']['namui_wam'] as List)
-        .map((item) => item['name_total_namtrik'] as String)
-        .toList();
-
-    return namtrikNames;
-  }
-
-  /// Obtiene todas las imágenes de dinero (solo lado A) para el nivel 4
-  Future<List<String>> getAllMoneyImages() async {
-    if (_moneyItems.isEmpty) {
-      await getLevelData(LevelModel(
-          id: 1,
-          title: 'Nivel 1',
-          description: 'Descripción del nivel',
-          difficulty: 1));
-    }
-
-    // Obtener solo las imágenes del lado A (primera imagen de cada par)
-    final List<String> moneyImages = _moneyItems
-        .map((item) => item.moneyImages.isNotEmpty ? item.moneyImages[0] : '')
-        .where((image) => image.isNotEmpty)
-        .toList();
-
-    return moneyImages;
-  }
-
-  /// Obtiene los valores objetivo del dinero para el nombre seleccionado en el nivel 4
-  Future<Map<String, dynamic>?> getLevel4MoneyValuesForName(
-      String namtrikName) async {
-    // Cargar el archivo JSON
-    final String response =
-        await rootBundle.loadString('assets/data/a4_l4_namuiwam_money.json');
-    final data = await json.decode(response);
-
-    // Buscar el elemento con el nombre coincidente
-    final moneyL4List = data['money_l4']['namui_wam'] as List;
-
-    for (var item in moneyL4List) {
-      if (item['name_total_namtrik'] == namtrikName) {
-        return {
-          'number_money_images': item['number_money_images'],
-          'total_money': item['total_money'],
-        };
-      }
-    }
-
-    return null;
-  }
-
-  /// Obtiene todos los items de dinero para el nivel 4
-  Future<List<NamtrikMoneyModel>> getAllMoneyItems() async {
-    if (_moneyItems.isEmpty) {
-      await getLevelData(LevelModel(
-          id: 1, title: 'Nivel 1', description: 'Descripción', difficulty: 1));
-    }
-
-    return _moneyItems;
-  }
-
-  /// Reproduce un mensaje de audio de alerta para el nivel 4
-  Future<void> playAlertAudio(String message) async {
-    // Detener cualquier audio previo
-    await _audioService.stopAudio();
-
-    // Reproducir el audio de alerta
-    final audioPath = 'audio/alerts/$message.wav';
-    await _audioService.playAudio(audioPath);
-  }
-
-  /// Cambiar el nombre del parámetro 'num' a 'numberValue' para evitar conflicto con el tipo 'num'
-  Future<String> getMoneyNameForValue(int numberValue) async {
-    // Implementación pendiente
-    return '';
+    final lowerCaseQuery = query.toLowerCase();
+    final results = _cachedEntriesById.values.where((entry) {
+      // Handle potential null values for namtrik and spanish
+      final bool namMatch = entry.namtrik?.toLowerCase().contains(lowerCaseQuery) ?? false;
+      final bool spaMatch = entry.spanish?.toLowerCase().contains(lowerCaseQuery) ?? false;
+      return namMatch || spaMatch;
+    }).toList();
+    _logger.info('Found ${results.length} entries matching query "$query" in memory.');
+    return results;
   }
 }

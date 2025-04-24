@@ -139,7 +139,7 @@ class _Activity1LevelScreenState
     });
 
     // Vibrar y esperar antes de mostrar el diálogo de respuesta correcta
-    await _feedbackService.heavyHapticFeedback();
+    await _feedbackService.lightHapticFeedback();
 
     // Actualizar el estado después de la vibración y mostrar el diálogo
     if (!mounted) return;
@@ -282,12 +282,13 @@ class _Activity1LevelScreenState
   }
 
   //
-  void _handleIncorrectAnswer() {
+  void _handleIncorrectAnswer() async {
     setState(() {
       remainingAttempts--;
     });
     // Actualizar el estado para mostrar que la respuesta es incorrecta y vibrar al mismo tiempo
     if (remainingAttempts <= 0) {
+      await _feedbackService.heavyHapticFeedback();
       // Mostrar diálogo de sin intentos si el usuario ha agotado los intentos y volver al menú de actividad 1
       showDialog(
         context: context,
@@ -312,6 +313,7 @@ class _Activity1LevelScreenState
       );
     } else {
       // Mostrar mensaje de respuesta incorrecta y actualizar los intentos restantes
+      await _feedbackService.mediumHapticFeedback();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

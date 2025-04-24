@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:namui_wam/core/constants/activity_descriptions.dart';
 import 'package:namui_wam/core/di/service_locator.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
+import 'package:namui_wam/core/services/feedback_service.dart';
 import 'package:namui_wam/core/widgets/game_description_widget.dart';
 import 'package:namui_wam/features/activity6/services/activity6_service.dart';
 
@@ -171,6 +172,7 @@ class _Activity6ScreenState extends State<Activity6Screen>
       return;
     }
 
+    await FeedbackService().lightHapticFeedback();
     setState(() {
       _isPlayingAudio = true;
     });
@@ -194,11 +196,12 @@ class _Activity6ScreenState extends State<Activity6Screen>
   }
 
   // Function to handle the copy button press
-  void _handleCopyPressed() {
+  void _handleCopyPressed() async {
     if (_namtrikResult.isNotEmpty &&
         _namtrikResult != 'Resultado del número' &&
         !_namtrikResult.startsWith('El número debe') &&
         !_namtrikResult.startsWith('Error')) {
+      await FeedbackService().mediumHapticFeedback();
       Clipboard.setData(ClipboardData(text: _namtrikResult));
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -207,6 +210,7 @@ class _Activity6ScreenState extends State<Activity6Screen>
         ),
       );
     } else {
+      await FeedbackService().heavyHapticFeedback();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('No hay texto válido para copiar'),
@@ -217,11 +221,12 @@ class _Activity6ScreenState extends State<Activity6Screen>
   }
 
   // Function to handle the share button press
-  void _handleSharePressed() {
+  void _handleSharePressed() async {
     if (_namtrikResult.isNotEmpty &&
         _namtrikResult != 'Resultado del número' &&
         !_namtrikResult.startsWith('El número debe') &&
         !_namtrikResult.startsWith('Error')) {
+      await FeedbackService().mediumHapticFeedback();
       // This would typically use a share plugin, but for now we'll just show a message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -230,6 +235,7 @@ class _Activity6ScreenState extends State<Activity6Screen>
         ),
       );
     } else {
+      await FeedbackService().heavyHapticFeedback();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('No hay texto válido para compartir'),
@@ -296,7 +302,7 @@ class _Activity6ScreenState extends State<Activity6Screen>
                             Center(
                               child: GameDescriptionWidget(
                                 description: ActivityGameDescriptions
-                                    .getDescriptionForActivity(3),
+                                    .getDescriptionForActivity(6),
                               ),
                             ),
                           SizedBox(

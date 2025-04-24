@@ -94,7 +94,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activitiesState = ActivitiesState();
-    final gameState = GameState();
+    final gameState = GameState(activitiesState);
 
     // Inicializar actividades con sus niveles correspondientes
     // Actividades con niveles predefinidos

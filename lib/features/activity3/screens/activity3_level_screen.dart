@@ -6,6 +6,7 @@ import 'package:namui_wam/core/templates/scrollable_level_screen.dart';
 import 'package:namui_wam/core/widgets/info_bar_widget.dart';
 import 'package:namui_wam/features/activity3/services/activity3_service.dart';
 import 'package:namui_wam/features/activity3/widgets/selectable_item.dart';
+import 'package:namui_wam/core/services/feedback_service.dart';
 import 'dart:math';
 
 // Clase para la pantalla de un nivel de la actividad 3
@@ -187,6 +188,8 @@ class _Activity3LevelScreenState
         }
       });
     } else {
+      // Vibración media al fallar
+      FeedbackService().mediumHapticFeedback();
       // Mostrar animación de error y reducir intentos
       setState(() {
         _showErrorAnimationLevel3 = true;
@@ -266,6 +269,8 @@ class _Activity3LevelScreenState
     if (isCorrect) {
       _handleLevelComplete();
     } else {
+      // Vibración media al fallar
+      FeedbackService().mediumHapticFeedback();
       // Reducir intentos restantes y mostrar mensaje de error en nivel 2
       remainingAttempts--;
 
@@ -308,6 +313,8 @@ class _Activity3LevelScreenState
         _handleLevelComplete();
       }
     } else {
+      // Vibración media al fallar
+      FeedbackService().mediumHapticFeedback();
       // Mostrar animación de error y reducir intentos en nivel 1
       setState(() {
         _showErrorAnimation = true;
@@ -429,13 +436,15 @@ class _Activity3LevelScreenState
 
   // Maneja el evento cuando se completa el nivel con éxito
   void _handleLevelComplete() async {
+    // Vibración corta al completar el nivel correctamente
+    FeedbackService().lightHapticFeedback();
     final activitiesState = ActivitiesState.of(context);
     final gameState = GameState.of(context);
-    final wasCompleted = gameState.isLevelCompleted(4, widget.level.id - 1);
+    final wasCompleted = gameState.isLevelCompleted(3, widget.level.id - 1);
     if (!wasCompleted) {
-      final pointsAdded = await gameState.addPoints(4, widget.level.id - 1, 5);
+      final pointsAdded = await gameState.addPoints(3, widget.level.id - 1, 5);
       if (pointsAdded) {
-        activitiesState.completeLevel(4, widget.level.id - 1);
+        activitiesState.completeLevel(3, widget.level.id - 1);
         if (mounted) {
           setState(() {
             totalScore = gameState.globalPoints;
@@ -448,7 +457,8 @@ class _Activity3LevelScreenState
   }
 
   // Maneja el evento cuando se agotan los intentos en un nivel
-  void _handleOutOfAttempts() {
+  void _handleOutOfAttempts() async {
+    await FeedbackService().heavyHapticFeedback();
     _showNoAttemptsDialog();
   }
 

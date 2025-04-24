@@ -1,5 +1,7 @@
 // Es el archivo que contiene la pantalla de inicio de la aplicación con los botones de las actividades.
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:namui_wam/core/models/game_state.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
 import 'package:namui_wam/features/activity1/activity1_screen.dart';
 import 'package:namui_wam/features/activity2/activity2_screen.dart';
@@ -8,8 +10,88 @@ import 'package:namui_wam/features/activity4/activity4_screen.dart';
 import 'package:namui_wam/features/activity5/activity5_screen.dart';
 import 'package:namui_wam/features/activity6/activity6_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _alertShownSinceLastReset = false;
+  GameState? _gameState; // To store gameState reference
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final gameState = Provider.of<GameState>(context);
+
+    // Store gameState for use in _showAlert
+    if (_gameState == null) {
+      _gameState = gameState;
+      // Listen for changes to show the alert
+      _gameState!.addListener(_handleGameStateChange);
+    }
+
+    // Initial check in case dependencies change after 100 points reached
+    // but before listener was added or triggered
+    _checkAndShowAlertIfNeeded(gameState);
+  }
+
+  @override
+  void dispose() {
+    _gameState?.removeListener(_handleGameStateChange);
+    super.dispose();
+  }
+
+  void _handleGameStateChange() {
+    // Ensure gameState is not null and context is still mounted
+    if (_gameState != null && mounted) {
+        _checkAndShowAlertIfNeeded(_gameState!);
+        // We also need to trigger a rebuild if the button state changes
+        setState(() {});
+    }
+  }
+
+  void _checkAndShowAlertIfNeeded(GameState gameState) {
+      if (gameState.canManuallyReset && !_alertShownSinceLastReset) {
+        _alertShownSinceLastReset = true;
+        // Use addPostFrameCallback to show dialog after the build phase
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) { // Check if the widget is still in the tree
+            _showResetReadyAlert();
+          }
+        });
+      }
+      // If points are 0, reset the alert flag (assuming reset always sets points to 0)
+      // Note: This might reset the flag if the game starts at 0 initially.
+      // A more robust solution might involve a flag in GameState set during reset.
+      if (gameState.globalPoints == 0 && _alertShownSinceLastReset) {
+         print("Resetting alert flag because global points are 0.");
+         _alertShownSinceLastReset = false;
+      }
+  }
+
+  void _showResetReadyAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('¡Objetivo Alcanzado!'),
+          content: const Text(
+              'Has obtenido los 100 puntos. Puedes reiniciar el progreso de las actividades 1 a 4 usando el botón de reinicio.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Entendido'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   static const List<String> activityDescriptions = [
     'Muntsik mɵik kɵtasha sɵl lau',
@@ -55,17 +137,69 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Es el override de la clase StatelessWidget para build el widget
+  // Dialog to show when the reset button is enabled and tapped
+  void _showConfirmationResetDialog() {
+    final gameState = Provider.of<GameState>(context, listen: false);
+    showDialog(
+      context: context,
+      barrierDismissible: false, // User must choose an action
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('¡Alerta!'),
+          content: const Text(
+              'Estás a punto de reiniciar el progreso y los puntos de las actividades 1 a 4. Esta acción no se puede deshacer. ¿Deseas continuar?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Aceptar'),
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close dialog first
+                print('Manual reset confirmed by user.');
+                await gameState.requestManualReset();
+                // Reset the flag after successful manual reset
+                _alertShownSinceLastReset = false;
+                print('Alert flag reset after manual reset confirmation.');
+                // No need for setState here as gameState.requestManualReset notifies listeners
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Dialog to show when the disabled reset button is tapped
+  void _showDisabledInfoDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Botón Desactivado'),
+          content: const Text(
+              'El botón de reinicio se activará automáticamente cuando acumules 100 puntos globales completando niveles de las actividades 1 a 4. ¡Sigue jugando!'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Entendido'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('*** HomeScreen build ejecutado (print directo) ***');
-    final screenSize = MediaQuery.of(context).size;
-    // Calculamos el tamaño del logo como un porcentaje del ancho de la pantalla
-    // Esto permite que el logo se ajuste automáticamente a diferentes tamaños de pantalla
-    // y proporcione una experiencia de usuario más consistente.
-    final logoSize = screenSize.width * 0.3; //  30% del ancho de la pantalla
+    // Watch for changes in GameState to update UI (like button state)
+    final gameState = context.watch<GameState>();
 
-    // Es el cuerpo de la pantalla home
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -96,8 +230,8 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Image.asset(
                           'assets/images/1.logo-colibri.png',
-                          height: logoSize,
-                          width: logoSize,
+                          height: 150,
+                          width: 150,
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -123,6 +257,49 @@ class HomeScreen extends StatelessWidget {
                           ),
                         );
                       },
+                    ),
+                    // Espacio adicional al final para mejor UX
+                    const SizedBox(height: 16),
+                    // Add the manual reset button
+                    InkWell(
+                      onTap: () {
+                        // Call appropriate dialog based on state
+                        if (gameState.canManuallyReset) {
+                          _showConfirmationResetDialog();
+                        } else {
+                          _showDisabledInfoDialog();
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(40.0), // Make it circular for splash effect
+                      child: CircleAvatar(
+                        radius: 45, // Adjust size of the circle
+                        backgroundColor: gameState.canManuallyReset
+                            ? Theme.of(context).colorScheme.primary // Enabled background
+                            : Colors.grey.shade300, // Disabled background
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.refresh,
+                              size: 30, // Icon size
+                              color: gameState.canManuallyReset
+                                  ? Colors.white // Enabled icon color
+                                  : Colors.grey.shade500, // Disabled icon color
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "Reiniciar",
+                              style: TextStyle(
+                                fontSize: 11, // Text size
+                                fontWeight: FontWeight.bold,
+                                color: gameState.canManuallyReset
+                                    ? Colors.white // Enabled text color
+                                    : Colors.grey.shade500, // Disabled text color
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     // Espacio adicional al final para mejor UX
                     const SizedBox(height: 16),

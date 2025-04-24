@@ -7,6 +7,7 @@ import 'package:namui_wam/core/models/game_state.dart';
 import 'package:namui_wam/features/activity2/services/activity2_service.dart';
 import 'package:namui_wam/core/constants/activity_descriptions.dart';
 import 'package:namui_wam/core/widgets/game_description_widget.dart';
+import 'package:namui_wam/core/services/feedback_service.dart';
 import 'package:namui_wam/core/themes/app_theme.dart';
 
 class Activity2LevelScreen extends BaseLevelScreen {
@@ -96,7 +97,7 @@ class _Activity2LevelScreenState
         _activity2Service.isAnswerCorrect(currentNumber!, userAnswer);
 
     if (isCorrect) {
-      _handleCorrectAnswer();
+      await _handleCorrectAnswer();
     } else {
       _handleIncorrectAnswer();
     }
@@ -189,7 +190,9 @@ class _Activity2LevelScreenState
     );
   }
 
-  void _handleCorrectAnswer() async {
+  Future<void> _handleCorrectAnswer() async {
+    // Vibración corta al acertar
+    FeedbackService().lightHapticFeedback();
     final activitiesState = ActivitiesState.of(context);
     final gameState = GameState.of(context);
     if (!mounted) return;
@@ -210,7 +213,9 @@ class _Activity2LevelScreenState
     _showLevelCompletedDialog(wasCompleted: wasCompleted);
   }
 
-  void _handleIncorrectAnswer() {
+  Future<void> _handleIncorrectAnswer() async {
+    // Vibración media al fallar
+    FeedbackService().mediumHapticFeedback();
     if (remainingAttempts > 0) {
       setState(() {
         remainingAttempts--;
@@ -218,6 +223,7 @@ class _Activity2LevelScreenState
       });
     }
     if (remainingAttempts <= 0) {
+      await FeedbackService().heavyHapticFeedback();
       _showNoAttemptsDialog();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

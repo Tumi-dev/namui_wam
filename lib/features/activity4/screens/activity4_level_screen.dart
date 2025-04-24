@@ -9,6 +9,7 @@ import 'package:namui_wam/features/activity4/services/activity4_service.dart';
 import 'package:namui_wam/features/activity4/models/namtrik_money_model.dart';
 import 'package:namui_wam/features/activity4/models/namtrik_article_model.dart';
 import 'dart:math';
+import 'package:namui_wam/core/services/feedback_service.dart';
 
 // Cambiado para usar ScrollableLevelScreen en lugar de BaseLevelScreen
 class Activity4LevelScreen extends ScrollableLevelScreen {
@@ -165,36 +166,38 @@ class _Activity4LevelScreenState
   }
 
   // Maneja la selección de una opción en el nivel 2
-  void _handleOptionSelection(int index) {
-    if (_showFeedback) return; // No permitir cambios durante el feedback
+  void _handleOptionSelection(int index) async {
+    if (_showFeedback) return;
+
 
     setState(() {
       _selectedOptionIndex = index;
       _showFeedback = true;
-
-      // Actualizar el número de intentos restantes si la respuesta es incorrecta
       if (index != _correctOptionIndex) {
         decrementAttempts();
       } else {
         isCorrectAnswerSelected = true;
+
       }
     });
 
-    // Programar el reinicio del feedback después de un tiempo
+    // Feedback háptico fuera de setState
+    if (index != _correctOptionIndex) {
+      await FeedbackService().mediumHapticFeedback();
+    } else {
+      await FeedbackService().lightHapticFeedback();
+    }
+
     Future.delayed(Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
           _showFeedback = false;
-
           if (index == _correctOptionIndex) {
-            // Respuesta correcta - mostrar diálogo y registrar puntos
             _handleLevelComplete();
           } else {
-            // Respuesta incorrecta - cargar nueva imagen y opciones o mostrar diálogo de sin intentos
             if (remainingAttempts <= 0) {
               _handleOutOfAttempts();
             } else {
-              // Cargar un nuevo artículo y opciones
               _resetLevel2();
             }
           }
@@ -204,7 +207,8 @@ class _Activity4LevelScreenState
   }
 
   // Maneja cuando se agotan los intentos
-  void _handleOutOfAttempts() {
+  void _handleOutOfAttempts() async {
+    await FeedbackService().heavyHapticFeedback();
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -230,17 +234,19 @@ class _Activity4LevelScreenState
 
   // Maneja cuando el usuario completa el nivel correctamente
   void _handleLevelComplete() async {
+    // Vibración corta al completar el nivel correctamente
+    await FeedbackService().lightHapticFeedback();
     // Actualizar el estado del juego y mostrar el diálogo de respuesta correcta
     final activitiesState = ActivitiesState.of(context);
     final gameState = GameState.of(context);
 
     // Verificar si el nivel se ha completado y agregar puntos si es necesario
-    final wasCompleted = gameState.isLevelCompleted(5, widget.level.id - 1);
+    final wasCompleted = gameState.isLevelCompleted(4, widget.level.id - 1);
 
     if (!wasCompleted) {
-      final pointsAdded = await gameState.addPoints(5, widget.level.id - 1, 5);
+      final pointsAdded = await gameState.addPoints(4, widget.level.id - 1, 5);
       if (pointsAdded) {
-        activitiesState.completeLevel(5, widget.level.id - 1);
+        activitiesState.completeLevel(4, widget.level.id - 1);
         if (mounted) {
           setState(() {
             totalScore = gameState.globalPoints;
@@ -392,20 +398,27 @@ class _Activity4LevelScreenState
   }
 
   // Maneja la selección de un nombre en namtrik en el nivel 3
-  void _handleNameSelection(int index) {
-    if (_showNameFeedback) return; // No permitir cambios durante el feedback
+  void _handleNameSelection(int index) async {
+    if (_showNameFeedback) return;
+
 
     setState(() {
       _selectedNameIndex = index;
       _showNameFeedback = true;
-
-      // Actualizar el número de intentos restantes si la respuesta es incorrecta
       if (index != _correctNameIndex) {
         decrementAttempts();
       } else {
         isCorrectAnswerSelected = true;
+
       }
     });
+
+    // Feedback háptico fuera de setState
+    if (index != _correctNameIndex) {
+      await FeedbackService().mediumHapticFeedback();
+    } else {
+      await FeedbackService().lightHapticFeedback();
+    }
 
     // Programar el reinicio del feedback después de un tiempo
     Future.delayed(Duration(seconds: 2), () {
@@ -1358,13 +1371,13 @@ class _Activity4LevelScreenState
               // Verificar si ya se han ganado puntos para este nivel
               final activitiesState = ActivitiesState.of(context);
               final gameState = GameState.of(context);
-              final wasCompleted = gameState.isLevelCompleted(5, widget.level.id - 1);
+              final wasCompleted = gameState.isLevelCompleted(4, widget.level.id - 1);
               
               if (!wasCompleted && !_hasEarnedPointsLevel4) {
                 // Primera vez que completa correctamente - otorgar 5 puntos
-                gameState.addPoints(5, widget.level.id - 1, 5).then((pointsAdded) {
+                gameState.addPoints(4, widget.level.id - 1, 5).then((pointsAdded) {
                   if (pointsAdded) {
-                    activitiesState.completeLevel(5, widget.level.id - 1);
+                    activitiesState.completeLevel(4, widget.level.id - 1);
                     setState(() {
                       totalScore = gameState.globalPoints;
                       _hasEarnedPointsLevel4 = true;

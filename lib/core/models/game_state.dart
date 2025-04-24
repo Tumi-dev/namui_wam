@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:namui_wam/core/models/activities_state.dart';
+import 'package:namui_wam/core/utils/level_storage.dart';
 
 class GameState extends ChangeNotifier {
   static const String _pointsKey = 'global_points';
@@ -9,8 +11,9 @@ class GameState extends ChangeNotifier {
   static const int maxPoints = 100;
   int _globalPoints = 0;
   final Map<String, bool> _completedLevels = {};
+  final ActivitiesState _activitiesState;
 
-  GameState() {
+  GameState(this._activitiesState) {
     _loadState();
   }
 
@@ -21,7 +24,14 @@ class GameState extends ChangeNotifier {
     for (var levelKey in completedLevels) {
       _completedLevels[levelKey] = true;
     }
-    notifyListeners();
+    if (_globalPoints >= maxPoints) {
+      print('GameState loaded with points >= maxPoints ($_globalPoints). Triggering reset.');
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await _triggerGlobalReset();
+      });
+    } else {
+      notifyListeners();
+    }
   }
 
   Future<void> _saveState() async {
@@ -50,10 +60,61 @@ class GameState extends ChangeNotifier {
     return false;
   }
 
+  Future<void> _triggerGlobalReset() async {
+    try {
+      print('Starting global reset process...');
+      for (int actId in [1, 2, 3, 4]) {
+        final activity = _activitiesState.getActivity(actId);
+        if (activity != null) {
+          print('Resetting Activity $actId...');
+          activity.resetActivity();
+          await LevelStorage.saveLevels(actId, activity.levels);
+          print('Activity $actId reset and saved to storage.');
+        } else {
+          print('Warning: Activity $actId not found in ActivitiesState during reset.');
+        }
+      }
+
+      _globalPoints = 0;
+
+      print('Clearing completed levels for activities 1-4...');
+      _completedLevels.removeWhere((key, value) {
+        final parts = key.split('-');
+        if (parts.length == 2) {
+          final actId = int.tryParse(parts[0]);
+          return actId != null && actId >= 1 && actId <= 4;
+        }
+        return false;
+      });
+      print('Completed levels cleared.');
+
+      await _saveState();
+      print('Reset GameState saved.');
+
+      notifyListeners();
+      print('Global reset triggered and completed successfully. Points reset to 0.');
+    } catch (e, s) {
+      print('Error during global reset: $e \nStack trace:\n$s');
+      notifyListeners();
+    }
+  }
+
+  bool get canManuallyReset => _globalPoints >= maxPoints;
+
+  Future<void> requestManualReset() async {
+    if (canManuallyReset) { 
+      print('Manual reset requested and condition met.');
+      await _triggerGlobalReset(); 
+    } else {
+      print('Manual reset requested but condition not met ($_globalPoints points).');
+    }
+  }
+
   int get globalPoints => _globalPoints;
   int get remainingPoints => maxPoints - _globalPoints;
 
   Future<void> resetGame() async {
+    print('WARNING: resetGame() called directly. This only resets GameState, not ActivityLevels.');
     _globalPoints = 0;
     _completedLevels.clear();
     await _saveState();

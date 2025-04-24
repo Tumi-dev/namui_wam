@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namui_wam/core/di/service_locator.dart';
 import 'package:namui_wam/core/services/audio_player_service.dart';
+import 'package:namui_wam/core/services/feedback_service.dart';
 import 'package:namui_wam/features/activity5/models/semantic_domain.dart';
 import 'package:namui_wam/features/activity5/models/dictionary_entry.dart';
 import 'package:namui_wam/features/activity5/services/activity5_service.dart';
@@ -182,7 +183,8 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
                         size: 30,
                         color: Colors.white,
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        await FeedbackService().lightHapticFeedback();
                         _audioPlayerService.play(entry.audio_greetings_ask!);
                         setState(() {});
                       },
@@ -199,7 +201,8 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
                         size: 30,
                         color: Colors.white,
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        await FeedbackService().mediumHapticFeedback();
                         _audioPlayerService.play(entry.audio_greetings_answer!);
                         setState(() {});
                       },
@@ -321,7 +324,8 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
                             color: Colors
                                 .white, // Cambiado a blanco para mejor contraste
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            await FeedbackService().lightHapticFeedback();
                             _audioPlayerService.play(entry.audioPath!);
                             setState(() {});
                           },
@@ -340,7 +344,8 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
                             color: Colors
                                 .white, // Cambiado a blanco para mejor contraste
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            await FeedbackService().mediumHapticFeedback();
                             _audioPlayerService.play(entry.audioVariantPath!);
                             setState(() {});
                           },

@@ -1,17 +1,17 @@
 // Librería principal de la aplicación que inicializa el service locator y los providers de las actividades y el estado del juego.
 import 'package:flutter/material.dart';
-import 'package:namui_wam/features/home/home_screen.dart';
+import 'package:namuiwam/features/home/home_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
-import 'package:namui_wam/core/models/activity_levels.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/features/activity1/data/activity1_levels.dart';
-import 'package:namui_wam/features/activity2/data/activity2_levels.dart';
-import 'package:namui_wam/features/activity3/data/activity3_levels.dart';
-import 'package:namui_wam/features/activity4/data/activity4_levels.dart';
-import 'package:namui_wam/core/di/service_locator.dart';
-import 'package:namui_wam/core/services/logger_service.dart';
-import 'package:namui_wam/core/models/game_state.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/models/activity_levels.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/features/activity1/data/activity1_levels.dart';
+import 'package:namuiwam/features/activity2/data/activity2_levels.dart';
+import 'package:namuiwam/features/activity3/data/activity3_levels.dart';
+import 'package:namuiwam/features/activity4/data/activity4_levels.dart';
+import 'package:namuiwam/core/di/service_locator.dart';
+import 'package:namuiwam/core/services/logger_service.dart';
+import 'package:namuiwam/core/models/game_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

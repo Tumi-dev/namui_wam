@@ -1,5 +1,5 @@
-import 'package:namui_wam/core/services/number_data_service.dart';
-import 'package:namui_wam/core/services/logger_service.dart';
+import 'package:namuiwam/core/services/number_data_service.dart';
+import 'package:namuiwam/core/services/logger_service.dart';
 
 /// Service to centralize the logic for Activity 2
 class Activity2Service {

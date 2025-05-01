@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
 
 // Base de pantalla para actividades con niveles
 abstract class BaseActivityScreen extends StatelessWidget {

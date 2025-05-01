@@ -1,14 +1,14 @@
 // Es el archivo que contiene la pantalla de inicio de la aplicación con los botones de las actividades.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:namui_wam/core/models/game_state.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
-import 'package:namui_wam/features/activity1/activity1_screen.dart';
-import 'package:namui_wam/features/activity2/activity2_screen.dart';
-import 'package:namui_wam/features/activity3/activity3_screen.dart';
-import 'package:namui_wam/features/activity4/activity4_screen.dart';
-import 'package:namui_wam/features/activity5/activity5_screen.dart';
-import 'package:namui_wam/features/activity6/activity6_screen.dart';
+import 'package:namuiwam/core/models/game_state.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
+import 'package:namuiwam/features/activity1/activity1_screen.dart';
+import 'package:namuiwam/features/activity2/activity2_screen.dart';
+import 'package:namuiwam/features/activity3/activity3_screen.dart';
+import 'package:namuiwam/features/activity4/activity4_screen.dart';
+import 'package:namuiwam/features/activity5/activity5_screen.dart';
+import 'package:namuiwam/features/activity6/activity6_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _alertShownSinceLastReset = false;
+  int _lastPoints = 0;
   GameState? _gameState; // To store gameState reference
 
   @override
@@ -53,23 +54,23 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _checkAndShowAlertIfNeeded(GameState gameState) {
-      if (gameState.canManuallyReset && !_alertShownSinceLastReset) {
-        _alertShownSinceLastReset = true;
-        // Use addPostFrameCallback to show dialog after the build phase
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) { // Check if the widget is still in the tree
-            _showResetReadyAlert();
-          }
-        });
-      }
-      // If points are 0, reset the alert flag (assuming reset always sets points to 0)
-      // Note: This might reset the flag if the game starts at 0 initially.
-      // A more robust solution might involve a flag in GameState set during reset.
-      if (gameState.globalPoints == 0 && _alertShownSinceLastReset) {
-         print("Resetting alert flag because global points are 0.");
-         _alertShownSinceLastReset = false;
-      }
+  void _checkAndShowAlertIfNeeded(GameState gameState) async {
+    // Detectar transición de <100 a 100 puntos
+    if (_lastPoints < GameState.maxPoints && gameState.globalPoints >= GameState.maxPoints &&
+        !gameState.alertShownAt100Points) {
+      _alertShownSinceLastReset = true;
+      await gameState.setAlertShownAt100Points(true);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _showResetReadyAlert();
+        }
+      });
+    }
+    _lastPoints = gameState.globalPoints;
+    // Resetear flag local si el usuario reinicia
+    if (gameState.globalPoints == 0 && _alertShownSinceLastReset) {
+      _alertShownSinceLastReset = false;
+    }
   }
 
   void _showResetReadyAlert() {
@@ -98,27 +99,27 @@ class _HomeScreenState extends State<HomeScreen> {
     'Muntsikelan pөram kusrekun',
     'Nɵsik utɵwan asam kusrekun',
     'Anwan ashipelɵ kɵkun',
-    'Wammeran tulisha manchípik kui asamik pɵrik',
     'Muntsielan namtrikmai yunɵmarɵpik',
+    'Wammeran tulisha manchípik kui asamik pɵrik',
   ];
 
   // Lista de colores para los fondos de los botones
   static const List<Color> buttonColors = [
-    Color(0xFFD32F2F), // Rojo suave
-    Color(0xFF1976D2), // Azul medio
-    Color(0xFFFFC107), // Amarillo dorado
-    Color(0xFF9C27B0), // Púrpura elegante
-    Color(0xFF4CAF50), // Verde fresco
-    Color(0xFFFF7043), // Naranja coral
+  Color(0xFF556B2F), // Verde olivo oscuro
+  Color(0xFFDAA520), // Amarillo ocre
+  Color(0xFF8B4513), // Marrón tierra
+  Color(0xFFCD5C5C), // Rojo terroso
+  Color(0xFF7E7745), // Orion - Verde oliva apagado
+  Color(0xFFFF7F50), // Coral cálido
   ];
   // Lista de colores para los círculos de números
   static const List<Color> numberCircleColors = [
-    Color(0xFFFF0000), // Rojo
-    Color(0xFF00FFFF), // Aqua
-    Color(0xFFFFFF00), // Amarillo
-    Color(0xFFFF00FF), // Fucsia
-    Color(0xFF00FF00), // Lima
-    Color(0xFFFFA500), // Naranja
+  Color(0xFF556B2F), // Verde olivo oscuro
+  Color(0xFFDAA520), // Amarillo ocre
+  Color(0xFF8B4513), // Marrón tierra
+  Color(0xFFCD5C5C), // Rojo terroso
+  Color(0xFF7E7745), // Orion - Verde oliva apagado
+  Color(0xFFFF7F50), // Coral cálido
   ];
 
   void _navigateToActivity(BuildContext context, int activityNumber) {
@@ -163,6 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 await gameState.requestManualReset();
                 // Reset the flag after successful manual reset
                 _alertShownSinceLastReset = false;
+                await gameState.setAlertShownAt100Points(false); // Resetear el flag persistente tras reinicio
                 print('Alert flag reset after manual reset confirmation.');
                 // No need for setState here as gameState.requestManualReset notifies listeners
               },

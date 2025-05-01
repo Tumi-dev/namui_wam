@@ -1,5 +1,5 @@
-name: namui_wam
-description: "Namui Wam - Aplicación educativa para aprender números en Namtrik"
+name: namuiwam
+description: "Namuiwam - Aplicación educativa para aprender números en Namtrik"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -55,34 +55,30 @@ flutter:
   assets:
     - assets/audio/
     - assets/audio/dictionary/
-    - assets/audio/dictionary/animales/
-    - assets/audio/dictionary/arboles/
-    - assets/audio/dictionary/colores/
-    - assets/audio/dictionary/neologismos/
-    - assets/audio/dictionary/partescuerpo/
-    - assets/audio/dictionary/plantascomestibles/
-    - assets/audio/dictionary/plantasmedicinales/
-    - assets/audio/dictionary/saludos/
-    - assets/audio/dictionary/vestido/
+    - assets/audio/dictionary/ushamera/
+    - assets/audio/dictionary/pisielɵ/
+    - assets/audio/dictionary/srɵwammera/
+    - assets/audio/dictionary/asrumunchimera/
+    - assets/audio/dictionary/maintusrmera/
+    - assets/audio/dictionary/wamapamɵnikun/
+    - assets/audio/dictionary/kewaamɵneiklɵ/
     - assets/audio/namtrik_numbers/
     - assets/images/
     - assets/images/articles/
     - assets/images/clocks/
     - assets/images/dictionary/
-    - assets/images/dictionary/animales/
-    - assets/images/dictionary/arboles/
-    - assets/images/dictionary/colores/
-    - assets/images/dictionary/neologismos/
-    - assets/images/dictionary/partescuerpo/
-    - assets/images/dictionary/plantascomestibles/
-    - assets/images/dictionary/plantasmedicinales/
-    - assets/images/dictionary/saludos/
-    - assets/images/dictionary/vestido/
+    - assets/images/dictionary/ushamera/
+    - assets/images/dictionary/pisielɵ/
+    - assets/images/dictionary/srɵwammera/
+    - assets/images/dictionary/asrumunchimera/
+    - assets/images/dictionary/maintusrmera/
+    - assets/images/dictionary/wamapamɵnikun/
+    - assets/images/dictionary/kewaamɵneiklɵ/
     - assets/images/money/
     - assets/data/
     - assets/data/a4_l3_namuiwam_money.json
     - assets/data/a4_l4_namuiwam_money.json
-    - assets/data/a5_namuiwam_dictionary.json
+    - assets/data/a6_namuiwam_dictionary.json
     - assets/data/namtrik_articles.json
     - assets/data/namtrik_hours.json
     - assets/data/namtrik_money.json

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
 
 class GameDescriptionWidget extends StatelessWidget {
   final String description;

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/core/services/logger_service.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/core/services/logger_service.dart';
 
 class Activity3Service {
   const Activity3Service();

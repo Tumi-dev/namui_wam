@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/templates/base_level_screen.dart';
-import 'package:namui_wam/core/widgets/info_bar_widget.dart';
-import 'package:namui_wam/core/models/game_state.dart';
-import 'package:namui_wam/features/activity2/services/activity2_service.dart';
-import 'package:namui_wam/core/constants/activity_descriptions.dart';
-import 'package:namui_wam/core/widgets/game_description_widget.dart';
-import 'package:namui_wam/core/services/feedback_service.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/templates/base_level_screen.dart';
+import 'package:namuiwam/core/widgets/info_bar_widget.dart';
+import 'package:namuiwam/core/models/game_state.dart';
+import 'package:namuiwam/features/activity2/services/activity2_service.dart';
+import 'package:namuiwam/core/constants/activity_descriptions.dart';
+import 'package:namuiwam/core/widgets/game_description_widget.dart';
+import 'package:namuiwam/core/services/feedback_service.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
 
 class Activity2LevelScreen extends BaseLevelScreen {
   const Activity2LevelScreen({super.key, required super.level})
@@ -136,7 +136,7 @@ class _Activity2LevelScreenState
                 const Text(
                   '¡Ganaste 5 puntos!',
                   style: TextStyle(
-                    color: Color(0xFF00FFFF),
+                    color: Color(0xFFDAA520),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -149,7 +149,7 @@ class _Activity2LevelScreenState
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF00FFFF),
+                  backgroundColor: const Color(0xFFDAA520),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -181,7 +181,7 @@ class _Activity2LevelScreenState
               Navigator.of(context).pop();
             },
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF1976D2),
+              foregroundColor: const Color(0xFFDAA520),
             ),
             child: const Text('Aceptar'),
           ),
@@ -335,11 +335,11 @@ class _Activity2LevelScreenState
               margin: const EdgeInsets.symmetric(vertical: 16.0),
               decoration: BoxDecoration(
                 color: const Color(
-                    0xFF1976D2), // Color de fondo azul medio del contenedor
+                    0xFFDAA520), // Color de fondo amarillo ocre del contenedor
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF00FFFF), // Sombra del contenedor
+                    color: const Color(0xFFDAA520), // Sombra del contenedor
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -374,7 +374,7 @@ class _Activity2LevelScreenState
                 ),
                 filled: true,
                 fillColor: const Color(
-                    0xFF1976D2), // Color de fondo del campo de texto
+                    0xFFDAA520), // Color de fondo del campo de texto
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
@@ -382,7 +382,7 @@ class _Activity2LevelScreenState
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(
-                    color: _inputBorderColor ?? const Color(0xFF00FFFF),
+                    color: _inputBorderColor ?? const Color(0xFFDAA520),
                     width: 2,
                   ),
                 ),
@@ -419,7 +419,7 @@ class _Activity2LevelScreenState
               child: ElevatedButton(
                 onPressed: checkAnswer,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF00FFFF),
+                  backgroundColor: const Color(0xFFDAA520),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                   shape: RoundedRectangleBorder(

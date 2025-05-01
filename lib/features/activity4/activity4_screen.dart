@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/features/activity4/screens/activity4_level_screen.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/features/activity4/screens/activity4_level_screen.dart';
 
 // Clase para la pantalla de la actividad 4
 class Activity4Screen extends StatelessWidget {
@@ -61,8 +61,8 @@ class Activity4Screen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Icon(
                       Icons.attach_money,
-                      // Color de icono lima para la actividad 5
-                      color: Color(0xFFFF00FF),
+                      // Color de icono rojo terroso para la actividad 4
+                      color: Color(0xFFCD5C5C),
                       size: 64,
                     ),
                     const SizedBox(height: 30),
@@ -107,8 +107,8 @@ class Activity4Screen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Card(
         elevation: 4,
-        // Color de fondo verde y texto blanco para la tarjeta del nivel
-        color: const Color(0xFF9C27B0),
+        // Color de fondo rojo terroso y texto blanco para la tarjeta del nivel
+        color: const Color(0xFFCD5C5C),
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -121,7 +121,7 @@ class Activity4Screen extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     // Forma circular para el número del nivel en la tarjeta
-                    color: const Color(0xFFFF00FF),
+                    color: const Color(0xFFCD5C5C),
                     shape: BoxShape.circle,
                   ),
                   child: Center(

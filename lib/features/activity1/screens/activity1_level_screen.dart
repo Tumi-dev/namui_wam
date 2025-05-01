@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/models/game_state.dart';
-import 'package:namui_wam/core/templates/scrollable_level_screen.dart';
-import 'package:namui_wam/core/services/feedback_service.dart';
-import 'package:namui_wam/core/widgets/info_bar_widget.dart';
-import 'package:namui_wam/features/activity1/services/activity1_service.dart';
-import 'package:namui_wam/features/activity1/models/number_word.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/models/game_state.dart';
+import 'package:namuiwam/core/templates/scrollable_level_screen.dart';
+import 'package:namuiwam/core/services/feedback_service.dart';
+import 'package:namuiwam/core/widgets/info_bar_widget.dart';
+import 'package:namuiwam/features/activity1/services/activity1_service.dart';
+import 'package:namuiwam/features/activity1/models/number_word.dart';
 
 // Clase para la pantalla de un nivel de la actividad 1
 class Activity1LevelScreen extends ScrollableLevelScreen {
@@ -197,7 +197,7 @@ class _Activity1LevelScreenState
                 Text(
                   '¡Ganaste 5 puntos!',
                   style: TextStyle(
-                    color: const Color(0xFFFF0000),
+                    color: const Color(0xFF556B2F),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -210,7 +210,7 @@ class _Activity1LevelScreenState
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF0000),
+                    backgroundColor: const Color(0xFF556B2F),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -263,7 +263,7 @@ class _Activity1LevelScreenState
                   },
                   // Botón de continuar al menú de actividad si el nivel ya estaba completado
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF0000),
+                    backgroundColor: const Color(0xFF556B2F),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -304,7 +304,7 @@ class _Activity1LevelScreenState
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFFD32F2F),
+                foregroundColor: const Color(0xFF556B2F),
               ),
               child: const Text('Aceptar'),
             ),
@@ -389,13 +389,13 @@ class _Activity1LevelScreenState
           padding: const EdgeInsets.all(16), // Espacio interno del contenedor
           decoration: BoxDecoration(
             color:
-                const Color(0xFFFF0000), // Color de fondo del número en namtrik
+                const Color(0xFF556B2F), // Color de fondo del número en namtrik
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               // Sombra para el contenedor del número en namtrik
               BoxShadow(
                 color: const Color(
-                    0xFFD32F2F), // Color de la sombra del número en namtrik
+                    0xFF556B2F), // Color de la sombra del número en namtrik
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),
@@ -510,12 +510,12 @@ class _Activity1LevelScreenState
                       height: 150,
                       decoration: BoxDecoration(
                         color: const Color(
-                            0xFFD32F2F), // Color de fondo de la opción seleccionada por el usuario
+                            0xFF556B2F), // Color de fondo de la opción seleccionada por el usuario
                         borderRadius: BorderRadius.circular(15),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(
-                                0xFFFF0000), // Color de la sombra de la opción seleccionada por el usuario
+                                0xFF556B2F), // Color de la sombra de la opción seleccionada por el usuario
                             blurRadius: 8,
                             offset: const Offset(0, 4),
                           ),

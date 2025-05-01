@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/services/audio_service.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/features/activity4/models/namtrik_money_model.dart';
-import 'package:namui_wam/features/activity4/models/namtrik_article_model.dart';
+import 'package:namuiwam/core/services/audio_service.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/features/activity4/models/namtrik_money_model.dart';
+import 'package:namuiwam/features/activity4/models/namtrik_article_model.dart';
 
 class Activity4Service {
   final _audioService = GetIt.instance<AudioService>();

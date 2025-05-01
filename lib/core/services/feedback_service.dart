@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:namui_wam/core/services/logger_service.dart';
+import 'package:namuiwam/core/services/logger_service.dart';
 import 'package:get_it/get_it.dart';
 
 class FeedbackService {

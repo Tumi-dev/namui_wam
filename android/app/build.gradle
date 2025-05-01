@@ -37,11 +37,12 @@ android {
 
     defaultConfig {
         applicationId "net.piurek.app"
-        minSdkVersion 21        // Mantiene compatibilidad con Android 5.0+
+        // Aumentar minSdkVersion a 21 para compatibilidad con Flutter SDK y plugins
+        minSdkVersion 21
         targetSdkVersion 35
         versionCode 1
         versionName "1.0.0"
-        multiDexEnabled true
+        multiDexEnabled true // Mantener esto, aunque es menos crítico para API 21+
     }
 
     buildTypes {

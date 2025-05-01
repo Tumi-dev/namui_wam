@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 /// Service to handle loading and searching numbers from the optimized data structure
 class NumberDataService {
   static const String _basePath = 'assets/data/namtrik_numbers.json';
-  static const String _fallbackPath = 'assets/data/activity2_number.json';
+
   Map<String, dynamic>? _numbersData;
   List<Map<String, dynamic>> _allNumbers = [];
 
@@ -23,28 +23,7 @@ class NumberDataService {
       print('NumberDataService initialized successfully with ${_allNumbers.length} numbers');
     } catch (e) {
       print('Error loading numbers data: $e');
-      try {
-        // Fallback to the old structure
-        await _loadFallbackData();
-      } catch (fallbackError) {
-        print('Error loading fallback data: $fallbackError');
-        throw Exception('Failed to initialize NumberDataService: Unable to load number data from any source');
-      }
-    }
-  }
-
-  /// Load the fallback data from the original JSON file
-  Future<void> _loadFallbackData() async {
-    try {
-      final String jsonString = await rootBundle.loadString(_fallbackPath);
-      final Map<String, dynamic> jsonData = json.decode(jsonString);
-      final List<dynamic> misakNumbers = jsonData['numbers']['misak'];
-      
-      _allNumbers = misakNumbers.map<Map<String, dynamic>>((item) => Map<String, dynamic>.from(item)).toList();
-      print('Fallback data loaded successfully with ${_allNumbers.length} numbers');
-    } catch (e) {
-      print('Error loading fallback data: $e');
-      throw Exception('Failed to load fallback data: $e');
+      throw Exception('Failed to initialize NumberDataService: Unable to load number data: $e');
     }
   }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:namui_wam/core/constants/activity_descriptions.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
-import 'package:namui_wam/core/widgets/game_description_widget.dart';
+import 'package:namuiwam/core/constants/activity_descriptions.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/widgets/game_description_widget.dart';
 
 /// Plantilla reutilizable para pantallas de nivel con desplazamiento completo
 /// Extiende esta clase para crear pantallas de nivel que permitan desplazamiento

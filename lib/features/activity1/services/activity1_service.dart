@@ -1,9 +1,9 @@
 import 'dart:math';
-import 'package:namui_wam/core/di/service_locator.dart'; // Added for GetIt
-import 'package:namui_wam/core/services/logger_service.dart'; // Added for LoggerService
-import 'package:namui_wam/core/services/number_data_service.dart';
-import 'package:namui_wam/core/services/audio_service.dart';
-import 'package:namui_wam/features/activity1/models/number_word.dart';
+import 'package:namuiwam/core/di/service_locator.dart'; // Added for GetIt
+import 'package:namuiwam/core/services/logger_service.dart'; // Added for LoggerService
+import 'package:namuiwam/core/services/number_data_service.dart';
+import 'package:namuiwam/core/services/audio_service.dart';
+import 'package:namuiwam/features/activity1/models/number_word.dart';
 
 /// Service to centralize the logic for Activity 1
 class Activity1Service {

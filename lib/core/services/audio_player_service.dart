@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:namui_wam/core/di/service_locator.dart';
-import 'package:namui_wam/core/services/logger_service.dart';
+import 'package:namuiwam/core/di/service_locator.dart';
+import 'package:namuiwam/core/services/logger_service.dart';
 
 class AudioPlayerService {
   final AudioPlayer _audioPlayer = AudioPlayer();

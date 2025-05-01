@@ -1,0 +1,1488 @@
+{
+    "dictionary": {
+        "namui_wam": [
+            {
+                "Ushamera": [
+                    {
+                        "number": 1,
+                        "animal_namtrik": "Waara",
+                        "animal_spanish": "Vaca",
+                        "animal_image": "waara.jpg",
+                        "animal_audio": "waara.mp3"
+                    },
+                    {
+                        "number": 2,
+                        "animal_namtrik": "Kaulli",
+                        "animal_spanish": "Caballo",
+                        "animal_image": "kaulli.jpg",
+                        "animal_audio": "kaulli.mp3"
+                    },
+                    {
+                        "number": 3,
+                        "animal_namtrik": "Upisha",
+                        "animal_spanish": "Ovejo",
+                        "animal_image": "upisha.jpg",
+                        "animal_audio": "upisha.mp3"
+                    },
+                    {
+                        "number": 4,
+                        "animal_namtrik": "Mish",
+                        "animal_spanish": "Gato",
+                        "animal_image": "mish.jpg",
+                        "animal_audio": "mish.mp3"
+                    },
+                    {
+                        "number": 5,
+                        "animal_namtrik": "Wera",
+                        "animal_spanish": "Perro",
+                        "animal_image": "wera.jpg",
+                        "animal_audio": "wera.mp3"
+                    },
+                    {
+                        "number": 6,
+                        "animal_namtrik": "Atuall",
+                        "animal_spanish": "Gallina",
+                        "animal_image": "atuall.jpg",
+                        "animal_audio": "atuall.mp3"
+                    },
+                    {
+                        "number": 7,
+                        "animal_namtrik": "Itraku",
+                        "animal_spanish": "Zarigüeya",
+                        "animal_image": "itraku.jpg",
+                        "animal_audio": "itraku.mp3"
+                    },
+                    {
+                        "number": 8,
+                        "animal_namtrik": "Srulɵ",
+                        "animal_spanish": "Armadillo",
+                        "animal_image": "srulɵ.jpg",
+                        "animal_audio": "srulɵ.mp3"
+                    },
+                    {
+                        "number": 9,
+                        "animal_namtrik": "Payau",
+                        "animal_spanish": "Danta",
+                        "animal_image": "payau.jpg",
+                        "animal_audio": "payau.mp3"
+                    },
+                    {
+                        "number": 10,
+                        "animal_namtrik": "Mau",
+                        "animal_spanish": "Guatín",
+                        "animal_image": "mau.jpg",
+                        "animal_audio": "mau.mp3"
+                    },
+                    {
+                        "number": 11,
+                        "animal_namtrik": "Pan",
+                        "animal_spanish": "Venado",
+                        "animal_image": "pan.jpg",
+                        "animal_audio": "pan.mp3"
+                    },
+                    {
+                        "number": 12,
+                        "animal_namtrik": "Kuachi",
+                        "animal_spanish": "Ardilla",
+                        "animal_image": "kuachi.jpg",
+                        "animal_audio": "kuachi.mp3"
+                    },
+                    {
+                        "number": 13,
+                        "animal_namtrik": "Wik",
+                        "animal_spanish": "Oso",
+                        "animal_image": "wik.jpg",
+                        "animal_audio": "wik.mp3"
+                    },
+                    {
+                        "number": 14,
+                        "animal_namtrik": "Kaumish",
+                        "animal_spanish": "Tigrillo",
+                        "animal_image": "kaumish.jpg",
+                        "animal_audio": "kaumish.mp3"
+                    },
+                    {
+                        "number": 15,
+                        "animal_namtrik": "Purik",
+                        "animal_spanish": "Erizo",
+                        "animal_image": "purik.jpg",
+                        "animal_audio": "purik.mp3"
+                    },
+                    {
+                        "number": 16,
+                        "animal_namtrik": "Chukka",
+                        "animal_spanish": "Gorrión",
+                        "animal_image": "chukka.jpg",
+                        "animal_audio": "chukka.mp3"
+                    },
+                    {
+                        "number": 17,
+                        "animal_namtrik": "Kuntur",
+                        "animal_spanish": "Condor",
+                        "animal_image": "kuntur.jpg",
+                        "animal_audio": "kuntur.mp3"
+                    },
+                    {
+                        "number": 18,
+                        "animal_namtrik": "Kuskunku",
+                        "animal_spanish": "Búho",
+                        "animal_image": "kuskunku.jpg",
+                        "animal_audio": "kuskunku.mp3"
+                    },
+                    {
+                        "number": 19,
+                        "animal_namtrik": "Sreilli",
+                        "animal_spanish": "Golondrina",
+                        "animal_image": "sreilli.jpg",
+                        "animal_audio": "sreilli.mp3"
+                    },
+                    {
+                        "number": 20,
+                        "animal_namtrik": "Tsatsɵ",
+                        "animal_spanish": "Colibrí",
+                        "animal_image": "tsatsɵ.jpg",
+                        "animal_audio": "tsatsɵ.mp3"
+                    },
+                    {
+                        "number": 21,
+                        "animal_namtrik": "Tsikkutrɵpik",
+                        "animal_spanish": "Pájaro carpintero",
+                        "animal_image": "tsikkutrɵpik.jpg",
+                        "animal_audio": "tsikkutrɵpik.mp3"
+                    },
+                    {
+                        "number": 22,
+                        "animal_namtrik": "Wasrɵ",
+                        "animal_spanish": "Águila",
+                        "animal_image": "wasrɵ.jpg",
+                        "animal_audio": "wasrɵ.mp3"
+                    },
+                    {
+                        "number": 23,
+                        "animal_namtrik": "Tarwanta",
+                        "animal_spanish": "Guaraguao",
+                        "animal_image": "tarwanta.jpg",
+                        "animal_audio": "tarwanta.mp3"
+                    },
+                    {
+                        "number": 24,
+                        "animal_namtrik": "Pulkɵtsɵ",
+                        "animal_spanish": "Cui",
+                        "animal_image": "pulkɵtsɵ.jpg",
+                        "animal_audio": "pulkɵtsɵ.mp3"
+                    },
+                    {
+                        "number": 25,
+                        "animal_namtrik": "Ullishik",
+                        "animal_spanish": "Araña",
+                        "animal_image": "ullishik.jpg",
+                        "animal_audio": "ullishik.mp3"
+                    },
+                    {
+                        "number": 26,
+                        "animal_namtrik": "Ellkunchi",
+                        "animal_spanish": "Lombriz",
+                        "animal_image": "ellkunchi.jpg",
+                        "animal_audio": "ellkunchi.mp3"
+                    },
+                    {
+                        "number": 27,
+                        "animal_namtrik": "Chapull",
+                        "animal_spanish": "Saltamontes",
+                        "animal_image": "chapull.jpg",
+                        "animal_audio": "chapull.mp3"
+                    },
+                    {
+                        "number": 28,
+                        "animal_namtrik": "Ul",
+                        "animal_spanish": "Culebra",
+                        "animal_image": "ul.jpg",
+                        "animal_audio": "ul.mp3"
+                    },
+                    {
+                        "number": 29,
+                        "animal_namtrik": "Karunchi",
+                        "animal_spanish": "Lagartija",
+                        "animal_image": "karunchi.jpg",
+                        "animal_audio": "karunchi.mp3"
+                    },
+                    {
+                        "number": 30,
+                        "animal_namtrik": "Tsim",
+                        "animal_spanish": "Ratón",
+                        "animal_image": "tsim.jpg",
+                        "animal_audio": "tsim.mp3"
+                    },
+                    {
+                        "number": 31,
+                        "animal_namtrik": "Pɵlɵm",
+                        "animal_spanish": "Mosca",
+                        "animal_image": "pɵlɵm.jpg",
+                        "animal_audio": "pɵlɵm.mp3"
+                    },
+                    {
+                        "number": 32,
+                        "animal_namtrik": "Lɵl",
+                        "animal_spanish": "Escarabajo",
+                        "animal_image": "lɵl.jpg",
+                        "animal_audio": "lɵl.mp3"
+                    },
+                    {
+                        "number": 33,
+                        "animal_namtrik": "Urututuk",
+                        "animal_spanish": "Sapo",
+                        "animal_image": "urututuk.jpg",
+                        "animal_audio": "urututuk.mp3"
+                    },
+                    {
+                        "number": 34,
+                        "animal_namtrik": "Chumpi",
+                        "animal_spanish": "Pavo",
+                        "animal_image": "chumpi.jpg",
+                        "animal_audio": "chumpi.mp3"
+                    },
+                    {
+                        "number": 35,
+                        "animal_namtrik": "Kuchi",
+                        "animal_spanish": "Cerdo",
+                        "animal_image": "kuchi.jpg",
+                        "animal_audio": "kuchi.mp3"
+                    },
+                    {
+                        "number": 36,
+                        "animal_namtrik": "Kalulapenku",
+                        "animal_spanish": "Conejo",
+                        "animal_image": "kalulapenku.jpg",
+                        "animal_audio": "kalulapenku.mp3"
+                    },
+                    {
+                        "number": 37,
+                        "animal_namtrik": "Piatuall",
+                        "animal_spanish": "Pato",
+                        "animal_image": "piatuall.jpg",
+                        "animal_audio": "piatuall.mp3"
+                    },
+                    {
+                        "number": 38,
+                        "animal_namtrik": "Piyau",
+                        "animal_spanish": "Pescado",
+                        "animal_image": "piyau.jpg",
+                        "animal_audio": "piyau.mp3"
+                    },
+                    {
+                        "number": 39,
+                        "animal_namtrik": "Kuutsik",
+                        "animal_spanish": "Mantis religiosa (Color verde)",
+                        "animal_image": "kuutsik.jpg",
+                        "animal_audio": "kuutsik.mp3"
+                    },
+                    {
+                        "number": 40,
+                        "animal_namtrik": "Trerɵkuutsik",
+                        "animal_spanish": "Mantis religiosa (Color café)",
+                        "animal_image": "trerɵkuutsik.jpg",
+                        "animal_audio": "trerɵkuutsik.mp3"
+                    },
+                    {
+                        "number": 41,
+                        "animal_namtrik": "Puchikua",
+                        "animal_spanish": "Abeja",
+                        "animal_image": "puchikua.jpg",
+                        "animal_audio": "puchikua.mp3"
+                    },
+                    {
+                        "number": 42,
+                        "animal_namtrik": "Mawei",
+                        "animal_spanish": "Abejorro",
+                        "animal_image": "mawei.jpg",
+                        "animal_audio": "mawei.mp3"
+                    },
+                    {
+                        "number": 43,
+                        "animal_namtrik": "Trarik",
+                        "animal_spanish": "Zancudo",
+                        "animal_image": "trarik.jpg",
+                        "animal_audio": "trarik.mp3"
+                    },
+                    {
+                        "number": 44,
+                        "animal_namtrik": "Kɵllik",
+                        "animal_spanish": "Loro",
+                        "animal_image": "kɵllik.jpg",
+                        "animal_audio": "kɵllik.mp3"
+                    }
+                ],
+                "Pisielɵ": [
+                    {
+                        "number": 1,
+                        "color_namtrik": "Pilliik",
+                        "color_spanish": "Azul",
+                        "color_image": "pilliik.jpg",
+                        "color_audio": "pilliik.mp3"
+                    },
+                    {
+                        "number": 2,
+                        "color_namtrik": "Pulɵpikik",
+                        "color_spanish": "Rosado",
+                        "color_image": "pulɵpikik.jpg",
+                        "color_audio": "pulɵpikik.mp3"
+                    },
+                    {
+                        "number": 3,
+                        "color_namtrik": "Yalik",
+                        "color_spanish": "Negro",
+                        "color_image": "yalik.jpg",
+                        "color_audio": "yalik.mp3"
+                    },
+                    {
+                        "number": 4,
+                        "color_namtrik": "ϴskɵik",
+                        "color_spanish": "Amarillo",
+                        "color_image": "ɵskɵik.jpg",
+                        "color_audio": "ɵskɵik.mp3"
+                    },
+                    {
+                        "number": 5,
+                        "color_namtrik": "Chilka",
+                        "color_spanish": "Verde",
+                        "color_image": "chilka.jpg",
+                        "color_audio": "chilka.mp3"
+                    },
+                    {
+                        "number": 6,
+                        "color_namtrik": "Yalɵpikik",
+                        "color_spanish": "Café",
+                        "color_image": "yalɵpikik.jpg",
+                        "color_audio": "yalɵpikik.mp3"
+                    },
+                    {
+                        "number": 7,
+                        "color_namtrik": "Pikik",
+                        "color_spanish": "Rojo",
+                        "color_image": "pikik.jpg",
+                        "color_audio": "pikik.mp3"
+                    },
+                    {
+                        "number": 8,
+                        "color_namtrik": "Pulik",
+                        "color_spanish": "Blanco",
+                        "color_image": "pulik.jpg",
+                        "color_audio": "pulik.mp3"
+                    },
+                    {
+                        "number": 9,
+                        "color_namtrik": "Usrik",
+                        "color_spanish": "Gris",
+                        "color_image": "usrik.jpg",
+                        "color_audio": "usrik.mp3"
+                    },
+                    {
+                        "number": 10,
+                        "color_namtrik": "Pulɵpillik",
+                        "color_spanish": "Azul claro",
+                        "color_image": "pulɵpillik.jpg",
+                        "color_audio": "pulɵpillik.mp3"
+                    },
+                    {
+                        "number": 11,
+                        "color_namtrik": "Yalɵpillik",
+                        "color_spanish": "Morado",
+                        "color_image": "yalɵpillik.jpg",
+                        "color_audio": "yalɵpillik.mp3"
+                    }
+                ],
+                "Srɵwammera": [
+                    {
+                        "number": 1,
+                        "neologismo_namtrik": "Nikalulɵpik",
+                        "neologismo_spanish": "Carro",
+                        "neologismo_image": "nikalulɵpik.jpg",
+                        "neologismo_audio": "nikalulɵpik.mp3"
+                    },
+                    {
+                        "number": 2,
+                        "neologismo_namtrik": "Pɵrash",
+                        "neologismo_spanish": "Computador",
+                        "neologismo_image": "pɵrash.jpg",
+                        "neologismo_audio": "pɵrash.mp3"
+                    },
+                    {
+                        "number": 3,
+                        "neologismo_namtrik": "Mɵrash",
+                        "neologismo_spanish": "Televisor",
+                        "neologismo_image": "mɵrash.jpg",
+                        "neologismo_audio": "mɵrash.mp3"
+                    },
+                    {
+                        "number": 4,
+                        "neologismo_namtrik": "Tsailli",
+                        "neologismo_spanish": "Avión",
+                        "neologismo_image": "tsailli.jpg",
+                        "neologismo_audio": "tsailli.mp3"
+                    },
+                    {
+                        "number": 5,
+                        "neologismo_namtrik": "Piuya",
+                        "neologismo_spanish": "Barco",
+                        "neologismo_image": "piuya.jpg",
+                        "neologismo_audio": "piuya.mp3"
+                    },
+                    {
+                        "number": 6,
+                        "neologismo_namtrik": "Wamsru",
+                        "neologismo_spanish": "Celular",
+                        "neologismo_image": "wamsru.jpg",
+                        "neologismo_audio": "wamsru.mp3"
+                    },
+                    {
+                        "number": 7,
+                        "neologismo_namtrik": "Tsanaulli",
+                        "neologismo_spanish": "Bicicleta",
+                        "neologismo_image": "tsanaulli.jpg",
+                        "neologismo_audio": "tsanaulli.mp3"
+                    },
+                    {
+                        "number": 8,
+                        "neologismo_namtrik": "Naktsaulli",
+                        "neologismo_spanish": "Moto",
+                        "neologismo_image": "naktsaulli.jpg",
+                        "neologismo_audio": "naktsaulli.mp3"
+                    },
+                    {
+                        "number": 9,
+                        "neologismo_namtrik": "Nɵsikutɵasik",
+                        "neologismo_spanish": "Reloj",
+                        "neologismo_image": "nɵsikutɵasik.jpg",
+                        "neologismo_audio": "nɵsikutɵasik.mp3"
+                    },
+                    {
+                        "number": 10,
+                        "neologismo_namtrik": "Tɵrasik",
+                        "neologismo_spanish": "Gafas",
+                        "neologismo_image": "tɵrasik.jpg",
+                        "neologismo_audio": "tɵrasik.mp3"
+                    },
+                    {
+                        "number": 11,
+                        "neologismo_namtrik": "Naktsi",
+                        "neologismo_spanish": "Cable de energía",
+                        "neologismo_image": "naktsi.jpg",
+                        "neologismo_audio": "naktsi.mp3"
+                    },
+                    {
+                        "number": 12,
+                        "neologismo_namtrik": "Pɵrinpantrik",
+                        "neologismo_spanish": "Tablero",
+                        "neologismo_image": "pɵrinpantrik.jpg",
+                        "neologismo_audio": "pɵrinpantrik.mp3"
+                    },
+                    {
+                        "number": 13,
+                        "neologismo_namtrik": "Eshelu",
+                        "neologismo_spanish": "Balón",
+                        "neologismo_image": "eshelu.jpg",
+                        "neologismo_audio": "eshelu.mp3"
+                    }
+                ],
+                "Asrumunchimera": [
+                    {
+                        "number": 1,
+                        "partecuerpo_namtrik": "Kimtsutsik",
+                        "partecuerpo_spanish": "Hueso de la nariz",
+                        "partecuerpo_image": "kimtsutsik.jpg",
+                        "partecuerpo_audio": "kimtsutsik.mp3"
+                    },
+                    {
+                        "number": 2,
+                        "partecuerpo_namtrik": "Pantrukul",
+                        "partecuerpo_spanish": "Dientes molares",
+                        "partecuerpo_image": "pantrukul.jpg",
+                        "partecuerpo_audio": "pantrukul.mp3"
+                    },
+                    {
+                        "number": 3,
+                        "partecuerpo_namtrik": "Isutrukul",
+                        "partecuerpo_spanish": "Dientes incisivos ",
+                        "partecuerpo_image": "isutrukul.jpg",
+                        "partecuerpo_audio": "isutrukul.mp3"
+                    },
+                    {
+                        "number": 4,
+                        "partecuerpo_namtrik": "Trukultsutsik",
+                        "partecuerpo_spanish": "Maxilar inferior",
+                        "partecuerpo_image": "trukultsutsik.jpg",
+                        "partecuerpo_audio": "trukultsutsik.mp3"
+                    },
+                    {
+                        "number": 5,
+                        "partecuerpo_namtrik": "Turtsutsik",
+                        "partecuerpo_spanish": "Cráneo",
+                        "partecuerpo_image": "turtsutsik.jpg",
+                        "partecuerpo_audio": "turtsutsik.mp3"
+                    },
+                    {
+                        "number": 6,
+                        "partecuerpo_namtrik": "Tɵmpultsutsik",
+                        "partecuerpo_spanish": "Costillas",
+                        "partecuerpo_image": "tɵmpultsutsik.jpg",
+                        "partecuerpo_audio": "tɵmpultsutsik.mp3"
+                    },
+                    {
+                        "number": 7,
+                        "partecuerpo_namtrik": "Kullaktsutsik",
+                        "partecuerpo_spanish": "Esternón",
+                        "partecuerpo_image": "kullaktsutsik.jpg",
+                        "partecuerpo_audio": "kullaktsutsik.mp3"
+                    },
+                    {
+                        "number": 8,
+                        "partecuerpo_namtrik": "Nashiktsutsik",
+                        "partecuerpo_spanish": "Vertebra cervical",
+                        "partecuerpo_image": "nashiktsutsik.jpg",
+                        "partecuerpo_audio": "nashiktsutsik.mp3"
+                    },
+                    {
+                        "number": 9,
+                        "partecuerpo_namtrik": "Pɵitañiktsutsik",
+                        "partecuerpo_spanish": "Vertebra lumbar",
+                        "partecuerpo_image": "pɵitañiktsutsik.jpg",
+                        "partecuerpo_audio": "pɵitañiktsutsik.mp3"
+                    },
+                    {
+                        "number": 10,
+                        "partecuerpo_namtrik": "Lliktsutsik",
+                        "partecuerpo_spanish": "Vertebra torácica",
+                        "partecuerpo_image": "lliktsutsik.jpg",
+                        "partecuerpo_audio": "lliktsutsik.mp3"
+                    },
+                    {
+                        "number": 11,
+                        "partecuerpo_namtrik": "Srɵptsimtsutsik",
+                        "partecuerpo_spanish": "Fémur",
+                        "partecuerpo_image": "srɵptsimtsutsik.jpg",
+                        "partecuerpo_audio": "srɵptsimtsutsik.mp3"
+                    },
+                    {
+                        "number": 12,
+                        "partecuerpo_namtrik": "Kualtɵmtsutsik",
+                        "partecuerpo_spanish": "Hueso del codo",
+                        "partecuerpo_image": "kualtɵmtsutsik.jpg",
+                        "partecuerpo_audio": "kualtɵmtsutsik.mp3"
+                    },
+                    {
+                        "number": 13,
+                        "partecuerpo_namtrik": "Kiltuntsutsik",
+                        "partecuerpo_spanish": "Hueso del hombro",
+                        "partecuerpo_image": "kiltuntsutsik.jpg",
+                        "partecuerpo_audio": "kiltuntsutsik.mp3"
+                    },
+                    {
+                        "number": 14,
+                        "partecuerpo_namtrik": "Piuntsiktsutsik",
+                        "partecuerpo_spanish": "Clavícula",
+                        "partecuerpo_image": "piuntsiktsutsik.jpg",
+                        "partecuerpo_audio": "piuntsiktsutsik.mp3"
+                    },
+                    {
+                        "number": 15,
+                        "partecuerpo_namtrik": "Pɵikalla",
+                        "partecuerpo_spanish": "Pelvis",
+                        "partecuerpo_image": "pɵikalla.jpg",
+                        "partecuerpo_audio": "pɵikalla.mp3"
+                    },
+                    {
+                        "number": 16,
+                        "partecuerpo_namtrik": "Takunpal",
+                        "partecuerpo_spanish": "Omoplato",
+                        "partecuerpo_image": "takunpal.jpg",
+                        "partecuerpo_audio": "takunpal.mp3"
+                    },
+                    {
+                        "number": 17,
+                        "partecuerpo_namtrik": "Pɵitsutsik",
+                        "partecuerpo_spanish": "Coxis",
+                        "partecuerpo_image": "pɵitsutsik.jpg",
+                        "partecuerpo_audio": "pɵitsutsik.mp3"
+                    },
+                    {
+                        "number": 18,
+                        "partecuerpo_namtrik": "Tɵmtsutsik",
+                        "partecuerpo_spanish": "Rotula ",
+                        "partecuerpo_image": "tɵmtsutsik.jpg",
+                        "partecuerpo_audio": "tɵmtsutsik.mp3"
+                    },
+                    {
+                        "number": 19,
+                        "partecuerpo_namtrik": "Kualtsutsik",
+                        "partecuerpo_spanish": "Hueso del brazo",
+                        "partecuerpo_image": "kualtsutsik.jpg",
+                        "partecuerpo_audio": "kualtsutsik.mp3"
+                    },
+                    {
+                        "number": 20,
+                        "partecuerpo_namtrik": "Tasikurektsutsik",
+                        "partecuerpo_spanish": "Hueso de los dedos de la mano",
+                        "partecuerpo_image": "tasikurektsutsik.jpg",
+                        "partecuerpo_audio": "tasikurektsutsik.mp3"
+                    },
+                    {
+                        "number": 21,
+                        "partecuerpo_namtrik": "Kalu",
+                        "partecuerpo_spanish": "Oreja",
+                        "partecuerpo_image": "kalu.jpg",
+                        "partecuerpo_audio": "kalu.mp3"
+                    },
+                    {
+                        "number": 22,
+                        "partecuerpo_namtrik": "Kap",
+                        "partecuerpo_spanish": "Ojo",
+                        "partecuerpo_image": "kap.jpg",
+                        "partecuerpo_audio": "kap.mp3"
+                    },
+                    {
+                        "number": 23,
+                        "partecuerpo_namtrik": "Kapisik",
+                        "partecuerpo_spanish": "Pestaña",
+                        "partecuerpo_image": "kapisik.jpg",
+                        "partecuerpo_audio": "kapisik.mp3"
+                    },
+                    {
+                        "number": 24,
+                        "partecuerpo_namtrik": "Kappalɵ",
+                        "partecuerpo_spanish": "Frente",
+                        "partecuerpo_image": "kappalɵ.jpg",
+                        "partecuerpo_audio": "kappalɵ.mp3"
+                    },
+                    {
+                        "number": 25,
+                        "partecuerpo_namtrik": "Kaptañikisik",
+                        "partecuerpo_spanish": "Ceja",
+                        "partecuerpo_image": "kaptañikisik.jpg",
+                        "partecuerpo_audio": "kaptañikisik.mp3"
+                    },
+                    {
+                        "number": 26,
+                        "partecuerpo_namtrik": "Pusruk",
+                        "partecuerpo_spanish": "Cabello",
+                        "partecuerpo_image": "pusruk.jpg",
+                        "partecuerpo_audio": "pusruk.mp3"
+                    },
+                    {
+                        "number": 27,
+                        "partecuerpo_namtrik": "Malɵ",
+                        "partecuerpo_spanish": "Cara",
+                        "partecuerpo_image": "malɵ.jpg",
+                        "partecuerpo_audio": "malɵ.mp3"
+                    },
+                    {
+                        "number": 28,
+                        "partecuerpo_namtrik": "Trik",
+                        "partecuerpo_spanish": "Boca",
+                        "partecuerpo_image": "trik.jpg",
+                        "partecuerpo_audio": "trik.mp3"
+                    },
+                    {
+                        "number": 29,
+                        "partecuerpo_namtrik": "Kim",
+                        "partecuerpo_spanish": "Nariz",
+                        "partecuerpo_image": "kim.jpg",
+                        "partecuerpo_audio": "kim.mp3"
+                    },
+                    {
+                        "number": 30,
+                        "partecuerpo_namtrik": "Nashik",
+                        "partecuerpo_spanish": "Garganta",
+                        "partecuerpo_image": "nashik.jpg",
+                        "partecuerpo_audio": "nashik.mp3"
+                    },
+                    {
+                        "number": 31,
+                        "partecuerpo_namtrik": "Trikkalus",
+                        "partecuerpo_spanish": "Labios",
+                        "partecuerpo_image": "trikkalus.jpg",
+                        "partecuerpo_audio": "trikkalus.mp3"
+                    },
+                    {
+                        "number": 32,
+                        "partecuerpo_namtrik": "Nilɵ",
+                        "partecuerpo_spanish": "Lengua",
+                        "partecuerpo_image": "nilɵ.jpg",
+                        "partecuerpo_audio": "nilɵ.mp3"
+                    },
+                    {
+                        "number": 33,
+                        "partecuerpo_namtrik": "Tur",
+                        "partecuerpo_spanish": "Cabeza",
+                        "partecuerpo_image": "tur.jpg",
+                        "partecuerpo_audio": "tur.mp3"
+                    },
+                    {
+                        "number": 34,
+                        "partecuerpo_namtrik": "Asrkalus",
+                        "partecuerpo_spanish": "Piel",
+                        "partecuerpo_image": "asrkalus.jpg",
+                        "partecuerpo_audio": "asrkalus.mp3"
+                    },
+                    {
+                        "number": 35,
+                        "partecuerpo_namtrik": "Kur",
+                        "partecuerpo_spanish": "Ombligo",
+                        "partecuerpo_image": "kur.jpg",
+                        "partecuerpo_audio": "kur.mp3"
+                    },
+                    {
+                        "number": 36,
+                        "partecuerpo_namtrik": "Sicham/Sɵcham",
+                        "partecuerpo_spanish": "Cintura",
+                        "partecuerpo_image": "sicham-sɵcham.jpg",
+                        "partecuerpo_audio": "sicham-sɵcham.mp3"
+                    },
+                    {
+                        "number": 37,
+                        "partecuerpo_namtrik": "Yetɵlɵ",
+                        "partecuerpo_spanish": "Tobillo",
+                        "partecuerpo_image": "yetɵlɵ.jpg",
+                        "partecuerpo_audio": "yetɵlɵ.mp3"
+                    },
+                    {
+                        "number": 38,
+                        "partecuerpo_namtrik": "Kaptrul",
+                        "partecuerpo_spanish": "Globo ocular",
+                        "partecuerpo_image": "kaptrul.jpg",
+                        "partecuerpo_audio": "kaptrul.mp3"
+                    },
+                    {
+                        "number": 39,
+                        "partecuerpo_namtrik": "Katsik",
+                        "partecuerpo_spanish": "Pie",
+                        "partecuerpo_image": "katsik.jpg",
+                        "partecuerpo_audio": "katsik.mp3"
+                    },
+                    {
+                        "number": 40,
+                        "partecuerpo_namtrik": "Katsikurek",
+                        "partecuerpo_spanish": "Dedos del pie",
+                        "partecuerpo_image": "katsikurek.jpg",
+                        "partecuerpo_audio": "katsikurek.mp3"
+                    },
+                    {
+                        "number": 41,
+                        "partecuerpo_namtrik": "Katsiktampal",
+                        "partecuerpo_spanish": "Planta del pie",
+                        "partecuerpo_image": "katsiktampal.jpg",
+                        "partecuerpo_audio": "katsiktampal.mp3"
+                    },
+                    {
+                        "number": 42,
+                        "partecuerpo_namtrik": "Katsiktsɵkɵl",
+                        "partecuerpo_spanish": "Uñas del pie",
+                        "partecuerpo_image": "katsiktsɵkɵl.jpg",
+                        "partecuerpo_audio": "katsiktsɵkɵl.mp3"
+                    },
+                    {
+                        "number": 43,
+                        "partecuerpo_namtrik": "Srɵp",
+                        "partecuerpo_spanish": "Pierna",
+                        "partecuerpo_image": "srɵp.jpg",
+                        "partecuerpo_audio": "srɵp.mp3"
+                    },
+                    {
+                        "number": 44,
+                        "partecuerpo_namtrik": "Srɵptsim",
+                        "partecuerpo_spanish": "Muslos",
+                        "partecuerpo_image": "srɵptsim.jpg",
+                        "partecuerpo_audio": "srɵptsim.mp3"
+                    },
+                    {
+                        "number": 45,
+                        "partecuerpo_namtrik": "Champe",
+                        "partecuerpo_spanish": "Pantorrilla",
+                        "partecuerpo_image": "champe.jpg",
+                        "partecuerpo_audio": "champe.mp3"
+                    },
+                    {
+                        "number": 46,
+                        "partecuerpo_namtrik": "Tɵm",
+                        "partecuerpo_spanish": "Rodilla",
+                        "partecuerpo_image": "tɵm.jpg",
+                        "partecuerpo_audio": "tɵm.mp3"
+                    },
+                    {
+                        "number": 47,
+                        "partecuerpo_namtrik": "Miliisik",
+                        "partecuerpo_spanish": "Barba",
+                        "partecuerpo_image": "miliisik.jpg",
+                        "partecuerpo_audio": "miliisik.mp3"
+                    },
+                    {
+                        "number": 48,
+                        "partecuerpo_namtrik": "Tasik",
+                        "partecuerpo_spanish": "Mano",
+                        "partecuerpo_image": "tasik.jpg",
+                        "partecuerpo_audio": "tasik.mp3"
+                    },
+                    {
+                        "number": 49,
+                        "partecuerpo_namtrik": "Tasikchak",
+                        "partecuerpo_spanish": "Palma de la mano",
+                        "partecuerpo_image": "tasikchak.jpg",
+                        "partecuerpo_audio": "tasikchak.mp3"
+                    },
+                    {
+                        "number": 50,
+                        "partecuerpo_namtrik": "Tasiktsɵkɵl",
+                        "partecuerpo_spanish": "Uñas de la mano",
+                        "partecuerpo_image": "tasiktsɵkɵl.jpg",
+                        "partecuerpo_audio": "tasiktsɵkɵl.mp3"
+                    },
+                    {
+                        "number": 51,
+                        "partecuerpo_namtrik": "Tasikurek",
+                        "partecuerpo_spanish": "Dedos de la mano",
+                        "partecuerpo_image": "tasikurek.jpg",
+                        "partecuerpo_audio": "tasikurek.mp3"
+                    },
+                    {
+                        "number": 52,
+                        "partecuerpo_namtrik": "Llik",
+                        "partecuerpo_spanish": "Espalda",
+                        "partecuerpo_image": "llik.jpg",
+                        "partecuerpo_audio": "llik.mp3"
+                    },
+                    {
+                        "number": 53,
+                        "partecuerpo_namtrik": "Kual",
+                        "partecuerpo_spanish": "Brazo",
+                        "partecuerpo_image": "kual.jpg",
+                        "partecuerpo_audio": "kual.mp3"
+                    },
+                    {
+                        "number": 54,
+                        "partecuerpo_namtrik": "Kualtɵm",
+                        "partecuerpo_spanish": "Codo",
+                        "partecuerpo_image": "kualtɵm.jpg",
+                        "partecuerpo_audio": "kualtɵm.mp3"
+                    },
+                    {
+                        "number": 55,
+                        "partecuerpo_namtrik": "Kiltun",
+                        "partecuerpo_spanish": "Hombro",
+                        "partecuerpo_image": "kiltun.jpg",
+                        "partecuerpo_audio": "kiltun.mp3"
+                    },
+                    {
+                        "number": 56,
+                        "partecuerpo_namtrik": "Kɵntsɵ",
+                        "partecuerpo_spanish": "Vesícula biliar",
+                        "partecuerpo_image": "kɵntsɵ.jpg",
+                        "partecuerpo_audio": "kɵntsɵ.mp3"
+                    },
+                    {
+                        "number": 57,
+                        "partecuerpo_namtrik": "Ani",
+                        "partecuerpo_spanish": "Sangre",
+                        "partecuerpo_image": "ani.jpg",
+                        "partecuerpo_audio": "ani.mp3"
+                    },
+                    {
+                        "number": 58,
+                        "partecuerpo_namtrik": "Anisrɵl",
+                        "partecuerpo_spanish": "Vena",
+                        "partecuerpo_image": "anisrɵl.jpg",
+                        "partecuerpo_audio": "anisrɵl.mp3"
+                    },
+                    {
+                        "number": 59,
+                        "partecuerpo_namtrik": "Shaumantrɵ/Shakamantrɵ",
+                        "partecuerpo_spanish": "Pulmón",
+                        "partecuerpo_image": "shaumantrɵ.jpg",
+                        "partecuerpo_audio": "shaumantrɵ.mp3"
+                    },
+                    {
+                        "number": 60,
+                        "partecuerpo_namtrik": "Isramsruk",
+                        "partecuerpo_spanish": "Corazón",
+                        "partecuerpo_image": "isramsruk.jpg",
+                        "partecuerpo_audio": "isramsruk.mp3"
+                    },
+                    {
+                        "number": 61,
+                        "partecuerpo_namtrik": "Israpsrɵl",
+                        "partecuerpo_spanish": "Tráquea",
+                        "partecuerpo_image": "israpsrɵl.jpg",
+                        "partecuerpo_audio": "israpsrɵl.mp3"
+                    },
+                    {
+                        "number": 62,
+                        "partecuerpo_namtrik": "Mantrɵ",
+                        "partecuerpo_spanish": "Hígado",
+                        "partecuerpo_image": "mantrɵ.jpg",
+                        "partecuerpo_audio": "mantrɵ.mp3"
+                    },
+                    {
+                        "number": 63,
+                        "partecuerpo_namtrik": "Kimpi",
+                        "partecuerpo_spanish": "Mocos",
+                        "partecuerpo_image": "kimpi.jpg",
+                        "partecuerpo_audio": "kimpi.mp3"
+                    },                    
+                    {
+                        "number": 64,
+                        "partecuerpo_namtrik": "Illimpi",
+                        "partecuerpo_spanish": "Saliva",
+                        "partecuerpo_image": "illimpi.jpg",
+                        "partecuerpo_audio": "illimpi.mp3"
+                    },
+                    {
+                        "number": 65,
+                        "partecuerpo_namtrik": "Kappi",
+                        "partecuerpo_spanish": "Lagrima",
+                        "partecuerpo_image": "kappi.jpg",
+                        "partecuerpo_audio": "kappi.mp3"
+                    },
+                    {
+                        "number": 66,
+                        "partecuerpo_namtrik": "Piñipsrɵl",
+                        "partecuerpo_spanish": "Esófago",
+                        "partecuerpo_image": "piñipsrɵl.jpg",
+                        "partecuerpo_audio": "piñipsrɵl.mp3"
+                    },
+                    {
+                        "number": 67,
+                        "partecuerpo_namtrik": "Werukpɵitsi",
+                        "partecuerpo_spanish": "Intestino grueso",
+                        "partecuerpo_image": "werukpɵitsi.jpg",
+                        "partecuerpo_audio": "werukpɵitsi.mp3"
+                    },
+                    {
+                        "number": 68,
+                        "partecuerpo_namtrik": "Unɵwasr",
+                        "partecuerpo_spanish": "Útero",
+                        "partecuerpo_image": "unɵwasr.jpg",
+                        "partecuerpo_audio": "unɵwasr.mp3"
+                    },
+                    {
+                        "number": 69,
+                        "partecuerpo_namtrik": "Pishika",
+                        "partecuerpo_spanish": "Vejiga",
+                        "partecuerpo_image": "pishika.jpg",
+                        "partecuerpo_audio": "pishika.mp3"
+                    },
+                    {
+                        "number": 70,
+                        "partecuerpo_namtrik": "Nasr",
+                        "partecuerpo_spanish": "Nervios",
+                        "partecuerpo_image": "nasr.jpg",
+                        "partecuerpo_audio": "nasr.mp3"
+                    },
+                    {
+                        "number": 71,
+                        "partecuerpo_namtrik": "Wamsrɵl",
+                        "partecuerpo_spanish": "Cuerdas vocales",
+                        "partecuerpo_image": "wamsrɵl.jpg",
+                        "partecuerpo_audio": "wamsrɵl.mp3"
+                    },
+                    {
+                        "number": 72,
+                        "partecuerpo_namtrik": "Tursram",
+                        "partecuerpo_spanish": "Cerebro",
+                        "partecuerpo_image": "tursram.jpg",
+                        "partecuerpo_audio": "tursram.mp3"
+                    },
+                    {
+                        "number": 73,
+                        "partecuerpo_namtrik": "Shillpɵitsi",
+                        "partecuerpo_spanish": "Intestino delgado",
+                        "partecuerpo_image": "shillpɵitsi.jpg",
+                        "partecuerpo_audio": "shillpɵitsi.mp3"
+                    },
+                    {
+                        "number": 74,
+                        "partecuerpo_namtrik": "Truei",
+                        "partecuerpo_spanish": "Riñón",
+                        "partecuerpo_image": "truei.jpg",
+                        "partecuerpo_audio": "truei.mp3"
+                    },
+                    {
+                        "number": 75,
+                        "partecuerpo_namtrik": "Patsɵ",
+                        "partecuerpo_spanish": "Estomago",
+                        "partecuerpo_image": "patsɵ.jpg",
+                        "partecuerpo_audio": "patsɵ.mp3"
+                    },
+                    {
+                        "number": 76,
+                        "partecuerpo_namtrik": "Kurtsi",
+                        "partecuerpo_spanish": "Cordón umbilical ",
+                        "partecuerpo_image": "kurtsi.jpg",
+                        "partecuerpo_audio": "kurtsi.mp3"
+                    }
+                ],
+                "Maintusrmera": [
+                    {
+                        "number": 1,
+                        "plantacomestible_namtrik": "Pura",
+                        "plantacomestible_spanish": "Maíz",
+                        "plantacomestible_image": "pura.jpg",
+                        "plantacomestible_audio": "pura.mp3"
+                    },
+                    {
+                        "number": 2,
+                        "plantacomestible_namtrik": "Tulurmɵn",
+                        "plantacomestible_spanish": "Repollo",
+                        "plantacomestible_image": "tulurmɵn.jpg",
+                        "plantacomestible_audio": "tulurmɵn.mp3"
+                    },
+                    {
+                        "number": 3,
+                        "plantacomestible_namtrik": "Wuau",
+                        "plantacomestible_spanish": "Arracacha",
+                        "plantacomestible_image": "wuau.jpg",
+                        "plantacomestible_audio": "wuau.mp3"
+                    },
+                    {
+                        "number": 4,
+                        "plantacomestible_namtrik": "Pikɵye",
+                        "plantacomestible_spanish": "Papa colorada",
+                        "plantacomestible_image": "pikɵye.jpg",
+                        "plantacomestible_audio": "pikɵye.mp3"
+                    },
+                    {
+                        "number": 5,
+                        "plantacomestible_namtrik": "Lau",
+                        "plantacomestible_spanish": "Olluco",
+                        "plantacomestible_image": "lau.jpg",
+                        "plantacomestible_audio": "lau.mp3"
+                    },
+                    {
+                        "number": 6,
+                        "plantacomestible_namtrik": "Pɵtsɵ",
+                        "plantacomestible_spanish": "Uchuva",
+                        "plantacomestible_image": "pɵtsɵ.jpg",
+                        "plantacomestible_audio": "pɵtsɵ.mp3"
+                    },
+                    {
+                        "number": 7,
+                        "plantacomestible_namtrik": "Pañi",
+                        "plantacomestible_spanish": "Cubio",
+                        "plantacomestible_image": "pañi.jpg",
+                        "plantacomestible_audio": "pañi.mp3"
+                    },
+                    {
+                        "number": 8,
+                        "plantacomestible_namtrik": "Kel",
+                        "plantacomestible_spanish": "Calabaza blanca",
+                        "plantacomestible_image": "kel.jpg",
+                        "plantacomestible_audio": "kel.mp3"
+                    },
+                    {
+                        "number": 9,
+                        "plantacomestible_namtrik": "Kamɵ",
+                        "plantacomestible_spanish": "Arándano",
+                        "plantacomestible_image": "kamɵ.jpg",
+                        "plantacomestible_audio": "kamɵ.mp3"
+                    },
+                    {
+                        "number": 10,
+                        "plantacomestible_namtrik": "Wataye",
+                        "plantacomestible_spanish": "Papa parda",
+                        "plantacomestible_image": "wataye.jpg",
+                        "plantacomestible_audio": "wataye.mp3"
+                    },
+                    {
+                        "number": 11,
+                        "plantacomestible_namtrik": "Pil",
+                        "plantacomestible_spanish": "Choclo",
+                        "plantacomestible_image": "pil.jpg",
+                        "plantacomestible_audio": "pil.mp3"
+                    },
+                    {
+                        "number": 12,
+                        "plantacomestible_namtrik": "Palanta",
+                        "plantacomestible_spanish": "Plátano",
+                        "plantacomestible_image": "palanta.jpg",
+                        "plantacomestible_audio": "palanta.mp3"
+                    },
+                    {
+                        "number": 13,
+                        "plantacomestible_namtrik": "Itrɵmɵn",
+                        "plantacomestible_spanish": "Cebolla",
+                        "plantacomestible_image": "itrɵmɵn.jpg",
+                        "plantacomestible_audio": "itrɵmɵn.mp3"
+                    },
+                    {
+                        "number": 14,
+                        "plantacomestible_namtrik": "Ankalpura",
+                        "plantacomestible_spanish": "Trigo",
+                        "plantacomestible_image": "ankalpura.jpg",
+                        "plantacomestible_audio": "ankalpura.mp3"
+                    },
+                    {
+                        "number": 15,
+                        "plantacomestible_namtrik": "Lu",
+                        "plantacomestible_spanish": "Yuca",
+                        "plantacomestible_image": "lu.jpg",
+                        "plantacomestible_audio": "lu.mp3"
+                    },
+                    {
+                        "number": 16,
+                        "plantacomestible_namtrik": "Kiñua",
+                        "plantacomestible_spanish": "Quinua",
+                        "plantacomestible_image": "kiñua.jpg",
+                        "plantacomestible_audio": "kiñua.mp3"
+                    },
+                    {
+                        "number": 17,
+                        "plantacomestible_namtrik": "Piñi",
+                        "plantacomestible_spanish": "Cerote",
+                        "plantacomestible_image": "piñi.jpg",
+                        "plantacomestible_audio": "piñi.mp3"
+                    },
+                    {
+                        "number": 18,
+                        "plantacomestible_namtrik": "Pullimkaltrul",
+                        "plantacomestible_spanish": "Mora castilla",
+                        "plantacomestible_image": "pullimkaltrul.jpg",
+                        "plantacomestible_audio": "pullimkaltrul.mp3"
+                    },
+                    {
+                        "number": 19,
+                        "plantacomestible_namtrik": "Tsatsɵntsik",
+                        "plantacomestible_spanish": "Caña de azúcar",
+                        "plantacomestible_image": "tsatsɵntsik.jpg",
+                        "plantacomestible_audio": "tsatsɵntsik.mp3"
+                    },
+                    {
+                        "number": 20,
+                        "plantacomestible_namtrik": "Kaltrul",
+                        "plantacomestible_spanish": "Mora",
+                        "plantacomestible_image": "kaltrul.jpg",
+                        "plantacomestible_audio": "kaltrul.mp3"
+                    },
+                    {
+                        "number": 21,
+                        "plantacomestible_namtrik": "Tsitrui",
+                        "plantacomestible_spanish": "Frijol",
+                        "plantacomestible_image": "tsitrui.jpg",
+                        "plantacomestible_audio": "tsitrui.mp3"
+                    },
+                    {
+                        "number": 22,
+                        "plantacomestible_namtrik": "Tampartrui",
+                        "plantacomestible_spanish": "Haba",
+                        "plantacomestible_image": "tampartrui.jpg",
+                        "plantacomestible_audio": "tampartrui.mp3"
+                    },
+                    {
+                        "number": 23,
+                        "plantacomestible_namtrik": "Kɵrɵ",
+                        "plantacomestible_spanish": "Ají",
+                        "plantacomestible_image": "kɵrɵ.jpg",
+                        "plantacomestible_audio": "kɵrɵ.mp3"
+                    },
+                    {
+                        "number": 24,
+                        "plantacomestible_namtrik": "Pipinu",
+                        "plantacomestible_spanish": "Curuba",
+                        "plantacomestible_image": "pipinu.jpg",
+                        "plantacomestible_audio": "pipinu.mp3"
+                    },
+                    {
+                        "number": 25,
+                        "plantacomestible_namtrik": "Cumpi",
+                        "plantacomestible_spanish": "Maíz pira",
+                        "plantacomestible_image": "cumpi.jpg",
+                        "plantacomestible_audio": "cumpi.mp3"
+                    }
+                ],
+                "Wamap amɵñikun": [
+                    {
+                        "number": 1,
+                        "saludop_namtrik": "¿Kauñku?",
+                        "saludop_spanish": "¿Cómo estás?",
+                        "saludor_namtrik": "Kauñar",
+                        "saludor_spanish": "Estoy bien",
+                        "saludo_image": "borrador1.jpg",
+                        "saludop_audio": "kauñku.mp3",
+                        "saludor_audio": "kauñar.mp3"
+                    },
+                    {
+                        "number": 2,
+                        "saludop_namtrik": "¿Kakualmaku?",
+                        "saludop_spanish": "¿Cómo amaneció?",
+                        "saludor_namtrik": "Kakualmar",
+                        "saludor_spanish": "Amanecí bien",
+                        "saludo_image": "borrador2.jpg",
+                        "saludop_audio": "kakualmaku.mp3",
+                        "saludor_audio": "kakualmar.mp3"
+                    },
+                    {
+                        "number": 3,
+                        "saludop_namtrik": "¿Kakualmake?",
+                        "saludop_spanish": "¿Cómo amanecieron?",
+                        "saludor_namtrik": "Kakualmer",
+                        "saludor_spanish": "Amanecimos bien",
+                        "saludo_image": "borrador3.jpg",
+                        "saludop_audio": "kakualmake.mp3",
+                        "saludor_audio": "kakualmer.mp3"
+                    },
+                    {
+                        "number": 4,
+                        "saludop_namtrik": "¿Kaputrɵke?",
+                        "saludop_spanish": "¿Están bien?",
+                        "saludor_namtrik": "Kaputrer",
+                        "saludor_spanish": "Estamos bien",
+                        "saludo_image": "borrador4.jpg",
+                        "saludop_audio": "kaputrɵke.mp3",
+                        "saludor_audio": "kaputrer.mp3"
+                    },
+                    {
+                        "number": 5,
+                        "saludop_namtrik": "¿Kakualma?",
+                        "saludop_spanish": "¿Amaneció bien? (El/ella)",
+                        "saludor_namtrik": "Kakualman",
+                        "saludor_spanish": "Si, amaneció bien",
+                        "saludo_image": "borrador5.jpg",
+                        "saludop_audio": "kakualma.mp3",
+                        "saludor_audio": "kakualman.mp3"
+                    },
+                    {
+                        "number": 6,
+                        "saludop_namtrik": "Pachiktɵkɵn",
+                        "saludop_spanish": "El día esta caluroso",
+                        "saludor_namtrik": "Trekkɵn",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador6.jpg",
+                        "saludop_audio": "pachiktɵkɵn.mp3",
+                        "saludor_audio": "trekkɵn.mp3"
+                    },
+                    {
+                        "number": 7,
+                        "saludop_namtrik": "Pishintɵkɵn",
+                        "saludop_spanish": "El día esta frio",
+                        "saludor_namtrik": "Trekkɵn",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador7.jpg",
+                        "saludop_audio": "pishintɵkɵn.mp3",
+                        "saludor_audio": "trekkɵn.mp3"
+                    },
+                    {
+                        "number": 8,
+                        "saludop_namtrik": "Yantɵmawan",
+                        "saludop_spanish": "Ya atardeció",
+                        "saludor_namtrik": "Trekintan",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador8.jpg",
+                        "saludop_audio": "yantɵmawan.mp3",
+                        "saludor_audio": "trekintan.mp3"
+                    },
+                    {
+                        "number": 9,
+                        "saludop_namtrik": "Kuraktɵmawan",
+                        "saludop_spanish": "La tarde esta tibia",
+                        "saludor_namtrik": "Trekintan",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador9.jpg",
+                        "saludop_audio": "kuraktɵmawan.mp3",
+                        "saludor_audio": "trekintan.mp3"
+                    },
+                    {
+                        "number": 10,
+                        "saludop_namtrik": "Kuraktɵkualman",
+                        "saludop_spanish": "El amanecer esta tibio",
+                        "saludor_namtrik": "Trekintan",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador10.jpg",
+                        "saludop_audio": "kuraktɵkualman.mp3",
+                        "saludor_audio": "trekintan.mp3"
+                    },
+                    {
+                        "number": 11,
+                        "saludop_namtrik": "Pishintɵkualman",
+                        "saludop_spanish": "El amanecer esta frio",
+                        "saludor_namtrik": "Trekintan",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador11.jpg",
+                        "saludop_audio": "pishintɵkualman.mp3",
+                        "saludor_audio": "trekintan.mp3"
+                    },
+                    {
+                        "number": 12,
+                        "saludop_namtrik": "Pishintɵmawan",
+                        "saludop_spanish": "La tarde esta fría",
+                        "saludor_namtrik": "Trekintan",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador12.jpg",
+                        "saludop_audio": "pishintɵmawan.mp3",
+                        "saludor_audio": "trekintan.mp3"
+                    },
+                    {
+                        "number": 13,
+                        "saludop_namtrik": "Pachiktɵkualman",
+                        "saludop_spanish": "El amanecer es cálido",
+                        "saludor_namtrik": "Trekintan",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador13.jpg",
+                        "saludop_audio": "pachiktɵkualman.mp3",
+                        "saludor_audio": "trekintan.mp3"
+                    },
+                    {
+                        "number": 14,
+                        "saludop_namtrik": "Pachiktɵmawan",
+                        "saludop_spanish": "La tarde esta fría",
+                        "saludor_namtrik": "Trekintan",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador14.jpg",
+                        "saludop_audio": "pachiktɵmawan.mp3",
+                        "saludor_audio": "trekintan.mp3"
+                    },
+                    {
+                        "number": 15,
+                        "saludop_namtrik": "Yantɵyemkɵn",
+                        "saludop_spanish": "Ya oscureció",
+                        "saludor_namtrik": "Trekkɵn",
+                        "saludor_spanish": "Así es",
+                        "saludo_image": "borrador15.jpg",
+                        "saludop_audio": "yantɵyemkɵn.mp3",
+                        "saludor_audio": "trekkɵn.mp3"
+                    },
+                    {
+                        "number": 16,
+                        "saludop_namtrik": "¿Pantrɵte?",
+                        "saludop_spanish": "¿Vas hacia abajo?",
+                        "saludor_namtrik": "Pantrɵ",
+                        "saludor_spanish": "Sí, hacia abajo",
+                        "saludo_image": "borrador16.jpg",
+                        "saludop_audio": "pantrɵte.mp3",
+                        "saludor_audio": "pantrɵ.mp3"
+                    },
+                    {
+                        "number": 17,
+                        "saludop_namtrik": "¿Punɵte?",
+                        "saludop_spanish": "¿Vas hacia arriba?",
+                        "saludor_namtrik": "Punɵ",
+                        "saludor_spanish": "Sí, hacia arriba",
+                        "saludo_image": "borrador17.jpg",
+                        "saludop_audio": "punɵte.mp3",
+                        "saludor_audio": "punɵ.mp3"
+                    },
+                    {
+                        "number": 18,
+                        "saludop_namtrik": "Srɵnakatik",
+                        "saludop_spanish": "Hasta mañana",
+                        "saludor_namtrik": "Srɵnakatik",
+                        "saludor_spanish": "Hasta mañana",
+                        "saludo_image": "borrador18.jpg",
+                        "saludop_audio": "srɵnakatik.mp3",
+                        "saludor_audio": "srɵnakatik.mp3"
+                    },
+                    {
+                        "number": 19,
+                        "saludop_namtrik": "Srɵnaashchap",
+                        "saludop_spanish": "Nos vemos mañana",
+                        "saludor_namtrik": "Srɵnaashchap",
+                        "saludor_spanish": "Nos vemos mañana",
+                        "saludo_image": "borrador19.jpg",
+                        "saludop_audio": "srɵnaashchap.mp3",
+                        "saludor_audio": "srɵnaashchap.mp3"
+                    },
+                    {
+                        "number": 20,
+                        "saludop_namtrik": "Ashchap",
+                        "saludop_spanish": "Nos vemos",
+                        "saludor_namtrik": "Ashchap",
+                        "saludor_spanish": "Nos vemos",
+                        "saludo_image": "borrador20.jpg",
+                        "saludop_audio": "ashchap.mp3",
+                        "saludor_audio": "ashchap.mp3"
+                    },
+                    {
+                        "number": 21,
+                        "saludop_namtrik": "Kuake",
+                        "saludop_spanish": "Con permiso entro a su casa",
+                        "saludor_namtrik": "Kepamɵ/Umpuamɵ",
+                        "saludor_spanish": "Siga",
+                        "saludo_image": "borrador21.jpg",
+                        "saludop_audio": "kuake.mp3",
+                        "saludor_audio": "kepamɵ-umpuamɵ.mp3"
+                    },
+                    {
+                        "number": 22,
+                        "saludop_namtrik": "¿Pureitrua?",
+                        "saludop_spanish": "Con permiso voy a pasar",
+                        "saludor_namtrik": "Pureintrɵ",
+                        "saludor_spanish": "Bien pueda pase",
+                        "saludo_image": "borrador22.",
+                        "saludop_audio": "pureitrua.mp3",
+                        "saludor_audio": "pureintrɵ.mp3"
+                    }
+                ],
+                "Namui kewa amɵneiklɵ": [
+                    {
+                        "number": 1,
+                        "vestido_namtrik": "Ilik",
+                        "vestido_spanish": "Bufanda",
+                        "vestido_image": "ilik.jpg",
+                        "vestido_audio": "ilik.mp3"
+                    },
+                    {
+                        "number": 2,
+                        "vestido_namtrik": "Tampalkuari",
+                        "vestido_spanish": "Pandereta",
+                        "vestido_image": "tampalkuari.jpg",
+                        "vestido_audio": "tampalkuari.mp3"
+                    },
+                    {
+                        "number": 3,
+                        "vestido_namtrik": "Wasr",
+                        "vestido_spanish": "Jigra",
+                        "vestido_image": "wasr.jpg",
+                        "vestido_audio": "wasr.mp3"
+                    },
+                    {
+                        "number": 4,
+                        "vestido_namtrik": "Lusik",
+                        "vestido_spanish": "Anaco",
+                        "vestido_image": "lusik.jpg",
+                        "vestido_audio": "lusik.mp3"
+                    },
+                    {
+                        "number": 5,
+                        "vestido_namtrik": "Pall",
+                        "vestido_spanish": "Paño",
+                        "vestido_image": "pall.jpg",
+                        "vestido_audio": "pall.mp3"
+                    },
+                    {
+                        "number": 6,
+                        "vestido_namtrik": "Pɵrtsi",
+                        "vestido_spanish": "Chumbe",
+                        "vestido_image": "pɵrtsi.jpg",
+                        "vestido_audio": "pɵrtsi.mp3"
+                    },
+                    {
+                        "number": 7,
+                        "vestido_namtrik": "Turi",
+                        "vestido_spanish": "Ruana",
+                        "vestido_image": "turi.jpg",
+                        "vestido_audio": "turi.mp3"
+                    },
+                    {
+                        "number": 8,
+                        "vestido_namtrik": "Urasr",
+                        "vestido_spanish": "Mochila",
+                        "vestido_image": "urasr.jpg",
+                        "vestido_audio": "urasr.mp3"
+                    },
+                    {
+                        "number": 9,
+                        "vestido_namtrik": "Pawei",
+                        "vestido_spanish": "Gargantilla",
+                        "vestido_image": "pawei.jpg",
+                        "vestido_audio": "pawei.mp3"
+                    }
+                ]
+            }
+        ]
+    }
+}

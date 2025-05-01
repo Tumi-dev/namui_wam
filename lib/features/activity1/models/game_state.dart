@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/features/activity1/data/activity1_levels.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/features/activity1/data/activity1_levels.dart';
 
 class Activity1GameState extends ChangeNotifier {
   static final Activity1GameState _instance = Activity1GameState._internal();

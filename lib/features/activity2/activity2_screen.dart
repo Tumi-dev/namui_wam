@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/features/activity2/screens/activity2_level_screen.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/features/activity2/screens/activity2_level_screen.dart';
 
 class Activity2Screen extends StatelessWidget {
   const Activity2Screen({super.key});
@@ -94,7 +94,7 @@ class Activity2Screen extends StatelessWidget {
       child: Card(
         elevation: 4,
         // Color de la tarjeta dependiendo si está bloqueada o no
-        color: isLocked ? Colors.grey[300] : Color(0xFF1976D2),
+        color: isLocked ? Colors.grey[300] : Color(0xFFDAA520),
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -107,7 +107,7 @@ class Activity2Screen extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     // Cambia el color del círculo si el nivel está bloqueado o no
-                    color: isLocked ? Colors.grey : Color(0xFF00FFFF),
+                    color: isLocked ? Colors.grey : Color(0xFFDAA520),
                     shape: BoxShape.circle,
                   ),
                   child: Center(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:namui_wam/core/models/game_state.dart';
+import 'package:namuiwam/core/models/game_state.dart';
 
 class InfoBar extends StatelessWidget {
   final int? remainingAttempts;

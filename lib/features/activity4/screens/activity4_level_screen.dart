@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/core/models/game_state.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/templates/scrollable_level_screen.dart';
-import 'package:namui_wam/core/widgets/info_bar_widget.dart';
-import 'package:namui_wam/features/activity4/services/activity4_service.dart';
-import 'package:namui_wam/features/activity4/models/namtrik_money_model.dart';
-import 'package:namui_wam/features/activity4/models/namtrik_article_model.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/core/models/game_state.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/templates/scrollable_level_screen.dart';
+import 'package:namuiwam/core/widgets/info_bar_widget.dart';
+import 'package:namuiwam/features/activity4/services/activity4_service.dart';
+import 'package:namuiwam/features/activity4/models/namtrik_money_model.dart';
+import 'package:namuiwam/features/activity4/models/namtrik_article_model.dart';
 import 'dart:math';
-import 'package:namui_wam/core/services/feedback_service.dart';
+import 'package:namuiwam/core/services/feedback_service.dart';
 
 // Cambiado para usar ScrollableLevelScreen en lugar de BaseLevelScreen
 class Activity4LevelScreen extends ScrollableLevelScreen {
@@ -223,7 +223,7 @@ class _Activity4LevelScreenState
               Navigator.of(context).pop();
             },
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF9C27B0), // Verde fresco
+              foregroundColor: const Color(0xFFCD5C5C), // Rojo terroso
             ),
             child: const Text('Aceptar'),
           ),
@@ -282,7 +282,7 @@ class _Activity4LevelScreenState
                 Text(
                   '¡Ganaste 5 puntos!',
                   style: TextStyle(
-                    color: const Color(0xFFFF00FF), // Lima
+                    color: const Color(0xFFCD5C5C), // Rojo terroso
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -295,7 +295,7 @@ class _Activity4LevelScreenState
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF00FF), // Lima
+                    backgroundColor: const Color(0xFFCD5C5C), // Rojo terroso
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -346,7 +346,7 @@ class _Activity4LevelScreenState
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF00FF), // Lima
+                    backgroundColor: const Color(0xFFCD5C5C), // Rojo terroso
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -585,15 +585,15 @@ class _Activity4LevelScreenState
   // Widget para mostrar una opción de dinero nivel 2
   Widget _buildMoneyOption(List<NamtrikMoneyModel> option, int optionIndex) {
     // Determinar el estilo de la opción basado en si está seleccionada y si es correcta
-    Color borderColor = const Color(0xFF9C27B0); // Color del borde
+    Color borderColor = const Color(0xFFCD5C5C); // Color del borde
     Color bgColor = Colors.transparent; // Color de fondo
     IconData? feedbackIcon;
 
     // Si se muestra la retroalimentación y la opción seleccionada es correcta o incorrecta
     if (_showFeedback && _selectedOptionIndex == optionIndex) {
       if (optionIndex == _correctOptionIndex) {
-        borderColor = const Color(0xFFFF00FF);
-        bgColor = Color(0xFFFF00FF).withOpacity(0.2);
+        borderColor = const Color(0xFF00FF00);
+        bgColor = Color(0xFF00FF00).withOpacity(0.2);
         feedbackIcon = Icons.check_circle;
       } else {
         borderColor = const Color(0xFFFF0000);
@@ -688,7 +688,7 @@ class _Activity4LevelScreenState
                   child: Icon(
                     feedbackIcon, // Icono de feedback
                     color: optionIndex == _correctOptionIndex
-                        ? const Color(0xFFFF00FF)
+                        ? const Color(0xFF00FF00)
                         : const Color(
                             0xFFFF0000), // Color del icono (verde para correcto, rojo para incorrecto)
                     size: 32, // Tamaño del icono
@@ -783,14 +783,14 @@ class _Activity4LevelScreenState
               ),
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-              // Color verde fresco de la caja del nombre del artículo en Namtrik (solo lectura) nivel 2
+              // Color rojo terroso de la caja del nombre del artículo en Namtrik (solo lectura) nivel 2
               decoration: BoxDecoration(
-                color: const Color(0xFF9C27B0), // Verde fresco
+                color: const Color(0xFFCD5C5C), // Rojo terroso
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: const Color(
-                        0xFFFF00FF), // Sombra lima de la caja del nombre del artículo en Namtrik (solo lectura) nivel 2
+                        0xFFCD5C5C), // Sombra rojo terroso de la caja del nombre del artículo en Namtrik (solo lectura) nivel 2
                     blurRadius: 8, // Radio de la sombra
                     offset: const Offset(0,
                         4), // Desplazamiento de la sombra 10 para x y 0 para y
@@ -853,7 +853,7 @@ class _Activity4LevelScreenState
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: const Color(0xFF9C27B0),
+                color: const Color(0xFFCD5C5C),
                 width: 1,
               ),
             ),
@@ -998,13 +998,13 @@ class _Activity4LevelScreenState
               Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-                // Color verde fresco de la caja del nombre del dinero en namtrik (solo lectura) nivel 1
+                // Color rojo terroso de la caja del nombre del dinero en namtrik (solo lectura) nivel 1
                 decoration: BoxDecoration(
-                  color: const Color(0xFF9C27B0), // Verde fresco
+                  color: const Color(0xFFCD5C5C), // Rojo terroso
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFFF00FF),
+                      color: const Color(0xFFCD5C5C),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
@@ -1030,8 +1030,8 @@ class _Activity4LevelScreenState
                     : _playMoneyAudio, // Deshabilitar el botón si se está reproduciendo el audio
                 // Deshabilitar el botón visualmente mientras se reproduce el audio
                 style: ElevatedButton.styleFrom(
-                  // Color lima del botón
-                  backgroundColor: const Color(0xFFFF00FF), // Color lima
+                  // Color rojo terroso del botón
+                  backgroundColor: const Color(0xFFCD5C5C), // Color rojo terroso
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
@@ -1041,7 +1041,7 @@ class _Activity4LevelScreenState
                       const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                   // Deshabilitar el botón visualmente mientras se reproduce el audio
                   disabledBackgroundColor:
-                      const Color(0xFFFF00FF).withOpacity(0.7),
+                      const Color(0xFFCD5C5C).withOpacity(0.7),
                   disabledForegroundColor: Colors.white.withOpacity(0.7),
                 ),
                 // Texto del botón de escuchar del nivel 1
@@ -1141,11 +1141,11 @@ class _Activity4LevelScreenState
               margin: const EdgeInsets.only(bottom: 16), // Margen inferior para separación
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16), // Padding horizontal aumentado
               decoration: BoxDecoration(
-                color: const Color(0xFF9C27B0),
+                color: const Color(0xFFCD5C5C),
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFFF00FF),
+                    color: const Color(0xFFCD5C5C),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -1173,14 +1173,14 @@ class _Activity4LevelScreenState
               decoration: BoxDecoration(
                 color: _showLevel4Feedback
                     ? (_isCorrectLevel4Answer
-                        ? const Color(0xFFFF00FF).withOpacity(0.2) // Lima transparente para respuesta correcta
+                        ? const Color(0xFF00FF00).withOpacity(0.2) // Lima transparente para respuesta correcta
                         : const Color(0xFFFF0000).withOpacity(0.2)) // Rojo transparente para respuesta incorrecta
-                    : const Color(0xFF9C27B0), // Verde fresco por defecto
+                    : const Color(0xFFCD5C5C), // Rojo terroso por defecto
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: _showLevel4Feedback
                       ? (_isCorrectLevel4Answer
-                          ? const Color(0xFFFF00FF) // Lima para respuesta correcta
+                          ? const Color(0xFF00FF00) // Lima para respuesta correcta
                           : const Color(0xFFFF0000)) // Rojo para respuesta incorrecta
                       : Colors.transparent, // Transparente por defecto
                 ),
@@ -1228,13 +1228,13 @@ class _Activity4LevelScreenState
                       child: Container(
                         decoration: BoxDecoration(
                           color: isSelected 
-                              ? const Color(0xFF9C27B0).withOpacity(0.3) // Color de selección (verde fresco) con 30% de opacidad
+                              ? const Color(0xFFCD5C5C).withOpacity(0.3) // Color de selección (Rojo terroso) con 30% de opacidad
                               : Colors.transparent, // Color transparente por defecto fondo de la imagen
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isSelected
-                                ? const Color(0xFFFF00FF) // Borde de selección (lima)
-                                : const Color(0xFF9C27B0), // Color de borde (verde fresco)
+                                ? const Color(0xFFCD5C5C) // Borde de selección (Rojo terroso)
+                                : const Color(0xFFCD5C5C), // Color de borde (Rojo terroso)
                             width: isSelected ? 2 : 1,
                           ),
                         ),
@@ -1258,7 +1258,7 @@ class _Activity4LevelScreenState
                                 child: Container(
                                   padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFFFF00FF),
+                                    color: const Color(0xFFCD5C5C),
                                     shape: BoxShape.circle,
                                   ),
                                   child: const Icon(
@@ -1407,7 +1407,7 @@ class _Activity4LevelScreenState
                               Text(
                                 '¡Ganaste 5 puntos!',
                                 style: TextStyle(
-                                  color: const Color(0xFFFF00FF), // Lima
+                                  color: const Color(0xFFCD5C5C), // Rojo terroso
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
@@ -1423,7 +1423,7 @@ class _Activity4LevelScreenState
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFFF00FF), // Lima
+                                  backgroundColor: const Color(0xFFCD5C5C), // Rojo terroso
                                   foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
@@ -1477,7 +1477,7 @@ class _Activity4LevelScreenState
                               });
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFF00FF), // Lima
+                              backgroundColor: const Color(0xFFCD5C5C), // Rojo terroso
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
@@ -1666,14 +1666,14 @@ class _Activity4LevelScreenState
     for (int i = 0; i < 4; i++) {
       // Determinar el estilo del recuadro basado en si está seleccionado y si es correcto
       Color borderColor = Colors.transparent;
-      Color bgColor = const Color(0xFF9C27B0);
+      Color bgColor = const Color(0xFFCD5C5C);
       IconData? feedbackIcon;
 
       // Si se muestra la retroalimentación y el nombre seleccionado es el correcto o incorrecto nivel 3
       if (_showNameFeedback && _selectedNameIndex == i) {
         if (i == _correctNameIndex) {
-          borderColor = const Color(0xFFFF00FF);
-          bgColor = Color(0xFFFF00FF).withOpacity(0.2);
+          borderColor = const Color(0xFF00FF00);
+          bgColor = Color(0xFF00FF00).withOpacity(0.2);
           feedbackIcon = Icons.check_circle;
         } else {
           borderColor = const Color(0xFFFF0000);

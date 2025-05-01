@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:namui_wam/core/models/user_progress.dart';
-import 'package:namui_wam/core/services/logger_service.dart';
+import 'package:namuiwam/core/models/user_progress.dart';
+import 'package:namuiwam/core/services/logger_service.dart';
 
 class StorageService {
   static final StorageService _instance = StorageService._internal();

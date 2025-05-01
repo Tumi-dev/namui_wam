@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:namui_wam/core/models/game_state.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/templates/scrollable_level_screen.dart';
-import 'package:namui_wam/core/widgets/info_bar_widget.dart';
-import 'package:namui_wam/features/activity3/services/activity3_service.dart';
-import 'package:namui_wam/features/activity3/widgets/selectable_item.dart';
-import 'package:namui_wam/core/services/feedback_service.dart';
+import 'package:namuiwam/core/models/game_state.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/templates/scrollable_level_screen.dart';
+import 'package:namuiwam/core/widgets/info_bar_widget.dart';
+import 'package:namuiwam/features/activity3/services/activity3_service.dart';
+import 'package:namuiwam/features/activity3/widgets/selectable_item.dart';
+import 'package:namuiwam/core/services/feedback_service.dart';
 import 'dart:math';
 
 // Clase para la pantalla de un nivel de la actividad 3
@@ -375,7 +375,7 @@ class _Activity3LevelScreenState
                 Text(
                   '¡Ganaste 5 puntos!',
                   style: const TextStyle(
-                    color: Color(0xFFFFFF00),
+                    color: Color(0xFF8B4513),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -393,7 +393,7 @@ class _Activity3LevelScreenState
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFFFF00),
+                  backgroundColor: const Color(0xFF8B4513),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -425,7 +425,7 @@ class _Activity3LevelScreenState
               Navigator.of(context).pop();
             },
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFFFFC107),
+              foregroundColor: const Color(0xFF8B4513),
             ),
             child: const Text('Aceptar'),
           ),
@@ -747,8 +747,8 @@ class _Activity3LevelScreenState
             return ElevatedButton(
               onPressed: () => _handleOptionSelected(id, isCorrect),
               style: ElevatedButton.styleFrom(
-                // Botón púrpura elegante con bordes redondeados para las opciones de respuesta
-                backgroundColor: const Color(0xFFFFC107),
+                // Botón marrón tierra con bordes redondeados para las opciones de respuesta
+                backgroundColor: const Color(0xFF8B4513),
                 // Texto blanco en negrita y tamaño 16 con padding interno para las opciones de respuesta
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -840,13 +840,13 @@ class _Activity3LevelScreenState
               horizontal: 20.0,
               vertical: 12.0), // Tamaño del texto de la hora en namtrik
           decoration: BoxDecoration(
-            // Fondo púrpura elegante con bordes redondeados y sombra suave para el texto de la hora en namtrik
-            color: const Color(0xFFFFC107), //
+            // Fondo marrón tierra con bordes redondeados y sombra suave para el texto de la hora en namtrik
+            color: const Color(0xFF8B4513), //
             borderRadius: BorderRadius.circular(12.0),
             boxShadow: [
               BoxShadow(
                 // Sombra suave con opacidad 30% y desplazamiento de 3 puntos hacia abajo
-                color: const Color(0xFFFFFF00),
+                color: const Color(0xFF8B4513),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),
@@ -892,9 +892,9 @@ class _Activity3LevelScreenState
                           horizontal:
                               12.0), // Padding interno para el selector de hora nivel 3
                       decoration: BoxDecoration(
-                        // Fondo púrpura elegante con bordes redondeados para el selector de hora
+                        // Fondo marrón tierra con bordes redondeados para el selector de hora
                         color: const Color(
-                            0xFFFFC107), // Fondo púrpura elegante para el selector de hora
+                            0xFF8B4513), // Fondo marrón tierra para el selector de hora
                         borderRadius: BorderRadius.circular(
                             8.0), // Bordes redondeados para el selector de hora
                       ),
@@ -907,7 +907,7 @@ class _Activity3LevelScreenState
                                 .white), // Icono de flecha hacia abajo en color blanco
                         iconSize: 34, // Tamaño del icono de flecha hacia abajo
                         elevation: 16, // Elevación del menú desplegable
-                        dropdownColor: const Color(0xFFFFC107),
+                        dropdownColor: const Color(0xFF8B4513),
                         // Estilo del texto de la hora seleccionado
                         style: const TextStyle(
                           // Color del texto de la hora seleccionada
@@ -970,9 +970,9 @@ class _Activity3LevelScreenState
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       decoration: BoxDecoration(
-                        // Fondo púrpura elegante con bordes redondeados para el selector de minuto
+                        // Fondo marrón tierra con bordes redondeados para el selector de minuto
                         color: const Color(
-                            0xFFFFC107), // Fondo púrpura elegante para el selector de minuto
+                            0xFF8B4513), // Fondo marrón tierra para el selector de minuto
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       // Selector de minuto con lista de minutos y controlador de selección
@@ -984,7 +984,7 @@ class _Activity3LevelScreenState
                                 .white), // Icono de flecha hacia abajo en color blanco
                         iconSize: 34,
                         elevation: 16,
-                        dropdownColor: const Color(0xFFFFC107),
+                        dropdownColor: const Color(0xFF8B4513),
                         style: const TextStyle(
                           // Estilo del texto del minuto seleccionado (negro, tamaño 18)
                           color: Colors.black,
@@ -1025,7 +1025,7 @@ class _Activity3LevelScreenState
           style: ElevatedButton.styleFrom(
             // Botón verde con texto blanco y bordes redondeados para confirmar la hora seleccionada en nivel 3
             backgroundColor:
-                _showSuccessAnimation ? Color(0xFF4CAF50) : Color(0xFFFFFF00),
+                _showSuccessAnimation ? Color(0xFF00FF00) : Color(0xFF8B4513),
             // Texto blanco en negrita y tamaño 18 con padding interno para confirmar la hora seleccionada en nivel 3
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),

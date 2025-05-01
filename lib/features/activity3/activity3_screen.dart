@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:namui_wam/core/themes/app_theme.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/features/activity3/screens/activity3_level_screen.dart';
+import 'package:namuiwam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/features/activity3/screens/activity3_level_screen.dart';
 
 // Clase para la pantalla de la actividad 3
 class Activity3Screen extends StatelessWidget {
@@ -62,8 +62,8 @@ class Activity3Screen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Icon(
                       Icons.access_time, // Ícono de tiempo de la actividad 3
-                      // Color de icono fucsia para la actividad 3
-                      color: Color(0xFFFFFF00),
+                      // Color de icono marrón tierra para la actividad 3
+                      color: Color(0xFF8B4513),
                       size: 64,
                     ),
                     const SizedBox(height: 30),
@@ -109,7 +109,7 @@ class Activity3Screen extends StatelessWidget {
       child: Card(
         elevation: 4,
         // Color púrpura elegante para la tarjeta del nivel de la actividad 3
-        color: const Color(0xFFFFC107),
+        color: const Color(0xFF8B4513),
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -122,7 +122,7 @@ class Activity3Screen extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     // Color púrpura elegante para el círculo del número del nivel
-                    color: const Color(0xFFFFFF00),
+                    color: const Color(0xFF8B4513),
                     shape: BoxShape.circle,
                   ),
                   child: Center(

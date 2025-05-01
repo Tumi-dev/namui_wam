@@ -1,5 +1,5 @@
-import 'package:namui_wam/core/models/level_model.dart';
-import 'package:namui_wam/core/constants/activity_level_descriptions.dart';
+import 'package:namuiwam/core/models/level_model.dart';
+import 'package:namuiwam/core/constants/activity_level_descriptions.dart';
 
 final activity4Levels = [
   LevelModel(

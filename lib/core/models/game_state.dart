@@ -2,10 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:namui_wam/core/models/activities_state.dart';
-import 'package:namui_wam/core/utils/level_storage.dart';
+import 'package:namuiwam/core/models/activities_state.dart';
+import 'package:namuiwam/core/utils/level_storage.dart';
 
 class GameState extends ChangeNotifier {
+  static const String _alertShownKey = 'alert_shown_at_100_points';
+
   static const String _pointsKey = 'global_points';
   static const String _completedLevelsKey = 'completed_levels';
   static const int maxPoints = 100;
@@ -15,6 +17,21 @@ class GameState extends ChangeNotifier {
 
   GameState(this._activitiesState) {
     _loadState();
+    _loadAlertFlag();
+  }
+
+  bool _alertShownAt100Points = false;
+  bool get alertShownAt100Points => _alertShownAt100Points;
+
+  Future<void> _loadAlertFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    _alertShownAt100Points = prefs.getBool(_alertShownKey) ?? false;
+  }
+
+  Future<void> setAlertShownAt100Points(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    _alertShownAt100Points = value;
+    await prefs.setBool(_alertShownKey, value);
   }
 
   Future<void> _loadState() async {
@@ -24,14 +41,7 @@ class GameState extends ChangeNotifier {
     for (var levelKey in completedLevels) {
       _completedLevels[levelKey] = true;
     }
-    if (_globalPoints >= maxPoints) {
-      print('GameState loaded with points >= maxPoints ($_globalPoints). Triggering reset.');
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await _triggerGlobalReset();
-      });
-    } else {
-      notifyListeners();
-    }
+    notifyListeners();
   }
 
   Future<void> _saveState() async {
@@ -61,6 +71,7 @@ class GameState extends ChangeNotifier {
   }
 
   Future<void> _triggerGlobalReset() async {
+    await setAlertShownAt100Points(false); // Resetear el flag al reiniciar manualmente
     try {
       print('Starting global reset process...');
       for (int actId in [1, 2, 3, 4]) {
@@ -93,6 +104,7 @@ class GameState extends ChangeNotifier {
 
       notifyListeners();
       print('Global reset triggered and completed successfully. Points reset to 0.');
+    await _loadAlertFlag(); // Refresca el flag tras reinicio
     } catch (e, s) {
       print('Error during global reset: $e \nStack trace:\n$s');
       notifyListeners();

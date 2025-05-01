@@ -6,6 +6,7 @@ import 'package:namuiwam/features/activity6/models/semantic_domain.dart';
 import 'package:namuiwam/features/activity6/models/dictionary_entry.dart';
 import 'package:namuiwam/features/activity6/services/activity6_service.dart';
 import 'package:namuiwam/core/themes/app_theme.dart';
+import 'package:namuiwam/shared/widgets/zoomable_image_viewer.dart'; // Importar el nuevo visor
 
 class DictionaryEntriesScreen extends StatefulWidget {
   final SemanticDomain domain;
@@ -33,6 +34,17 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
   void dispose() {
     _audioPlayerService.stop();
     super.dispose();
+  }
+
+  // Función helper para navegar al visor de imágenes
+  void _navigateToImageViewer(BuildContext context, String imagePath) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ZoomableImageViewer(imagePath: imagePath),
+        fullscreenDialog: true, // Opcional: para una transición diferente
+      ),
+    );
   }
 
   @override
@@ -144,25 +156,28 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
                 ),
               ),
               const SizedBox(width: 10),
-              // Optional Image for Greetings
+              // Imagen opcional para Saludos (ahora con GestureDetector)
               if (entry.images_greetings != null)
-                Image.asset(
-                  entry.images_greetings!,
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 80,
-                      height: 80,
-                      color: Colors.grey[300],
-                      child: const Icon(Icons.broken_image,
-                          size: 40, color: Colors.grey),
-                    );
-                  },
+                GestureDetector(
+                  onTap: () => _navigateToImageViewer(context, entry.images_greetings!),
+                  child: Image.asset(
+                    entry.images_greetings!,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 80,
+                        height: 80,
+                        color: Colors.grey[300],
+                        child: const Icon(Icons.broken_image,
+                            size: 40, color: Colors.grey),
+                      );
+                    },
+                  ),
                 )
               else
-                // Placeholder if no image for greetings
+                // Placeholder si no hay imagen
                 Container(
                     width: 80,
                     height: 80,
@@ -283,32 +298,34 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  // Image display (if available)
+                  // Imagen (ahora con GestureDetector)
                   if (entry.imagePath != null)
-                    Image.asset(
-                      entry.imagePath!,
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          width: 80,
-                          height: 80,
-                          color: Colors.grey[
-                              300], // Color de fondo gris claro de la imagen
-                          child: const Icon(Icons.broken_image,
-                              size: 40,
-                              color: Colors.grey), // Icono de imagen rota
-                        );
-                      },
+                    GestureDetector(
+                      onTap: () => _navigateToImageViewer(context, entry.imagePath!),
+                      child: Image.asset(
+                        entry.imagePath!,
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: 80,
+                            height: 80,
+                            color: Colors.grey[300],
+                            child: const Icon(Icons.broken_image,
+                                size: 40,
+                                color: Colors.grey),
+                          );
+                        },
+                      ),
                     )
                   else
+                    // Placeholder si no hay imagen
                     Container(
                         width: 60,
                         height: 60,
                         color: Colors.grey[200],
-                        child: const Icon(Icons
-                            .image_not_supported)), // Icono de imagen no soportada
+                        child: const Icon(Icons.image_not_supported)),
                   const SizedBox(width: 10),
                   // Audio buttons (if available)
                   Column(

@@ -175,6 +175,7 @@ class Activity6Service {
             final String? spaR = entryData['saludor_spanish'] as String?;
             final String? imageName = entryData['saludo_image'] as String?;
             final String? audioNameP = entryData['saludop_audio'] as String?;
+            final String? audioNameR = entryData['saludor_audio'] as String?; // Extract respuesta audio filename
 
             if (namP == null || spaP == null || namR == null || spaR == null) {
               _logger.warning('Skipping entry in "$domainName" due to missing text fields: $entryData');
@@ -185,9 +186,12 @@ class Activity6Service {
             final String combinedNam = '$namP / $namR';
             final String combinedSpa = '$spaP / $spaR';
 
-            // Construct paths (using question audio for now)
+            // Construct paths
             final String? audioPath = (audioNameP != null && audioNameP.isNotEmpty)
-                ? 'assets/audio/dictionary/$domainPathName/$audioNameP'
+                ? 'assets/audio/dictionary/$domainPathName/$audioNameP' // Pregunta audio
+                : null;
+            final String? audioVariantPath = (audioNameR != null && audioNameR.isNotEmpty)
+                ? 'assets/audio/dictionary/$domainPathName/$audioNameR' // Respuesta audio
                 : null;
             final String? imagePathEntry = (imageName != null && imageName.isNotEmpty)
                 ? 'assets/images/dictionary/$domainPathName/$imageName'
@@ -200,12 +204,13 @@ class Activity6Service {
               domainId: domainIdToAdd,
               namtrik: combinedNam,
               spanish: combinedSpa,
-              audioPath: audioPath,
+              audioPath: audioPath, // Audio Pregunta
+              audioVariantPath: audioVariantPath, // Audio Respuesta
               imagePath: imagePathEntry,
             );
             currentDomainEntries.add(entry);
              _logger.debug(
-                'Created saludo entry: ID=$entryId, Nam="$combinedNam", Spa="$combinedSpa"');
+                'Created saludo entry: ID=$entryId, Nam="$combinedNam", Spa="$combinedSpa", Audio1=$audioPath, Audio2=$audioVariantPath');
 
           } catch (e, stacktrace) {
             _logger.error(

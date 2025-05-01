@@ -11,9 +11,18 @@ import 'package:namuiwam/features/activity4/models/namtrik_article_model.dart';
 import 'dart:math';
 import 'package:namuiwam/core/services/feedback_service.dart';
 
-// Cambiado para usar ScrollableLevelScreen en lugar de BaseLevelScreen
+/// {@template activity4_level_screen}
+/// Pantalla que muestra el contenido y la lógica para un nivel específico
+/// de la Actividad 4: "Comprando con Namtrik".
+///
+/// Hereda de [ScrollableLevelScreen] y adapta su contenido según el [level.id]:
+/// - Nivel 1: Exploración de billetes/monedas Namtrik (imágenes y audio).
+/// - Nivel 2: Seleccionar el conjunto correcto de billetes/monedas para el precio de un artículo.
+/// - Nivel 3: Emparejar un conjunto de billetes/monedas con su valor escrito en Namtrik.
+/// - Nivel 4: Seleccionar los billetes/monedas correctos para sumar un valor total dado en Namtrik.
+/// {@endtemplate}
 class Activity4LevelScreen extends ScrollableLevelScreen {
-  // Constructor de la clase que recibe el nivel de la actividad
+  /// {@macro activity4_level_screen}
   const Activity4LevelScreen({
     Key? key,
     required LevelModel level,
@@ -24,55 +33,119 @@ class Activity4LevelScreen extends ScrollableLevelScreen {
   State<Activity4LevelScreen> createState() => _Activity4LevelScreenState();
 }
 
-// Clase para el estado de la pantalla de un nivel de la actividad 4
+/// Clase de estado para [Activity4LevelScreen].
+///
+/// Gestiona la lógica específica de cada nivel de la Actividad 4:
+/// - Carga de datos del nivel ([_loadLevelData]).
+/// - Manejo de interacciones del usuario (selección de opciones, nombres, billetes).
+/// - Validación de respuestas ([_handleOptionSelection], [_handleNameSelection], [_validateLevel4Selection]).
+/// - Actualización del estado del juego (intentos, puntos, nivel completado).
+/// - Retroalimentación visual y háptica.
+/// - Construcción de la interfaz de usuario específica para cada nivel ([buildLevelContent], [_buildLevel1Content], etc.).
 class _Activity4LevelScreenState
     extends ScrollableLevelScreenState<Activity4LevelScreen> {
+  /// Servicio para obtener datos y lógica de la Actividad 4.
   late Activity4Service _activity4Service;
+
+  /// Indica si los datos del nivel se están cargando.
   bool _isLoading = true;
+
+  /// Indica si se ha seleccionado la respuesta correcta (usado para control de flujo).
   bool isCorrectAnswerSelected = false;
+
+  /// Lista de modelos de dinero (billetes/monedas) para el nivel actual (usado en Nivel 1 y 3).
   List<NamtrikMoneyModel> _moneyItems = [];
+
+  /// El artículo actual a mostrar (usado en Nivel 2).
   NamtrikArticleModel? _currentArticle;
+
+  /// Índice del elemento actual en PageView (Nivel 1).
   int _currentIndex = 0;
+
+  /// Controlador para el PageView (Nivel 1).
   final PageController _pageController = PageController();
 
-  // Variables para el nivel 2 con opciones de dinero
+  // --- Variables Nivel 2 ---
+  /// Lista de opciones (cada opción es una lista de billetes/monedas) para el Nivel 2.
   List<List<NamtrikMoneyModel>> _moneyOptions = [];
+
+  /// Índice de la opción correcta en [_moneyOptions].
   int _correctOptionIndex = -1;
+
+  /// Índice de la opción seleccionada por el usuario.
   int? _selectedOptionIndex;
+
+  /// Indica si las opciones para el Nivel 2 ya se generaron.
   bool _optionsGenerated = false;
+
+  /// Controla si se debe mostrar feedback (colores/iconos) en las opciones.
   bool _showFeedback = false;
 
-  // Estado para controlar la reproducción de audio y el cambio de icono
+  /// Indica si se está reproduciendo un audio actualmente.
   bool _isPlayingAudio = false;
 
-  // Mapa para controlar qué imagen se muestra para cada denominación (true = segunda imagen, false = primera imagen)
+  /// Mapa para rastrear qué imagen (primera o segunda) se muestra para cada item en Nivel 1.
   Map<int, bool> _showingSecondImage = {};
 
-  // Variables para el nivel 3 con nombres en namtrik
+  // --- Variables Nivel 3 ---
+  /// El nombre Namtrik correcto para el conjunto de dinero actual.
   String _correctNamtrikName = '';
+
+  /// Lista de nombres Namtrik incorrectos para generar opciones.
   List<String> _incorrectNamtrikNames = [];
+
+  /// Lista de nombres Namtrik (correcto + incorrectos) desordenados para mostrar como opciones.
   List<String> _shuffledNamtrikNames = [];
+
+  /// Índice del nombre correcto en [_shuffledNamtrikNames].
   int _correctNameIndex = -1;
+
+  /// Índice del nombre seleccionado por el usuario.
   int? _selectedNameIndex;
+
+  /// Controla si se debe mostrar feedback (colores/iconos) en las opciones de nombres.
   bool _showNameFeedback = false;
 
-  // Variables para el nivel 4
+  // --- Variables Nivel 4 ---
+  /// Indica si los datos específicos del Nivel 4 (nombres Namtrik) se han cargado.
   bool _level4DataLoaded = false;
+
+  /// Lista de todos los nombres Namtrik de dinero disponibles para el Nivel 4.
   List<String> _level4NamtrikNames = [];
+
+  /// El nombre Namtrik del valor objetivo actual para el Nivel 4.
   String _currentLevel4NamtrikName = '';
+
+  /// Lista de rutas a todas las imágenes de billetes/monedas disponibles.
   List<String> _moneyImages = [];
+
+  /// Indica si las imágenes de dinero para el Nivel 4 se han cargado.
   bool _moneyImagesLoaded = false;
-  // Variables adicionales para la actividad 5 del nivel 4
+
+  /// Índices de los billetes/monedas seleccionados por el usuario en la cuadrícula.
   List<int> _selectedMoneyIndices = [];
+
+  /// Valor total actual de los billetes/monedas seleccionados.
   int _currentTotalValue = 0;
+
+  /// Valor total objetivo que el usuario debe alcanzar.
   int _targetTotalValue = 0;
+
+  /// Mapa que asocia el índice de un billete/moneda en [_moneyImages] con su valor numérico.
   Map<int, int> _numberIndexToValue = {};
+
+  /// Lista de los valores numéricos de los billetes/monedas que componen el valor objetivo.
   List<int> _targetMoneyNumbers = [];
+
+  /// Controla si se debe mostrar feedback (correcto/incorrecto) para la selección del Nivel 4.
   bool _showLevel4Feedback = false;
+
+  /// Indica si la selección actual del usuario para el Nivel 4 es correcta.
   bool _isCorrectLevel4Answer = false;
+
+  /// Indica si ya se han ganado puntos por la respuesta correcta en Nivel 4 (evita sumar puntos múltiples veces).
   bool _hasEarnedPointsLevel4 = false;
 
-  // Inicializa el estado de la pantalla de un nivel de la actividad 4
   @override
   void initState() {
     super.initState();
@@ -80,7 +153,10 @@ class _Activity4LevelScreenState
     _loadLevelData();
   }
 
-  // Carga los datos del nivel de la actividad 4
+  /// Carga los datos necesarios según el ID del nivel actual ([widget.level.id]).
+  ///
+  /// Obtiene datos del [_activity4Service] y actualiza el estado (_isLoading, etc.).
+  /// Maneja la carga específica para cada uno de los 4 niveles.
   Future<void> _loadLevelData() async {
     try {
       // Cargar datos según el nivel
@@ -138,9 +214,10 @@ class _Activity4LevelScreenState
         }
       } else if (widget.level.id == 4) {
         // Para el nivel 4, cargar datos de nombres en namtrik del archivo JSON
-        final level4NamtrikNames = await _activity4Service.getLevel4NamtrikNames();
+        final level4NamtrikNames =
+            await _activity4Service.getLevel4NamtrikNames();
         _level4NamtrikNames = level4NamtrikNames;
-        
+
         // Seleccionar un nombre aleatorio
         _selectRandomLevel4Name();
 
@@ -165,10 +242,12 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Maneja la selección de una opción en el nivel 2
+  /// Maneja la selección de una opción de conjunto de dinero en el Nivel 2.
+  ///
+  /// Actualiza el estado para mostrar feedback, decrementa intentos si es incorrecto,
+  /// y programa la transición al siguiente estado (nivel completado o reintento).
   void _handleOptionSelection(int index) async {
     if (_showFeedback) return;
-
 
     setState(() {
       _selectedOptionIndex = index;
@@ -177,7 +256,6 @@ class _Activity4LevelScreenState
         decrementAttempts();
       } else {
         isCorrectAnswerSelected = true;
-
       }
     });
 
@@ -206,7 +284,7 @@ class _Activity4LevelScreenState
     });
   }
 
-  // Maneja cuando se agotan los intentos
+  /// Muestra un diálogo indicando que se agotaron los intentos y navega hacia atrás.
   void _handleOutOfAttempts() async {
     await FeedbackService().heavyHapticFeedback();
     showDialog(
@@ -232,7 +310,10 @@ class _Activity4LevelScreenState
     );
   }
 
-  // Maneja cuando el usuario completa el nivel correctamente
+  /// Maneja la lógica de finalización exitosa de un nivel.
+  ///
+  /// Otorga puntos si es la primera vez, actualiza el estado global del juego,
+  /// y muestra un diálogo de felicitaciones o de nivel ya completado.
   void _handleLevelComplete() async {
     // Vibración corta al completar el nivel correctamente
     await FeedbackService().lightHapticFeedback();
@@ -364,7 +445,7 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Reinicia el nivel 2 con un nuevo artículo
+  /// Reinicia el estado del Nivel 2 para presentar un nuevo artículo y opciones.
   Future<void> _resetLevel2() async {
     setState(() {
       _isLoading = true;
@@ -397,10 +478,12 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Maneja la selección de un nombre en namtrik en el nivel 3
+  /// Maneja la selección de una opción de nombre Namtrik en el Nivel 3.
+  ///
+  /// Similar a [_handleOptionSelection], actualiza el estado, gestiona intentos
+  /// y programa la transición al siguiente estado.
   void _handleNameSelection(int index) async {
     if (_showNameFeedback) return;
-
 
     setState(() {
       _selectedNameIndex = index;
@@ -409,7 +492,6 @@ class _Activity4LevelScreenState
         decrementAttempts();
       } else {
         isCorrectAnswerSelected = true;
-
       }
     });
 
@@ -443,7 +525,7 @@ class _Activity4LevelScreenState
     });
   }
 
-  // Reinicia el nivel 3 con nuevas imágenes y nombres
+  /// Reinicia el estado del Nivel 3 para presentar un nuevo conjunto de dinero y opciones de nombres.
   Future<void> _resetLevel3() async {
     setState(() {
       _isLoading = true;
@@ -476,7 +558,7 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Método para disminuir el número de intentos
+  /// Disminuye el contador de intentos restantes.
   void decrementAttempts() {
     if (remainingAttempts > 0) {
       setState(() {
@@ -485,14 +567,14 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Método para restablecer el número de intentos al valor inicial
+  /// Restablece el contador de intentos a su valor inicial (3).
   void resetAttempts() {
     setState(() {
       remainingAttempts = 3;
     });
   }
 
-  // Alterna entre las dos imágenes disponibles para la moneda/billete actual
+  /// Alterna la imagen mostrada para un item de dinero en Nivel 1 (si tiene dos imágenes).
   void _toggleImage(int index) {
     if (_moneyItems[index].moneyImages.length < 2)
       return; // No hacer nada si no hay segunda imagen
@@ -502,7 +584,7 @@ class _Activity4LevelScreenState
     });
   }
 
-  // Obtiene la imagen actual a mostrar basado en el estado
+  /// Obtiene la ruta de la imagen actual (primera o segunda) para un item en Nivel 1.
   String _getCurrentImage(int index) {
     if (_moneyItems[index].moneyImages.isEmpty) return '';
 
@@ -514,7 +596,7 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Reproduce los audios para el valor del dinero actual (nivel 1)
+  /// Reproduce el audio correspondiente al valor Namtrik del item actual en Nivel 1.
   Future<void> _playMoneyAudio() async {
     if (_currentIndex >= _moneyItems.length) return;
 
@@ -537,7 +619,9 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Widget para mostrar la imagen del dinero nivel 1
+  /// Construye el widget que muestra la imagen del dinero para el Nivel 1 (en el PageView).
+  ///
+  /// Incluye un [GestureDetector] para [_toggleImage] y un indicador visual.
   Widget _buildMoneyImage(int index) {
     String imageName = _getCurrentImage(index);
 
@@ -548,9 +632,6 @@ class _Activity4LevelScreenState
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.transparent, // Color de fondo
-//         boxShadow: [
-//           BoxShadow(color: Colors.transparent), // Color de sombra
-//         ],
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -582,7 +663,10 @@ class _Activity4LevelScreenState
     );
   }
 
-  // Widget para mostrar una opción de dinero nivel 2
+  /// Construye el widget para una opción de conjunto de dinero en el Nivel 2.
+  ///
+  /// Muestra las imágenes de los billetes/monedas y aplica estilos (borde, fondo, icono)
+  /// según el estado de selección y feedback.
   Widget _buildMoneyOption(List<NamtrikMoneyModel> option, int optionIndex) {
     // Determinar el estilo de la opción basado en si está seleccionada y si es correcta
     Color borderColor = const Color(0xFFCD5C5C); // Color del borde
@@ -701,7 +785,10 @@ class _Activity4LevelScreenState
     );
   }
 
-  // Widget para mostrar el artículo del nivel 2
+  /// Construye el widget principal para el Nivel 2.
+  ///
+  /// Muestra la [InfoBar], la imagen y nombre Namtrik del artículo,
+  /// y las opciones de dinero construidas con [_buildMoneyOption].
   Widget _buildArticleWidget() {
     if (_currentArticle == null) {
       return const Center(
@@ -821,7 +908,10 @@ class _Activity4LevelScreenState
     );
   }
 
-  // Widget para construir la cuadrícula de imágenes de dinero para el nivel 3
+  /// Construye el widget principal para el Nivel 3.
+  ///
+  /// Muestra la [InfoBar], la cuadrícula con las imágenes del conjunto de dinero,
+  /// y los 4 recuadros con las opciones de nombres Namtrik.
   Widget _buildMoneyGrid() {
     if (_moneyItems.isEmpty) {
       return const Center(
@@ -896,7 +986,8 @@ class _Activity4LevelScreenState
                           children: [
                             // Imagen del dinero (solo cara A) (solo lectura) nivel 3
                             Image.asset(
-                              _activity4Service.getMoneyImagePath(item.moneyImages[0]),
+                              _activity4Service
+                                  .getMoneyImagePath(item.moneyImages[0]),
                               fit: BoxFit.contain,
                             ),
                           ],
@@ -919,7 +1010,10 @@ class _Activity4LevelScreenState
     );
   }
 
-  // Widget para mostrar las imágenes en un PageView (reemplazando el carrusel) nivel 3
+  /// Construye el widget principal para el Nivel 1.
+  ///
+  /// Muestra la [InfoBar], un [PageView] con las imágenes del dinero ([_buildMoneyImage]),
+  /// indicadores de página, y el nombre/valor Namtrik con botón de audio.
   Widget _buildPageView() {
     if (_moneyItems.isEmpty) {
       return const Center(
@@ -1031,7 +1125,8 @@ class _Activity4LevelScreenState
                 // Deshabilitar el botón visualmente mientras se reproduce el audio
                 style: ElevatedButton.styleFrom(
                   // Color rojo terroso del botón
-                  backgroundColor: const Color(0xFFCD5C5C), // Color rojo terroso
+                  backgroundColor:
+                      const Color(0xFFCD5C5C), // Color rojo terroso
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
@@ -1122,7 +1217,8 @@ class _Activity4LevelScreenState
     // Definir el ancho máximo para los recuadros en modo horizontal
     final double containerWidth = isLandscape
         ? 450.0 // Ancho máximo fijo en landscape
-        : screenSize.width - 32; // Ancho completo disponible en portrait (con margen)
+        : screenSize.width -
+            32; // Ancho completo disponible en portrait (con margen)
 
     return SingleChildScrollView(
       child: Center(
@@ -1134,12 +1230,14 @@ class _Activity4LevelScreenState
               remainingAttempts: remainingAttempts,
               margin: const EdgeInsets.only(bottom: 16),
             ),
-            
+
             // Primer recuadro (nivel 4)
             Container(
               width: containerWidth,
-              margin: const EdgeInsets.only(bottom: 16), // Margen inferior para separación
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16), // Padding horizontal aumentado
+              margin: const EdgeInsets.only(
+                  bottom: 16), // Margen inferior para separación
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 24, vertical: 16), // Padding horizontal aumentado
               decoration: BoxDecoration(
                 color: const Color(0xFFCD5C5C),
                 borderRadius: BorderRadius.circular(12),
@@ -1157,8 +1255,10 @@ class _Activity4LevelScreenState
                   _currentLevel4NamtrikName,
                   style: const TextStyle(
                     color: Colors.white, // Color del texto
-                    fontSize: 24, // Tamaño del texto aumentado para mejor visibilidad
-                    fontWeight: FontWeight.bold, // Texto en negrita para destacar
+                    fontSize:
+                        24, // Tamaño del texto aumentado para mejor visibilidad
+                    fontWeight:
+                        FontWeight.bold, // Texto en negrita para destacar
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -1168,20 +1268,26 @@ class _Activity4LevelScreenState
             // Segundo recuadro (nivel 4)
             Container(
               width: containerWidth,
-              margin: const EdgeInsets.only(bottom: 16), // Margen inferior para separación
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16), // Padding horizontal aumentado
+              margin: const EdgeInsets.only(
+                  bottom: 16), // Margen inferior para separación
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 24, vertical: 16), // Padding horizontal aumentado
               decoration: BoxDecoration(
                 color: _showLevel4Feedback
                     ? (_isCorrectLevel4Answer
-                        ? const Color(0xFF00FF00).withOpacity(0.2) // Lima transparente para respuesta correcta
-                        : const Color(0xFFFF0000).withOpacity(0.2)) // Rojo transparente para respuesta incorrecta
+                        ? const Color(0xFF00FF00).withOpacity(
+                            0.2) // Lima transparente para respuesta correcta
+                        : const Color(0xFFFF0000).withOpacity(
+                            0.2)) // Rojo transparente para respuesta incorrecta
                     : const Color(0xFFCD5C5C), // Rojo terroso por defecto
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: _showLevel4Feedback
                       ? (_isCorrectLevel4Answer
-                          ? const Color(0xFF00FF00) // Lima para respuesta correcta
-                          : const Color(0xFFFF0000)) // Rojo para respuesta incorrecta
+                          ? const Color(
+                              0xFF00FF00) // Lima para respuesta correcta
+                          : const Color(
+                              0xFFFF0000)) // Rojo para respuesta incorrecta
                       : Colors.transparent, // Transparente por defecto
                 ),
               ),
@@ -1199,7 +1305,7 @@ class _Activity4LevelScreenState
                 ),
               ),
             ),
-            
+
             // Imágenes de dinero en una cuadrícula (nivel 4)
             if (_moneyImagesLoaded)
               Container(
@@ -1209,16 +1315,19 @@ class _Activity4LevelScreenState
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // 3 imágenes por fila para mejor visualización
-                    childAspectRatio: 1.2, // Proporción para que las imágenes no se vean estiradas
+                    crossAxisCount:
+                        3, // 3 imágenes por fila para mejor visualización
+                    childAspectRatio:
+                        1.2, // Proporción para que las imágenes no se vean estiradas
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
                   ),
                   itemCount: _moneyImages.length,
                   itemBuilder: (context, index) {
                     // Determinar si esta imagen está seleccionada
-                    final isSelected = _selectedMoneyIndices.contains(index + 1);
-                    
+                    final isSelected =
+                        _selectedMoneyIndices.contains(index + 1);
+
                     return GestureDetector(
                       onTap: () {
                         if (!_showLevel4Feedback) {
@@ -1227,14 +1336,18 @@ class _Activity4LevelScreenState
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: isSelected 
-                              ? const Color(0xFFCD5C5C).withOpacity(0.3) // Color de selección (Rojo terroso) con 30% de opacidad
-                              : Colors.transparent, // Color transparente por defecto fondo de la imagen
+                          color: isSelected
+                              ? const Color(0xFFCD5C5C).withOpacity(
+                                  0.3) // Color de selección (Rojo terroso) con 30% de opacidad
+                              : Colors
+                                  .transparent, // Color transparente por defecto fondo de la imagen
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isSelected
-                                ? const Color(0xFFCD5C5C) // Borde de selección (Rojo terroso)
-                                : const Color(0xFFCD5C5C), // Color de borde (Rojo terroso)
+                                ? const Color(
+                                    0xFFCD5C5C) // Borde de selección (Rojo terroso)
+                                : const Color(
+                                    0xFFCD5C5C), // Color de borde (Rojo terroso)
                             width: isSelected ? 2 : 1,
                           ),
                         ),
@@ -1245,11 +1358,12 @@ class _Activity4LevelScreenState
                             // Imagen del dinero
                             Positioned.fill(
                               child: Image.asset(
-                                _activity4Service.getMoneyImagePath(_moneyImages[index]),
+                                _activity4Service
+                                    .getMoneyImagePath(_moneyImages[index]),
                                 fit: BoxFit.contain,
                               ),
                             ),
-                            
+
                             // Indicador de selección (opcional)
                             if (isSelected)
                               Positioned(
@@ -1283,38 +1397,40 @@ class _Activity4LevelScreenState
 
   // Método para manejar el tap en una imagen de dinero para el nivel 4
   void _handleMoneyImageTap(int index) {
-    if (_showLevel4Feedback) return; // No permitir interacción durante el feedback
-    
+    if (_showLevel4Feedback)
+      return; // No permitir interacción durante el feedback
+
     // Obtener el número correspondiente a esta imagen
-    final moneyNumber = index + 1; // El índice es 0-based, pero los números en el JSON son 1-based
-    
+    final moneyNumber = index +
+        1; // El índice es 0-based, pero los números en el JSON son 1-based
+
     setState(() {
       // Permitir seleccionar la misma imagen múltiples veces
       // Agregar el índice a la lista de seleccionados
       _selectedMoneyIndices.add(moneyNumber);
-      
+
       // Agregar el valor correspondiente a la suma
       final valueToAdd = _numberIndexToValue[moneyNumber] ?? 0;
       _currentTotalValue += valueToAdd;
-      
+
       // Verificar si el usuario ha excedido el valor objetivo
       if (_currentTotalValue > _targetTotalValue) {
         // Sobrepasó el valor total
         _showLevel4Feedback = true;
         _isCorrectLevel4Answer = false;
-        
+
         // Reproducir alerta de audio
         _activity4Service.playAlertAudio('valor_excedido');
-        
+
         // Decrementar intentos
         decrementAttempts();
-        
+
         // Después de un tiempo, reiniciar el nivel con un nuevo nombre aleatorio
         Future.delayed(Duration(seconds: 2), () {
           if (mounted) {
             setState(() {
               _showLevel4Feedback = false;
-              
+
               // Verificar si quedan intentos
               if (remainingAttempts <= 0) {
                 _handleOutOfAttempts();
@@ -1329,21 +1445,21 @@ class _Activity4LevelScreenState
         // Verificar si la selección del usuario corresponde con los valores objetivo
         // Este paso verifica que se hayan seleccionado todos los elementos necesarios
         bool hasCorrectCombination = true;
-        
+
         // Crear mapas de frecuencia para comparar las selecciones con los objetivos
         Map<int, int> selectedFrequency = {};
         Map<int, int> targetFrequency = {};
-        
+
         // Contar frecuencia de cada número en las selecciones del usuario
         for (int num in _selectedMoneyIndices) {
           selectedFrequency[num] = (selectedFrequency[num] ?? 0) + 1;
         }
-        
+
         // Contar frecuencia de cada número en los objetivos
         for (int num in _targetMoneyNumbers) {
           targetFrequency[num] = (targetFrequency[num] ?? 0) + 1;
         }
-        
+
         // Comparar los mapas de frecuencia
         // Para cada número en el objetivo, verificar que aparezca la misma cantidad de veces en las selecciones
         for (int key in targetFrequency.keys) {
@@ -1352,7 +1468,7 @@ class _Activity4LevelScreenState
             break;
           }
         }
-        
+
         // También verificar que no haya números adicionales en las selecciones
         for (int key in selectedFrequency.keys) {
           if ((targetFrequency[key] ?? 0) != selectedFrequency[key]) {
@@ -1360,10 +1476,10 @@ class _Activity4LevelScreenState
             break;
           }
         }
-        
+
         _showLevel4Feedback = true;
         _isCorrectLevel4Answer = hasCorrectCombination;
-        
+
         if (hasCorrectCombination) {
           // La respuesta es correcta - mostrar diálogo de éxito
           Future.delayed(Duration(seconds: 1), () {
@@ -1371,18 +1487,21 @@ class _Activity4LevelScreenState
               // Verificar si ya se han ganado puntos para este nivel
               final activitiesState = ActivitiesState.of(context);
               final gameState = GameState.of(context);
-              final wasCompleted = gameState.isLevelCompleted(4, widget.level.id - 1);
-              
+              final wasCompleted =
+                  gameState.isLevelCompleted(4, widget.level.id - 1);
+
               if (!wasCompleted && !_hasEarnedPointsLevel4) {
                 // Primera vez que completa correctamente - otorgar 5 puntos
-                gameState.addPoints(4, widget.level.id - 1, 5).then((pointsAdded) {
+                gameState
+                    .addPoints(4, widget.level.id - 1, 5)
+                    .then((pointsAdded) {
                   if (pointsAdded) {
                     activitiesState.completeLevel(4, widget.level.id - 1);
                     setState(() {
                       totalScore = gameState.globalPoints;
                       _hasEarnedPointsLevel4 = true;
                     });
-                    
+
                     // Mostrar diálogo de felicitación con puntos ganados
                     showDialog(
                       context: context,
@@ -1407,7 +1526,8 @@ class _Activity4LevelScreenState
                               Text(
                                 '¡Ganaste 5 puntos!',
                                 style: TextStyle(
-                                  color: const Color(0xFFCD5C5C), // Rojo terroso
+                                  color:
+                                      const Color(0xFFCD5C5C), // Rojo terroso
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
@@ -1423,7 +1543,8 @@ class _Activity4LevelScreenState
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFCD5C5C), // Rojo terroso
+                                  backgroundColor:
+                                      const Color(0xFFCD5C5C), // Rojo terroso
                                   foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
@@ -1477,7 +1598,8 @@ class _Activity4LevelScreenState
                               });
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFCD5C5C), // Rojo terroso
+                              backgroundColor:
+                                  const Color(0xFFCD5C5C), // Rojo terroso
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
@@ -1499,16 +1621,16 @@ class _Activity4LevelScreenState
           // La combinación no es correcta, pero el valor total está bien
           // Reproducir alerta de audio (opcional)
           _activity4Service.playAlertAudio('combinacion_incorrecta');
-          
+
           // Decrementar intentos
           decrementAttempts();
-          
+
           // Después de un tiempo, reiniciar el nivel
           Future.delayed(Duration(seconds: 2), () {
             if (mounted) {
               setState(() {
                 _showLevel4Feedback = false;
-                
+
                 // Verificar si quedan intentos
                 if (remainingAttempts <= 0) {
                   _handleOutOfAttempts();
@@ -1525,7 +1647,10 @@ class _Activity4LevelScreenState
     });
   }
 
-  // Método para seleccionar un nombre aleatorio del nivel 4
+  // --- Métodos y Widgets Nivel 4 ---
+
+  /// Selecciona aleatoriamente un nombre Namtrik de la lista cargada para el Nivel 4
+  /// y calcula el valor numérico objetivo correspondiente.
   void _selectRandomLevel4Name() {
     if (_level4NamtrikNames.isNotEmpty) {
       setState(() {
@@ -1534,42 +1659,44 @@ class _Activity4LevelScreenState
         _currentTotalValue = 0;
         _showLevel4Feedback = false;
         _isCorrectLevel4Answer = false;
-        
+
         // Seleccionar un nombre aleatorio del nivel 4
         final randomIndex = Random().nextInt(_level4NamtrikNames.length);
         _currentLevel4NamtrikName = _level4NamtrikNames[randomIndex];
-        
+
         // Cargar los valores objetivo de la base de datos
         _loadTargetMoneyValues();
       });
     }
   }
-  
+
   // Método para cargar los valores objetivo del nombre seleccionado del nivel 4
   Future<void> _loadTargetMoneyValues() async {
     try {
       // Obtener los datos del nivel 4 para el nombre seleccionado
-      final targetData = await _activity4Service.getLevel4MoneyValuesForName(_currentLevel4NamtrikName);
-      
+      final targetData = await _activity4Service
+          .getLevel4MoneyValuesForName(_currentLevel4NamtrikName);
+
       if (targetData != null) {
         setState(() {
           _targetTotalValue = targetData['total_money'];
-          _targetMoneyNumbers = List<int>.from(targetData['number_money_images']);
+          _targetMoneyNumbers =
+              List<int>.from(targetData['number_money_images']);
         });
       }
-      
+
       // Cargar mapeo de índices de número a valores monetarios
       await _loadMoneyValueMapping();
     } catch (e) {
       debugPrint('Error cargando valores objetivo: $e');
     }
   }
-  
+
   // Método para cargar el mapeo de índices de número a valores monetarios del nivel 4
   Future<void> _loadMoneyValueMapping() async {
     try {
       final moneyItems = await _activity4Service.getAllMoneyItems();
-      
+
       if (moneyItems.isNotEmpty) {
         setState(() {
           _numberIndexToValue = {};
@@ -1583,7 +1710,7 @@ class _Activity4LevelScreenState
     }
   }
 
-  // Método para mostrar la imagen ampliada con sombra del artículo en el nivel 2
+  /// Muestra un diálogo con la imagen ampliada con sombra del artículo en el nivel 2
   void _showEnlargedImage(String imagePath) {
     showDialog(
       context: context,
@@ -1652,7 +1779,7 @@ class _Activity4LevelScreenState
     );
   }
 
-  // Método para construir los 4 recuadros del nivel 3
+  /// Construye los 4 recuadros interactivos para las opciones de nombres en Nivel 3.
   List<Widget> _buildEmptyBoxes(bool isLandscape) {
     // Lista para almacenar los recuadros del nivel 3
     List<Widget> boxes = [];

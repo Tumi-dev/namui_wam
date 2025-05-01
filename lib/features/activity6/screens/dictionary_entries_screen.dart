@@ -8,9 +8,18 @@ import 'package:namuiwam/features/activity6/services/activity6_service.dart';
 import 'package:namuiwam/core/themes/app_theme.dart';
 import 'package:namuiwam/shared/widgets/zoomable_image_viewer.dart'; // Importar el nuevo visor
 
+/// {@template dictionary_entries_screen}
+/// Pantalla que muestra la lista de entradas del diccionario para un [SemanticDomain] específico.
+///
+/// Recibe un [domain] y utiliza [Activity6Service] para obtener y mostrar
+/// las [DictionaryEntry] correspondientes en una lista ([ListView]).
+/// Cada entrada se representa mediante [_buildEntryTile].
+/// {@endtemplate}
 class DictionaryEntriesScreen extends StatefulWidget {
+  /// El dominio semántico cuyas entradas se mostrarán.
   final SemanticDomain domain;
 
+  /// {@macro dictionary_entries_screen}
   const DictionaryEntriesScreen({required this.domain, super.key});
 
   @override
@@ -18,25 +27,33 @@ class DictionaryEntriesScreen extends StatefulWidget {
       _DictionaryEntriesScreenState();
 }
 
+/// Clase de estado para [DictionaryEntriesScreen].
+///
+/// Gestiona la carga de las entradas del diccionario para el dominio dado
+/// y maneja la interacción con los elementos de la lista (reproducción de audio,
+/// navegación al visor de imágenes).
 class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
   final Activity6Service _dictionaryService =
       getIt<Activity6Service>();
   final AudioPlayerService _audioPlayerService = getIt<AudioPlayerService>();
+  /// Futuro que contiene la lista de entradas para el dominio actual.
   late Future<List<DictionaryEntry>> _entriesFuture;
 
   @override
   void initState() {
     super.initState();
+    // Inicia la carga de las entradas para el dominio especificado.
     _entriesFuture = _dictionaryService.getEntriesForDomain(widget.domain.id);
   }
 
   @override
   void dispose() {
+    // Detiene cualquier audio al salir de la pantalla.
     _audioPlayerService.stop();
     super.dispose();
   }
 
-  // Función helper para navegar al visor de imágenes
+  /// Navega a la pantalla [ZoomableImageViewer] para mostrar una imagen ampliada.
   void _navigateToImageViewer(BuildContext context, String imagePath) {
     Navigator.push(
       context,
@@ -47,6 +64,11 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
     );
   }
 
+  /// Construye la interfaz de usuario de la pantalla de lista de entradas.
+  ///
+  /// Muestra un [AppBar] con el nombre del dominio.
+  /// Utiliza un [FutureBuilder] para mostrar un indicador de carga, un error,
+  /// o la lista de entradas ([ListView]) una vez que [_entriesFuture] se completa.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +123,15 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
     );
   }
 
+  /// Construye un elemento de lista ([Card]) para una [DictionaryEntry] individual.
+  ///
+  /// Muestra la palabra en Namtrik, su traducción al español, variantes (si existen),
+  /// composiciones (si existen), una imagen (si existe) y botones para reproducir
+  /// el audio principal y el audio variante (si existen).
+  ///
+  /// Implementa un diseño especial para las entradas del dominio "Saludos",
+  /// mostrando pregunta y respuesta separadas.
+  /// La imagen es interactiva y abre [ZoomableImageViewer] al tocarla.
   Widget _buildEntryTile(BuildContext context, DictionaryEntry entry) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;

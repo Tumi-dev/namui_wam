@@ -1,9 +1,17 @@
-
 import 'package:flutter/material.dart';
 
+/// Un widget que muestra una imagen desde los assets y permite hacer zoom y paneo.
+///
+/// Utiliza [InteractiveViewer] para proporcionar la funcionalidad de zoom/paneo.
+/// Se presenta en un [Scaffold] con fondo negro para mejor contraste y una
+/// [AppBar] simple para cerrar la vista.
 class ZoomableImageViewer extends StatelessWidget {
+  /// La ruta del asset de la imagen a mostrar.
   final String imagePath;
 
+  /// Crea una instancia de [ZoomableImageViewer].
+  ///
+  /// Requiere la [imagePath] del asset.
   const ZoomableImageViewer({required this.imagePath, super.key});
 
   @override

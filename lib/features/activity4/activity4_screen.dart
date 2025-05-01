@@ -5,16 +5,24 @@ import 'package:namuiwam/core/models/activities_state.dart';
 import 'package:namuiwam/core/models/level_model.dart';
 import 'package:namuiwam/features/activity4/screens/activity4_level_screen.dart';
 
-// Clase para la pantalla de la actividad 4
+/// {@template activity4_screen}
+/// Pantalla principal para la Actividad 4: "Comprando con Namtrik".
+///
+/// Muestra una lista de los niveles disponibles para esta actividad,
+/// permitiendo al usuario seleccionar uno para comenzar a jugar.
+/// Utiliza [Consumer<ActivitiesState>] para obtener la información de los niveles.
+/// {@endtemplate}
 class Activity4Screen extends StatelessWidget {
+  /// {@macro activity4_screen}
   const Activity4Screen({super.key});
 
-  // Navega hacia la pantalla de inicio de la aplicación al presionar el botón de inicio
+  /// Navega hacia la pantalla de inicio de la aplicación (la primera ruta en la pila).
   void _navigateToHome(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
-  // Navega hacia la pantalla de un nivel de la actividad 4 al seleccionar un nivel
+  /// Navega hacia la pantalla del nivel específico [Activity4LevelScreen]
+  /// correspondiente al [level] seleccionado.
   void _onLevelSelected(BuildContext context, LevelModel level) {
     // Navegar a la pantalla del nivel seleccionado de la actividad 4
     Navigator.push(
@@ -25,7 +33,10 @@ class Activity4Screen extends StatelessWidget {
     );
   }
 
-  // Construye la pantalla de la actividad 4 con los niveles disponibles
+  /// Construye la interfaz de usuario de la pantalla principal de la Actividad 4.
+  ///
+  /// Muestra un [AppBar] con el título y botón de inicio, un icono representativo,
+  /// y una lista ([ListView]) de tarjetas ([_buildLevelCard]) para cada nivel disponible.
   @override
   Widget build(BuildContext context) {
     return Consumer<ActivitiesState>(
@@ -55,7 +66,8 @@ class Activity4Screen extends StatelessWidget {
             ),
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
@@ -69,9 +81,12 @@ class Activity4Screen extends StatelessWidget {
                     Expanded(
                       child: LayoutBuilder(
                         builder: (context, constraints) {
-                          final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-                          final maxButtonWidth = isLandscape ? 450.0 : constraints.maxWidth;
-                          
+                          final isLandscape =
+                              MediaQuery.of(context).orientation ==
+                                  Orientation.landscape;
+                          final maxButtonWidth =
+                              isLandscape ? 450.0 : constraints.maxWidth;
+
                           return ListView.builder(
                             itemCount: activity4.availableLevels.length,
                             itemBuilder: (context, index) {
@@ -100,7 +115,11 @@ class Activity4Screen extends StatelessWidget {
     );
   }
 
-  // Construye una tarjeta para un nivel de la actividad 4
+  /// Construye una tarjeta interactiva ([Card] con [InkWell]) que representa
+  /// un [level] individual de la actividad.
+  ///
+  /// Muestra el ID del nivel, su descripción y una flecha indicadora.
+  /// Al ser presionada, navega al nivel correspondiente usando [_onLevelSelected].
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
     // Construir una tarjeta para un nivel de la actividad 4
     return Padding(

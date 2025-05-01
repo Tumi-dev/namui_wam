@@ -2,15 +2,32 @@ import 'package:namuiwam/core/services/number_data_service.dart';
 import 'package:namuiwam/core/services/audio_service.dart';
 import 'package:namuiwam/core/services/logger_service.dart';
 
-/// Service to centralize the logic for Activity 6
+/// {@template activity5_service}
+/// Servicio para la Actividad 5: "Muntsielan namtrikmai yunɵmarɵpik (Convertir números en letras)".
+///
+/// Proporciona funcionalidades para la herramienta de conversión:
+/// - Obtener la representación Namtrik escrita de un número.
+/// - Obtener los archivos de audio correspondientes a un número.
+/// - Reproducir la secuencia de audio para un número.
+/// - Validar si un número está dentro del rango soportado (1 a 9,999,999).
+/// {@endtemplate}
 class Activity5Service {
+  /// Servicio para acceder a los datos de los números (Namtrik, audio).
   final NumberDataService _numberDataService;
+  /// Servicio para reproducir y detener archivos de audio.
   final AudioService _audioService;
+  /// Instancia del servicio de logging para registrar errores.
   final LoggerService _logger = LoggerService();
 
+  /// {@macro activity5_service}
+  /// Constructor que requiere instancias de [NumberDataService] y [AudioService].
   Activity5Service(this._numberDataService, this._audioService);
 
-  /// Get the namtrik representation for a specific number
+  /// Obtiene la representación escrita en Namtrik para un [number] específico.
+  ///
+  /// Busca el número en la base de datos a través de [_numberDataService].
+  /// Devuelve la cadena Namtrik correspondiente o una cadena vacía si no se encuentra.
+  /// Devuelve un mensaje de error si ocurre una excepción.
   Future<String> getNamtrikForNumber(int number) async {
     try {
       final numberData = await _numberDataService.getNumberByValue(number);
@@ -20,7 +37,12 @@ class Activity5Service {
     }
   }
 
-  /// Get the audio files for a specific number
+  /// Obtiene la lista de rutas de archivos de audio para un [number] específico.
+  ///
+  /// Busca el número en la base de datos. Si existe y tiene 'audio_files',
+  /// procesa la cadena (separando por espacios, asegurando extensión .wav y prefijo de ruta)
+  /// y devuelve una lista de rutas completas.
+  /// Devuelve una lista vacía si no se encuentran audios o si ocurre un error.
   Future<List<String>> getAudioFilesForNumber(int number) async {
     try {
       final numberData = await _numberDataService.getNumberByValue(number);
@@ -42,7 +64,9 @@ class Activity5Service {
     }
   }
 
-  /// Ensure the file has .wav extension
+  /// Asegura que el nombre de archivo termine con la extensión '.wav'.
+  ///
+  /// Añade '.wav' si no está presente (ignorando mayúsculas/minúsculas).
   String _ensureWavExtension(String filename) {
     // If the filename doesn't end with .wav, add it
     if (!filename.toLowerCase().endsWith('.wav')) {
@@ -51,7 +75,13 @@ class Activity5Service {
     return filename;
   }
 
-  /// Play audio for a specific number
+  /// Reproduce la secuencia de archivos de audio para un [number] específico.
+  ///
+  /// Obtiene la lista de archivos usando [getAudioFilesForNumber].
+  /// Reproduce cada archivo en secuencia usando [_audioService], con un pequeño
+  /// retraso entre archivos si hay más de uno.
+  /// Devuelve `true` si la reproducción se inició (archivos encontrados),
+  /// `false` si no se encontraron archivos o si ocurrió un error.
   Future<bool> playAudioForNumber(int number) async {
     try {
       final audioFiles = await getAudioFilesForNumber(number);
@@ -75,12 +105,16 @@ class Activity5Service {
     }
   }
 
-  /// Stop any playing audio
+  /// Detiene cualquier reproducción de audio en curso.
+  ///
+  /// Llama a [_audioService.stopAudio].
   Future<void> stopAudio() async {
     await _audioService.stopAudio();
   }
 
-  /// Check if a number is valid (between 1 and 9999999)
+  /// Verifica si un [number] es válido para la herramienta de conversión.
+  ///
+  /// Considera válido un número si no es nulo y está entre 1 y 9,999,999 inclusive.
   bool isValidNumber(int? number) {
     return number != null && number >= 1 && number <= 9999999;
   }

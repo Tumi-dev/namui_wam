@@ -2,12 +2,19 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:namuiwam/core/di/service_locator.dart';
 import 'package:namuiwam/core/services/logger_service.dart';
 
+/// {@template audio_player_service}
+/// Un servicio para gestionar la reproducción de archivos de audio utilizando el paquete `audioplayers`.
+///
+/// Proporciona funcionalidades para reproducir, detener y monitorear el estado
+/// de la reproducción de audio desde los assets de la aplicación.
+/// {@endtemplate}
 class AudioPlayerService {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final LoggerService _logger = getIt<LoggerService>();
   bool _isPlaying = false;
   String? _currentPath;
 
+  /// {@macro audio_player_service}
   AudioPlayerService() {
     _audioPlayer.onPlayerStateChanged.listen((PlayerState state) {
       _logger.debug('AudioPlayer state changed: $state');
@@ -28,9 +35,20 @@ class AudioPlayerService {
     });
   }
 
+  /// Devuelve `true` si un audio se está reproduciendo actualmente.
   bool get isPlaying => _isPlaying;
+
+  /// Devuelve la ruta del asset del audio que se está reproduciendo actualmente,
+  /// o `null` si no se está reproduciendo nada.
   String? get currentPlayingPath => _currentPath;
 
+  /// Reproduce un archivo de audio desde la ruta del asset especificada.
+  ///
+  /// Si ya se está reproduciendo el mismo audio, lo detiene.
+  /// Si se está reproduciendo un audio diferente, detiene el anterior antes
+  /// de iniciar la nueva reproducción.
+  ///
+  /// [assetPath] La ruta completa del asset de audio (ej. 'assets/audio/sound.wav').
   Future<void> play(String assetPath) async {
     if (_isPlaying && _currentPath == assetPath) {
       _logger.info('Audio already playing: $assetPath. Stopping.');
@@ -43,6 +61,7 @@ class AudioPlayerService {
 
     try {
       _logger.info('Playing audio: $assetPath');
+      // AssetSource requiere la ruta relativa dentro de 'assets/'
       await _audioPlayer.play(AssetSource(assetPath.replaceFirst('assets/', ''))); 
       _currentPath = assetPath;
       _isPlaying = true; 
@@ -53,6 +72,7 @@ class AudioPlayerService {
     }
   }
 
+  /// Detiene la reproducción de audio actual, si hay alguna.
   Future<void> stop() async {
     if (_isPlaying) {
       _logger.info('Stopping audio playback.');
@@ -68,6 +88,9 @@ class AudioPlayerService {
     }
   }
 
+  /// Libera los recursos utilizados por el [AudioPlayer].
+  ///
+  /// Debe llamarse cuando el servicio ya no sea necesario para evitar fugas de memoria.
   Future<void> dispose() async {
     _logger.info('Disposing AudioPlayerService.');
     await _audioPlayer.dispose();

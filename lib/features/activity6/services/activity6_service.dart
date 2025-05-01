@@ -7,15 +7,28 @@ import 'package:namuiwam/core/services/logger_service.dart';
 import 'package:namuiwam/features/activity6/models/dictionary_entry.dart';
 import 'package:namuiwam/features/activity6/models/semantic_domain.dart';
 
+/// {@template activity6_service}
+/// Servicio para la Actividad 6: "Wammeran tulisha manchípik kui asamik pөrik (Diccionario)".
+///
+/// Responsable de cargar y gestionar los datos del diccionario Namtrik-Español
+/// desde el archivo JSON (`assets/data/a6_namuiwam_dictionary.json`).
+/// Proporciona métodos para obtener los dominios semánticos, las entradas
+/// pertenecientes a un dominio específico, los detalles de una entrada individual
+/// y realizar búsquedas básicas.
+/// {@endtemplate}
 class Activity6Service {
   final LoggerService _logger = getIt<LoggerService>();
 
+  /// Caché para los dominios semánticos cargados.
   List<SemanticDomain> _cachedDomains = [];
+  /// Caché para las entradas del diccionario, agrupadas por ID de dominio.
   Map<int, List<DictionaryEntry>> _cachedEntriesByDomainId = {};
-  // Use a map for quick entry lookup by ID if needed later
+  /// Caché para las entradas del diccionario, indexadas por su ID único para búsqueda rápida.
   Map<int, DictionaryEntry> _cachedEntriesById = {};
 
+  /// Completer para señalar cuándo la carga inicial de datos ha finalizado.
   final Completer<void> _loadCompleter = Completer<void>();
+  /// Flag para indicar si la carga inicial ya se completó.
   bool _isLoadComplete = false;
 
   // Map domain names to their JSON key prefixes
@@ -35,6 +48,8 @@ class Activity6Service {
     'Namui kewa amɵneiklɵ': 'kewaamɵneiklɵ',
   };
 
+  /// {@macro activity6_service}
+  /// Constructor que inicia la carga asíncrona de los datos del diccionario.
   Activity6Service() {
     _logger.info('*** Activity6Service constructor llamado ***'); // Use logger instead of print
     _logger.info('Activity6Service constructor llamado');
@@ -42,6 +57,8 @@ class Activity6Service {
     initialize();
   }
 
+  /// Inicia el proceso de carga de datos desde JSON si no se ha completado ya.
+  /// Marca la carga como completa o reporta un error a través de [_loadCompleter].
   Future<void> initialize() async {
     if (_isLoadComplete) return;
     try {
@@ -55,6 +72,8 @@ class Activity6Service {
     }
   }
 
+  /// Espera hasta que la carga inicial de datos [_loadDataFromJson] haya finalizado.
+  /// Utiliza el [_loadCompleter] para bloquear si la carga aún está en progreso.
   Future<void> _waitUntilLoaded() async {
     if (!_isLoadComplete) {
       _logger.info('Waiting for dictionary data load to complete...');
@@ -64,14 +83,24 @@ class Activity6Service {
     }
   }
 
+  /// Construye la ruta de la imagen para un dominio semántico.
   String _getDomainImagePath(String domainNameFormatted) {
     return 'assets/images/dictionary/$domainNameFormatted.png';
   }
 
+  /// Calcula el nombre base para la ruta de assets (imágenes/audio) de un dominio.
+  /// Utiliza [_domainPathOverrides] si existe una excepción.
   String _calculateDomainPathName(String domainName) {
     return domainName.toLowerCase().replaceAll(' ', '_');
   }
 
+  /// Carga y parsea los datos del diccionario desde el archivo JSON.
+  ///
+  /// Lee el archivo `a6_namuiwam_dictionary.json`, decodifica el JSON,
+  /// itera sobre los dominios y sus entradas, crea instancias de [SemanticDomain]
+  /// y [DictionaryEntry], y las almacena en las cachés internas
+  /// ([_cachedDomains], [_cachedEntriesByDomainId], [_cachedEntriesById]).
+  /// Maneja la estructura específica del dominio "Saludos".
   Future<void> _loadDataFromJson() async {
     _logger.info(
         'Activity6Service: Starting to load dictionary data from JSON into memory...');
@@ -311,12 +340,17 @@ class Activity6Service {
     _logger.info('Finished processing all domains.');
   }
 
+  /// Devuelve una lista inmutable de todos los dominios semánticos cargados.
+  /// Espera a que la carga inicial se complete si es necesario.
   Future<List<SemanticDomain>> getAllDomains() async {
     await _waitUntilLoaded();
     _logger.info('Returning ${_cachedDomains.length} domains from memory.');
     return List.unmodifiable(_cachedDomains);
   }
 
+  /// Devuelve una lista inmutable de las entradas del diccionario para un [domainId] específico.
+  /// Espera a que la carga inicial se complete si es necesario.
+  /// Devuelve una lista vacía si el dominio no existe o no tiene entradas.
   Future<List<DictionaryEntry>> getEntriesForDomain(int domainId) async {
     await _waitUntilLoaded();
     final entries = _cachedEntriesByDomainId[domainId] ?? [];
@@ -325,6 +359,9 @@ class Activity6Service {
     return List.unmodifiable(entries);
   }
 
+  /// Devuelve los detalles de una entrada específica del diccionario por su [entryId].
+  /// Espera a que la carga inicial se complete si es necesario.
+  /// Devuelve `null` si la entrada no se encuentra.
   Future<DictionaryEntry?> getEntryDetails(int entryId) async {
     await _waitUntilLoaded();
     final entry = _cachedEntriesById[entryId];
@@ -333,6 +370,10 @@ class Activity6Service {
     return entry;
   }
 
+  /// Realiza una búsqueda simple (case-insensitive) en los términos Namtrik y Español
+  /// de todas las entradas cacheadas.
+  /// Espera a que la carga inicial se complete si es necesario.
+  /// Devuelve una lista de [DictionaryEntry] que coinciden con la [query].
   Future<List<DictionaryEntry>> searchEntries(String query) async {
     await _waitUntilLoaded();
     if (query.isEmpty) {

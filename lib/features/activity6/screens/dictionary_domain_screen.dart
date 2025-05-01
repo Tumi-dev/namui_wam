@@ -7,7 +7,15 @@ import 'package:namuiwam/core/services/audio_player_service.dart'; // Importar A
 import 'package:namuiwam/core/services/feedback_service.dart'; // Importar FeedbackService
 import 'dictionary_entries_screen.dart';
 
+/// {@template dictionary_domain_screen}
+/// Pantalla principal de la Actividad 6 (Diccionario).
+///
+/// Muestra una cuadrícula ([GridView]) con los diferentes dominios semánticos
+/// disponibles (ej. "Animales", "Colores"). Cada dominio se representa
+/// mediante una tarjeta interactiva ([_buildDomainCard]).
+/// {@endtemplate}
 class DictionaryDomainScreen extends StatelessWidget {
+  /// {@macro dictionary_domain_screen}
   DictionaryDomainScreen({super.key}) {
     final _logger = getIt<LoggerService>();
     _logger.info('Entrando a DictionaryDomainScreen (constructor)');
@@ -32,6 +40,11 @@ class DictionaryDomainScreen extends StatelessWidget {
     return domainName.toLowerCase().replaceAll(' ', '_');
   }
 
+  /// Construye la interfaz de usuario de la pantalla de selección de dominios.
+  ///
+  /// Utiliza un [FutureBuilder] para obtener la lista de [SemanticDomain]
+  /// desde [Activity6Service.getAllDomains]. Muestra un indicador de carga,
+  /// un mensaje de error, o la cuadrícula de dominios una vez cargados.
   @override
   Widget build(BuildContext context) {
     final activity6Service = getIt<Activity6Service>();
@@ -69,6 +82,13 @@ class DictionaryDomainScreen extends StatelessWidget {
     );
   }
 
+  /// Construye una tarjeta ([Card]) interactiva para un [domain] semántico.
+  ///
+  /// Muestra la imagen representativa y el nombre del dominio.
+  /// Al tocar la tarjeta:
+  /// 1. Proporciona feedback háptico.
+  /// 2. Intenta reproducir el audio con el nombre del dominio usando [AudioPlayerService].
+  /// 3. Navega a [DictionaryEntriesScreen] pasando el dominio seleccionado.
   Widget _buildDomainCard(BuildContext context, SemanticDomain domain) {
     final audioPlayerService = getIt<AudioPlayerService>(); // Obtener instancia del servicio de audio
     final feedbackService = getIt<FeedbackService>(); // Obtener instancia del servicio de feedback

@@ -1,23 +1,41 @@
 import 'package:flutter/material.dart';
 
-// Estados de selección de un item en la actividad
+/// Define los posibles estados visuales y lógicos de un [SelectableItem].
 enum SelectionState {
+  /// El item no está seleccionado ni interactuado. Estado inicial.
   unselected,
+  /// El item ha sido seleccionado por el usuario.
   selected,
+  /// El item ha sido emparejado correctamente con otro.
   matched,
+  /// El item fue seleccionado pero no formó un par correcto.
   error,
 }
 
-// Widget que representa un item seleccionable
+/// {@template selectable_item}
+/// Un widget que representa un elemento interactivo (imagen o texto)
+/// que puede ser seleccionado, emparejado o mostrar un estado de error.
+///
+/// Utilizado principalmente en la Actividad 3, Nivel 1, para el juego de emparejamiento.
+/// Cambia su apariencia (fondo, borde, elevación) según su [state] actual
+/// mediante una [AnimatedContainer].
+/// {@endtemplate}
 class SelectableItem extends StatelessWidget {
+  /// Identificador único para este item, usado para la lógica de emparejamiento.
   final String id;
+  /// El widget hijo que se mostrará dentro del item (ej. una Imagen o Texto).
   final Widget child;
+  /// El estado actual del item, determina su apariencia.
   final SelectionState state;
+  /// Indica si el [child] es una imagen. Afecta el padding y el color de fondo base.
   final bool isImage;
+  /// La función callback que se ejecuta cuando el item es presionado.
   final VoidCallback onTap;
+  /// Controla si el item puede ser presionado ([onTap] se ejecutará).
+  /// Por defecto es `true`. Se deshabilita si el item ya está emparejado.
   final bool isEnabled;
 
-  // Constructor del widget SelectableItem
+  /// {@macro selectable_item}
   const SelectableItem({
     super.key,
     required this.id,
@@ -28,7 +46,11 @@ class SelectableItem extends StatelessWidget {
     this.isEnabled = true,
   });
 
-  // Método para construir el widget SelectableItem
+  /// Construye la interfaz visual del item seleccionable.
+  ///
+  /// Utiliza [AnimatedContainer] para transiciones suaves entre estados.
+  /// El color de fondo, el color y grosor del borde, y la elevación
+  /// cambian según el [state].
   @override
   Widget build(BuildContext context) {
     // Definir colores y bordes según el estado
@@ -87,7 +109,7 @@ class SelectableItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           color: backgroundColor,
           child: InkWell(
-            onTap: isEnabled ? onTap : null,
+            onTap: isEnabled ? onTap : null, // Solo permite onTap si está habilitado
             borderRadius: BorderRadius.circular(12),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
@@ -98,6 +120,7 @@ class SelectableItem extends StatelessWidget {
                   width: borderWidth,
                 ),
               ),
+              // Padding diferente si es imagen o texto
               padding: EdgeInsets.all(isImage ? 12.0 : 16.0),
               child: child,
             ),
@@ -107,6 +130,7 @@ class SelectableItem extends StatelessWidget {
     );
   }
 
+  /// Devuelve una etiqueta textual descriptiva del estado para accesibilidad.
   String _stateLabel(SelectionState state) {
     switch (state) {
       case SelectionState.unselected:

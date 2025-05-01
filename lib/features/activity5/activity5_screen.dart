@@ -7,35 +7,61 @@ import 'package:namuiwam/core/services/feedback_service.dart';
 import 'package:namuiwam/core/widgets/game_description_widget.dart';
 import 'package:namuiwam/features/activity5/services/activity5_service.dart';
 
+/// {@template activity5_screen}
+/// Pantalla para la Actividad 5: "Muntsielan namtrikmai yunɵmarɵpik (Convertir números en letras)".
+///
+/// Funciona como una herramienta que permite al usuario ingresar un número arábigo (1-9,999,999)
+/// y obtener su representación escrita en Namtrik, con opciones para escuchar, copiar y compartir.
+/// {@endtemplate}
 class Activity5Screen extends StatefulWidget {
+  /// {@macro activity5_screen}
   const Activity5Screen({super.key});
 
   @override
   State<Activity5Screen> createState() => _Activity5ScreenState();
 }
 
+/// Clase de estado para [Activity5Screen].
+///
+/// Gestiona la entrada del usuario, la interacción con [Activity5Service]
+/// para obtener la representación Namtrik y los audios, y actualiza la UI
+/// con los resultados. También maneja la reproducción de audio, la copia
+/// al portapapeles y la lógica de compartir.
+/// Implementa [WidgetsBindingObserver] para detener el audio cuando la app
+/// pasa a segundo plano.
 class _Activity5ScreenState extends State<Activity5Screen>
     with WidgetsBindingObserver {
+  /// Controlador para el campo de texto donde el usuario ingresa el número.
   final TextEditingController _numberController = TextEditingController();
+  /// Instancia del servicio para la lógica de la Actividad 5.
   final Activity5Service _activity5Service = getIt<Activity5Service>();
+  /// Controlador para el scroll principal, usado para ajustar la vista con el teclado.
   final ScrollController _scrollController = ScrollController();
+  /// Almacena la representación Namtrik del número ingresado.
   String _namtrikResult = '';
+  /// Indica si se está esperando una respuesta del servicio.
   bool _isLoading = false;
+  /// Indica si la entrada actual es inválida (ej. fuera de rango).
   bool _hasInvalidInput = false;
+  /// Indica si hay audio disponible para el número actual.
   bool _isAudioAvailable = false;
+  /// Indica si se está reproduciendo audio actualmente.
   bool _isPlayingAudio = false;
+  /// Almacena el número válido actual ingresado por el usuario.
   int? _currentNumber;
+  /// Indica si el teclado está visible en pantalla.
   bool _isKeyboardVisible = false;
+  /// Controla el color del borde del campo de entrada para feedback de error.
   Color? _inputBorderColor;
 
-  // Define el color de fondo orion - verde oliva apagado del contenedor de texto
+  /// Define el color de fondo (verde oliva apagado) para los contenedores de texto.
   final Color _boxColor = const Color(0xFF7E7745);
 
   @override
   void initState() {
     super.initState();
     _numberController.addListener(_onNumberChanged);
-    // Register for lifecycle events
+    // Se registra para observar cambios en el ciclo de vida de la app.
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -44,13 +70,15 @@ class _Activity5ScreenState extends State<Activity5Screen>
     _numberController.removeListener(_onNumberChanged);
     _numberController.dispose();
     _scrollController.dispose();
-    // Stop any playing audio when leaving the screen
+    // Detiene cualquier audio en reproducción al salir de la pantalla.
     _stopAudioIfPlaying();
-    // Unregister from lifecycle events
+    // Deja de observar cambios en el ciclo de vida.
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
+  /// Se llama cuando cambia el estado del ciclo de vida de la aplicación.
+  /// Detiene el audio si la app se pausa, inactiva o desprende.
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // Stop audio if app goes to background or is inactive
@@ -61,7 +89,8 @@ class _Activity5ScreenState extends State<Activity5Screen>
     }
   }
 
-  // Helper method to stop audio if it's playing
+  /// Método auxiliar para detener el audio si se está reproduciendo.
+  /// Actualiza el estado [_isPlayingAudio].
   void _stopAudioIfPlaying() {
     if (_isPlayingAudio) {
       _activity5Service.stopAudio();
@@ -73,12 +102,19 @@ class _Activity5ScreenState extends State<Activity5Screen>
     }
   }
 
+  /// Navega hacia la pantalla de inicio de la aplicación.
+  /// Detiene el audio antes de navegar.
   void _navigateToHome(BuildContext context) {
     // Stop any playing audio before navigating away
     _stopAudioIfPlaying();
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
+  /// Se llama cada vez que cambia el texto en [_numberController].
+  ///
+  /// Valida la entrada, llama a [_activity5Service] para obtener el Namtrik
+  /// y verificar la disponibilidad de audio, y actualiza el estado de la UI
+  /// ([_namtrikResult], [_isLoading], [_hasInvalidInput], etc.).
   Future<void> _onNumberChanged() async {
     // If the text is empty, reset everything
     if (_numberController.text.isEmpty) {
@@ -166,7 +202,11 @@ class _Activity5ScreenState extends State<Activity5Screen>
     }
   }
 
-  // Function to handle the listen button press
+  /// Maneja la acción del botón "Escuchar".
+  ///
+  /// Reproduce la secuencia de audio para [_currentNumber] usando [_activity5Service].
+  /// Actualiza el estado [_isPlayingAudio] durante la reproducción.
+  /// Proporciona feedback háptico.
   Future<void> _handleListenPressed() async {
     if (!_isAudioAvailable || _isPlayingAudio || _currentNumber == null) {
       return;
@@ -195,7 +235,10 @@ class _Activity5ScreenState extends State<Activity5Screen>
     }
   }
 
-  // Function to handle the copy button press
+  /// Maneja la acción del botón "Copiar".
+  ///
+  /// Copia el [_namtrikResult] válido al portapapeles y muestra un [SnackBar].
+  /// Proporciona feedback háptico.
   void _handleCopyPressed() async {
     if (_namtrikResult.isNotEmpty &&
         _namtrikResult != 'Resultado del número' &&
@@ -220,7 +263,10 @@ class _Activity5ScreenState extends State<Activity5Screen>
     }
   }
 
-  // Function to handle the share button press
+  /// Maneja la acción del botón "Compartir".
+  ///
+  /// (Actualmente solo muestra un [SnackBar] con el texto a compartir).
+  /// Proporciona feedback háptico.
   void _handleSharePressed() async {
     if (_namtrikResult.isNotEmpty &&
         _namtrikResult != 'Resultado del número' &&
@@ -245,6 +291,11 @@ class _Activity5ScreenState extends State<Activity5Screen>
     }
   }
 
+  /// Construye la interfaz de usuario de la pantalla de la herramienta de conversión Namtrik.
+  ///
+  /// Incluye el [AppBar], la descripción, el campo de entrada de número,
+  /// el campo de resultado Namtrik, y los botones de acción (Escuchar, Copiar, Compartir).
+  /// Ajusta el diseño según si el teclado está visible y el tamaño de la pantalla.
   @override
   Widget build(BuildContext context) {
     // Check if keyboard is visible
@@ -501,7 +552,11 @@ class _Activity5ScreenState extends State<Activity5Screen>
     );
   }
 
-  // Helper method to build action buttons with consistent styling
+  /// Método auxiliar para construir los botones de acción (Escuchar, Copiar, Compartir)
+  /// con un estilo consistente.
+  ///
+  /// Ajusta el tamaño y estilo según [isSmallScreen] (cuando el teclado está visible).
+  /// Cambia la apariencia del botón "Escuchar" si [isPlaying] es true.
   Widget _buildActionButton({
     required IconData icon,
     required String label,

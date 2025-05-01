@@ -1,41 +1,74 @@
-# Namui Wam - Aplicación Educativa Namtrik
+# Tsatsɵ Musik - Aplicación Educativa Namtrik
 
-![Logo](assets/images/1.logo-colibri.png)
+![Logo](assets/images/1.logo-colibri.png) <!-- Considerar actualizar a logo-colibri_v1.png si es la versión final -->
 
 ## Descripción
-Namui Wam es una aplicación móvil educativa e interactiva, desarrollada con Flutter, diseñada para facilitar el aprendizaje de los números y otros conceptos básicos en el idioma Namtrik. La aplicación busca combinar contenido culturalmente relevante con actividades lúdicas y una interfaz atractiva para niños y estudiantes.
+Tsatsɵ Musik es una aplicación móvil educativa e interactiva, desarrollada con Flutter, diseñada para facilitar el aprendizaje de conceptos básicos como números, vocabulario y más en el idioma Namtrik. La aplicación busca combinar contenido culturalmente relevante con actividades lúdicas y una interfaz atractiva para niños y estudiantes.
 
 ## Estado del Proyecto
 - **Versión actual:** 1.0.0+1 (según `pubspec.yaml`)
 - **Estado de desarrollo:** En desarrollo activo
-- **Progreso estimado:** ~25% (Interfaz base y estructura implementadas)
+- **Progreso estimado:** ~65-70% (Funcionalidad base de 5/6 actividades implementada, servicios core, estructura)
 
 ### Características Implementadas
-- ✅ Estructura modular del proyecto (Core, Features).
-- ✅ Sistema de temas y diseño visual inicial.
-- ✅ Pantalla de bienvenida (Splash Screen) y navegación básica.
-- ✅ Definición de 6 módulos de actividades (`activity1` a `activity6`).
-- ✅ Interfaz de usuario base para las actividades.
-- ✅ Integración inicial de assets (imágenes, audio, datos JSON).
 
-### Próximas Características / Roadmap
-- 🔄 Desarrollo completo de la lógica y contenido de las 6 actividades:
-    1.  Actividad 1: [Definir objetivo, ej: Reconocimiento de números Namtrik]
-    2.  Actividad 2: [Definir objetivo, ej: Conteo básico]
-    3.  Actividad 3: [Definir objetivo, ej: Asociación número-cantidad]
-    4.  Actividad 4: [Definir objetivo, ej: Conceptos de dinero/hora]
-    5.  Actividad 5: [Definir objetivo, ej: Diccionario interactivo]
-    6.  Actividad 6: [Definir objetivo, ej: Mini-juegos/Evaluación]
-- 🔄 Implementación robusta del reproductor de audio (`audioplayers`) para pronunciaciones.
-- 🔄 Sistema de gestión de estado (`provider`) para manejar el flujo de datos.
-- 🔄 Persistencia de datos (progreso del usuario) usando `shared_preferences`, `hive` o `sqflite`.
-- 🔄 Refinamiento de animaciones y efectos sonoros.
-- 🔄 Pruebas unitarias y de widgets.
+*   **Servicios Principales:**
+    *   Gestión de reproducción de audio (`AudioService`).
+    *   Feedback háptico (`FeedbackService`).
+    *   Gestión del estado del juego (puntos, niveles completados) (`GameState`).
+    *   Gestión del estado de las actividades (`ActivitiesState`).
+*   **Actividad 1: Muntsik mөik kөtasha sөl lau (Escoja el número correcto)** (Estado: Completo)
+    *   Objetivo: Asociar palabras numéricas Namtrik con números arábigos.
+    *   Jugabilidad: Muestra una palabra numérica en Namtrik; el usuario selecciona el número arábigo correspondiente entre varias opciones.
+*   **Actividad 2: Muntsikelan pөram kusrekun (Aprendamos a escribir los números)** (Estado: Completo)
+    *   Objetivo: Practicar la escritura de palabras numéricas Namtrik.
+    *   Jugabilidad: Muestra un número arábigo; el usuario escribe la palabra Namtrik correspondiente usando un teclado personalizado.
+*   **Actividad 3: Nөsik utөwan asam kusrekun (Aprendamos a ver la hora)** (Estado: Refactorización Pendiente)
+    *   Objetivo: Aprender a decir la hora usando números Namtrik en relojes analógicos y digitales.
+    *   *Implementación Actual:* Muestra niveles numerados, probablemente para asociar números con posiciones del reloj.
+    *   *Diseño Deseado:* Tres sub-actividades: 1) Emparejar hora digital con reloj analógico, 2) Adivinar la hora mostrada en un reloj analógico, 3) Poner las manecillas en un reloj analógico a una hora digital dada.
+    *   *Estado:* Requiere una refactorización significativa para coincidir con el diseño deseado.
+*   **Actividad 4: Anwan ashipelɵ kɵkun (Aprendamos a usar el dinero)** (Estado: Completo)
+    *   Objetivo: Aprender sobre la moneda Namtrik, sus valores y transacciones básicas.
+    *   Jugabilidad: Consiste en cuatro sub-actividades (niveles):
+        1.  **Conozcamos el dinero Namtrik:** Identificar imágenes de la moneda (ambos lados), escuchar sus nombres en Namtrik y ver sus valores.
+        2.  **Escojamos el dinero correcto:** Seleccionar la combinación correcta de dinero necesaria para igualar el precio de un artículo mostrado.
+        3.  **Escojamos el nombre correcto:** Elegir el nombre Namtrik correcto para el valor total de un grupo de dinero mostrado.
+        4.  **Coloquemos el dinero correcto:** Seleccionar las piezas de dinero correctas para sumar un valor total dado presentado en Namtrik.
+*   **Actividad 5: Muntsielan namtrikmai yunөmarөpik (Convertir números en letras)** (Estado: Completo)
+    *   Objetivo: Convertir números arábigos a su forma escrita en Namtrik.
+    *   Jugabilidad: El usuario ingresa un número (1-9,999,999), y la app muestra su escritura en Namtrik. Incluye opciones para escuchar la pronunciación, copiar y compartir el texto.
+*   **Actividad 6: Wammeran tulisha manchípik kui asamik pөrik (Diccionario)** (Estado: Funcionalidad Base Completa)
+    *   Objetivo: Consultar un léxico básico de palabras Namtrik organizadas por categorías, con soporte visual y auditivo.
+    *   Funcionalidad:
+        *   Navegación por dominios semánticos: Asrumunchimera (partes del cuerpo), Ushamera (animales), Maintusrmera (plantas comestibles), Pisielɵ (colores), Namui kewa amɵneiklɵ (vestido), Srɵwammera (neologismos), Wamap amɵñikun (saludos).
+        *   Visualización de entradas: Muestra la palabra en Namtrik, su traducción al español, y una imagen asociada.
+        *   Reproducción de audio: Permite escuchar la pronunciación de la palabra Namtrik (y sus variantes si existen).
+        *   Visor de imágenes: Permite ampliar y hacer zoom en la imagen asociada.
+    *   *Estado:* La funcionalidad principal de consulta está implementada. Pendiente: Búsqueda/filtrado.
+
+### Roadmap (Próximas Características)
+
+*   **Refactorización Actividad 3:** Implementar las tres sub-actividades planeadas para decir la hora.
+*   **Mejoras Actividad 6 (Diccionario):**
+    *   Añadir funcionalidad de búsqueda/filtrado dentro de los dominios o en todo el diccionario.
+    *   Posiblemente añadir ejercicios interactivos basados en el diccionario.
+*   **Perfiles de Usuario y Seguimiento de Progreso:** Permitir múltiples usuarios y guardar el progreso individualmente.
+*   **Configuraciones:** Opciones para volumen de sonido, ajustes de dificultad.
+*   **Mejoras de Accesibilidad:** Mejorar el soporte para lectores de pantalla y métodos de entrada alternativos.
+*   **Optimización y Pruebas:** Mejorar el rendimiento, añadir pruebas unitarias y de integración.
+
+## Capturas de Pantalla
+
+<!-- Añadir aquí algunas capturas de pantalla o un GIF mostrando la app -->
+<!-- Ejemplo: -->
+<!-- ![Pantalla Principal](screenshots/main_screen.png?raw=true "Pantalla Principal") -->
 
 ## Requisitos Técnicos
-- Flutter SDK: >=3.1.3 <4.0.0
-- Dart SDK: >=3.1.3 <4.0.0
-- Plataformas Destino: Android, iOS
+- Flutter SDK: >=3.19.3 <4.0.0 <!-- Actualizado según pubspec.yaml implícito -->
+- Dart SDK: >=3.3.1 <4.0.0 <!-- Actualizado según pubspec.yaml implícito -->
+- Plataformas Destino: Android (iOS pendiente de configuración/pruebas)
+- **Android:** `minSdkVersion 21` (Configurado en `android/app/build.gradle`)
 
 ## Estructura del Proyecto
 ```
@@ -51,61 +84,106 @@ namui_wam/
 ├── lib/              # Código fuente Dart
 │   ├── core/         # Lógica central, servicios, modelos, utils, widgets base
 │   ├── features/     # Módulos funcionales (pantallas/actividades)
-│   │   ├── activity1/
-│   │   ├── ...
+│   │   ├── activity1/ - activity6/
 │   │   └── home/     # Pantalla principal o de inicio
+│   ├── shared/       # Widgets reutilizables entre features
 │   └── main.dart     # Punto de entrada de la aplicación
 ├── test/             # Pruebas (a implementar)
 ├── pubspec.yaml      # Definición del proyecto y dependencias
 └── README.md         # Esta documentación
 ```
 
+## Documentación Detallada por Actividad
+Para obtener información más detallada sobre la implementación, jugabilidad y componentes de cada actividad, consulta los siguientes archivos README:
+
+*   [Actividad 1: Muntsik mөik kөtasha sөl lau (Escoja el número correcto)](lib/features/activity1/README.md)
+*   [Actividad 2: Muntsikelan pөram kusrekun (Aprendamos a escribir los números)](lib/features/activity2/README.md)
+*   [Actividad 3: Nөsik utөwan asam kusrekun (Aprendamos a ver la hora)](lib/features/activity3/README.md)
+*   [Actividad 4: Anwan ashipelɵ kɵkun (Aprendamos a usar el dinero)](lib/features/activity4/README.md)
+*   [Actividad 5: Muntsielan namtrikmai yunөmarөpik (Convertir números en letras)](lib/features/activity5/README.md)
+*   [Actividad 6: Wammeran tulisha manchípik kui asamik pөrik (Diccionario)](lib/features/activity6/README.md)
+
 ## Recursos Clave y Dependencias
 El proyecto utiliza varios recursos y paquetes de Flutter:
 - **Assets:** Incluye una colección organizada de:
-    - Archivos de audio `.wav` para números y diccionario Namtrik.
-    - Archivos de datos `.json` que estructuran el contenido de las actividades (números, dinero, horas, diccionario, artículos).
-    - Imágenes `.png` para la interfaz, iconos, logos y elementos visuales de las actividades.
+    - Archivos de audio (`.mp3`, `.wav`) para números y diccionario Namtrik.
+    - Archivos de datos `.json` que estructuran el contenido de las actividades.
+    - Imágenes (`.png`, `.jpg`) para la interfaz, iconos, logos y elementos visuales.
 - **Dependencias Principales:**
     - `flutter/material`: Framework base de UI.
-    - `provider`: Para la gestión del estado.
-    - `audioplayers`: Reproducción de archivos de audio.
-    - `shared_preferences`, `hive`, `sqflite`, `path_provider`: Opciones para almacenamiento local.
-    - `get_it`: Inyección de dependencias (Service Locator).
-    - `logger`: Para el registro de eventos y depuración.
+    - `provider`: Para la gestión del estado (uso actual limitado, planeado para estados complejos).
+    - `audioplayers`: Reproducción de archivos de audio (integrado en `AudioPlayerService`).
+    - `get_it`: Inyección de dependencias (Service Locator pattern implementado en `lib/core/di`).
+    - `logger`: Para el registro de eventos y depuración (integrado en `LoggerService`).
+    - `sqflite` / `path_provider`: Para la base de datos local del diccionario (Actividad 6).
+    - `flutter_native_splash`: Para la pantalla de bienvenida.
 - **Dependencias de Desarrollo:**
     - `flutter_lints`: Reglas de análisis estático.
-    - `build_runner`, `hive_generator`: Generación de código.
-    - `flutter_launcher_icons`, `flutter_native_splash`: Personalización del icono y splash screen.
+    - `build_runner`: (Necesario si se usa `hive_generator` u otros generadores)
+    - `flutter_launcher_icons`: Personalización del icono de la app.
 
 ## Instalación y Ejecución
-1.  Asegúrate de tener Flutter (versión compatible) instalado y configurado.
+1.  Asegúrate de tener Flutter (versión compatible, ver Requisitos Técnicos) instalado y configurado.
 2.  Clona el repositorio:
-    ```bash
+    ```powershell
     git clone [URL-del-repositorio]
     cd namui_wam
     ```
 3.  Instala las dependencias:
-    ```bash
+    ```powershell
     flutter pub get
     ```
 4.  Ejecuta la aplicación (asegúrate de tener un emulador/dispositivo conectado):
-    ```bash
+    ```powershell
     flutter run
     ```
 
 ## Contribución
+<!-- Opcional: Si el proyecto es abierto a contribuciones -->
+Actualmente, el desarrollo es gestionado internamente. Si estás interesado en contribuir, por favor contacta a los mantenedores.
+
+<!-- O si es abierto: -->
+<!--
 Para contribuir al proyecto:
-1. Crea un fork del repositorio
+1. Crea un fork del repositorio.
 2. Crea una rama para tu función: `git checkout -b feature/nueva-funcion`
 3. Realiza tus cambios y haz commit: `git commit -m 'Añade nueva función'`
-4. Envía tus cambios: `git push origin feature/nueva-funcion`
-5. Crea un Pull Request
+4. Asegúrate de que el código pase el linter: `flutter analyze`
+5. Envía tus cambios: `git push origin feature/nueva-funcion`
+6. Crea un Pull Request detallando los cambios.
+-->
 
 ## Licencia
-Este proyecto está bajo la Licencia [Especificar tipo de licencia]
+<!-- Especificar la licencia aquí -->
+Ejemplo: Licencia MIT
+
+```
+Copyright (c) [Año] [Nombre del propietario / Organización]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+O
+
+**Propiedad Intelectual:** El contenido cultural (idioma Namtrik, imágenes, audios) pertenece a la comunidad Namtrik. El código fuente de la aplicación está licenciado bajo [Especificar Licencia, ej: MIT], pero el contenido cultural tiene sus propias restricciones de uso y distribución que deben ser respetadas.
 
 ## Contacto
 Para más información o soporte:
-- Email: [Correo de contacto]
-- Website: [Sitio web del proyecto]
+- Email: [Tu Correo de contacto]
+- Website/Organización: [Sitio web relevante, si existe]

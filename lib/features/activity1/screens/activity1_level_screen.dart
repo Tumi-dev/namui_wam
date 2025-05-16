@@ -44,7 +44,7 @@ class _Activity1LevelScreenState
   final _feedbackService = GetIt.instance<FeedbackService>();
   /// Servicio específico para la lógica de la Actividad 1.
   late final Activity1Service _activity1Service;
-  /// Servicio para reproducir sonidos de la aplicación.
+  /// Servicio para reproducir sonidos de la aplicación, incluyendo efectos de correcto/incorrecto.
   final _soundService = GetIt.instance<SoundService>();
   /// Indica si el usuario ya seleccionó la respuesta correcta.
   bool isCorrectAnswerSelected = false;
@@ -167,13 +167,14 @@ class _Activity1LevelScreenState
 
   /// Maneja el caso en que el usuario selecciona la respuesta correcta.
   ///
-  /// Marca la respuesta como correcta, proporciona retroalimentación háptica,
-  /// actualiza el estado del juego (puntos, nivel completado), y muestra un
-  /// diálogo de felicitación o de nivel ya completado.
+  /// Marca la respuesta como correcta, reproduce el sonido de "correcto",
+  /// proporciona retroalimentación háptica, actualiza el estado del juego
+  /// (puntos, nivel completado), y muestra un diálogo de felicitación
+  /// o de nivel ya completado.
   void _handleCorrectAnswer() async {
     if (!mounted) return;
 
-    _soundService.playCorrectSound();
+    _soundService.playCorrectSound(); // Reproduce sonido de acierto
 
     setState(() {
       isCorrectAnswerSelected = true;
@@ -315,13 +316,14 @@ class _Activity1LevelScreenState
 
   /// Maneja el caso en que el usuario selecciona una respuesta incorrecta.
   ///
-  /// Decrementa los intentos restantes, proporciona retroalimentación háptica,
-  /// y muestra un [SnackBar] con los intentos restantes o un [AlertDialog]
-  /// si se agotan los intentos, regresando al menú de la actividad.
+  /// Reproduce el sonido de "incorrecto", decrementa los intentos restantes,
+  /// proporciona retroalimentación háptica, y muestra un [SnackBar] con los
+  /// intentos restantes o un [AlertDialog] si se agotan los intentos,
+  /// regresando al menú de la actividad.
   void _handleIncorrectAnswer() async {
     if (!mounted) return;
 
-    _soundService.playIncorrectSound();
+    _soundService.playIncorrectSound(); // Reproduce sonido de error
 
     setState(() {
       remainingAttempts--;

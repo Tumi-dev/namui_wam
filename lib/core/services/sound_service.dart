@@ -4,10 +4,20 @@ import 'package:get_it/get_it.dart';
 import 'package:namuiwam/core/services/logger_service.dart'; // Asumiendo esta ruta para LoggerService
 import 'package:flutter/widgets.dart'; // 1. Importar flutter/widgets.dart
 
-// TODO: Importar StorageService y definir las claves de almacenamiento
-
-// TODO: Considerar obtener StorageService a través de un service locator si se usa (como GetIt)
-
+/// {@template sound_service}
+/// Servicio Singleton para gestionar todos los aspectos del audio en la aplicación.
+///
+/// Responsabilidades:
+/// - Reproducción y control de música de fondo (loop, volumen, habilitar/deshabilitar).
+/// - Reproducción de efectos de sonido (correcto, incorrecto) con control de volumen y habilitación.
+/// - Persistencia de las configuraciones de audio del usuario (volúmenes, estados de habilitación) usando Hive.
+/// - Gestión del ciclo de vida de la aplicación para pausar y reanudar automáticamente la música de fondo.
+/// - Configuración del contexto de audio global y específico para los reproductores, 
+///   permitiendo la coexistencia de la música de fondo con otros sonidos de la aplicación.
+///
+/// Se accede a este servicio a través de [GetIt.instance]. Su método [init]
+/// debe ser llamado al inicio de la aplicación para cargar configuraciones y preparar los reproductores.
+/// {@endtemplate}
 class SoundService implements WidgetsBindingObserver { // 2. Implementar WidgetsBindingObserver
   final LoggerService _logger = GetIt.instance<LoggerService>();
 
@@ -17,7 +27,9 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
   late AudioPlayer _incorrectSoundPlayer;
 
   // Caja de Hive para configuraciones
+  /// Caja de Hive donde se almacenan las configuraciones de audio.
   late Box _settingsBox;
+  /// Nombre de la caja de Hive para las configuraciones de audio.
   static const String _audioSettingsBoxName = 'audio_settings_box';
 
   // Claves para Hive
@@ -47,8 +59,13 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
 
   // ---- Singleton Setup ----
   static final SoundService _instance = SoundService._internal();
+  /// Proporciona la instancia única de [SoundService].
   factory SoundService() => _instance;
 
+  /// Constructor interno para el patrón Singleton.
+  ///
+  /// Inicializa las instancias de [AudioPlayer] con sus configuraciones
+  /// específicas de [AudioContext] y [ReleaseMode].
   SoundService._internal() {
     _logger.info('SoundService: Internal constructor called.');
     _backgroundMusicPlayer = AudioPlayer();
@@ -114,6 +131,15 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     // _loadSettings(); 
   }
 
+  /// Inicializa el servicio de sonido.
+  ///
+  /// Debe llamarse al inicio de la aplicación.
+  /// - Registra este servicio como un [WidgetsBindingObserver] para escuchar cambios en el ciclo de vida de la app.
+  /// - Configura el [AudioContext] global para la aplicación.
+  /// - Abre la caja de Hive para las configuraciones de audio.
+  /// - Carga las configuraciones de audio guardadas ([_loadSettings]).
+  /// - Aplica los volúmenes cargados a los reproductores.
+  /// - Inicia la reproducción de la música de fondo si está habilitada.
   Future<void> init() async {
     _logger.info('SoundService: Initializing...');
     WidgetsBinding.instance.addObserver(this); // 3. Registrar observador
@@ -168,6 +194,9 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
   }
 
   // --- Persistencia ---
+  /// Carga las configuraciones de audio desde la caja de Hive.
+  ///
+  /// Si no hay configuraciones guardadas o ocurre un error, se usan valores por defecto.
   Future<void> _loadSettings() async {
     _logger.info('SoundService: Loading settings...');
     try {
@@ -186,6 +215,7 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     }
   }
 
+  /// Guarda las configuraciones de audio actuales en la caja de Hive.
   Future<void> _saveSettings() async {
     _logger.info('SoundService: Saving settings...');
     try {
@@ -200,6 +230,13 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
   }
 
   // --- Música de Fondo ---
+  /// Reproduce o reanuda la música de fondo si está habilitada.
+  ///
+  /// Se asegura de que el modo de reproducción sea [ReleaseMode.loop].
+  /// Si la música ya está sonando, solo asegura el volumen.
+  /// Si está pausada y habilitada, la reanuda.
+  /// Si no está sonando y está habilitada, la inicia desde el principio.
+  /// Si está deshabilitada, asegura que esté pausada.
   Future<void> playBackgroundMusic() async {
     // Asegurar que el modo loop esté establecido
     await _backgroundMusicPlayer.setReleaseMode(ReleaseMode.loop);
@@ -235,6 +272,7 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     }
   }
 
+  /// Detiene completamente la música de fondo.
   Future<void> stopBackgroundMusic() async {
     try {
       _logger.info('SoundService: Stopping background music.');
@@ -244,6 +282,12 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     }
   }
 
+  /// Establece el volumen para la música de fondo.
+  ///
+  /// El volumen se limita entre 0.0 y 1.0.
+  /// Guarda la configuración después de aplicarla.
+  ///
+  /// [volume] El nuevo nivel de volumen (0.0 a 1.0).
   Future<void> setBackgroundMusicVolume(double volume) async {
     _backgroundMusicVolume = volume.clamp(0.0, 1.0);
     _logger.info('SoundService: Setting background music volume to $_backgroundMusicVolume.');
@@ -251,6 +295,13 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     await _saveSettings(); 
   }
 
+  /// Habilita o deshabilita la música de fondo.
+  ///
+  /// Si se habilita, intenta reproducir o reanudar la música.
+  /// Si se deshabilita, pausa la música si se estaba reproduciendo.
+  /// Guarda la configuración.
+  ///
+  /// [enabled] Verdadero para habilitar, falso para deshabilitar.
   Future<void> toggleBackgroundMusic(bool enabled) async {
     _isBackgroundMusicEnabled = enabled;
     _logger.info('SoundService: Toggling background music to $_isBackgroundMusicEnabled.');
@@ -265,10 +316,16 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     await _saveSettings();
   }
 
+  /// Obtiene el volumen actual de la música de fondo.
   double get backgroundMusicVolume => _backgroundMusicVolume;
+  /// Indica si la música de fondo está actualmente habilitada.
   bool get isBackgroundMusicEnabled => _isBackgroundMusicEnabled;
 
   // --- Sonidos de Correcto/Incorrecto ---
+  /// Reproduce el sonido de "correcto" si los efectos están habilitados.
+  ///
+  /// Si el sonido ya se está reproduciendo, lo detiene y lo reinicia para asegurar 
+  /// una respuesta inmediata a interacciones rápidas.
   Future<void> playCorrectSound() async {
     if (_areEffectsEnabled) {
       try {
@@ -285,6 +342,9 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     }
   }
 
+  /// Reproduce el sonido de "incorrecto" si los efectos están habilitados.
+  ///
+  /// Si el sonido ya se está reproduciendo, lo detiene y lo reinicia.
   Future<void> playIncorrectSound() async {
     if (_areEffectsEnabled) {
       try {
@@ -300,6 +360,12 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     }
   }
 
+  /// Establece el volumen para los efectos de sonido (correcto/incorrecto).
+  ///
+  /// El volumen se limita entre 0.0 y 1.0.
+  /// Guarda la configuración después de aplicarla.
+  ///
+  /// [volume] El nuevo nivel de volumen (0.0 a 1.0).
   Future<void> setEffectsVolume(double volume) async {
     _effectsVolume = volume.clamp(0.0, 1.0);
     _logger.info('SoundService: Setting effects volume to $_effectsVolume.');
@@ -308,16 +374,27 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     await _saveSettings();
   }
 
+  /// Habilita o deshabilita los efectos de sonido.
+  ///
+  /// Guarda la configuración.
+  ///
+  /// [enabled] Verdadero para habilitar, falso para deshabilitar.
   Future<void> toggleEffects(bool enabled) async {
     _areEffectsEnabled = enabled;
     _logger.info('SoundService: Toggling effects to $_areEffectsEnabled.');
     await _saveSettings();
   }
 
+  /// Obtiene el volumen actual de los efectos de sonido.
   double get effectsVolume => _effectsVolume;
+  /// Indica si los efectos de sonido están actualmente habilitados.
   bool get areEffectsEnabled => _areEffectsEnabled;
 
   // --- Limpieza ---
+  /// Libera todos los recursos utilizados por el servicio.
+  ///
+  /// Debe llamarse cuando el servicio ya no se necesita (ej. al cerrar la app).
+  /// Elimina el observador del ciclo de vida, libera los [AudioPlayer] y cierra la caja de Hive.
   Future<void> dispose() async {
     _logger.info('SoundService: Disposing...');
     WidgetsBinding.instance.removeObserver(this);

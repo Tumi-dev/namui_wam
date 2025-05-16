@@ -14,27 +14,36 @@ Tsatsɵ Musik es una aplicación móvil educativa e interactiva, desarrollada co
 
 *   **Servicios Principales:**
     *   Gestión de reproducción de audio (`AudioService`).
+    *   Servicio de Sonido Centralizado (`SoundService`):
+        *   Música de fondo continua con gestión de ciclo de vida (pausa/reanudación automática).
+        *   Efectos de sonido para interacciones (e.g., correcto/incorrecto en actividades).
+        *   Configuración de volumen independiente para música y efectos.
+        *   Controles para habilitar/deshabilitar música y efectos.
+        *   Persistencia de configuraciones de audio (volumen, habilitado/deshabilitado) usando Hive.
+        *   Configuración de `AudioContext` para permitir la reproducción concurrente de música de fondo y otros sonidos de la app.
     *   Feedback háptico (`FeedbackService`).
     *   Gestión del estado del juego (puntos, niveles completados) (`GameState`).
     *   Gestión del estado de las actividades (`ActivitiesState`).
 *   **Actividad 1: Muntsik mөik kөtasha sөl lau (Escoja el número correcto)** (Estado: Completo)
     *   Objetivo: Asociar palabras numéricas Namtrik con números arábigos.
     *   Jugabilidad: Muestra una palabra numérica en Namtrik; el usuario selecciona el número arábigo correspondiente entre varias opciones.
+    *   Incluye efectos de sonido para respuestas correctas e incorrectas.
 *   **Actividad 2: Muntsikelan pөram kusrekun (Aprendamos a escribir los números)** (Estado: Completo)
     *   Objetivo: Practicar la escritura de palabras numéricas Namtrik.
     *   Jugabilidad: Muestra un número arábigo; el usuario escribe la palabra Namtrik correspondiente usando un teclado personalizado.
+    *   Incluye efectos de sonido para respuestas correctas e incorrectas.
 *   **Actividad 3: Nөsik utөwan asam kusrekun (Aprendamos a ver la hora)** (Estado: Refactorización Pendiente)
     *   Objetivo: Aprender a decir la hora usando números Namtrik en relojes analógicos y digitales.
-    *   *Implementación Actual:* Muestra niveles numerados, probablemente para asociar números con posiciones del reloj.
+    *   *Implementación Actual:* Muestra niveles numerados, probablemente para asociar números con posiciones del reloj. Incluye efectos de sonido para respuestas correctas e incorrectas en la lógica de niveles existente.
     *   *Diseño Deseado:* Tres sub-actividades: 1) Emparejar hora digital con reloj analógico, 2) Adivinar la hora mostrada en un reloj analógico, 3) Poner las manecillas en un reloj analógico a una hora digital dada.
     *   *Estado:* Requiere una refactorización significativa para coincidir con el diseño deseado.
 *   **Actividad 4: Anwan ashipelɵ kɵkun (Aprendamos a usar el dinero)** (Estado: Completo)
     *   Objetivo: Aprender sobre la moneda Namtrik, sus valores y transacciones básicas.
     *   Jugabilidad: Consiste en cuatro sub-actividades (niveles):
         1.  **Conozcamos el dinero Namtrik:** Identificar imágenes de la moneda (ambos lados), escuchar sus nombres en Namtrik y ver sus valores.
-        2.  **Escojamos el dinero correcto:** Seleccionar la combinación correcta de dinero necesaria para igualar el precio de un artículo mostrado.
-        3.  **Escojamos el nombre correcto:** Elegir el nombre Namtrik correcto para el valor total de un grupo de dinero mostrado.
-        4.  **Coloquemos el dinero correcto:** Seleccionar las piezas de dinero correctas para sumar un valor total dado presentado en Namtrik.
+        2.  **Escojamos el dinero correcto:** Seleccionar la combinación correcta de dinero necesaria para igualar el precio de un artículo mostrado. Incluye efectos de sonido para respuestas correctas e incorrectas.
+        3.  **Escojamos el nombre correcto:** Elegir el nombre Namtrik correcto para el valor total de un grupo de dinero mostrado. Incluye efectos de sonido para respuestas correctas e incorrectas.
+        4.  **Coloquemos el dinero correcto:** Seleccionar las piezas de dinero correctas para sumar un valor total dado presentado en Namtrik. Incluye efectos de sonido para respuestas correctas e incorrectas.
 *   **Actividad 5: Muntsielan namtrikmai yunөmarөpik (Convertir números en letras)** (Estado: Completo)
     *   Objetivo: Convertir números arábigos a su forma escrita en Namtrik.
     *   Jugabilidad: El usuario ingresa un número (1-9,999,999), y la app muestra su escritura en Namtrik. Incluye opciones para escuchar la pronunciación, así como para copiar y compartir tanto el número ingresado como su texto Namtrik resultante.
@@ -54,7 +63,7 @@ Tsatsɵ Musik es una aplicación móvil educativa e interactiva, desarrollada co
     *   Añadir funcionalidad de búsqueda/filtrado dentro de los dominios o en todo el diccionario.
     *   Posiblemente añadir ejercicios interactivos basados en el diccionario.
 *   **Perfiles de Usuario y Seguimiento de Progreso:** Permitir múltiples usuarios y guardar el progreso individualmente.
-*   **Configuraciones:** Opciones para volumen de sonido, ajustes de dificultad.
+*   **Configuraciones:** Opciones para volumen de sonido (música de fondo y efectos), habilitar/deshabilitar tipos de audio (implementado vía `SoundService`). Ajustes de dificultad.
 *   **Mejoras de Accesibilidad:** Mejorar el soporte para lectores de pantalla y métodos de entrada alternativos.
 *   **Optimización y Pruebas:** Mejorar el rendimiento, añadir pruebas unitarias y de integración.
 

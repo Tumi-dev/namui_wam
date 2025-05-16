@@ -42,6 +42,9 @@ class AudioPlayerService {
   /// ```
   AudioPlayerService() {
     // Configurar AudioContext para efectos de sonido cortos
+    // Esto permite que los sonidos de este servicio (ej. pronunciaciones del diccionario)
+    // puedan mezclarse con la música de fondo y solicitar un foco de audio
+    // transitorio que podría atenuar otros sonidos en Android (AndroidAudioFocus.gainTransientMayDuck).
     _audioPlayer.setAudioContext(AudioContext(
       iOS: AudioContextIOS(
         category: AVAudioSessionCategory.playback,

@@ -10,6 +10,7 @@ import 'package:namuiwam/features/activity4/models/namtrik_money_model.dart';
 import 'package:namuiwam/features/activity4/models/namtrik_article_model.dart';
 import 'dart:math';
 import 'package:namuiwam/core/services/feedback_service.dart';
+import 'package:namuiwam/core/services/sound_service.dart';
 
 /// {@template activity4_level_screen}
 /// Pantalla que muestra el contenido y la lógica para un nivel específico
@@ -75,6 +76,7 @@ class _Activity4LevelScreenState
   /// - Reproducción de audio para nombres Namtrik
   /// - Cálculo de valores monetarios totales
   late Activity4Service _activity4Service;
+  final SoundService _soundService = GetIt.instance<SoundService>();
 
   /// Indica si los datos del nivel se están cargando.
   ///
@@ -318,12 +320,14 @@ class _Activity4LevelScreenState
 
     // Feedback háptico fuera de setState
     if (index != _correctOptionIndex) {
+      _soundService.playIncorrectSound(); // Reproduce sonido de error
       await FeedbackService().mediumHapticFeedback();
     } else {
+      _soundService.playCorrectSound(); // Reproduce sonido de acierto
       await FeedbackService().lightHapticFeedback();
     }
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
           _showFeedback = false;
@@ -554,13 +558,15 @@ class _Activity4LevelScreenState
 
     // Feedback háptico fuera de setState
     if (index != _correctNameIndex) {
+      _soundService.playIncorrectSound(); // Reproduce sonido de error
       await FeedbackService().mediumHapticFeedback();
     } else {
+      _soundService.playCorrectSound(); // Reproduce sonido de acierto
       await FeedbackService().lightHapticFeedback();
     }
 
     // Programar el reinicio del feedback después de un tiempo
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
           _showNameFeedback = false;
@@ -1476,6 +1482,7 @@ class _Activity4LevelScreenState
         _showLevel4Feedback = true;
         _isCorrectLevel4Answer = false;
 
+        _soundService.playIncorrectSound(); // SONIDO INCORRECTO
         // Reproducir alerta de audio
         _activity4Service.playAlertAudio('valor_excedido');
 
@@ -1483,7 +1490,7 @@ class _Activity4LevelScreenState
         decrementAttempts();
 
         // Después de un tiempo, reiniciar el nivel con un nuevo nombre aleatorio
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 2), () {
           if (mounted) {
             setState(() {
               _showLevel4Feedback = false;
@@ -1538,8 +1545,9 @@ class _Activity4LevelScreenState
         _isCorrectLevel4Answer = hasCorrectCombination;
 
         if (hasCorrectCombination) {
+          _soundService.playCorrectSound(); // SONIDO CORRECTO
           // La respuesta es correcta - mostrar diálogo de éxito
-          Future.delayed(Duration(seconds: 1), () {
+          Future.delayed(const Duration(seconds: 1), () {
             if (mounted) {
               // Verificar si ya se han ganado puntos para este nivel
               final activitiesState = ActivitiesState.of(context);
@@ -1676,6 +1684,7 @@ class _Activity4LevelScreenState
           });
         } else {
           // La combinación no es correcta, pero el valor total está bien
+          _soundService.playIncorrectSound(); // SONIDO INCORRECTO
           // Reproducir alerta de audio (opcional)
           _activity4Service.playAlertAudio('combinacion_incorrecta');
 
@@ -1683,7 +1692,7 @@ class _Activity4LevelScreenState
           decrementAttempts();
 
           // Después de un tiempo, reiniciar el nivel
-          Future.delayed(Duration(seconds: 2), () {
+          Future.delayed(const Duration(seconds: 2), () {
             if (mounted) {
               setState(() {
                 _showLevel4Feedback = false;

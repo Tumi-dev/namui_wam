@@ -11,6 +11,14 @@ Los servicios fundamentales que proporcionan funcionalidades básicas a toda la 
 - **LoggerService**: Servicio de registro para depuración y seguimiento de eventos.
 - **StorageService**: Gestiona el almacenamiento local persistente utilizando Hive.
 - **NumberDataService**: Carga y proporciona acceso a los datos de números en Namtrik.
+- **SoundService**: Servicio centralizado para la gestión de audio. Proporciona:
+    - Reproducción continua de música de fondo.
+    - Efectos de sonido para interacciones (ej. correcto/incorrecto).
+    - Control de volumen individual para música de fondo y efectos.
+    - Posibilidad de habilitar/deshabilitar música y efectos por separado.
+    - Persistencia de las configuraciones de audio (volumen, habilitación) usando Hive.
+    - Gestión del ciclo de vida de la aplicación para pausar/reanudar la música de fondo automáticamente.
+    - Configuración de `AudioContext` para permitir la reproducción concurrente de la música de fondo con otros sonidos de la aplicación (como los audios del diccionario o los números en Namtrik).
 
 ## Servicios de Actividades
 

@@ -124,3 +124,16 @@ La actividad se estructura de la siguiente manera:
 * 🔄 Animaciones adicionales para reforzar el feedback visual.
 * 🔄 Posibles tutoriales interactivos para los primeros usuarios.
 * 🔄 Expansión de contenido con ejemplos contextuales de uso de números en Namtrik.
+
+### Jugabilidad y Mecánicas
+
+- **Presentación del Problema:** Se muestra al usuario una palabra numérica escrita en Namtrik.
+- **Opciones de Respuesta:** Se presentan varias opciones de números arábigos, una de las cuales corresponde a la palabra Namtrik mostrada.
+- **Interacción del Usuario:** El usuario debe tocar o seleccionar el número arábigo que considera correcto.
+- **Retroalimentación:** 
+    - El sistema indica inmediatamente si la selección fue correcta o incorrecta.
+    - Se utilizan efectos de sonido (proporcionados por `SoundService`) para reforzar la retroalimentación de acierto o error.
+    - Se actualiza el contador de intentos restantes.
+- **Intentos:** El usuario dispone de un número limitado de intentos (generalmente 3) para acertar.
+- **Puntuación:** Al seleccionar la respuesta correcta, el usuario gana puntos que se suman a su progreso global.
+- **Avance:** Al completar el nivel (responder correctamente), se desbloquea el siguiente nivel dentro de la actividad (si aplica) y el usuario puede continuar.

@@ -41,7 +41,7 @@ class _Activity3LevelScreenState
     extends ScrollableLevelScreenState<Activity3LevelScreen> {
   /// Servicio específico para la lógica de la Actividad 3.
   late Activity3Service _activity3Service;
-  /// Servicio para reproducir sonidos de la aplicación.
+  /// Servicio para reproducir sonidos de la aplicación, incluyendo efectos de correcto/incorrecto.
   final _soundService = GetIt.instance<SoundService>();
 
   /// Indica si la pantalla está actualmente cargando datos.
@@ -256,7 +256,7 @@ class _Activity3LevelScreenState
         _selectedHour, _selectedMinute, _correctHour!, _correctMinute!);
 
     if (isCorrect) {
-      _soundService.playCorrectSound();
+      _soundService.playCorrectSound(); // Reproduce sonido de acierto
       // Mostrar animación de éxito y avanzar al siguiente nivel
       setState(() {
         _showSuccessAnimation = true;
@@ -269,7 +269,7 @@ class _Activity3LevelScreenState
         }
       });
     } else {
-      _soundService.playIncorrectSound();
+      _soundService.playIncorrectSound(); // Reproduce sonido de error
       // Vibración media al fallar
       FeedbackService().mediumHapticFeedback();
       // Mostrar animación de error y reducir intentos
@@ -376,10 +376,10 @@ class _Activity3LevelScreenState
   ///   - Si quedan intentos, recarga los datos del nivel ([_loadLevelData]) para una nueva pregunta.
   void _handleOptionSelected(String id, bool isCorrect) {
     if (isCorrect) {
-      _soundService.playCorrectSound();
+      _soundService.playCorrectSound(); // Reproduce sonido de acierto
       _handleLevelComplete();
     } else {
-      _soundService.playIncorrectSound();
+      _soundService.playIncorrectSound(); // Reproduce sonido de error
       FeedbackService().mediumHapticFeedback();
 
       remainingAttempts--;
@@ -422,7 +422,7 @@ class _Activity3LevelScreenState
         _selectedClockId!, _selectedNamtrikId!);
 
     if (isMatch) {
-      _soundService.playCorrectSound();
+      _soundService.playCorrectSound(); // Reproduce sonido de acierto
       setState(() {
         _matchedPairs[_selectedClockId!] = _selectedNamtrikId!;
         _selectedClockId = null;
@@ -433,7 +433,7 @@ class _Activity3LevelScreenState
         _handleLevelComplete();
       }
     } else {
-      _soundService.playIncorrectSound();
+      _soundService.playIncorrectSound(); // Reproduce sonido de error
       FeedbackService().mediumHapticFeedback();
       setState(() {
         _showErrorAnimation = true;

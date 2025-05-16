@@ -118,3 +118,15 @@ Los tres niveles utilizan una estética común con colores tierra/marrón que te
 * 🔄 Añadir tutoriales interactivos para cada nivel.
 * 🔄 Mejorar la visualización de relojes, posiblemente con un widget de reloj analógico animado.
 * 🔄 Expandir la base de datos de horas para incluir expresiones más complejas y contextuales.
+
+### Jugabilidad y Mecánicas (Común a los Sub-Niveles)
+
+Aunque cada sub-nivel tiene una interacción específica, comparten algunas mecánicas:
+
+- **Instrucciones Claras:** Cada nivel presenta una tarea específica al usuario.
+- **Interacción:** El usuario interactúa seleccionando elementos, emparejando, o ajustando valores.
+- **Retroalimentación Inmediata:** 
+    - El sistema valida la acción del usuario y provee feedback visual (colores, animaciones) y háptico.
+    - Se utilizan efectos de sonido (proporcionados por `SoundService`) para reforzar la retroalimentación de acierto o error en cada interacción evaluada.
+- **Sistema de Intentos:** El jugador tiene un número limitado de intentos para completar la tarea correctamente.
+- **Puntuación y Progreso:** Al superar un nivel, se otorgan puntos y se marca como completado, permitiendo el avance.

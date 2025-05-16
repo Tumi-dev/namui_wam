@@ -126,3 +126,14 @@ La actividad utiliza principalmente estructuras de datos genéricas (`Map<String
 * 🔄 Posible conversión de la estructura de datos genérica a un modelo específico.
 * 🔄 Animaciones adicionales para reforzar el feedback visual.
 * 🔄 Tutoriales interactivos para usuarios principiantes.
+
+### Jugabilidad y Mecánicas
+
+- **Presentación del Problema:** Se muestra un número en formato arábigo (ej. "42").
+- **Entrada del Usuario:** El usuario debe escribir la representación correcta de ese número en idioma Namtrik utilizando un campo de texto. Puede hacer uso de un teclado estándar o, si está implementado, un teclado Namtrik personalizado.
+- **Validación:** Al presionar un botón de "Validar" o similar:
+    - El sistema compara la respuesta ingresada con las formas correctas conocidas para ese número (puede haber múltiples variaciones válidas en Namtrik).
+    - Se proporciona retroalimentación inmediata.
+    - Se utilizan efectos de sonido (proporcionados por `SoundService`) para reforzar la retroalimentación de acierto o error.
+- **Intentos:** El usuario tiene un número limitado de intentos (usualmente 3) para escribir correctamente el número.
+- **Puntuación y Progreso:** Al acertar, el usuario gana puntos y, si es la primera vez que completa el nivel, este se marca como superado, potencialmente desbloqueando el siguiente.

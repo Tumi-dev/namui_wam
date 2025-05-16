@@ -115,6 +115,9 @@ class AudioService {
   ///
   /// [audioPath] La ruta del asset utilizada como clave en el caché.
   /// Retorna el [AudioPlayer] asociado a la ruta.
+  /// Si se crea un nuevo [AudioPlayer], se configura su [AudioContext]
+  /// para permitir la mezcla con otros sonidos y solicitar un foco de audio
+  /// transitorio que puede atenuar otros sonidos en Android ([AndroidAudioFocus.gainTransientMayDuck]).
   AudioPlayer _getOrCreatePlayer(String audioPath) {
     // Si ya existe y está en un estado inválido (ej. disposed), crea uno nuevo.
     // Nota: audioplayers no expone fácilmente un estado 'isDisposed'.

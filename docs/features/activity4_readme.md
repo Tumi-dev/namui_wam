@@ -149,3 +149,15 @@ Los datos utilizados por la actividad se almacenan en varios archivos JSON:
 * 🔄 Mejorar la adaptabilidad de la interfaz para diferentes dispositivos y orientaciones.
 * 🔄 Añadir tutoriales interactivos para cada nivel.
 * 🔄 Expandir la base de datos de artículos para incluir más elementos culturalmente relevantes.
+
+### Mecánicas Comunes y Retroalimentación
+
+Independientemente del sub-nivel, se aplican las siguientes mecánicas:
+
+- **Sistema de Intentos:** El usuario dispone de un número limitado de intentos para cada desafío.
+- **Retroalimentación Inmediata:** Tras cada acción evaluable, el sistema indica si fue correcta o incorrecta.
+  - Se utiliza feedback visual (cambio de colores, iconos de verificación/error).
+  - Se proporciona retroalimentación háptica (vibración) para reforzar la respuesta.
+  - Se utilizan efectos de sonido (proporcionados por `SoundService`) para el feedback de acierto o error en los niveles 2, 3 y 4 (Nivel 1 es de exploración).
+- **Puntuación y Progreso:** Completar un nivel correctamente otorga puntos y actualiza el estado global del juego, marcando el nivel como superado.
+- **Diálogos Informativos:** Se usan diálogos para comunicar felicitaciones, agotamiento de intentos, o para confirmar acciones.

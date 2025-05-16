@@ -72,7 +72,7 @@ class _Activity2LevelScreenState
   /// - Obtener números aleatorios según el nivel de dificultad
   /// - Validar respuestas escritas contra múltiples formas correctas posibles
   final _activity2Service = GetIt.instance<Activity2Service>();
-  /// Servicio para reproducir sonidos de la aplicación.
+  /// Servicio para reproducir sonidos de la aplicación, incluyendo efectos de correcto/incorrecto.
   final _soundService = GetIt.instance<SoundService>();
   
   /// Controlador para el campo de texto donde el usuario ingresa la respuesta.
@@ -342,11 +342,11 @@ class _Activity2LevelScreenState
 
   /// Maneja el caso cuando la respuesta del usuario es correcta.
   ///
-  /// Proporciona retroalimentación háptica, actualiza el estado del juego
-  /// (puntos, nivel completado si es la primera vez) y muestra el diálogo
-  /// de nivel completado.
+  /// Reproduce el sonido de "correcto", proporciona retroalimentación háptica,
+  /// actualiza el estado del juego (puntos, nivel completado si es la primera vez)
+  /// y muestra el diálogo de nivel completado.
   Future<void> _handleCorrectAnswer() async {
-    _soundService.playCorrectSound();
+    _soundService.playCorrectSound(); // Reproduce sonido de acierto
     FeedbackService().lightHapticFeedback(); // Vibración ligera
     final activitiesState = ActivitiesState.of(context);
     final gameState = GameState.of(context);
@@ -372,12 +372,12 @@ class _Activity2LevelScreenState
 
   /// Maneja el caso cuando la respuesta del usuario es incorrecta.
   ///
-  /// Proporciona retroalimentación háptica, decrementa los intentos restantes,
-  /// cambia el color del borde del input a rojo. Si los intentos llegan a cero,
-  /// muestra el diálogo de "sin intentos". Si quedan intentos, muestra un
-  /// [SnackBar] informativo.
+  /// Reproduce el sonido de "incorrecto", proporciona retroalimentación háptica,
+  /// decrementa los intentos restantes, cambia el color del borde del input a rojo.
+  /// Si los intentos llegan a cero, muestra el diálogo de "sin intentos".
+  /// Si quedan intentos, muestra un [SnackBar] informativo.
   Future<void> _handleIncorrectAnswer() async {
-    _soundService.playIncorrectSound();
+    _soundService.playIncorrectSound(); // Reproduce sonido de error
     FeedbackService().mediumHapticFeedback(); // Vibración media
     if (!mounted) return;
 

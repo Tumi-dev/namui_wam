@@ -5,24 +5,54 @@ import 'package:namuiwam/core/models/activities_state.dart';
 import 'package:namuiwam/core/models/level_model.dart';
 import 'package:namuiwam/features/activity1/screens/activity1_level_screen.dart';
 
-/// Pantalla principal para la Actividad 1: "Muntsik mɵik kɵtasha sɵl lau".
+/// {@template activity1_screen}
+/// Pantalla principal para la Actividad 1: "Muntsik mɵik kɵtasha sɵl lau" (Escoja el número correcto).
 ///
-/// Muestra la lista de niveles disponibles para esta actividad.
-/// Utiliza [Consumer<ActivitiesState>] para obtener el estado de la actividad
-/// y construir la lista de niveles.
+/// Esta pantalla sirve como punto de entrada para la Actividad 1, mostrando la lista 
+/// de niveles disponibles y permitiendo al usuario seleccionar uno para jugar.
+/// Implementa la siguiente funcionalidad:
+/// - Muestra los niveles organizados como tarjetas, con indicación visual de su estado
+/// - Gestiona la navegación hacia la pantalla de juego para el nivel seleccionado
+/// - Impide la selección de niveles bloqueados con feedback apropiado
+/// - Se adapta a diferentes orientaciones y tamaños de pantalla
+///
+/// Utiliza [Consumer<ActivitiesState>] para acceder al estado actualizado de los niveles
+/// y reaccionar automáticamente a cambios en el progreso del usuario.
+///
+/// Ejemplo de navegación a esta pantalla:
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(
+///     builder: (context) => const Activity1Screen(),
+///   ),
+/// );
+/// ```
+/// 
+/// La pantalla está diseñada siguiendo el tema visual unificado de la aplicación,
+/// definido en [AppTheme].
+/// {@endtemplate}
 class Activity1Screen extends StatelessWidget {
-  /// Crea una instancia de [Activity1Screen].
+  /// {@macro activity1_screen}
   const Activity1Screen({super.key});
 
   /// Navega de vuelta a la pantalla de inicio ([HomeScreen]).
+  ///
+  /// Utiliza [Navigator.popUntil] para volver a la primera ruta en la pila
+  /// de navegación, que corresponde a la pantalla de inicio.
   void _navigateToHome(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
-  /// Maneja la selección de un nivel.
+  /// Maneja la selección de un nivel por parte del usuario.
   ///
-  /// Si el nivel no está bloqueado, navega a [Activity1LevelScreen].
-  /// Si está bloqueado, muestra un [SnackBar].
+  /// Este método implementa la lógica para:
+  /// - Verificar si el nivel está desbloqueado
+  /// - Mostrar un mensaje de error si está bloqueado
+  /// - Navegar a la pantalla de juego si está disponible
+  ///
+  /// [context] El contexto de construcción para mostrar mensajes y navegar.
+  /// [level] El nivel seleccionado ([LevelModel]).
   void _onLevelSelected(BuildContext context, LevelModel level) {
     if (level.isLocked) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -104,9 +134,16 @@ class Activity1Screen extends StatelessWidget {
 
   /// Construye un widget [Card] para representar un nivel seleccionable.
   ///
-  /// Muestra el número del nivel, su descripción y un icono de candado
-  /// (abierto o cerrado) según el estado de bloqueo del nivel.
-  /// El estilo visual cambia si el nivel está bloqueado.
+  /// Esta función crea una tarjeta interactiva que:
+  /// - Muestra el número del nivel con un círculo distintivo
+  /// - Presenta la descripción del nivel
+  /// - Incluye un icono de candado (abierto/cerrado) según el estado
+  /// - Adapta la apariencia visual según si el nivel está bloqueado
+  /// - Responde a toques para navegar al nivel o mostrar mensaje de bloqueo
+  ///
+  /// [context] El contexto de construcción para manejar interacciones.
+  /// [level] El modelo de nivel ([LevelModel]) a representar.
+  /// Retorna un widget [Card] personalizado dentro de un [Padding].
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
     final bool isLocked = level.isLocked;
     

@@ -4,12 +4,20 @@ import 'package:namuiwam/core/services/logger_service.dart';
 import 'package:get_it/get_it.dart'; // Import GetIt
 
 /// {@template storage_service}
-/// Servicio Singleton para gestionar el almacenamiento local persistente
-/// utilizando Hive.
+/// Servicio Singleton para gestionar el almacenamiento local persistente utilizando Hive.
 ///
-/// Se encarga de inicializar Hive, registrar adaptadores (como [UserProgressAdapter])
-/// y proporcionar métodos para guardar, recuperar y eliminar datos, específicamente
-/// el progreso del usuario ([UserProgress]).
+/// Este servicio proporciona una interfaz unificada para:
+/// - Inicializar el sistema de almacenamiento local
+/// - Guardar el progreso de los usuarios en las actividades
+/// - Recuperar datos guardados anteriormente
+/// - Gestionar el ciclo de vida del almacenamiento
+///
+/// Implementa el patrón Singleton para garantizar una única instancia de acceso
+/// al almacenamiento en toda la aplicación.
+///
+/// Internamente utiliza [Hive](https://pub.dev/packages/hive) como motor de
+/// almacenamiento, aprovechando su velocidad y facilidad de uso para
+/// guardar objetos [UserProgress] serializados.
 /// {@endtemplate}
 class StorageService {
   static final StorageService _instance = StorageService._internal();
@@ -23,13 +31,31 @@ class StorageService {
   bool _isInitialized = false;
 
   /// Nombre de la caja de Hive utilizada para almacenar el progreso.
+  ///
+  /// Este nombre identifica la colección de datos en Hive. El contenido
+  /// de esta caja persiste entre sesiones de la aplicación.
   static const String progressBoxName = 'user_progress';
 
   /// Inicializa el servicio de almacenamiento.
   ///
-  /// Debe llamarse antes de usar cualquier otro método del servicio.
-  /// Inicializa Hive para Flutter, registra el [UserProgressAdapter] y
-  /// abre la caja ([progressBoxName]) para almacenar el progreso.
+  /// Debe llamarse antes de usar cualquier otro método del servicio,
+  /// típicamente durante el inicio de la aplicación.
+  /// 
+  /// Este método realiza las siguientes operaciones:
+  /// 1. Inicializa Hive para Flutter
+  /// 2. Registra el adaptador [UserProgressAdapter] para serialización
+  /// 3. Abre la caja [progressBoxName] para almacenar el progreso
+  ///
+  /// Si el servicio ya está inicializado, simplemente retorna sin hacer nada.
+  /// 
+  /// Ejemplo:
+  /// ```dart
+  /// final storageService = getIt<StorageService>();
+  /// await storageService.init();
+  /// print('Almacenamiento inicializado correctamente');
+  /// ```
+  ///
+  /// Lanza una excepción si ocurre un error durante la inicialización.
   Future<void> init() async {
     if (_isInitialized) {
       _logger.info('StorageService ya está inicializado.');
@@ -56,10 +82,28 @@ class StorageService {
 
   /// Guarda el progreso de un usuario para una actividad y nivel específicos.
   ///
-  /// Utiliza una clave compuesta 'activityId_levelId' para almacenar el [progress].
-  /// Lanza una excepción si el servicio no está inicializado o si ocurre un error al guardar.
+  /// Este método almacena un objeto [UserProgress] en Hive utilizando
+  /// una clave compuesta basada en [activityId] y [levelId].
+  /// 
+  /// Si ya existe un progreso guardado para la misma actividad y nivel,
+  /// será sobrescrito con los nuevos datos.
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final progress = UserProgress(
+  ///   activityId: 1,
+  ///   levelId: 2,
+  ///   score: 85,
+  ///   completed: true,
+  ///   timestamp: DateTime.now(),
+  /// );
+  /// 
+  /// await storageService.saveProgress(progress);
+  /// ```
   ///
   /// [progress] El objeto [UserProgress] a guardar.
+  ///
+  /// Lanza una excepción si el servicio no está inicializado o si ocurre un error al guardar.
   Future<void> saveProgress(UserProgress progress) async {
     if (!_isInitialized) {
       _logger.error('StorageService no inicializado. Llama a init() primero.');
@@ -79,12 +123,28 @@ class StorageService {
 
   /// Obtiene el progreso guardado para una actividad y nivel específicos.
   ///
-  /// Retorna el [UserProgress] si existe, o `null` si no se encuentra
-  /// o si ocurre un error.
-  /// Lanza una excepción si el servicio no está inicializado.
+  /// Busca en el almacenamiento un objeto [UserProgress] guardado
+  /// previamente para la combinación de [activityId] y [levelId].
+  ///
+  /// Retorna:
+  /// - El objeto [UserProgress] si existe
+  /// - `null` si no hay datos guardados para esa combinación o si ocurre un error
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final progress = storageService.getProgress(1, 2);
+  /// if (progress != null) {
+  ///   print('Puntuación anterior: ${progress.score}');
+  ///   print('Completado: ${progress.completed}');
+  /// } else {
+  ///   print('No hay progreso guardado para esta actividad y nivel');
+  /// }
+  /// ```
   ///
   /// [activityId] El ID de la actividad.
   /// [levelId] El ID del nivel.
+  ///
+  /// Lanza una excepción si el servicio no está inicializado.
   UserProgress? getProgress(int activityId, int levelId) {
     if (!_isInitialized) {
       _logger.error('StorageService no inicializado. Llama a init() primero.');
@@ -107,6 +167,26 @@ class StorageService {
 
   /// Obtiene una lista de todos los registros de progreso guardados.
   ///
+  /// Recupera todos los objetos [UserProgress] almacenados en la caja,
+  /// independientemente de su clave.
+  ///
+  /// Esta función es útil para:
+  /// - Mostrar un resumen del progreso del usuario
+  /// - Generar estadísticas generales de uso
+  /// - Realizar copias de seguridad del progreso
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final allProgress = storageService.getAllProgress();
+  /// print('Total de registros: ${allProgress.length}');
+  /// 
+  /// // Encontrar niveles completados
+  /// final completedLevels = allProgress
+  ///   .where((progress) => progress.completed)
+  ///   .length;
+  /// print('Niveles completados: $completedLevels');
+  /// ```
+  ///
   /// Retorna una lista vacía si no hay progreso guardado o si ocurre un error.
   /// Lanza una excepción si el servicio no está inicializado.
   List<UserProgress> getAllProgress() {
@@ -124,7 +204,21 @@ class StorageService {
     }
   }
 
-  /// Elimina todos los registros de progreso de la caja.
+  /// Elimina todos los registros de progreso almacenados.
+  ///
+  /// Este método borra completamente el contenido de la caja,
+  /// eliminando todo el progreso guardado. Esta operación no se puede deshacer.
+  ///
+  /// Utilizar con precaución, típicamente en casos como:
+  /// - Reiniciar el progreso del usuario
+  /// - Implementar una función de "borrar datos"
+  /// - Gestionar situaciones de error crítico
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// await storageService.clearProgress();
+  /// print('Todo el progreso ha sido eliminado');
+  /// ```
   ///
   /// Lanza una excepción si el servicio no está inicializado o si ocurre un error.
   Future<void> clearProgress() async {
@@ -141,7 +235,21 @@ class StorageService {
     }
   }
 
-  /// Cierra la caja de Hive. Llamar al cerrar la aplicación si es necesario.
+  /// Cierra la caja de Hive y libera recursos.
+  ///
+  /// Debe llamarse cuando el servicio ya no sea necesario,
+  /// típicamente durante el cierre de la aplicación para
+  /// garantizar que todos los datos han sido guardados correctamente
+  /// y que los recursos han sido liberados.
+  ///
+  /// Si la caja no está abierta o el servicio no está inicializado,
+  /// este método no tiene efecto.
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// // Al finalizar la aplicación
+  /// await storageService.close();
+  /// ```
   Future<void> close() async {
      if (_isInitialized && _progressBox.isOpen) {
        await _progressBox.close();

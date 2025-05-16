@@ -13,26 +13,92 @@ enum SelectionState {
 }
 
 /// {@template selectable_item}
-/// Un widget que representa un elemento interactivo (imagen o texto)
-/// que puede ser seleccionado, emparejado o mostrar un estado de error.
+/// Un widget personalizado que representa un elemento seleccionable e interactivo para 
+/// los juegos de emparejamiento y selección de la Actividad 3.
 ///
-/// Utilizado principalmente en la Actividad 3, Nivel 1, para el juego de emparejamiento.
-/// Cambia su apariencia (fondo, borde, elevación) según su [state] actual
-/// mediante una [AnimatedContainer].
+/// Diseñado específicamente para visualizar:
+/// - Imágenes de relojes y sus representaciones textuales en Namtrik
+/// - Estados visuales distintos según la interacción del usuario
+/// - Transiciones animadas entre estados
+///
+/// Características principales:
+/// - Cambia dinámicamente de apariencia según su [state] (sin seleccionar, seleccionado, emparejado, error)
+/// - Utiliza [AnimatedContainer] para transiciones suaves entre estados
+/// - Proporciona feedback visual con colores y bordes distintos
+/// - Incluye soporte para accesibilidad con etiquetas semánticas
+/// - Se puede desactivar cuando forma parte de un emparejamiento completado
+///
+/// Ejemplo de uso:
+/// ```dart
+/// // Imagen de reloj seleccionable
+/// SelectableItem(
+///   id: '1:30',
+///   state: SelectionState.unselected,
+///   isImage: true,
+///   onTap: () => _handleClockSelected('1:30'),
+///   child: Image.asset('assets/images/clocks/clock_01_30.png'),
+/// )
+///
+/// // Texto en Namtrik seleccionable
+/// SelectableItem(
+///   id: '1:30',
+///   state: _getItemState('1:30'),
+///   onTap: () => _handleTextSelected('1:30'),
+///   child: Text(
+///     'pik unan oraisku tsik yam',
+///     style: TextStyle(color: Colors.white, fontSize: 16),
+///   ),
+/// )
+/// ```
 /// {@endtemplate}
 class SelectableItem extends StatelessWidget {
   /// Identificador único para este item, usado para la lógica de emparejamiento.
+  ///
+  /// Este ID se utiliza para:
+  /// - Identificar el elemento dentro de un conjunto de opciones
+  /// - Verificar si dos elementos seleccionados (por ejemplo, un reloj y un texto)
+  ///   deben emparejarse correctamente
+  /// - Rastrear qué elementos ya han sido emparejados
   final String id;
+
   /// El widget hijo que se mostrará dentro del item (ej. una Imagen o Texto).
+  ///
+  /// Puede ser una imagen ([Image]) en el caso de relojes, o un texto ([Text]) 
+  /// para las descripciones en Namtrik. El contenido visual depende
+  /// enteramente de este widget hijo.
   final Widget child;
+
   /// El estado actual del item, determina su apariencia.
+  ///
+  /// Los estados posibles son:
+  /// - [SelectionState.unselected]: Estado inicial, sin interacción
+  /// - [SelectionState.selected]: El usuario ha seleccionado este elemento
+  /// - [SelectionState.matched]: El elemento forma parte de un par correcto
+  /// - [SelectionState.error]: El elemento formó un par incorrecto (transitorio)
   final SelectionState state;
-  /// Indica si el [child] es una imagen. Afecta el padding y el color de fondo base.
+
+  /// Indica si el [child] es una imagen.
+  ///
+  /// Este flag afecta:
+  /// - El padding (mayor para texto, menor para imágenes)
+  /// - Los colores de fondo base (transparente para imágenes, opaco para texto)
+  /// - Las etiquetas de accesibilidad
   final bool isImage;
+
   /// La función callback que se ejecuta cuando el item es presionado.
+  ///
+  /// Típicamente se utiliza para:
+  /// - Notificar a la pantalla que este elemento ha sido seleccionado
+  /// - Cambiar el estado del elemento (seleccionado o no)
+  /// - Verificar si forma un par correcto con otro elemento seleccionado previamente
   final VoidCallback onTap;
+
   /// Controla si el item puede ser presionado ([onTap] se ejecutará).
-  /// Por defecto es `true`. Se deshabilita si el item ya está emparejado.
+  ///
+  /// Por defecto es `true`. Se establece en `false` cuando:
+  /// - El elemento ya ha sido emparejado correctamente y debe quedar bloqueado
+  /// - La interfaz está esperando la finalización de una animación
+  /// - El juego ha llegado a su fin
   final bool isEnabled;
 
   /// {@macro selectable_item}
@@ -48,9 +114,14 @@ class SelectableItem extends StatelessWidget {
 
   /// Construye la interfaz visual del item seleccionable.
   ///
-  /// Utiliza [AnimatedContainer] para transiciones suaves entre estados.
-  /// El color de fondo, el color y grosor del borde, y la elevación
-  /// cambian según el [state].
+  /// Este método:
+  /// 1. Determina los colores, bordes y elevación según el [state] actual
+  /// 2. Construye un [Semantics] para mejorar la accesibilidad
+  /// 3. Utiliza [AnimatedContainer] para transiciones suaves entre estados
+  /// 4. Aplica [InkWell] para la respuesta táctil, con [onTap] solo si está habilitado
+  ///
+  /// Las transiciones animadas tienen una duración de 300ms para proporcionar
+  /// una experiencia fluida pero responsive.
   @override
   Widget build(BuildContext context) {
     // Definir colores y bordes según el estado
@@ -130,7 +201,14 @@ class SelectableItem extends StatelessWidget {
     );
   }
 
-  /// Devuelve una etiqueta textual descriptiva del estado para accesibilidad.
+  /// Convierte un [SelectionState] en una descripción textual accesible.
+  ///
+  /// Este método interno proporciona traducciones comprensibles
+  /// de los estados para las etiquetas de accesibilidad, facilitando
+  /// el uso de lectores de pantalla.
+  ///
+  /// [state] El estado a convertir en texto descriptivo.
+  /// Retorna una cadena de texto que describe el estado de manera accesible.
   String _stateLabel(SelectionState state) {
     switch (state) {
       case SelectionState.unselected:

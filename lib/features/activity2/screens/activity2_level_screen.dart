@@ -9,16 +9,39 @@ import 'package:namuiwam/core/constants/activity_descriptions.dart';
 import 'package:namuiwam/core/widgets/game_description_widget.dart';
 import 'package:namuiwam/core/services/feedback_service.dart';
 import 'package:namuiwam/core/themes/app_theme.dart';
+import 'package:namuiwam/core/services/sound_service.dart';
 
-/// Pantalla para un nivel específico de la Actividad 2: "Muntsikelan pөram kusrekun".
+/// {@template activity2_level_screen}
+/// Pantalla para un nivel específico de la Actividad 2: "Muntsikelan pөram kusrekun" 
+/// (Aprendamos a escribir los números).
 ///
-/// Hereda de [BaseLevelScreen] pero sobrescribe el método `build` para un control
-/// total del diseño. Presenta un número al usuario y un campo de texto para que
-/// escriba la palabra correspondiente en Namtrik.
+/// Esta pantalla implementa la interacción principal del juego, donde el usuario debe:
+/// 1. Ver un número en formato arábigo (por ejemplo, "42")
+/// 2. Escribir su representación correcta en idioma Namtrik en un campo de texto
+/// 3. Validar su respuesta mediante un botón
+///
+/// Características principales:
+/// - Proporciona retroalimentación inmediata sobre la corrección de la respuesta
+/// - Permite hasta tres intentos para acertar
+/// - Actualiza el progreso global y desbloquea niveles cuando se completa con éxito
+/// - Adapta la dificultad según el nivel seleccionado (desde unidades hasta millones)
+/// - Ofrece retroalimentación visual (cambios de color) y háptica (vibración)
+///
+/// Hereda de [BaseLevelScreen] para mantener consistencia con otras actividades, pero
+/// sobrescribe el método `build` para implementar una interfaz específica para la escritura.
+///
+/// Ejemplo de navegación a esta pantalla:
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(
+///     builder: (context) => Activity2LevelScreen(level: levelModel),
+///   ),
+/// );
+/// ```
+/// {@endtemplate}
 class Activity2LevelScreen extends BaseLevelScreen {
-  /// Crea una instancia de [Activity2LevelScreen].
-  ///
-  /// Requiere el [level] actual y establece el [activityNumber] en 2.
+  /// {@macro activity2_level_screen}
   const Activity2LevelScreen({super.key, required super.level})
       : super(activityNumber: 2);
 
@@ -27,28 +50,71 @@ class Activity2LevelScreen extends BaseLevelScreen {
   State<Activity2LevelScreen> createState() => _Activity2LevelScreenState();
 }
 
-/// Clase de estado para [Activity2LevelScreen].
+/// {@template activity2_level_screen_state}
+/// Estado interno para [Activity2LevelScreen] que gestiona la lógica completa del juego.
 ///
-/// Gestiona la lógica del juego: carga de números, validación de respuestas,
-/// manejo de intentos, actualización de estado (puntos, nivel completado),
-/// retroalimentación háptica y visual, y navegación.
+/// Responsabilidades principales:
+/// - Cargar y presentar números aleatorios apropiados para el nivel actual
+/// - Gestionar la entrada del usuario a través del campo de texto
+/// - Validar las respuestas contra múltiples formas correctas posibles
+/// - Manejar el sistema de intentos y retroalimentación
+/// - Actualizar el progreso y puntuación global cuando se completa un nivel
+/// - Proporcionar respuesta visual y háptica a las interacciones del usuario
+///
+/// Dado que la escritura en Namtrik puede tener variantes, el sistema de validación
+/// es especialmente sofisticado, permitiendo múltiples formas correctas.
+/// {@endtemplate}
 class _Activity2LevelScreenState
     extends BaseLevelScreenState<Activity2LevelScreen> {
-  /// Servicio específico para la lógica de la Actividad 2.
+  /// Servicio que centraliza la lógica específica de la Actividad 2.
+  ///
+  /// Proporciona funcionalidades para:
+  /// - Obtener números aleatorios según el nivel de dificultad
+  /// - Validar respuestas escritas contra múltiples formas correctas posibles
   final _activity2Service = GetIt.instance<Activity2Service>();
+  /// Servicio para reproducir sonidos de la aplicación.
+  final _soundService = GetIt.instance<SoundService>();
+  
   /// Controlador para el campo de texto donde el usuario ingresa la respuesta.
+  ///
+  /// Gestiona la entrada de texto del usuario, permitiendo:
+  /// - Acceder al texto ingresado para validación
+  /// - Limpiar el campo después de cada intento o al cargar un nuevo número
+  /// - Establecer o modificar el texto para mostrar ayudas o ejemplos
   final TextEditingController _answerController = TextEditingController();
-  /// Mapa que contiene el número actual a adivinar y su palabra correspondiente.
+  
+  /// Datos del número actual que el usuario debe escribir en Namtrik.
+  ///
+  /// Contiene toda la información sobre el número actual, incluyendo:
+  /// - Valor numérico (ej. 42)
+  /// - Palabra principal en Namtrik (ej. "pik kan ɵntrɵ metrik pala")
+  /// - Posibles composiciones y variaciones aceptables
   Map<String, dynamic>? currentNumber;
+  
   /// Indica si la pantalla está actualmente cargando datos.
+  ///
+  /// Se utiliza para:
+  /// - Mostrar un indicador de carga cuando corresponde
+  /// - Prevenir interacciones del usuario mientras se cargan datos
+  /// - Evitar validaciones durante estados transitorios
   bool _isLoading = true;
+  
   /// Color del borde del campo de texto, usado para indicar errores.
+  ///
+  /// Cambia a rojo cuando la respuesta es incorrecta para proporcionar
+  /// retroalimentación visual inmediata al usuario, y vuelve a null (color normal)
+  /// cuando se carga un nuevo número o se limpia la entrada.
   Color? _inputBorderColor;
 
-  /// Inicializa el estado de la pantalla.
+  /// Inicializa el estado de la pantalla al crearse.
   ///
-  /// Establece los intentos iniciales, carga el primer número después de que
-  /// el primer frame es dibujado y actualiza los puntos globales.
+  /// Este método configura el estado inicial:
+  /// 1. Establece el número de intentos inicial (3)
+  /// 2. Programa la carga del primer número aleatorio después del primer frame
+  /// 3. Recupera y establece la puntuación global inicial
+  ///
+  /// La carga de números solo se realiza si el nivel está dentro del rango
+  /// implementado (1-7), como medida de seguridad.
   @override
   void initState() {
     super.initState();
@@ -70,9 +136,17 @@ class _Activity2LevelScreenState
 
   /// Obtiene un número aleatorio del servicio para el nivel actual.
   ///
-  /// Actualiza el estado [_isLoading] y [currentNumber].
-  /// Limpia el campo de respuesta si [clearAnswer] es verdadero.
-  /// Muestra mensajes de error si ocurren problemas.
+  /// Este método crucial:
+  /// 1. Actualiza el estado de carga para mostrar indicadores visuales
+  /// 2. Solicita un número aleatorio apropiado al nivel desde el servicio
+  /// 3. Maneja posibles errores o casos de falta de datos
+  /// 4. Actualiza el estado con el nuevo número y reinicia la interfaz
+  ///
+  /// Si [clearAnswer] es verdadero, limpia el campo de entrada de texto,
+  /// lo que es útil cuando se carga un nuevo número después de completar uno.
+  ///
+  /// Proporciona feedback al usuario en caso de error o si no hay números
+  /// disponibles para el nivel seleccionado.
   Future<void> _fetchRandomNumber({bool clearAnswer = false}) async {
     if (!mounted) return;
     setState(() {
@@ -117,21 +191,34 @@ class _Activity2LevelScreenState
   }
 
   /// Carga el primer número al iniciar el nivel.
+  ///
+  /// Método público que inicia el juego cargando el primer número para el nivel.
+  /// Al llamar a [_fetchRandomNumber] con [clearAnswer] en false, se preserva
+  /// cualquier texto que pudiera haber en el campo de entrada (aunque típicamente
+  /// estará vacío al inicio).
   Future<void> loadNumbers() async {
     await _fetchRandomNumber(clearAnswer: false);
   }
 
-  /// Selecciona un nuevo número aleatorio (usado después de una respuesta, aunque no implementado actualmente).
-  /// Limpia el campo de respuesta.
+  /// Selecciona un nuevo número aleatorio para el juego.
+  ///
+  /// Utilizado normalmente después de una respuesta correcta o cuando se agotan
+  /// los intentos, para presentar un nuevo desafío al usuario. A diferencia de
+  /// [loadNumbers], limpia automáticamente el campo de texto para la nueva entrada.
   Future<void> selectRandomNumber() async {
     await _fetchRandomNumber(clearAnswer: true);
   }
 
   /// Verifica la respuesta ingresada por el usuario.
   ///
-  /// Compara la respuesta (ignorando mayúsculas/minúsculas y espacios) con la
-  /// palabra correcta usando [_activity2Service.isAnswerCorrect].
-  /// Llama a [_handleCorrectAnswer] o [_handleIncorrectAnswer] según el resultado.
+  /// Este método central para la mecánica del juego:
+  /// 1. Valida precondiciones (hay número actual, hay texto ingresado, no está cargando)
+  /// 2. Normaliza la respuesta del usuario (elimina espacios extra)
+  /// 3. Utiliza [_activity2Service.isAnswerCorrect] para verificar contra todas las formas válidas
+  /// 4. Deriva el flujo hacia [_handleCorrectAnswer] o [_handleIncorrectAnswer] según el resultado
+  ///
+  /// La validación es inteligente y tolera variaciones en mayúsculas/minúsculas,
+  /// espacios adicionales y diferentes formas válidas de escribir el mismo número.
   Future<void> checkAnswer() async {
     if (currentNumber == null || _answerController.text.isEmpty || _isLoading) return;
 
@@ -146,10 +233,19 @@ class _Activity2LevelScreenState
     }
   }
 
-  /// Muestra un diálogo indicando que el nivel fue completado.
+  /// Muestra un diálogo de felicitación cuando el nivel se completa.
   ///
-  /// El mensaje varía si el nivel se completó por primera vez ([wasCompleted] es falso)
-  /// o si ya se había completado antes.
+  /// Este método construye y muestra un diálogo modal que:
+  /// - Felicita al usuario por completar el nivel
+  /// - Proporciona un mensaje contextual según si es la primera vez o una repetición
+  /// - Muestra los puntos ganados (solo si es la primera vez)
+  /// - Ofrece un botón para continuar, que cierra el diálogo y la pantalla del nivel
+  ///
+  /// El parámetro [wasCompleted] indica si el nivel ya había sido completado antes,
+  /// lo que cambia el mensaje y la visualización de la recompensa de puntos.
+  /// 
+  /// El diseño visual del diálogo usa elementos específicos de la Actividad 2,
+  /// como el color dorado/ocre distintivo para mantener la identidad visual.
   void _showLevelCompletedDialog({required bool wasCompleted}) {
     if (!mounted) return;
     showDialog(
@@ -250,6 +346,7 @@ class _Activity2LevelScreenState
   /// (puntos, nivel completado si es la primera vez) y muestra el diálogo
   /// de nivel completado.
   Future<void> _handleCorrectAnswer() async {
+    _soundService.playCorrectSound();
     FeedbackService().lightHapticFeedback(); // Vibración ligera
     final activitiesState = ActivitiesState.of(context);
     final gameState = GameState.of(context);
@@ -280,6 +377,7 @@ class _Activity2LevelScreenState
   /// muestra el diálogo de "sin intentos". Si quedan intentos, muestra un
   /// [SnackBar] informativo.
   Future<void> _handleIncorrectAnswer() async {
+    _soundService.playIncorrectSound();
     FeedbackService().mediumHapticFeedback(); // Vibración media
     if (!mounted) return;
 

@@ -5,25 +5,58 @@ import 'package:namuiwam/core/models/activities_state.dart';
 import 'package:namuiwam/core/models/level_model.dart';
 import 'package:namuiwam/features/activity3/screens/activity3_level_screen.dart';
 
-/// Pantalla principal para la Actividad 3: "Nɵsik utɵwan asam kusrekun".
+/// {@template activity3_screen}
+/// Pantalla principal para la Actividad 3: "Nөsik utөwan asam kusrekun" (Aprendamos a ver la hora).
 ///
-/// Muestra la lista de niveles disponibles para esta actividad.
-/// Permite al usuario seleccionar un nivel para jugar o volver a la pantalla de inicio.
+/// Esta pantalla sirve como punto de entrada a los tres modos de juego relacionados con las horas en Namtrik:
+/// - Nivel 1: Utөwan lata marөp (Emparejar la hora) - Emparejar relojes con descripciones
+/// - Nivel 2: Utөwan wetөpeñ (Adivina la hora) - Selección múltiple de descripciones para un reloj
+/// - Nivel 3: Utөwan malsrө (Coloca la hora) - Ajustar un reloj según una descripción textual
+///
+/// Características principales:
+/// - Visualiza los tres niveles como tarjetas seleccionables
+/// - Presenta un icono distintivo de reloj que identifica temáticamente la actividad
+/// - Utiliza colores tierra/marrón específicos para esta actividad
+/// - Se adapta a diferentes orientaciones y tamaños de pantalla
+/// - Gestiona la navegación desde y hacia otras pantallas de la aplicación
+///
+/// Ejemplo de navegación a esta pantalla:
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(
+///     builder: (context) => const Activity3Screen(),
+///   ),
+/// );
+/// ```
+/// {@endtemplate}
 class Activity3Screen extends StatelessWidget {
-  /// Crea una instancia de [Activity3Screen].
+  /// {@macro activity3_screen}
   const Activity3Screen({super.key});
 
   /// Navega hacia la pantalla de inicio de la aplicación.
   ///
-  /// Utiliza [Navigator.popUntil] para cerrar todas las rutas hasta la primera.
+  /// Este método cierra todas las pantallas en la pila de navegación 
+  /// hasta llegar a la ruta inicial (la pantalla de inicio), utilizando
+  /// [Navigator.popUntil] con la condición `route.isFirst`.
+  ///
+  /// Es invocado cuando el usuario presiona el botón de "Home" en el AppBar.
   void _navigateToHome(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   /// Navega hacia la pantalla de un nivel específico de la Actividad 3.
   ///
-  /// Recibe el [level] seleccionado y utiliza [Navigator.push] para abrir
-  /// la pantalla [Activity3LevelScreen] correspondiente.
+  /// Este método crea una nueva instancia de [Activity3LevelScreen] configurada
+  /// con el [level] seleccionado y utiliza [Navigator.push] para mostrarla.
+  ///
+  /// Según el ID del nivel, la pantalla [Activity3LevelScreen] destino mostrará la interfaz correspondiente:
+  /// - Nivel 1: Interfaz de emparejamiento de relojes con descripciones
+  /// - Nivel 2: Interfaz de selección múltiple con un reloj y opciones de texto
+  /// - Nivel 3: Interfaz de configuración de reloj con selectores para horas y minutos
+  ///
+  /// [context] El contexto de construcción para la navegación.
+  /// [level] El modelo del nivel seleccionado que contiene información como ID, título y descripción.
   void _onLevelSelected(BuildContext context, LevelModel level) {
     Navigator.push(
       context,
@@ -35,9 +68,15 @@ class Activity3Screen extends StatelessWidget {
 
   /// Construye la interfaz de usuario de la pantalla de la Actividad 3.
   ///
-  /// Utiliza un [Consumer] para acceder al estado de las actividades ([ActivitiesState]).
-  /// Muestra un [Scaffold] con un [AppBar] personalizado y una lista de niveles
-  /// disponibles para la Actividad 3.
+  /// Este método:
+  /// 1. Utiliza [Consumer<ActivitiesState>] para acceder al estado actualizado de las actividades.
+  /// 2. Obtiene los datos específicos de la Actividad 3 del estado global.
+  /// 3. Construye un [Scaffold] con un AppBar personalizado (título y botón de inicio) y un fondo con gradiente ([AppTheme.mainGradient]).
+  /// 4. Muestra un icono de reloj ([Icons.access_time] con color temático) que identifica visualmente la actividad.
+  /// 5. Genera una lista de tarjetas seleccionables (usando [_buildLevelCard]) para los niveles disponibles de la Actividad 3.
+  ///
+  /// La interfaz se adapta a diferentes orientaciones (vertical y horizontal),
+  /// ajustando dinámicamente el ancho máximo de las tarjetas de nivel mediante [LayoutBuilder] y [MediaQuery.of(context).orientation].
   @override
   Widget build(BuildContext context) {
     return Consumer<ActivitiesState>(
@@ -120,12 +159,22 @@ class Activity3Screen extends StatelessWidget {
     );
   }
 
-  /// Construye una tarjeta interactiva para un nivel específico.
+  /// Construye una tarjeta interactiva ([Card] con [InkWell]) para un [LevelModel] específico.
   ///
-  /// Muestra el número del nivel, su descripción y una flecha indicadora.
-  /// Al tocar la tarjeta, navega a la pantalla de ese nivel usando [_onLevelSelected].
+  /// Esta tarjeta muestra la información del nivel y permite al usuario navegar
+  /// hacia [Activity3LevelScreen] al ser tocada, invocando [_onLevelSelected].
   ///
-  /// Retorna un [Widget] que representa la tarjeta del nivel.
+  /// La tarjeta visualmente incluye:
+  /// - El número del nivel ([LevelModel.id]) dentro de un círculo distintivo.
+  /// - La descripción textual del nivel ([LevelModel.description]).
+  /// - Un icono de flecha ([Icons.arrow_forward]) como indicador de navegabilidad.
+  ///
+  /// Estéticamente, las tarjetas emplean un color de fondo marrón/tierra (e.g., `Color(0xFF8B4513)`),
+  /// característico de la Actividad 3, para reforzar la identidad visual temática.
+  ///
+  /// [context] El contexto de construcción actual, utilizado para la navegación y obtención de [MediaQuery].
+  /// [level] El [LevelModel] que contiene los datos del nivel a mostrar (ID, título, descripción).
+  /// Retorna un [Widget] (una [Card]) configurado para mostrar la información del nivel y manejar la interacción.
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0), // Espacio debajo de cada tarjeta.

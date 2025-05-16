@@ -1,26 +1,59 @@
 import 'package:namuiwam/core/services/number_data_service.dart';
 import 'package:namuiwam/core/services/logger_service.dart';
 
-/// Servicio para centralizar la lógica de la Actividad 2: "Escribiendo con Namtrik".
+/// {@template activity2_service}
+/// Servicio que centraliza la lógica de negocio para la Actividad 2: "Muntsikelan pөram kusrekun" 
+/// (Aprendamos a escribir los números).
 ///
-/// Gestiona la obtención de números según el nivel y la validación
-/// de las respuestas escritas por el usuario, comparándolas con
-/// la representación Namtrik principal, sus composiciones y variaciones.
+/// Este servicio proporciona funcionalidades esenciales para gestionar:
+/// - Obtención de números aleatorios específicos para cada nivel de dificultad
+/// - Definición de los rangos numéricos correspondientes a cada nivel
+/// - Validación inteligente de respuestas escritas con tolerancia a variaciones
+///
+/// La validación de respuestas es especialmente sofisticada, ya que compara
+/// la entrada del usuario con múltiples formas válidas:
+/// - La forma principal en Namtrik
+/// - Composiciones alternativas (formas descompuestas)
+/// - Variaciones dialectales o de escritura
+///
+/// Ejemplo de uso:
+/// ```dart
+/// final activity2Service = GetIt.instance<Activity2Service>();
+/// 
+/// // Obtener un número aleatorio para el nivel 2
+/// final numberData = await activity2Service.getRandomNumberForLevel(2);
+/// 
+/// // Verificar si la respuesta "pik kan" es correcta para el número 42
+/// if (numberData != null) {
+///   final isCorrect = activity2Service.isAnswerCorrect(numberData, "pik kan");
+///   print(isCorrect ? "¡Correcto!" : "Incorrecto, intenta de nuevo");
+/// }
+/// ```
+/// {@endtemplate}
 class Activity2Service {
   /// Servicio para acceder a los datos de los números (Namtrik, composiciones, etc.).
   final NumberDataService _numberDataService;
   /// Instancia del servicio de logging para registrar errores.
   final LoggerService _logger = LoggerService();
 
-  /// Constructor de [Activity2Service].
-  ///
-  /// Requiere una instancia de [NumberDataService].
+  /// {@macro activity2_service}
   Activity2Service(this._numberDataService);
 
   /// Obtiene los límites del rango numérico para un nivel específico de la Actividad 2.
   ///
-  /// Devuelve un [Map] con las claves 'start' y 'end'.
-  /// Lanza un [ArgumentError] si el [level] es inválido (fuera de 1-7).
+  /// Cada nivel de la actividad cubre un rango específico de números, definido
+  /// por esta función. Los niveles siguen una progresión exponencial:
+  /// - Nivel 1: Unidades (1-9)
+  /// - Nivel 2: Decenas (10-99)
+  /// - Nivel 3: Centenas (100-999)
+  /// - Nivel 4: Millares (1000-9999)
+  /// - Nivel 5: Decenas de millar (10000-99999)
+  /// - Nivel 6: Centenas de millar (100000-999999)
+  /// - Nivel 7: Millones (1000000-9999999)
+  ///
+  /// [level] El número de nivel para el cual se desea obtener el rango.
+  /// Retorna un [Map] con claves 'start' y 'end' que definen el rango numérico.
+  /// Lanza un [ArgumentError] si el nivel está fuera del rango válido (1-7).
   Map<String, int> _getRangeForLevel(int level) {
     int start = 1;
     int end = 9;
@@ -64,12 +97,29 @@ class Activity2Service {
 
   /// Obtiene los datos de un número aleatorio para un nivel específico.
   ///
-  /// Utiliza [_getRangeForLevel] para determinar el rango y luego llama a
-  /// [_numberDataService.getRandomNumberInRange] para obtener los datos.
+  /// Este método realiza la siguiente secuencia de operaciones:
+  /// 1. Determina el rango numérico para el nivel especificado
+  /// 2. Solicita un número aleatorio dentro de ese rango a [_numberDataService]
+  /// 3. Retorna los metadatos completos del número seleccionado
   ///
-  /// Devuelve un [Future] que resuelve a un [Map<String, dynamic>] con los datos
-  /// del número (incluyendo 'number', 'namtrik', 'compositions', 'variations', etc.),
-  /// o `null` si ocurre un error.
+  /// La estructura de datos retornada contiene:
+  /// - 'number': El valor numérico (int)
+  /// - 'namtrik': La palabra principal en Namtrik (String)
+  /// - 'compositions': Formas alternativas compuestas (Map, opcional)
+  /// - 'variations': Variaciones dialectales o de escritura (List, opcional)
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final numberData = await activity2Service.getRandomNumberForLevel(1);
+  /// if (numberData != null) {
+  ///   final number = int.parse(numberData['number'].toString());
+  ///   final namtrikWord = numberData['namtrik'].toString();
+  ///   print('El número $number en Namtrik es: $namtrikWord');
+  /// }
+  /// ```
+  ///
+  /// [level] El nivel para el cual obtener un número aleatorio (1-7).
+  /// Retorna un [Map<String, dynamic>] con los datos del número, o `null` en caso de error.
   Future<Map<String, dynamic>?> getRandomNumberForLevel(int level) async {
     try {
       final range = _getRangeForLevel(level);
@@ -82,14 +132,27 @@ class Activity2Service {
     }
   }
 
-  /// Obtiene los datos de todos los números para un nivel específico.
+  /// Obtiene todos los números disponibles para un nivel específico.
   ///
-  /// Utiliza [_getRangeForLevel] para determinar el rango y luego llama a
-  /// [_numberDataService.getNumbersInRange].
+  /// A diferencia de [getRandomNumberForLevel], este método devuelve una lista
+  /// con todos los números dentro del rango del nivel especificado. Esto puede
+  /// ser útil para:
+  /// - Mostrar una lista completa de opciones
+  /// - Crear ejercicios personalizados con todos los números de un nivel
+  /// - Implementar modos de práctica estructurada
   ///
-  /// Devuelve un [Future] que resuelve a una [List<Map<String, dynamic>>]
-  /// con los datos de todos los números en el rango del nivel,
-  /// o una lista vacía si ocurre un error.
+  /// Ejemplo:
+  /// ```dart
+  /// final allNumbers = await activity2Service.getNumbersForLevel(1);
+  /// print('Hay ${allNumbers.length} números en el nivel 1');
+  /// for (final numData in allNumbers) {
+  ///   print('${numData['number']} → ${numData['namtrik']}');
+  /// }
+  /// ```
+  ///
+  /// [level] El nivel para el cual obtener todos los números (1-7).
+  /// Retorna una [List<Map<String, dynamic>>] con los datos de todos los números,
+  /// o una lista vacía en caso de error.
   Future<List<Map<String, dynamic>>> getNumbersForLevel(int level) async {
     try {
       final range = _getRangeForLevel(level);
@@ -101,14 +164,31 @@ class Activity2Service {
     }
   }
 
-  /// Verifica si la respuesta escrita por el usuario es correcta para un número dado.
+  /// Verifica si la respuesta escrita por el usuario es correcta para un número.
   ///
-  /// Compara la [userAnswer] (normalizada a minúsculas y sin espacios extra)
-  /// con el valor principal 'namtrik', las 'compositions' y las 'variations'
-  /// presentes en los datos del [number].
+  /// Este método implementa una validación inteligente con tolerancia a:
+  /// - Diferencias de mayúsculas/minúsculas
+  /// - Espacios extra al inicio o final
+  /// - Diferentes formas válidas de escribir el mismo número
   ///
-  /// Devuelve `true` si la respuesta coincide con alguna de las formas válidas,
-  /// `false` en caso contrario o si los datos de entrada son inválidos.
+  /// El proceso de validación comprueba la coincidencia con:
+  /// 1. La palabra principal en Namtrik ('namtrik')
+  /// 2. Formas alternativas compuestas ('compositions')
+  /// 3. Variaciones dialectales o de escritura ('variations')
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final numberData = await activity2Service.getRandomNumberForLevel(1);
+  /// if (numberData != null) {
+  ///   // Podría ser correcto incluso con espacios, mayúsculas o siendo una variación
+  ///   final isCorrect = activity2Service.isAnswerCorrect(numberData, "  Kan  ");
+  ///   print(isCorrect ? "¡Correcto!" : "Incorrecto");
+  /// }
+  /// ```
+  ///
+  /// [number] Mapa con los datos del número a verificar.
+  /// [userAnswer] La respuesta ingresada por el usuario.
+  /// Retorna `true` si la respuesta coincide con alguna forma válida, `false` en caso contrario.
   bool isAnswerCorrect(Map<String, dynamic> number, String userAnswer) {
     if (number.isEmpty || userAnswer.isEmpty) return false;
 
@@ -127,13 +207,18 @@ class Activity2Service {
     return false;
   }
 
-  /// Verifica si la respuesta del usuario coincide con alguna de las composiciones del número.
+  /// Verifica si la respuesta coincide con alguna composición alternativa del número.
   ///
-  /// Comprueba que el campo 'compositions' exista en [number], sea un [Map],
-  /// y que alguno de sus valores (convertidos a cadena y minúsculas)
-  /// sea igual a [normalizedUserAnswer].
+  /// Las composiciones son formas alternativas de expresar un número, generalmente
+  /// descomponiendo la palabra en sus componentes. Por ejemplo, "cuarenta y dos"
+  /// sería una composición de "42" en español.
   ///
-  /// Devuelve `true` si hay coincidencia, `false` en caso contrario.
+  /// Este método busca coincidencias en el campo 'compositions' del [number],
+  /// que debe ser un mapa donde los valores son las diferentes composiciones.
+  ///
+  /// [number] Mapa con los datos del número, incluyendo sus composiciones.
+  /// [normalizedUserAnswer] La respuesta normalizada del usuario (minúsculas, sin espacios extra).
+  /// Retorna `true` si hay coincidencia con alguna composición, `false` en caso contrario.
   bool _checkCompositions(
       Map<String, dynamic> number, String normalizedUserAnswer) {
     if (!number.containsKey('compositions')) return false;
@@ -148,13 +233,20 @@ class Activity2Service {
     return false;
   }
 
-  /// Verifica si la respuesta del usuario coincide con alguna de las variaciones del número.
+  /// Verifica si la respuesta coincide con alguna variación del número.
   ///
-  /// Comprueba que el campo 'variations' exista en [number], sea una [List],
-  /// y que alguno de sus elementos (convertidos a cadena y minúsculas)
-  /// sea igual a [normalizedUserAnswer].
+  /// Las variaciones representan formas alternativas válidas de escribir el mismo
+  /// número, que pueden deberse a:
+  /// - Diferencias dialectales
+  /// - Grafías alternativas 
+  /// - Formas abreviadas o expandidas
   ///
-  /// Devuelve `true` si hay coincidencia, `false` en caso contrario.
+  /// Este método busca coincidencias en el campo 'variations' del [number],
+  /// que debe ser una lista de cadenas con las diferentes variaciones.
+  ///
+  /// [number] Mapa con los datos del número, incluyendo sus variaciones.
+  /// [normalizedUserAnswer] La respuesta normalizada del usuario (minúsculas, sin espacios extra).
+  /// Retorna `true` si hay coincidencia con alguna variación, `false` en caso contrario.
   bool _checkVariations(
       Map<String, dynamic> number, String normalizedUserAnswer) {
     if (!number.containsKey('variations')) return false;

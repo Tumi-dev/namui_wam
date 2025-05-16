@@ -4,6 +4,7 @@ import 'package:namuiwam/core/services/logger_service.dart';
 import 'package:namuiwam/core/services/storage_service.dart';
 import 'package:namuiwam/core/services/feedback_service.dart';
 import 'package:namuiwam/core/services/number_data_service.dart';
+import 'package:namuiwam/core/services/sound_service.dart';
 import 'package:namuiwam/features/activity1/services/activity1_service.dart';
 import 'package:namuiwam/features/activity2/services/activity2_service.dart';
 import 'package:namuiwam/features/activity3/services/activity3_service.dart';
@@ -19,6 +20,7 @@ Future<void> setupServiceLocator() async {
   getIt.registerSingleton<LoggerService>(LoggerService());
   getIt.registerSingleton<AudioService>(AudioService());
   getIt.registerSingleton<StorageService>(StorageService());
+  getIt.registerSingleton<SoundService>(SoundService());
   getIt.registerSingleton<FeedbackService>(FeedbackService());
   getIt.registerLazySingleton<NumberDataService>(() => NumberDataService());
   
@@ -46,6 +48,10 @@ Future<void> setupServiceLocator() async {
   // Initialize the NumberDataService
   final numberDataService = getIt<NumberDataService>();
   await numberDataService.initialize();
+
+  // Initialize SoundService
+  final soundService = getIt<SoundService>();
+  await soundService.init();
   
   getIt.get<LoggerService>().info('Service locator initialized');
 }

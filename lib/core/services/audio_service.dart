@@ -122,7 +122,24 @@ class AudioService {
     // Si play() falla, se manejará en playAudio.
     if (!_audioPlayers.containsKey(audioPath)) {
       debugPrint('Creando nuevo AudioPlayer para: $audioPath');
-      _audioPlayers[audioPath] = AudioPlayer();
+      final newPlayer = AudioPlayer();
+      // Configurar AudioContext para efectos de sonido cortos/Namtrik
+      newPlayer.setAudioContext(AudioContext(
+        iOS: AudioContextIOS(
+          category: AVAudioSessionCategory.playback,
+          options: { AVAudioSessionOptions.mixWithOthers },
+        ),
+        android: AudioContextAndroid(
+          isSpeakerphoneOn: false,
+          stayAwake: false,
+          audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+        ),
+      )).then((_) {
+        debugPrint('AudioService: AudioContext set for new player: $audioPath');
+      }).catchError((e) {
+        debugPrint('AudioService: Error setting AudioContext for new player $audioPath: $e');
+      });
+      _audioPlayers[audioPath] = newPlayer;
       // Opcional: Configurar ID del player para logging
       // _audioPlayers[audioPath]!.setPlayerId('player_$audioPath');
     }

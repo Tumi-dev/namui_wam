@@ -8,6 +8,7 @@ import 'package:namuiwam/features/activity3/services/activity3_service.dart';
 import 'package:namuiwam/features/activity3/widgets/selectable_item.dart';
 import 'package:namuiwam/core/services/feedback_service.dart';
 import 'dart:math';
+import 'package:namuiwam/core/services/sound_service.dart';
 
 /// Pantalla para un nivel específico de la Actividad 3: "Nɵsik utɵwan asam kusrekun".
 ///
@@ -40,46 +41,65 @@ class _Activity3LevelScreenState
     extends ScrollableLevelScreenState<Activity3LevelScreen> {
   /// Servicio específico para la lógica de la Actividad 3.
   late Activity3Service _activity3Service;
+  /// Servicio para reproducir sonidos de la aplicación.
+  final _soundService = GetIt.instance<SoundService>();
+
   /// Indica si la pantalla está actualmente cargando datos.
   bool _isLoading = true;
+
   /// Lista de elementos del juego (usada principalmente en el nivel 1).
   List<Map<String, dynamic>> _gameItems = [];
 
   // --- Variables Nivel 1: Emparejamiento ---
   /// ID del reloj seleccionado actualmente.
   String? _selectedClockId;
+
   /// ID del texto Namtrik seleccionado actualmente.
   String? _selectedNamtrikId;
+
   /// Mapa que almacena los pares correctamente emparejados (ID reloj -> ID Namtrik).
   final Map<String, String> _matchedPairs = {};
+
   /// Controla la animación de error para selecciones incorrectas.
   bool _showErrorAnimation = false;
+
   /// Lista desordenada de relojes para mostrar en la interfaz.
   List<Map<String, dynamic>> _shuffledClocks = [];
+
   /// Lista desordenada de textos Namtrik para mostrar en la interfaz.
   List<Map<String, dynamic>> _shuffledNamtrik = [];
 
   // --- Variables Nivel 2: Selección Múltiple ---
   /// Ruta de la imagen del reloj a mostrar.
   String? _clockImage;
+
   /// Lista de opciones de respuesta (textos Namtrik).
   List<Map<String, dynamic>> _options = [];
 
   // --- Variables Nivel 3: Ajustar Hora ---
   /// Texto de la hora objetivo en Namtrik.
   String? _hourNamtrik;
+
   /// Ruta de la imagen del reloj (puede ser usada como referencia visual).
   String? _clockImageLevel3;
+
   /// Hora correcta (0-11).
   int? _correctHour;
+
   /// Minuto correcto (0-59).
   int? _correctMinute;
-  /// Hora seleccionada por el usuario en el selector.
+
+  /// Hora seleccionada por el usuario en el selector (0-11).
+  /// Inicializada aleatoriamente en Nivel 3 para evitar dar pistas.
   int _selectedHour = 0;
-  /// Minuto seleccionado por el usuario en el selector.
+
+  /// Minuto seleccionado por el usuario en el selector (0-59).
+  /// Inicializado aleatoriamente en Nivel 3 para evitar dar pistas.
   int _selectedMinute = 0;
+
   /// Controla la animación de éxito al ajustar la hora correctamente.
   bool _showSuccessAnimation = false;
+
   /// Controla la animación de error al ajustar la hora incorrectamente.
   bool _showErrorAnimationLevel3 = false;
 
@@ -96,78 +116,78 @@ class _Activity3LevelScreenState
 
   /// Carga los datos específicos para el nivel actual desde [Activity3Service].
   ///
-  /// Actualiza el estado [_isLoading] y las variables correspondientes al nivel
-  /// ([_gameItems], [_shuffledClocks], [_shuffledNamtrik] para nivel 1;
-  /// [_clockImage], [_options] para nivel 2; [_hourNamtrik], [_clockImageLevel3],
-  /// [_correctHour], [_correctMinute] para nivel 3).
-  /// Maneja posibles errores durante la carga y muestra un [SnackBar].
+  /// Este método es asíncrono y actualiza el estado [_isLoading] antes y después de la carga.
+  /// Según el `widget.level.id`:
+  /// - Nivel 1: Prepara [_gameItems], y las listas desordenadas [_shuffledClocks] y [_shuffledNamtrik].
+  /// - Nivel 2: Configura [_clockImage] y la lista de [_options].
+  /// - Nivel 3: Establece [_hourNamtrik], [_clockImageLevel3] (opcional), [_correctHour], y [_correctMinute].
+  ///            Además, inicializa [_selectedHour] y [_selectedMinute] con valores aleatorios
+  ///            diferentes de la respuesta correcta para evitar pistas.
+  ///
+  /// Maneja posibles errores durante la obtención de datos mostrando un [SnackBar] si el widget está montado.
   Future<void> _loadLevelData() async {
-    if (!mounted) return;
-    setState(() {
-      _isLoading = true;
-      // Resetea estados específicos de niveles anteriores si es necesario
-      _selectedClockId = null;
-      _selectedNamtrikId = null;
-      _matchedPairs.clear();
-      _showErrorAnimation = false;
-      _showSuccessAnimation = false;
-      _showErrorAnimationLevel3 = false;
-    });
-
     try {
       final levelData = await _activity3Service.getLevelData(widget.level);
 
-      if (!mounted) return;
-
-      // Carga de datos según el ID del nivel.
       if (widget.level.id == 1) {
         final items = levelData['items'] as List<Map<String, dynamic>>;
+
+        // Crear copias desordenadas para las imágenes y textos en namtrik nivel 1
         final List<Map<String, dynamic>> clocksCopy = List.from(items);
         final List<Map<String, dynamic>> namtrikCopy = List.from(items);
+
+        // Desordenar las listas de relojes y textos en namtrik nivel 1
         clocksCopy.shuffle();
         namtrikCopy.shuffle();
 
-        setState(() {
-          _gameItems = items;
-          _shuffledClocks = clocksCopy;
-          _shuffledNamtrik = namtrikCopy;
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _gameItems = items;
+            _shuffledClocks = clocksCopy;
+            _shuffledNamtrik = namtrikCopy;
+            _isLoading = false;
+          });
+        }
       } else if (widget.level.id == 2) {
-        setState(() {
-          _clockImage = levelData['clock_image'];
-          _options = List<Map<String, dynamic>>.from(levelData['options']);
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _clockImage = levelData['clock_image'];
+            _options = List<Map<String, dynamic>>.from(levelData['options']);
+            _isLoading = false;
+          });
+        }
       } else if (widget.level.id == 3) {
-        setState(() {
-          _hourNamtrik = levelData['hour_namtrik'];
-          _clockImageLevel3 = levelData['clock_image'];
-          _correctHour = levelData['correct_hour'];
-          _correctMinute = levelData['correct_minute'];
-          // Inicializar selectores con valores aleatorios diferentes a la respuesta
-          _selectedHour = _getRandomHourDifferentFrom(_correctHour!);
-          _selectedMinute = _getRandomMinuteDifferentFrom(_correctMinute!);
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _hourNamtrik = levelData['hour_namtrik'];
+            _clockImageLevel3 = levelData['clock_image'];
+            _correctHour = levelData['correct_hour'];
+            _correctMinute = levelData['correct_minute'];
+            // Inicializar con valores aleatorios para no dar pistas
+            _selectedHour = _getRandomHourDifferentFrom(_correctHour!);
+            _selectedMinute = _getRandomMinuteDifferentFrom(_correctMinute!);
+            _isLoading = false;
+          });
+        }
       } else {
-        // Manejo para niveles no implementados o futuros.
-        setState(() {
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
     } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error al cargar datos del nivel: $e'),
-          duration: const Duration(seconds: 3),
-        ),
-      );
-      debugPrint('Error en _loadLevelData: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error al cargar datos: $e'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 
@@ -230,30 +250,37 @@ class _Activity3LevelScreenState
   ///   - Muestra un [SnackBar] con los intentos restantes.
   ///   - Resetea la animación de error después de un retraso.
   ///   - Si se agotan los intentos, llama a [_handleOutOfAttempts].
+  ///   - De lo contrario (si quedan intentos), recarga los datos del nivel con [_loadLevelData] para una nueva pregunta.
   void _checkTimeCorrect() {
-    if (_correctHour == null || _correctMinute == null) return;
-
     final isCorrect = _activity3Service.isTimeCorrect(
         _selectedHour, _selectedMinute, _correctHour!, _correctMinute!);
 
     if (isCorrect) {
+      _soundService.playCorrectSound();
+      // Mostrar animación de éxito y avanzar al siguiente nivel
       setState(() {
         _showSuccessAnimation = true;
       });
+
+      // Esperar un momento antes de mostrar el diálogo de éxito y avanzar al siguiente nivel
       Future.delayed(const Duration(milliseconds: 800), () {
         if (mounted) {
           _handleLevelComplete();
         }
       });
     } else {
+      _soundService.playIncorrectSound();
+      // Vibración media al fallar
       FeedbackService().mediumHapticFeedback();
+      // Mostrar animación de error y reducir intentos
       setState(() {
         _showErrorAnimationLevel3 = true;
-        if (remainingAttempts > 0) {
-          remainingAttempts--;
-        }
       });
 
+      // Reducir intentos restantes
+      remainingAttempts--;
+
+      // Mostrar mensaje de error en la parte inferior de la pantalla de nivel 3
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content:
@@ -262,6 +289,7 @@ class _Activity3LevelScreenState
         ),
       );
 
+      // Resetear animación después de un breve retraso en nivel 3
       Future.delayed(const Duration(milliseconds: 800), () {
         if (mounted) {
           setState(() {
@@ -270,56 +298,71 @@ class _Activity3LevelScreenState
         }
       });
 
+      // Verificar si se han agotado los intentos en nivel 3
       if (remainingAttempts <= 0) {
         _handleOutOfAttempts();
+      } else {
+        // Cargar nuevos datos para una nueva ronda en nivel 3
+        _loadLevelData();
       }
-      // No recargamos datos aquí para que el usuario pueda corregir su selección.
-      // else {
-      //   _loadLevelData(); // Considerar si recargar o permitir corregir
-      // }
     }
   }
 
   /// Maneja la selección de una imagen de reloj en el Nivel 1.
   ///
-  /// Actualiza [_selectedClockId]. Si ya hay un texto Namtrik seleccionado
-  /// ([_selectedNamtrikId]), llama a [_checkMatch] para verificar la pareja.
-  /// Ignora la selección si el reloj ya está emparejado.
+  /// Actualiza [_selectedClockId] de la siguiente manera:
+  /// - Si el reloj clickeado ya estaba seleccionado, se deselecciona.
+  /// - Si se clickea un reloj diferente y otro ya estaba seleccionado, se reemplaza la selección.
+  /// - Si no había un reloj seleccionado, se selecciona el clickeado.
+  ///
+  /// Si después de la selección tanto un reloj ([_selectedClockId]) como un texto Namtrik ([_selectedNamtrikId])
+  /// están seleccionados, llama a [_checkMatch] para verificar la pareja.
+  /// Ignora la selección si el reloj ya forma parte de un par correcto en [_matchedPairs].
   void _handleClockSelected(String id) {
     if (_matchedPairs.containsKey(id)) return; // Ignora si ya está emparejado
 
     setState(() {
-      // Deselecciona si se toca el mismo reloj, o selecciona el nuevo.
-      _selectedClockId = (_selectedClockId == id) ? null : id;
-      // Resetea animación de error al seleccionar algo nuevo.
-      _showErrorAnimation = false;
-    });
+      // Si ya había un reloj seleccionado, lo deseleccionamos en nivel 1
+      if (_selectedClockId != null && _selectedClockId != id) {
+        _selectedClockId = id;
+      } else {
+        _selectedClockId = _selectedClockId == id ? null : id;
+      }
 
-    // Si ambos (reloj y texto) están seleccionados, verifica la coincidencia.
-    if (_selectedClockId != null && _selectedNamtrikId != null) {
-      _checkMatch();
-    }
+      // Si ambos (reloj y texto) están seleccionados, verifica la coincidencia.
+      if (_selectedClockId != null && _selectedNamtrikId != null) {
+        _checkMatch();
+      }
+    });
   }
 
   /// Maneja la selección de un texto Namtrik en el Nivel 1.
   ///
-  /// Actualiza [_selectedNamtrikId]. Si ya hay un reloj seleccionado
-  /// ([_selectedClockId]), llama a [_checkMatch] para verificar la pareja.
-  /// Ignora la selección si el texto ya está emparejado.
+  /// Actualiza [_selectedNamtrikId] de la siguiente manera:
+  /// - Si el texto clickeado ya estaba seleccionado, se deselecciona.
+  /// - Si se clickea un texto diferente y otro ya estaba seleccionado, se reemplaza la selección.
+  /// - Si no había un texto seleccionado, se selecciona el clickeado.
+  ///
+  /// Si después de la selección tanto un reloj ([_selectedClockId]) como un texto Namtrik ([_selectedNamtrikId])
+  /// están seleccionados, llama a [_checkMatch] para verificar la pareja.
+  /// Ignora la selección si el texto ya forma parte de un par correcto en [_matchedPairs].
   void _handleNamtrikSelected(String id) {
-    if (_matchedPairs.values.contains(id)) return; // Ignora si ya está emparejado
+    if (_matchedPairs.values.contains(id))
+      return; // Ignora si ya está emparejado
 
     setState(() {
-      // Deselecciona si se toca el mismo texto, o selecciona el nuevo.
-      _selectedNamtrikId = (_selectedNamtrikId == id) ? null : id;
-      // Resetea animación de error al seleccionar algo nuevo.
-      _showErrorAnimation = false;
-    });
+      // Si ya había un texto seleccionado, lo deseleccionamos en nivel 1
+      if (_selectedNamtrikId != null && _selectedNamtrikId != id) {
+        _selectedNamtrikId = id;
+      } else {
+        _selectedNamtrikId = _selectedNamtrikId == id ? null : id;
+      }
 
-    // Si ambos (reloj y texto) están seleccionados, verifica la coincidencia.
-    if (_selectedClockId != null && _selectedNamtrikId != null) {
-      _checkMatch();
-    }
+      // Si ambos (reloj y texto) están seleccionados, verifica la coincidencia.
+      if (_selectedClockId != null && _selectedNamtrikId != null) {
+        _checkMatch();
+      }
+    });
   }
 
   /// Maneja la selección de una opción de respuesta en el Nivel 2.
@@ -333,14 +376,13 @@ class _Activity3LevelScreenState
   ///   - Si quedan intentos, recarga los datos del nivel ([_loadLevelData]) para una nueva pregunta.
   void _handleOptionSelected(String id, bool isCorrect) {
     if (isCorrect) {
+      _soundService.playCorrectSound();
       _handleLevelComplete();
     } else {
+      _soundService.playIncorrectSound();
       FeedbackService().mediumHapticFeedback();
-      setState(() {
-        if (remainingAttempts > 0) {
-          remainingAttempts--;
-        }
-      });
+
+      remainingAttempts--;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -380,7 +422,7 @@ class _Activity3LevelScreenState
         _selectedClockId!, _selectedNamtrikId!);
 
     if (isMatch) {
-      FeedbackService().lightHapticFeedback(); // Feedback para acierto
+      _soundService.playCorrectSound();
       setState(() {
         _matchedPairs[_selectedClockId!] = _selectedNamtrikId!;
         _selectedClockId = null;
@@ -391,13 +433,14 @@ class _Activity3LevelScreenState
         _handleLevelComplete();
       }
     } else {
+      _soundService.playIncorrectSound();
       FeedbackService().mediumHapticFeedback();
       setState(() {
         _showErrorAnimation = true;
-        if (remainingAttempts > 0) {
-          remainingAttempts--;
-        }
       });
+
+      // Reducir intentos restantes en nivel 1
+      remainingAttempts--;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -415,6 +458,9 @@ class _Activity3LevelScreenState
             // para que el usuario deba volver a seleccionar.
             // _selectedClockId = null; // Comentado para que el borde rojo persista
             // _selectedNamtrikId = null; // Comentado para que el borde rojo persista
+
+            _selectedClockId = null;
+            _selectedNamtrikId = null;
           });
         }
       });
@@ -431,7 +477,6 @@ class _Activity3LevelScreenState
   /// o si ya se había completado antes. Incluye un botón para continuar que cierra
   /// el diálogo y la pantalla del nivel.
   void _showLevelCompletedDialog({required bool wasCompleted}) {
-    if (!mounted) return;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -451,26 +496,24 @@ class _Activity3LevelScreenState
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 16),
-              Text(
-                wasCompleted
-                    ? 'Ya has completado este nivel anteriormente.'
-                    : 'Has desbloqueado el siguiente nivel', // Mensaje actualizado
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
-              ),
               // Muestra los puntos ganados solo si es la primera vez
-              if (!wasCompleted) ...[
-                const SizedBox(height: 16),
-                const Text(
+              const SizedBox(height: 16),
+              if (!wasCompleted)
+                Text(
                   '¡Ganaste 5 puntos!',
-                  style: TextStyle(
-                    color: Color(0xFF8B4513), // Color específico A3
+                  style: const TextStyle(
+                    color: Color(0xFF8B4513),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
+                )
+              else
+                const Text(
+                  'Ya has completado este nivel anteriormente.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
                 ),
-              ],
+
               const SizedBox(height: 16),
               // Botón para continuar
               ElevatedButton(
@@ -479,7 +522,8 @@ class _Activity3LevelScreenState
                   Navigator.of(context).pop(); // Cierra la pantalla del nivel
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8B4513), // Color específico A3
+                  backgroundColor:
+                      const Color(0xFF8B4513), // Color específico A3
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -500,7 +544,6 @@ class _Activity3LevelScreenState
   ///
   /// Ofrece un botón "Aceptar" para cerrar el diálogo y la pantalla del nivel.
   void _showNoAttemptsDialog() {
-    if (!mounted) return;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -532,23 +575,20 @@ class _Activity3LevelScreenState
   /// - Si es la primera vez:
   ///   - Añade puntos al estado global del juego ([GameState.addPoints]).
   ///   - Marca el nivel como completado en el estado de las actividades ([ActivitiesState.completeLevel]).
-  ///   - Actualiza el puntaje total mostrado en la UI.
+  ///   - Actualiza el puntaje total mostrado en la UI ([totalScore]).
   /// - Muestra el diálogo de nivel completado ([_showLevelCompletedDialog]).
   void _handleLevelComplete() async {
     FeedbackService().lightHapticFeedback();
     final activitiesState = ActivitiesState.of(context);
     final gameState = GameState.of(context);
-    if (!mounted) return;
-
     final wasCompleted = gameState.isLevelCompleted(3, widget.level.id - 1);
-
     if (!wasCompleted) {
       final pointsAdded = await gameState.addPoints(3, widget.level.id - 1, 5);
       if (pointsAdded) {
         activitiesState.completeLevel(3, widget.level.id - 1);
         if (mounted) {
           setState(() {
-            totalScore = gameState.globalPoints; // Actualiza puntos en InfoBar
+            totalScore = gameState.globalPoints;
           });
         }
       }
@@ -563,7 +603,6 @@ class _Activity3LevelScreenState
   /// - Muestra el diálogo de "sin intentos" ([_showNoAttemptsDialog]).
   void _handleOutOfAttempts() async {
     await FeedbackService().heavyHapticFeedback();
-    if (!mounted) return;
     _showNoAttemptsDialog();
   }
 
@@ -578,45 +617,63 @@ class _Activity3LevelScreenState
   Widget buildLevelContent() {
     if (_isLoading) {
       return const Center(
-        child: CircularProgressIndicator(color: Colors.white),
+        child: CircularProgressIndicator(),
       );
     }
 
-    // Contenido base que incluye la InfoBar
-    Widget levelContent;
     if (widget.level.id == 1) {
-      levelContent = _buildLevel1Content();
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          _buildLevel1Content(),
+        ],
+      );
     } else if (widget.level.id == 2) {
-      levelContent = _buildLevel2Content();
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          _buildLevel2Content(),
+        ],
+      );
     } else if (widget.level.id == 3) {
-      levelContent = _buildLevel3Content();
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          _buildLevel3Content(),
+        ],
+      );
     } else {
-      // Contenido para niveles futuros o no implementados
-      levelContent = SizedBox(
-        height: 300, // Altura fija para centrar el texto
-        child: Center(
-          child: Text(
-            'Nivel ${widget.level.id} en desarrollo',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          SizedBox(
+            height: 300,
+            child: Center(
+              child: Text(
+                'Nivel ${widget.level.id}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       );
     }
-
-    // Envuelve el contenido específico del nivel con la InfoBar
-    return Column(
-      children: [
-        InfoBar(
-          remainingAttempts: remainingAttempts,
-          margin: const EdgeInsets.only(bottom: 24),
-        ),
-        levelContent, // Contenido específico del nivel
-      ],
-    );
   }
 
   /// Construye la interfaz de usuario para el Nivel 1 (Emparejamiento).
@@ -630,10 +687,15 @@ class _Activity3LevelScreenState
   Widget _buildLevel1Content() {
     final screenSize = MediaQuery.of(context).size;
     final isLandscape = screenSize.width > screenSize.height;
-    // Ajustar tamaño para que quepan mejor, especialmente en landscape
-    final double itemSize = isLandscape ? screenSize.width * 0.1 : screenSize.width * 0.25;
-    final int itemsPerRow = isLandscape ? 5 : 3; // Más items por fila
-    final double textItemAspectRatio = isLandscape ? 2.2 : 1.8; // Ajustar para mejor visualización
+  // Calcular tamaño de los elementos según la orientación en nivel 1
+    final double clockSize = isLandscape
+        ? screenSize.width * 0.15
+        : screenSize.width *
+            0.35; // 15% en landscape, 35% en portrait de los relojes
+
+    // Determinar el número de elementos por fila según orientación en nivel 1
+    final int clocksPerRow =
+        isLandscape ? 4 : 2; // 4 en landscape, 2 en portrait de los relojes
 
     return Column(
       children: [
@@ -658,7 +720,7 @@ class _Activity3LevelScreenState
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: itemsPerRow,
+            crossAxisCount: clocksPerRow,
             childAspectRatio: 1.0, // Relojes cuadrados
             crossAxisSpacing: 8, // Menor espaciado
             mainAxisSpacing: 8,
@@ -682,42 +744,45 @@ class _Activity3LevelScreenState
               state = SelectionState.selected;
             }
 
-            return SelectableItem(
-              id: id,
-              state: state, // Ahora usa el tipo correcto
-              isImage: true,
-              isEnabled: !isMatched,
-              onTap: () => _handleClockSelected(id),
-              child: Padding(
-                padding: const EdgeInsets.all(2.0), // Padding mínimo
-                child: Image.asset(
-                  'assets/images/clocks/${item['clock_image']}',
-                  fit: BoxFit.contain,
-                  width: itemSize,
-                  height: itemSize,
-                ),
-              ),
+            // Construir elemento seleccionable con imagen de reloj en nivel 1
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                return SelectableItem(
+                  id: id,
+                  state: state,
+                  isImage: true,
+                  isEnabled: !isMatched,
+                  onTap: () => _handleClockSelected(id),
+                  child: Image.asset(
+                    'assets/images/clocks/${item['clock_image']}',
+                    fit: BoxFit.contain,
+                    width: clockSize,
+                    height: clockSize,
+                  ),
+                );
+              },
             );
           },
         ),
 
-        const SizedBox(height: 20), // Espacio ajustado
+        const SizedBox(height: 16), // Espacio ajustado
 
         // Grid de Textos Namtrik
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: itemsPerRow,
-            childAspectRatio: textItemAspectRatio,
-            crossAxisSpacing: 6, // Menor espaciado
-            mainAxisSpacing: 6,
+            crossAxisCount: clocksPerRow,
+            childAspectRatio: 1.5,
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 2,
           ),
           itemCount: _shuffledNamtrik.length,
           itemBuilder: (context, index) {
             final item = _shuffledNamtrik[index];
             final id = item['id'];
-            final isMatched = _matchedPairs.containsValue(id);
+            final isMatched = _matchedPairs.values
+                .contains(id); // Determina si el texto ya ha sido emparejado
             final isSelected = _selectedNamtrikId == id;
             // Error si este texto está seleccionado Y hubo un error
             final isError = _showErrorAnimation && isSelected;
@@ -738,19 +803,19 @@ class _Activity3LevelScreenState
               isEnabled: !isMatched,
               onTap: () => _handleNamtrikSelected(id),
               child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.0), // Padding mínimo
-                  child: Text(
-                    item['hour_namtrik'],
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: isLandscape ? 13 : 14, // Tamaño de fuente ajustado
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                child: Text(
+                  item['hour_namtrik'],
+                  style: TextStyle(
+                    // Estilo de los textos en namtrik (color blanco, negrita, tamaño 16) nivel 1
+                    color: Colors.white,
+                    fontSize: isLandscape
+                        ? 16
+                        : 16, // Tamaño del texto en namtrik (16 en landscape, 16 en portrait)
+                    fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2, // Máximo 2 líneas de texto
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             );
@@ -770,9 +835,9 @@ class _Activity3LevelScreenState
   Widget _buildLevel2Content() {
     final screenSize = MediaQuery.of(context).size;
     final isLandscape = screenSize.width > screenSize.height;
-    final double clockImageSize = isLandscape ? screenSize.width * 0.25 : screenSize.width * 0.6;
+    final double clockImageSize =
+        isLandscape ? screenSize.width * 0.25 : screenSize.width * 0.7;
     final int optionsPerRow = isLandscape ? 4 : 2;
-    final double optionAspectRatio = isLandscape ? 3.5 : 2.8; // Ajustar aspect ratio para más espacio vertical
 
     return Column(
       children: [
@@ -780,7 +845,7 @@ class _Activity3LevelScreenState
         Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: Text(
-            'Selecciona la hora correcta en namtrik',
+            'Selecciona la hora correcta en namuiwam',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -801,7 +866,7 @@ class _Activity3LevelScreenState
           ),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
 
         // Opciones de Respuesta
         GridView.builder(
@@ -809,7 +874,7 @@ class _Activity3LevelScreenState
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: optionsPerRow,
-            childAspectRatio: optionAspectRatio,
+            childAspectRatio: 2.5,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           ),
@@ -827,12 +892,14 @@ class _Activity3LevelScreenState
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+
+                padding: const EdgeInsets.all(
+                    8), // Padding 8 para las opciones de respuesta
               ),
               child: Text(
                 option['hour_namtrik'],
                 style: TextStyle(
-                  fontSize: isLandscape ? 15 : 16,
+                  fontSize: isLandscape ? 16 : 16,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -857,26 +924,18 @@ class _Activity3LevelScreenState
   /// Utiliza animaciones ([_showSuccessAnimation], [_showErrorAnimationLevel3])
   /// en los selectores y el botón para dar retroalimentación.
   Widget _buildLevel3Content() {
-    // --- Definiciones movidas al inicio --- 
+    // --- Definiciones movidas al inicio ---
     final screenSize = MediaQuery.of(context).size;
     final isLandscape = screenSize.width > screenSize.height;
     final double instructionFontSize = isLandscape ? 18.0 : 20.0;
-    final double namtrikHourFontSize = isLandscape ? 20.0 : 24.0;
+    final double namtrikHourFontSize = isLandscape ? 22.0 : 26.0;
     final EdgeInsets contentPadding = isLandscape
-        ? const EdgeInsets.symmetric(horizontal: 60.0)
-        : const EdgeInsets.symmetric(horizontal: 24.0);
-    final double clockImageSize = isLandscape ? screenSize.width * 0.20 : screenSize.width * 0.5;
+        ? const EdgeInsets.symmetric(horizontal: 48.0)
+        : const EdgeInsets.symmetric(horizontal: 16.0);
+    final double clockImageSize =
+        isLandscape ? screenSize.width * 0.25 : screenSize.width * 0.7;
     final List<int> hours = List.generate(12, (index) => index); // 0 a 11
     final List<int> minutes = List.generate(60, (index) => index); // 0 a 59
-
-    // Determina el color del borde basado en el estado de error/éxito
-    Color dropdownBorderColor = Colors.transparent; // Color por defecto
-    if (_showErrorAnimationLevel3) {
-      dropdownBorderColor = Colors.red.shade700;
-    } else if (_showSuccessAnimation) {
-      dropdownBorderColor = Colors.green.shade700;
-    }
-    // --- Fin de definiciones movidas --- 
 
     return Column(
       children: [
@@ -897,7 +956,7 @@ class _Activity3LevelScreenState
         // Imagen del Reloj (Opcional)
         if (_clockImageLevel3 != null)
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 16.0),
+            margin: const EdgeInsets.symmetric(vertical: 20.0),
             child: Image.asset(
               'assets/images/clocks/$_clockImageLevel3',
               width: clockImageSize,
@@ -906,23 +965,30 @@ class _Activity3LevelScreenState
             ),
           ),
 
+        // Espacio adicional entre la imagen del reloj y el texto de la hora en namtrik nivel 3
+        const SizedBox(height: 16),
+
         // Hora en Namtrik
         Container(
-          margin: const EdgeInsets.only(bottom: 24.0, left: 16, right: 16),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+          margin: const EdgeInsets.only(bottom: 24.0),
+          padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 12.0), // Tamaño del texto de la hora en namtrik
           decoration: BoxDecoration(
-            color: const Color(0xFF8B4513), // Color A3
+            // Fondo marrón tierra con bordes redondeados y sombra suave para el texto de la hora en namtrik
+            color: const Color(0xFF8B4513), //
             borderRadius: BorderRadius.circular(12.0),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF8B4513).withOpacity(0.5),
-                blurRadius: 6,
-                offset: const Offset(0, 3),
+                // Sombra suave con opacidad 30% y desplazamiento de 3 puntos hacia abajo
+                color: const Color(0xFF8B4513),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
           child: Text(
-            _hourNamtrik ?? 'Cargando hora...',
+            _hourNamtrik ?? '',
             style: TextStyle(
               color: Colors.white,
               fontSize: namtrikHourFontSize, // Usar variable definida arriba
@@ -937,7 +1003,6 @@ class _Activity3LevelScreenState
           padding: contentPadding, // Usar variable definida arriba
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Selector Hora
               Expanded(
@@ -947,45 +1012,56 @@ class _Activity3LevelScreenState
                       'Hora',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal:
+                              12.0), // Padding interno para el selector de hora nivel 3
                       decoration: BoxDecoration(
-                        color: const Color(0xFF8B4513),
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: dropdownBorderColor, width: 2),
+                        // Fondo marrón tierra con bordes redondeados para el selector de hora
+                        color: const Color(
+                            0xFF8B4513), // Fondo marrón tierra para el selector de hora
+                        borderRadius: BorderRadius.circular(
+                            8.0), // Bordes redondeados para el selector de hora
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<int>(
-                          value: _selectedHour,
-                          isExpanded: true,
-                          icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-                          iconSize: 30,
-                          elevation: 16,
-                          dropdownColor: const Color(0xFF8B4513),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          onChanged: _handleHourChanged,
-                          items: hours.map<DropdownMenuItem<int>>((int value) { // Usar variable definida arriba
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Center(
-                                child: Text(
-                                  value.toString().padLeft(2, '0'),
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                      // Selector de hora con lista de horas y controlador de selección
+                      child: DropdownButton<int>(
+                        value: _selectedHour, // Hora seleccionada por defecto
+                        isExpanded: true, // Expansión del selector de hora
+                        icon: const Icon(Icons.arrow_drop_down,
+                            color: Colors
+                                .white), // Icono de flecha hacia abajo en color blanco
+                        iconSize: 34, // Tamaño del icono de flecha hacia abajo
+                        elevation: 16, // Elevación del menú desplegable
+                        dropdownColor: const Color(0xFF8B4513),
+                        // Estilo del texto de la hora seleccionado
+                        style: const TextStyle(
+                          // Color del texto de la hora seleccionada
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
+                        // Controlador de selección de hora
+                        onChanged: _handleHourChanged,
+                        items: hours.map<DropdownMenuItem<int>>((int value) {
+                          return DropdownMenuItem<int>(
+                            value: value,
+                            child: Text(
+                              value.toString().padLeft(2,
+                                  '0'), // Asegura que la hora tenga 2 dígitos
+                              style: TextStyle(
+                                // Estilo del texto de la hora seleccionada (rojo si hay error)
+                                color: _showErrorAnimationLevel3
+                                    ? Colors.red
+                                    : Colors.white,
+                              ),
+                            ),
+                          );
+                        }).toList(), // Lista de horas para el selector
                       ),
                     ),
                   ],
@@ -993,11 +1069,12 @@ class _Activity3LevelScreenState
               ),
 
               // Separador ':'
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0).copyWith(top: 28),
-                child: const Text(
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
                   ':',
                   style: TextStyle(
+                    // Color del separador de hora y minuto (blanco, negrita, tamaño 32)
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -1013,45 +1090,51 @@ class _Activity3LevelScreenState
                       'Minuto',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
+                    Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF8B4513),
+                        // Fondo marrón tierra con bordes redondeados para el selector de minuto
+                        color: const Color(
+                            0xFF8B4513), // Fondo marrón tierra para el selector de minuto
                         borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: dropdownBorderColor, width: 2),
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<int>(
-                          value: _selectedMinute,
-                          isExpanded: true,
-                          icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-                          iconSize: 30,
-                          elevation: 16,
-                          dropdownColor: const Color(0xFF8B4513),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          onChanged: _handleMinuteChanged,
-                          items: minutes.map<DropdownMenuItem<int>>((int value) { // Usar variable definida arriba
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Center(
-                                child: Text(
-                                  value.toString().padLeft(2, '0'),
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                      // Selector de minuto con lista de minutos y controlador de selección
+                      child: DropdownButton<int>(
+                        value: _selectedMinute,
+                        isExpanded: true,
+                        icon: const Icon(Icons.arrow_drop_down,
+                            color: Colors
+                                .white), // Icono de flecha hacia abajo en color blanco
+                        iconSize: 34,
+                        elevation: 16,
+                        dropdownColor: const Color(0xFF8B4513),
+                        style: const TextStyle(
+                          // Estilo del texto del minuto seleccionado (negro, tamaño 18)
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
+                        // Controlador de selección de minutos
+                        onChanged: _handleMinuteChanged,
+                        items: minutes.map<DropdownMenuItem<int>>((int value) {
+                          return DropdownMenuItem<int>(
+                            value: value,
+                            child: Text(
+                              value.toString().padLeft(2, '0'),
+                              style: TextStyle(
+                                // Estilo del texto del minuto seleccionado (rojo si hay error)
+                                color: _showErrorAnimationLevel3
+                                    ? Colors.red
+                                    : Colors.white,
+                              ),
+                            ),
+                          );
+                        }).toList(), // Lista de minutos para el selector
                       ),
                     ),
                   ],
@@ -1061,28 +1144,48 @@ class _Activity3LevelScreenState
           ),
         ),
 
-        const SizedBox(height: 32),
+        const SizedBox(height: 40),
 
-        // Botón Validar
+        // Botón de confirmar la hora seleccionada nivel 3
         ElevatedButton(
           onPressed: _checkTimeCorrect,
           style: ElevatedButton.styleFrom(
-            backgroundColor: _showSuccessAnimation ? Colors.green : const Color(0xFF8B4513),
+            // Botón verde con texto blanco y bordes redondeados para confirmar la hora seleccionada en nivel 3
+            backgroundColor:
+                _showSuccessAnimation ? Color(0xFF00FF00) : Color(0xFF8B4513),
+            // Texto blanco en negrita y tamaño 18 con padding interno para confirmar la hora seleccionada en nivel 3
             foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
-            elevation: 5,
+            elevation: 5, // Elevación del botón para resaltar sobre el fondo
           ),
-          child: const Text(
-            'Validar Hora',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _showSuccessAnimation
+                  // Icono de éxito si la hora es correcta (círculo verde con marca de verificación)
+                  ? const Icon(Icons.check_circle_outline,
+                      color: Colors.white) // Icono de éxito si es correcto
+                  // Icono de reloj si no se ha confirmado (círculo blanco con reloj)
+                  : const Icon(Icons.access_time,
+                      color: Colors
+                          .white), // Icono de reloj si no se ha confirmado
+              // Espacio adicional entre el icono y el texto del botón de confirmar la hora seleccionada en nivel 3
+              const SizedBox(width: 8),
+              const Text(
+                'Confirmar',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
+
+        // Espacio adicional al final de la pantalla nivel 3
         const SizedBox(height: 24),
       ],
     ); // Cierre del Column principal

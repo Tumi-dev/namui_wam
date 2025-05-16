@@ -10,9 +10,24 @@ import 'dictionary_entries_screen.dart';
 /// {@template dictionary_domain_screen}
 /// Pantalla principal de la Actividad 6 (Diccionario).
 ///
-/// Muestra una cuadrícula ([GridView]) con los diferentes dominios semánticos
-/// disponibles (ej. "Animales", "Colores"). Cada dominio se representa
-/// mediante una tarjeta interactiva ([_buildDomainCard]).
+/// Implementa la interfaz inicial del diccionario Namtrik-Español que muestra
+/// una cuadrícula interactiva con todos los dominios semánticos disponibles
+/// (categorías como animales, colores, partes del cuerpo, etc.).
+///
+/// Características principales:
+/// - Carga asíncrona de dominios desde [Activity6Service]
+/// - Visualización en cuadrícula ([GridView]) adaptable y responsiva, con tarjetas más juntas
+/// - Tarjetas ([_buildDomainCard]) interactivas para cada dominio con:
+///   * Imagen representativa del dominio (dispuesta arriba).
+///   * Nombre en Namtrik (dispuesto abajo, mostrando el texto completo).
+///   * Retroalimentación háptica al tocar
+///   * Reproducción automática del audio del nombre al seleccionar
+/// - Navegación a [DictionaryEntriesScreen] al seleccionar un dominio
+///
+/// Esta pantalla sirve como punto de entrada al diccionario y utiliza 
+/// un color coral (0xFFFF7F50) como elemento temático distintivo de esta actividad.
+/// Maneja diferentes estados de carga (espera, error, vacío) y proporciona feedback
+/// multisensorial (visual, auditivo, háptico) durante la interacción.
 /// {@endtemplate}
 class DictionaryDomainScreen extends StatelessWidget {
   /// {@macro dictionary_domain_screen}
@@ -22,14 +37,32 @@ class DictionaryDomainScreen extends StatelessWidget {
   }
   // const DictionaryDomainScreen({super.key}); // Reemplazado por versión con log
 
-  // Mapa de overrides para nombres de carpeta/archivo de audio (similar a Activity6Service)
+  /// Mapa de excepciones para la normalización de nombres de dominios.
+  ///
+  /// Proporciona una correspondencia directa entre los nombres de dominios
+  /// que contienen caracteres especiales o estructuras particulares y sus
+  /// versiones normalizadas para uso en rutas de archivos.
+  ///
+  /// Esto es crucial para manejar dominios como "Wamap amɵñikun" donde 
+  /// una simple normalización automática podría no ser suficiente.
   final Map<String, String> _domainPathOverrides = {
     'Wamap amɵñikun': 'wamapamɵnikun',
     'Namui kewa amɵneiklɵ': 'kewaamɵneiklɵ',
     // Añadir otros overrides si son necesarios
   };
 
-  // Función para calcular el nombre base del archivo/carpeta (similar a Activity6Service)
+  /// Calcula el nombre normalizado de un dominio para uso en rutas de archivos.
+  ///
+  /// Este método aplica reglas de normalización consistentes:
+  /// 1. Verifica primero si existe un override específico en [_domainPathOverrides]
+  /// 2. Si no existe, convierte el nombre a minúsculas
+  /// 3. Reemplaza espacios por guiones bajos
+  ///
+  /// La normalización es necesaria porque los sistemas de archivos y las rutas
+  /// de assets tienen restricciones sobre los caracteres permitidos.
+  ///
+  /// [domainName] El nombre original del dominio en Namtrik
+  /// Retorna una cadena normalizada adecuada para rutas de archivos
   String _calculateDomainAudioName(String domainName) {
     // Check for override first
     if (_domainPathOverrides.containsKey(domainName)) {
@@ -42,9 +75,14 @@ class DictionaryDomainScreen extends StatelessWidget {
 
   /// Construye la interfaz de usuario de la pantalla de selección de dominios.
   ///
-  /// Utiliza un [FutureBuilder] para obtener la lista de [SemanticDomain]
-  /// desde [Activity6Service.getAllDomains]. Muestra un indicador de carga,
-  /// un mensaje de error, o la cuadrícula de dominios una vez cargados.
+  /// Implementa un patrón de carga asíncrona con [FutureBuilder] que:
+  /// 1. Obtiene la lista de [SemanticDomain] desde [Activity6Service.getAllDomains]
+  /// 2. Muestra un indicador circular mientras carga
+  /// 3. Maneja estados de error y resultados vacíos con mensajes apropiados
+  /// 4. Construye una cuadrícula de dominios cuando los datos están disponibles
+  ///
+  /// La cuadrícula utiliza [GridView.builder] con un layout adaptativo que 
+  /// muestra 2 columnas con relación de aspecto 3:2 para cada elemento.
   @override
   Widget build(BuildContext context) {
     final activity6Service = getIt<Activity6Service>();
@@ -64,11 +102,11 @@ class DictionaryDomainScreen extends StatelessWidget {
           return SafeArea(
             child: GridView.builder(
               padding: const EdgeInsets.all(16.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, 
-                crossAxisSpacing: 16.0,
-                mainAxisSpacing: 16.0,
-                childAspectRatio: 3 / 2, 
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200.0, // Max width for each item
+                crossAxisSpacing: 3.0, // Reduced spacing for closer cards
+                mainAxisSpacing: 3.0, // Reduced spacing for closer cards
+                childAspectRatio: 3 / 2.5, 
               ),
               itemCount: domains.length,
               itemBuilder: (context, index) {
@@ -82,52 +120,53 @@ class DictionaryDomainScreen extends StatelessWidget {
     );
   }
 
-  /// Construye una tarjeta ([Card]) interactiva para un [domain] semántico.
+  /// Construye una tarjeta interactiva para un dominio semántico específico.
   ///
-  /// Muestra la imagen representativa y el nombre del dominio.
+  /// Crea un [Card] con [InkWell] que presenta:
+  /// - Una imagen representativa del dominio en la parte superior, ocupando una porción mayor del espacio.
+  /// - El nombre del dominio en Namtrik debajo de la imagen, centrado y con posibilidad de mostrarse completo.
+  /// - Interactividad con retroalimentación visual y háptica.
+  /// - Uso optimizado del espacio interno del card para acercar contenido a los bordes.
+  ///
   /// Al tocar la tarjeta:
-  /// 1. Proporciona feedback háptico.
-  /// 2. Intenta reproducir el audio con el nombre del dominio usando [AudioPlayerService].
-  /// 3. Navega a [DictionaryEntriesScreen] pasando el dominio seleccionado.
+  /// 1. Proporciona feedback háptico ligero mediante [FeedbackService]
+  /// 2. Detiene cualquier audio en reproducción
+  /// 3. Intenta reproducir el audio con el nombre del dominio en Namtrik
+  /// 4. Navega a [DictionaryEntriesScreen] con el dominio seleccionado
+  ///
+  /// Las imágenes se redimensionan automáticamente según el espacio disponible,
+  /// manteniendo la proporción y asegurando una visualización de calidad.
+  ///
+  /// [context] El contexto de construcción para la navegación y el tema
+  /// [domain] El dominio semántico para el cual construir la tarjeta
+  /// Retorna un [Widget] que representa la tarjeta interactiva del dominio
   Widget _buildDomainCard(BuildContext context, SemanticDomain domain) {
-    final audioPlayerService = getIt<AudioPlayerService>(); // Obtener instancia del servicio de audio
-    final feedbackService = getIt<FeedbackService>(); // Obtener instancia del servicio de feedback
+    final audioPlayerService = getIt<AudioPlayerService>();
+    final feedbackService = getIt<FeedbackService>();
+    final logger = getIt<LoggerService>();
 
-    // Construir la ruta del audio para este dominio using the updated function
     final String audioBaseName = _calculateDomainAudioName(domain.name);
-    // Ensure the path uses the calculated name correctly
     final String domainAudioPath = 'assets/audio/dictionary/$audioBaseName.mp3';
-    final logger = getIt<LoggerService>(); // Obtener logger
-    logger.debug('Audio path for domain "${domain.name}": $domainAudioPath'); // Log updated path
+    logger.debug('Audio path for domain "${domain.name}": $domainAudioPath');
 
     return Card(
       elevation: 4.0,
       clipBehavior: Clip.antiAlias,
-      color: const Color(0xFFFF7F50), // Coral cálido
+      color: const Color(0xFFFF7F50),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: InkWell(
-        onTap: () async { // Convertir a async para await
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: () async {
           logger.info('Tapped on domain: ${domain.name}. Playing audio: $domainAudioPath');
-          await feedbackService.lightHapticFeedback(); // Añadir feedback háptico
+          await feedbackService.lightHapticFeedback();
           try {
-            // Stop any currently playing audio before starting new playback
-            await audioPlayerService.stop(); 
-            await audioPlayerService.play(domainAudioPath); // Reproducir audio del dominio
+            await audioPlayerService.stop();
+            await audioPlayerService.play(domainAudioPath);
           } catch (e, stackTrace) {
-            logger.error(
-              'Error playing domain audio: $domainAudioPath', 
-              e, 
-              stackTrace
-            );
-            // Opcional: Mostrar un mensaje al usuario si falla la reproducción
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   SnackBar(content: Text('Error al reproducir audio: ${domain.name}')),
-            // );
+            logger.error('Error playing domain audio: $domainAudioPath', e, stackTrace);
           }
-          
-          // Navegar después de intentar reproducir el audio
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -136,43 +175,42 @@ class DictionaryDomainScreen extends StatelessWidget {
           );
         },
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch, 
+          mainAxisAlignment: MainAxisAlignment.start, 
           children: [
+            // Imagen en la parte superior, utilizando el espacio eficientemente
             Expanded(
-              child: Center(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    // Calculamos un tamaño adaptable basado en el espacio disponible
-                    double size = constraints.maxWidth * 0.5; // 50% del ancho disponible
-                    // Limitamos el tamaño mínimo y máximo para mantener la calidad
-                    size = size.clamp(40.0, 80.0);
-                    
-                    return SizedBox(
-                      width: size,
-                      height: size,
-                      child: Image.asset(
-                        domain.imagePath,
-                        fit: BoxFit.contain, // Mantiene la proporción y calidad
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(Icons.broken_image, size: size * 0.7);
-                        },
-                      ),
-                    );
-                  },
+              flex: 3, 
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4.0, left: 4.0, right: 4.0), // Padding reducido para maximizar espacio
+                child: Center( 
+                  child: Image.asset(
+                    domain.imagePath,
+                    fit: BoxFit.contain, 
+                    errorBuilder: (context, error, stackTrace) {
+                      // Display a placeholder icon if the image fails to load
+                      return Icon(
+                        Icons.broken_image,
+                        size: 50.0, // A reasonable fixed size for the error icon
+                        color: Colors.white.withOpacity(0.7),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
+            // Texto debajo de la imagen, centrado y con padding reducido
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 8.0), 
               child: Text(
                 domain.name,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white, // Color de texto de la tarjeta
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                // Removed maxLines and overflow to allow text to wrap and show completely
+                // Consider adding a minHeight to the Card or adjusting childAspectRatio if text wrapping varies a lot
               ),
             ),
           ],

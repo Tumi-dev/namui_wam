@@ -7,13 +7,72 @@ import 'package:namuiwam/core/models/level_model.dart';
 import 'package:namuiwam/features/activity4/models/namtrik_money_model.dart';
 import 'package:namuiwam/features/activity4/models/namtrik_article_model.dart';
 
+/// {@template activity4_service}
+/// Servicio central que gestiona la lógica y datos para la Actividad 4: "Anwan ashipelɵ kɵkun" 
+/// (Aprendamos a usar el dinero).
+///
+/// Responsabilidades principales:
+/// - Cargar y gestionar datos de denominaciones monetarias de archivos JSON
+/// - Generar opciones de juego para los diferentes niveles
+/// - Proporcionar lógica de validación para verificar respuestas
+/// - Gestionar la reproducción de audio para nombres en Namtrik
+/// - Calcular valores totales y verificar equivalencias
+///
+/// Este servicio mantiene en memoria colecciones de datos compartidos entre niveles
+/// para evitar recargas innecesarias, lo que optimiza el rendimiento.
+///
+/// Ejemplo de uso:
+/// ```dart
+/// final activity4Service = GetIt.instance<Activity4Service>();
+/// 
+/// // Obtener todas las denominaciones monetarias
+/// final moneyItems = await activity4Service.getLevelData(level);
+/// 
+/// // Reproducir audio para un nombre en Namtrik
+/// await activity4Service.playAudioForMoneyNamtrik('mil.mp3');
+/// 
+/// // Obtener un artículo aleatorio para el nivel 2
+/// final randomArticle = await activity4Service.getRandomArticle();
+/// ```
+/// {@endtemplate}
 class Activity4Service {
+  /// Servicio para reproducción de archivos de audio.
   final _audioService = GetIt.instance<AudioService>();
+  
+  /// Colección en memoria de todas las denominaciones monetarias.
+  /// Se carga una vez y se reutiliza en todos los niveles.
   List<NamtrikMoneyModel> _moneyItems = [];
+  
+  /// Colección en memoria de todos los artículos disponibles.
+  /// Se utiliza principalmente en el nivel 2.
   List<NamtrikArticleModel> _articleItems = [];
+  
+  /// Generador de números aleatorios utilizado para selección y mezcla.
   final _random = Random();
 
-  /// Carga los datos del nivel desde el archivo JSON
+  /// {@macro activity4_service}
+  Activity4Service();
+
+  /// Carga los datos de denominaciones monetarias desde el archivo JSON.
+  ///
+  /// Este método implementa un patrón singleton para la colección [_moneyItems],
+  /// evitando recargas innecesarias de datos si ya están en memoria.
+  /// 
+  /// Pasos:
+  /// 1. Verifica si los datos ya están cargados en memoria
+  /// 2. Si no, lee el archivo JSON desde los assets
+  /// 3. Convierte los datos JSON en objetos [NamtrikMoneyModel]
+  /// 4. Almacena los modelos en [_moneyItems] para uso futuro
+  ///
+  /// [level] El modelo del nivel que solicita los datos (no afecta la carga)
+  /// Retorna una lista de [NamtrikMoneyModel] con todas las denominaciones disponibles.
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final moneyItems = await activity4Service.getLevelData(levelModel);
+  /// final firstItem = moneyItems.first;
+  /// print('Denominación: ${firstItem.moneyNamtrik}, Valor: ${firstItem.valueMoney}');
+  /// ```
   Future<List<NamtrikMoneyModel>> getLevelData(LevelModel level) async {
     if (_moneyItems.isNotEmpty) {
       return _moneyItems;
@@ -32,7 +91,26 @@ class Activity4Service {
     return _moneyItems;
   }
 
-  /// Carga los datos de artículos desde el archivo JSON
+  /// Carga los datos de artículos desde el archivo JSON.
+  ///
+  /// Similar a [getLevelData], implementa un patrón singleton para la colección
+  /// [_articleItems], cargando los datos solo una vez y reutilizándolos.
+  ///
+  /// Pasos:
+  /// 1. Verifica si los artículos ya están cargados en memoria
+  /// 2. Si no, lee el archivo JSON desde los assets
+  /// 3. Convierte los datos JSON en objetos [NamtrikArticleModel]
+  /// 4. Almacena los modelos en [_articleItems] para uso futuro
+  ///
+  /// Retorna una lista de [NamtrikArticleModel] con todos los artículos disponibles.
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final articles = await activity4Service.getArticlesData();
+  /// for (var article in articles) {
+  ///   print('Artículo: ${article.imageArticle}, Precio: ${article.priceArticle}');
+  /// }
+  /// ```
   Future<List<NamtrikArticleModel>> getArticlesData() async {
     if (_articleItems.isNotEmpty) {
       return _articleItems;
@@ -51,7 +129,24 @@ class Activity4Service {
     return _articleItems;
   }
 
-  /// Obtiene un artículo aleatorio para mostrar
+  /// Selecciona un artículo aleatorio de la colección disponible.
+  ///
+  /// Utiliza [_random] para seleccionar un índice aleatorio de la lista de artículos.
+  /// Si la lista está vacía, retorna null.
+  ///
+  /// Útil para:
+  /// - Generar desafíos aleatorios en el Nivel 2
+  /// - Evitar repeticiones predecibles en sesiones de juego sucesivas
+  ///
+  /// Retorna un [NamtrikArticleModel] aleatorio o null si no hay artículos disponibles.
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final randomArticle = await activity4Service.getRandomArticle();
+  /// if (randomArticle != null) {
+  ///   displayArticleAndPrice(randomArticle);
+  /// }
+  /// ```
   Future<NamtrikArticleModel?> getRandomArticle() async {
     final articles = await getArticlesData();
     if (articles.isEmpty) return null;
@@ -59,17 +154,33 @@ class Activity4Service {
     return articles[_random.nextInt(articles.length)];
   }
 
-  /// Obtiene la ruta de la imagen de un artículo
+  /// Construye la ruta completa a la imagen de un artículo.
+  ///
+  /// Concatena el nombre de la imagen con la ruta base del directorio de artículos.
+  ///
+  /// [imageName] Nombre del archivo de imagen (ej: "item1.png")
+  /// Retorna una cadena con la ruta completa (ej: "assets/images/articles/item1.png")
   String getArticleImagePath(String imageName) {
     return 'assets/images/articles/$imageName';
   }
 
-  /// Obtiene la imagen completa del dinero en Namtrik
+  /// Construye la ruta completa a la imagen de una denominación monetaria.
+  ///
+  /// Concatena el nombre de la imagen con la ruta base del directorio de dinero.
+  ///
+  /// [imageName] Nombre del archivo de imagen (ej: "1000.png")
+  /// Retorna una cadena con la ruta completa (ej: "assets/images/money/1000.png")
   String getMoneyImagePath(String imageName) {
     return 'assets/images/money/$imageName';
   }
 
-  /// Obtiene los datos de un elemento específico por su número
+  /// Busca y retorna un modelo de denominación monetaria por su número identificador.
+  ///
+  /// Utiliza [Iterable.firstWhere] para encontrar el primer elemento que coincida con el [number].
+  /// Si no encuentra coincidencia, captura la excepción y retorna null.
+  ///
+  /// [number] El identificador numérico único de la denominación a buscar
+  /// Retorna un [NamtrikMoneyModel] si encuentra coincidencia, null en caso contrario.
   NamtrikMoneyModel? getMoneyItemByNumber(int number) {
     try {
       return _moneyItems.firstWhere((item) => item.number == number);
@@ -78,7 +189,21 @@ class Activity4Service {
     }
   }
 
-  /// Reproduce secuencialmente los archivos de audio para un valor monetario en namtrik
+  /// Reproduce secuencialmente los archivos de audio correspondientes a un valor monetario en Namtrik.
+  ///
+  /// Muchos valores monetarios en Namtrik se componen de múltiples palabras, cada una con su propio
+  /// archivo de audio. Este método:
+  /// 1. Detiene cualquier audio que esté reproduciéndose actualmente
+  /// 2. Divide la cadena de entrada en nombres individuales de archivos
+  /// 3. Reproduce cada archivo en secuencia, esperando a que termine antes de iniciar el siguiente
+  ///
+  /// [audiosNamtrik] Cadena con nombres de archivos separados por espacios (ej: "mil.mp3 pik.mp3")
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// // Reproducirá secuencialmente los archivos "mil.mp3" y "pik.mp3"
+  /// await activity4Service.playAudioForMoneyNamtrik('mil.mp3 pik.mp3');
+  /// ```
   Future<void> playAudioForMoneyNamtrik(String audiosNamtrik) async {
     // Detener cualquier audio previo
     await _audioService.stopAudio();
@@ -96,7 +221,18 @@ class Activity4Service {
     }
   }
 
-  /// Obtiene las monedas correspondientes a los números especificados
+  /// Obtiene los modelos de denominaciones monetarias correspondientes a una lista de números identificadores.
+  ///
+  /// Útil para convertir listas de IDs (almacenados en JSON) en objetos completos
+  /// que pueden mostrarse en la interfaz de usuario.
+  ///
+  /// Pasos:
+  /// 1. Itera sobre cada número en la lista de entrada
+  /// 2. Busca el modelo correspondiente usando [getMoneyItemByNumber]
+  /// 3. Si encuentra coincidencia, lo añade al resultado
+  ///
+  /// [numbers] Lista de identificadores numéricos (ej: `[1, 3, 5]`)
+  /// Retorna una lista de [NamtrikMoneyModel] correspondientes a los números proporcionados.
   List<NamtrikMoneyModel> getMoneyItemsByNumbers(List<int> numbers) {
     List<NamtrikMoneyModel> result = [];
 
@@ -110,7 +246,25 @@ class Activity4Service {
     return result;
   }
 
-  /// Genera opciones para el nivel 2, incluyendo una opción correcta y tres incorrectas
+  /// Genera cuatro opciones para el Nivel 2, incluyendo una correcta y tres incorrectas.
+  ///
+  /// Este método es central para el Nivel 2 "Escojamos el dinero correcto":
+  /// 1. Asegura que los datos de denominaciones estén cargados
+  /// 2. Crea la opción correcta basada en [NamtrikArticleModel.numberMoneyImages]
+  /// 3. Genera tres opciones incorrectas con la misma cantidad de elementos
+  /// 4. Verifica que las opciones incorrectas no sean duplicadas ni idénticas a la correcta
+  /// 5. Mezcla aleatoriamente todas las opciones
+  ///
+  /// [article] El artículo seleccionado para el desafío, cuyo precio determina la opción correcta
+  /// Retorna una lista de 4 listas de [NamtrikMoneyModel], donde una es la correcta.
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final article = await activity4Service.getRandomArticle();
+  /// final options = await activity4Service.generateOptionsForLevel2(article!);
+  /// final correctIndex = activity4Service.findCorrectOptionIndex(options, article.numberMoneyImages);
+  /// // Ahora puedes mostrar las 4 opciones y determinar cuál seleccionó el usuario
+  /// ```
   Future<List<List<NamtrikMoneyModel>>> generateOptionsForLevel2(
       NamtrikArticleModel article) async {
     // Asegurarse de que los datos de dinero estén cargados
@@ -172,7 +326,19 @@ class Activity4Service {
     return allOptions;
   }
 
-  /// Verifica si dos opciones son iguales comparando sus números
+  /// Verifica si dos opciones de denominaciones monetarias son iguales comparando sus números.
+  ///
+  /// Método auxiliar interno utilizado por [generateOptionsForLevel2] para evitar
+  /// generar opciones duplicadas.
+  ///
+  /// Algoritmo:
+  /// 1. Compara las longitudes de ambas listas
+  /// 2. Extrae los números identificadores de cada modelo
+  /// 3. Ordena ambas listas para comparación posicional
+  /// 4. Compara elemento por elemento
+  ///
+  /// [option1], [option2] Las dos listas de modelos a comparar
+  /// Retorna true si las opciones son iguales, false en caso contrario.
   bool _areOptionsEqual(
       List<NamtrikMoneyModel> option1, List<NamtrikMoneyModel> option2) {
     if (option1.length != option2.length) return false;
@@ -187,7 +353,16 @@ class Activity4Service {
     return true;
   }
 
-  /// Encuentra el índice de la opción correcta en la lista de opciones
+  /// Encuentra el índice de la opción correcta dentro de una lista de opciones.
+  ///
+  /// Compara cada opción en la lista con los números correctos, para determinar
+  /// cuál opción corresponde exactamente a la respuesta correcta.
+  ///
+  /// Este método es crucial para validar las respuestas del usuario en el Nivel 2.
+  ///
+  /// [options] Lista de opciones generadas con [generateOptionsForLevel2]
+  /// [correctNumbers] Lista de números que identifican la opción correcta
+  /// Retorna el índice (0-3) de la opción correcta, o -1 si no encuentra coincidencia.
   int findCorrectOptionIndex(
       List<List<NamtrikMoneyModel>> options, List<int> correctNumbers) {
     for (int i = 0; i < options.length; i++) {

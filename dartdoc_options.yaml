@@ -1,0 +1,58 @@
+dartdoc:
+  categories:
+    "Actividades Generales":
+      markdown: docs/activities.md
+    "Servicios Generales":
+      markdown: docs/services.md
+    "Widgets Generales":
+      markdown: docs/widgets.md
+    "Modelos Generales":
+      markdown: docs/models.md
+    "Guía de Estilo DartDoc":
+      markdown: docs/DARTDOC_STYLE_GUIDE.md
+    "Actividad 1: Detalles":
+      markdown: docs/features/activity1_readme.md
+    "Actividad 2: Detalles":
+      markdown: docs/features/activity2_readme.md
+    "Actividad 3: Detalles":
+      markdown: docs/features/activity3_readme.md
+    "Actividad 4: Detalles":
+      markdown: docs/features/activity4_readme.md
+    "Actividad 5: Detalles":
+      markdown: docs/features/activity5_readme.md
+    "Actividad 6: Detalles":
+      markdown: docs/features/activity6_readme.md
+  categoryOrder:
+    - "Guía de Estilo DartDoc"
+    - "Actividad 1: Detalles"
+    - "Actividad 2: Detalles"
+    - "Actividad 3: Detalles"
+    - "Actividad 4: Detalles"
+    - "Actividad 5: Detalles"
+    - "Actividad 6: Detalles"
+    - "Actividades Generales"
+    - "Servicios Generales"
+    - "Widgets Generales"
+    - "Modelos Generales"
+  showUndocumentedCategories: true
+  ignore:
+    - broken-link
+  errors:
+    - unresolved-doc-reference
+  warnings:
+    - missing-from-pubspec
+  exclude:
+    - "**/.*/**"
+#  include:
+#    - "lib/**"
+  nodoc:
+    - "lib/generated/**"
+  linkToSource:
+    root: '.'
+    uriTemplate: 'https://github.com/usuario/namuiwam/blob/main/%f%#L%l%'
+  favicon: "assets/images/app_icon.png"
+  footer:
+    - "docs/footer.md"
+  header:
+    - "docs/header.md"
+  startPage: "namuiwam" 

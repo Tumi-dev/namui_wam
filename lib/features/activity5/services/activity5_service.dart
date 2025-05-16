@@ -5,18 +5,51 @@ import 'package:namuiwam/core/services/logger_service.dart';
 /// {@template activity5_service}
 /// Servicio para la Actividad 5: "Muntsielan namtrikmai yunɵmarɵpik (Convertir números en letras)".
 ///
-/// Proporciona funcionalidades para la herramienta de conversión:
-/// - Obtener la representación Namtrik escrita de un número.
-/// - Obtener los archivos de audio correspondientes a un número.
-/// - Reproducir la secuencia de audio para un número.
-/// - Validar si un número está dentro del rango soportado (1 a 9,999,999).
+/// Proporciona la lógica central para la herramienta de conversión de números arábigos
+/// a su representación escrita en Namtrik, con las siguientes responsabilidades:
+///
+/// - Validar que los números estén dentro del rango soportado (1 a 9,999,999)
+/// - Obtener la representación textual en Namtrik de cualquier número válido
+/// - Gestionar la obtención y reproducción de archivos de audio asociados
+/// - Manejar errores durante la conversión y reproducción
+///
+/// Actúa como intermediario entre la interfaz de usuario ([Activity5Screen]) y los servicios
+/// centrales de datos ([NumberDataService]) y audio ([AudioService]), implementando
+/// la lógica específica de la Actividad 5.
+///
+/// Ejemplo de uso:
+/// ```dart
+/// final service = Activity5Service(numberDataService, audioService);
+///
+/// // Obtener representación Namtrik de un número
+/// final namtrikText = await service.getNamtrikForNumber(42);
+/// // → "pik pa tap"
+///
+/// // Reproducir la secuencia de audio
+/// final success = await service.playAudioForNumber(42);
+/// // → Reproduce secuencialmente: "pik.wav", "pa.wav", "tap.wav"
+/// ```
 /// {@endtemplate}
 class Activity5Service {
   /// Servicio para acceder a los datos de los números (Namtrik, audio).
+  ///
+  /// Proporciona acceso a la base de datos de números que contiene:
+  /// - Valores numéricos
+  /// - Sus equivalentes escritos en Namtrik
+  /// - Referencias a archivos de audio para pronunciación
   final NumberDataService _numberDataService;
+  
   /// Servicio para reproducir y detener archivos de audio.
+  ///
+  /// Gestiona la reproducción secuencial de múltiples archivos,
+  /// permitiendo controlar el estado de reproducción (iniciar/detener).
   final AudioService _audioService;
+  
   /// Instancia del servicio de logging para registrar errores.
+  ///
+  /// Registra excepciones y errores durante:
+  /// - La obtención de datos de números
+  /// - La carga y reproducción de archivos de audio
   final LoggerService _logger = LoggerService();
 
   /// {@macro activity5_service}
@@ -25,9 +58,21 @@ class Activity5Service {
 
   /// Obtiene la representación escrita en Namtrik para un [number] específico.
   ///
-  /// Busca el número en la base de datos a través de [_numberDataService].
-  /// Devuelve la cadena Namtrik correspondiente o una cadena vacía si no se encuentra.
-  /// Devuelve un mensaje de error si ocurre una excepción.
+  /// Consulta la base de datos a través de [_numberDataService] para encontrar
+  /// el valor Namtrik correspondiente al número. El proceso incluye:
+  /// 1. Validación implícita del número (debe existir en la base de datos)
+  /// 2. Obtención del mapeo desde el servicio de datos
+  /// 3. Extracción de la propiedad 'namtrik' del resultado
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final result = await getNamtrikForNumber(42);
+  /// print(result); // "pik pa tap"
+  /// ```
+  ///
+  /// [number] El número arábigo para convertir (debe estar entre 1 y 9,999,999)
+  /// Retorna la cadena Namtrik correspondiente, cadena vacía si no se encuentra,
+  /// o un mensaje de error si ocurre una excepción.
   Future<String> getNamtrikForNumber(int number) async {
     try {
       final numberData = await _numberDataService.getNumberByValue(number);
@@ -39,10 +84,21 @@ class Activity5Service {
 
   /// Obtiene la lista de rutas de archivos de audio para un [number] específico.
   ///
-  /// Busca el número en la base de datos. Si existe y tiene 'audio_files',
-  /// procesa la cadena (separando por espacios, asegurando extensión .wav y prefijo de ruta)
-  /// y devuelve una lista de rutas completas.
-  /// Devuelve una lista vacía si no se encuentran audios o si ocurre un error.
+  /// Este método:
+  /// 1. Consulta la base de datos para el número especificado
+  /// 2. Extrae la lista de nombres de archivos de audio desde la propiedad 'audio_files'
+  /// 3. Procesa cada nombre para asegurar que tenga la extensión .wav
+  /// 4. Construye la ruta completa para cada archivo de audio
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final audioFiles = await getAudioFilesForNumber(42);
+  /// // → ['audio/namtrik_numbers/pik.wav', 'audio/namtrik_numbers/pa.wav', 'audio/namtrik_numbers/tap.wav']
+  /// ```
+  ///
+  /// [number] El número para el cual obtener los archivos de audio
+  /// Retorna una lista de rutas de archivos de audio, o lista vacía si no hay archivos
+  /// o si ocurre un error.
   Future<List<String>> getAudioFilesForNumber(int number) async {
     try {
       final numberData = await _numberDataService.getNumberByValue(number);
@@ -66,7 +122,12 @@ class Activity5Service {
 
   /// Asegura que el nombre de archivo termine con la extensión '.wav'.
   ///
-  /// Añade '.wav' si no está presente (ignorando mayúsculas/minúsculas).
+  /// Método utilitario interno para normalizar los nombres de archivo de audio.
+  /// Si el nombre ya termina con '.wav' (ignorando mayúsculas/minúsculas), 
+  /// lo deja sin cambios; de lo contrario, añade la extensión.
+  ///
+  /// [filename] El nombre de archivo a normalizar
+  /// Retorna el nombre de archivo con la extensión .wav garantizada
   String _ensureWavExtension(String filename) {
     // If the filename doesn't end with .wav, add it
     if (!filename.toLowerCase().endsWith('.wav')) {
@@ -77,10 +138,22 @@ class Activity5Service {
 
   /// Reproduce la secuencia de archivos de audio para un [number] específico.
   ///
-  /// Obtiene la lista de archivos usando [getAudioFilesForNumber].
-  /// Reproduce cada archivo en secuencia usando [_audioService], con un pequeño
-  /// retraso entre archivos si hay más de uno.
-  /// Devuelve `true` si la reproducción se inició (archivos encontrados),
+  /// Implementa la lógica para reproducir secuencialmente todos los componentes
+  /// de audio necesarios para pronunciar un número en Namtrik:
+  /// 1. Obtiene la lista de archivos de audio usando [getAudioFilesForNumber]
+  /// 2. Para cada archivo en la secuencia:
+  ///    - Reproduce el archivo actual
+  ///    - Espera a que termine más un pequeño retraso entre archivos (600ms)
+  ///    - Pasa al siguiente archivo
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final success = await playAudioForNumber(42);
+  /// // → Reproduce secuencialmente: "pik.wav", "pa.wav", "tap.wav"
+  /// ```
+  ///
+  /// [number] El número para el cual reproducir el audio
+  /// Retorna `true` si la reproducción se inició exitosamente (al menos un archivo encontrado),
   /// `false` si no se encontraron archivos o si ocurrió un error.
   Future<bool> playAudioForNumber(int number) async {
     try {
@@ -107,14 +180,33 @@ class Activity5Service {
 
   /// Detiene cualquier reproducción de audio en curso.
   ///
-  /// Llama a [_audioService.stopAudio].
+  /// Método de utilidad que interrumpe inmediatamente cualquier reproducción
+  /// de audio actual. Útil en casos como:
+  /// - El usuario navega fuera de la pantalla
+  /// - La aplicación pasa a segundo plano
+  /// - El usuario solicita detener explícitamente el audio
   Future<void> stopAudio() async {
     await _audioService.stopAudio();
   }
 
   /// Verifica si un [number] es válido para la herramienta de conversión.
   ///
-  /// Considera válido un número si no es nulo y está entre 1 y 9,999,999 inclusive.
+  /// Implementa la validación de reglas de negocio específicas para determinar
+  /// si un número puede ser convertido a Namtrik en esta actividad:
+  /// - Debe ser un valor no nulo
+  /// - Debe ser mayor o igual a 1
+  /// - Debe ser menor o igual a 9,999,999
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// print(isValidNumber(42)); // true
+  /// print(isValidNumber(0)); // false
+  /// print(isValidNumber(10000000)); // false
+  /// print(isValidNumber(null)); // false
+  /// ```
+  ///
+  /// [number] El número a validar, puede ser nulo
+  /// Retorna `true` si el número es válido según las reglas, `false` en caso contrario
   bool isValidNumber(int? number) {
     return number != null && number >= 1 && number <= 9999999;
   }

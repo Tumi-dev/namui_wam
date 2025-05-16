@@ -18,11 +18,13 @@ dependencies:
   logger: ^2.0.2+1
   sqflite: ^2.3.3
   path_provider: ^2.1.3
+  share_plus: ^11.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  dartdoc: ^8.0.8
   hive_generator: ^2.0.1
   build_runner: ^2.4.8
   flutter_launcher_icons: ^0.14.3
@@ -54,6 +56,7 @@ flutter:
   
   assets:
     - assets/audio/
+    - assets/audio/correcto_incorrecto/
     - assets/audio/dictionary/
     - assets/audio/dictionary/ushamera/
     - assets/audio/dictionary/pisielɵ/
@@ -72,7 +75,6 @@ flutter:
     - assets/images/dictionary/srɵwammera/
     - assets/images/dictionary/asrumunchimera/
     - assets/images/dictionary/maintusrmera/
-    - assets/images/dictionary/wamapamɵnikun/
     - assets/images/dictionary/kewaamɵneiklɵ/
     - assets/images/money/
     - assets/data/
@@ -82,4 +84,4 @@ flutter:
     - assets/data/namtrik_articles.json
     - assets/data/namtrik_hours.json
     - assets/data/namtrik_money.json
-    - assets/data/namtrik_numbers.json
+    - assets/data/namuiwam_numbers.json

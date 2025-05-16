@@ -13,7 +13,7 @@ import 'package:namuiwam/shared/widgets/zoomable_image_viewer.dart'; // Importar
 ///
 /// Recibe un [domain] y utiliza [Activity6Service] para obtener y mostrar
 /// las [DictionaryEntry] correspondientes en una lista ([ListView]).
-/// Cada entrada se representa mediante [_buildEntryTile].
+/// Cada entrada se representa mediante un widget de mosaico dedicado (construido internamente).
 /// {@endtemplate}
 class DictionaryEntriesScreen extends StatefulWidget {
   /// El dominio semántico cuyas entradas se mostrarán.
@@ -129,286 +129,236 @@ class _DictionaryEntriesScreenState extends State<DictionaryEntriesScreen> {
   /// composiciones (si existen), una imagen (si existe) y botones para reproducir
   /// el audio principal y el audio variante (si existen).
   ///
-  /// Implementa un diseño especial para las entradas del dominio "Saludos",
-  /// mostrando pregunta y respuesta separadas.
-  /// La imagen es interactiva y abre [ZoomableImageViewer] al tocarla.
+  /// Este método actúa como un despachador, seleccionando el método de construcción
+  /// de la tarjeta apropiado ([_buildWamapEntryCard] o [_buildDefaultEntryCard])
+  /// basado en el nombre del dominio de la entrada.
+  ///
+  /// Ver los DartDocs de los métodos helper para detalles específicos de cada layout.
   Widget _buildEntryTile(BuildContext context, DictionaryEntry entry) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
+    final textTheme = Theme.of(context).textTheme;
+    const double largeIconSize = 35.0;
 
-    // --- Layout especial para el dominio 'Saludos' ---
-    if (widget.domain.name == 'Saludos') {
-      // Validar que existan los datos requeridos
-      if (entry.greetings_ask_namtrik == null ||
-          entry.greetings_ask_spanish == null ||
-          entry.greetings_answer_namtrik == null ||
-          entry.greetings_answer_spanish == null) {
+    if (widget.domain.name == 'Wamap amɵñikun') {
+      return _buildWamapEntryCard(context, entry, textTheme, largeIconSize);
+    } else {
+      return _buildDefaultEntryCard(context, entry, textTheme, largeIconSize);
+    }
+  }
+
+  /// Construye la tarjeta para una entrada del dominio "Wamap amɵñikun".
+  ///
+  /// Presenta:
+  /// - Sin imagen.
+  /// - Textos de pregunta y respuesta (Namtrik y Español) con tamaño más grande.
+  /// - Botones de audio (tamaño grande) para pregunta y respuesta, alineados a la derecha de los textos.
+  Widget _buildWamapEntryCard(BuildContext context, DictionaryEntry entry, TextTheme textTheme, double largeIconSize) {
+    final largerNamtrikStyle = textTheme.titleLarge?.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+    final largerSpanishStyle = textTheme.titleMedium?.copyWith(color: Colors.white70);
+
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      color: const Color(0xFFFF7F50),
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (entry.namtrik != null && entry.namtrik!.isNotEmpty)
+                    Text(entry.namtrik!, style: largerNamtrikStyle),
+                  if (entry.spanish != null && entry.spanish!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: Text(entry.spanish!, style: largerSpanishStyle),
+                    ),
+                  if (entry.namtrikVariant != null && entry.namtrikVariant!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: Text(entry.namtrikVariant!, style: largerNamtrikStyle),
+                    ),
+                  if (entry.spanishVariant != null && entry.spanishVariant!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: Text(entry.spanishVariant!, style: largerSpanishStyle),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 10),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (entry.audioPath != null && entry.audioPath!.isNotEmpty)
+                  IconButton(
+                    icon: Icon(
+                      _audioPlayerService.isPlaying && _audioPlayerService.currentPlayingPath == entry.audioPath
+                          ? Icons.stop_circle_outlined
+                          : Icons.play_circle_outline,
+                      size: largeIconSize,
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () async {
+                      await FeedbackService().lightHapticFeedback();
+                      _audioPlayerService.play(entry.audioPath!);
+                      if (mounted) setState(() {});
+                    },
+                    tooltip: 'Reproducir pregunta',
+                  ),
+                if (entry.audioVariantPath != null && entry.audioVariantPath!.isNotEmpty) ...[
+                  SizedBox(height: (entry.audioPath != null && entry.audioPath!.isNotEmpty) ? 10.0 : 0.0),
+                  IconButton(
+                    icon: Icon(
+                      _audioPlayerService.isPlaying && _audioPlayerService.currentPlayingPath == entry.audioVariantPath
+                          ? Icons.stop_circle_outlined
+                          : Icons.play_circle_outline,
+                      size: largeIconSize,
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () async {
+                      await FeedbackService().mediumHapticFeedback();
+                      _audioPlayerService.play(entry.audioVariantPath!);
+                      if (mounted) setState(() {});
+                    },
+                    tooltip: 'Reproducir respuesta',
+                  ),
+                ]
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Construye la tarjeta por defecto para entradas de otros dominios.
+  ///
+  /// Presenta:
+  /// - Columna de texto a la izquierda (Namtrik, Español, variantes y composiciones) con tamaños de fuente por defecto.
+  /// - Un botón de reproducción de audio (tamaño grande) a la izquierda de la imagen.
+  /// - La imagen (si existe) a la derecha del botón de audio.
+  /// - La imagen es interactiva y abre [ZoomableImageViewer] al tocarla.
+  Widget _buildDefaultEntryCard(BuildContext context, DictionaryEntry entry, TextTheme textTheme, double largeIconSize) {
+    final defaultNamtrikStyle = textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
+    final defaultSpanishStyle = textTheme.titleSmall?.copyWith(color: Colors.white54);
+    final defaultVariantStyle = textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic, color: Colors.white70);
+    final defaultCompositionLabelStyle = textTheme.labelMedium?.copyWith(color: Colors.white);
+
+    Widget buildCompositionRowsWidget(Map<String, String>? compositions) {
+      if (compositions == null || compositions.isEmpty) {
         return const SizedBox.shrink();
       }
-
-      // Retorna la tarjeta con el diseño especial en el dominio 'Saludos'
-      return Card(
-        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        color: const Color(0xFFFF7F50), // Coral cálido de la tarjeta
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Text Column (Question and Answer)
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Pregunta:',
-                        style: textTheme.labelMedium?.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                    Text(entry.greetings_ask_namtrik!,
-                        style: textTheme.titleMedium?.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                    Text(entry.greetings_ask_spanish!,
-                        style: textTheme.titleSmall
-                            ?.copyWith(color: Colors.white70)),
-                    const SizedBox(height: 8),
-                    Text('Respuesta:',
-                        style: textTheme.labelMedium?.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                    Text(entry.greetings_answer_namtrik!,
-                        style: textTheme.titleMedium?.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                    Text(entry.greetings_answer_spanish!,
-                        style: textTheme.titleSmall
-                            ?.copyWith(color: Colors.white70)),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-              // Imagen opcional para Saludos (ahora con GestureDetector)
-              if (entry.images_greetings != null)
-                GestureDetector(
-                  onTap: () => _navigateToImageViewer(context, entry.images_greetings!),
-                  child: Image.asset(
-                    entry.images_greetings!,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        width: 80,
-                        height: 80,
-                        color: Colors.grey[300],
-                        child: const Icon(Icons.broken_image,
-                            size: 40, color: Colors.grey),
-                      );
-                    },
-                  ),
-                )
-              else
-                // Placeholder si no hay imagen
-                Container(
-                    width: 80,
-                    height: 80,
-                    color: Colors.grey[200],
-                    child: const Icon(Icons.image_not_supported)),
-              const SizedBox(width: 10),
-              // Audio Buttons Column (Ask and Answer)
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (entry.audio_greetings_ask != null)
-                    IconButton(
-                      icon: Icon(
-                        _audioPlayerService.isPlaying &&
-                                _audioPlayerService.currentPlayingPath ==
-                                    entry.audio_greetings_ask
-                            ? Icons.stop_circle_outlined
-                            : Icons.play_circle_outline,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      onPressed: () async {
-                        await FeedbackService().lightHapticFeedback();
-                        _audioPlayerService.play(entry.audio_greetings_ask!);
-                        setState(() {});
-                      },
-                      tooltip: 'Reproducir pregunta',
-                    ),
-                  if (entry.audio_greetings_answer != null)
-                    IconButton(
-                      icon: Icon(
-                        _audioPlayerService.isPlaying &&
-                                _audioPlayerService.currentPlayingPath ==
-                                    entry.audio_greetings_answer
-                            ? Icons.stop_circle_outlined
-                            : Icons.play_circle_outline,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      onPressed: () async {
-                        await FeedbackService().mediumHapticFeedback();
-                        _audioPlayerService.play(entry.audio_greetings_answer!);
-                        setState(() {});
-                      },
-                      tooltip: 'Reproducir respuesta',
-                    ),
-                ],
-              ),
-            ],
-          ),
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: compositions.entries.map((compEntry) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 2.0),
+            child: Text('  ${compEntry.key}: ${compEntry.value}', style: defaultVariantStyle),
+          );
+        }).toList(),
       );
     }
 
-    // --- Default Layout for Other Domains ---
-    else {
-      // Helper function to build composition rows (remains the same)
-      Widget _buildCompositionRows(Map<String, String>? compositions) {
-        if (compositions == null || compositions.isEmpty) {
-          return const SizedBox.shrink(); // Return empty if no compositions
-        }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: compositions.entries.map((compEntry) {
-            return Text('  ${compEntry.key}: ${compEntry.value}',
-                style: const TextStyle(color: Colors.white));
-          }).toList(),
-        );
-      }
-
-      return Card(
-        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        color: const Color(
-            0xFFFF7F50), // Coral cálido - mismo color que los botones de dominio
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      color: const Color(0xFFFF7F50),
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Text Column (Namtrik/Spanish/Variants/Compositions)
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(entry.namtrik ?? '', // Provide default value
-                            style: textTheme.titleMedium?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
-                        if (entry.namtrikVariant != null)
-                          Text('Variant: ${entry.namtrikVariant}',
-                              style: textTheme.bodySmall?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white70)),
-                        Text(entry.spanish ?? '', // Provide default value
-                            style: textTheme.titleSmall
-                                ?.copyWith(color: Colors.white54)),
-                        if (entry.spanishVariant != null)
-                          Text('Variant: ${entry.spanishVariant}',
-                              style: textTheme.bodySmall?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.white70)),
-                        // Display Compositions if they exist
-                        if (entry.compositionsSpanish != null) ...[
-                          const SizedBox(height: 4),
-                          Text('Composiciones (Español):',
-                              style: textTheme.labelMedium
-                                  ?.copyWith(color: Colors.white)),
-                          _buildCompositionRows(entry.compositionsSpanish),
-                        ],
-                      ],
+                  Text(entry.namtrik ?? '', style: defaultNamtrikStyle),
+                  if (entry.namtrikVariant != null && entry.namtrikVariant!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 1.0),
+                      child: Text('Variante: ${entry.namtrikVariant!}', style: defaultVariantStyle),
                     ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1.0),
+                    child: Text(entry.spanish ?? '', style: defaultSpanishStyle),
                   ),
-                  const SizedBox(width: 10),
-                  // Imagen (ahora con GestureDetector)
-                  if (entry.imagePath != null)
-                    GestureDetector(
-                      onTap: () => _navigateToImageViewer(context, entry.imagePath!),
-                      child: Image.asset(
-                        entry.imagePath!,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            width: 80,
-                            height: 80,
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.broken_image,
-                                size: 40,
-                                color: Colors.grey),
-                          );
-                        },
-                      ),
-                    )
-                  else
-                    // Placeholder si no hay imagen
-                    Container(
-                        width: 60,
-                        height: 60,
-                        color: Colors.grey[200],
-                        child: const Icon(Icons.image_not_supported)),
-                  const SizedBox(width: 10),
-                  // Audio buttons (if available)
-                  Column(
-                    children: [
-                      if (entry.audioPath != null)
-                        IconButton(
-                          icon: Icon(
-                            _audioPlayerService.isPlaying &&
-                                    _audioPlayerService.currentPlayingPath ==
-                                        entry.audioPath
-                                ? Icons.stop_circle_outlined
-                                : Icons.play_circle_outline,
-                            size: 30,
-                            color: Colors
-                                .white, // Cambiado a blanco para mejor contraste
-                          ),
-                          onPressed: () async {
-                            await FeedbackService().lightHapticFeedback();
-                            _audioPlayerService.play(entry.audioPath!);
-                            setState(() {});
-                          },
-                          tooltip: 'Reproducir audio',
-                        ),
-                      if (entry.audioVariantPath != null) ...[
-                        const SizedBox(height: 5),
-                        IconButton(
-                          icon: Icon(
-                            _audioPlayerService.isPlaying &&
-                                    _audioPlayerService.currentPlayingPath ==
-                                        entry.audioVariantPath
-                                ? Icons.stop_circle_outlined
-                                : Icons.play_circle_outline,
-                            size: 30,
-                            color: Colors
-                                .white, // Cambiado a blanco para mejor contraste
-                          ),
-                          onPressed: () async {
-                            await FeedbackService().mediumHapticFeedback();
-                            _audioPlayerService.play(entry.audioVariantPath!);
-                            setState(() {});
-                          },
-                          tooltip: 'Reproducir audio variante',
-                        ),
-                      ],
-                    ],
-                  ),
+                  if (entry.spanishVariant != null && entry.spanishVariant!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 1.0),
+                      child: Text('Variante: ${entry.spanishVariant!}', style: defaultVariantStyle),
+                    ),
+                  if (entry.compositionsSpanish != null && entry.compositionsSpanish!.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text('Composiciones:', style: defaultCompositionLabelStyle),
+                    buildCompositionRowsWidget(entry.compositionsSpanish),
+                  ],
                 ],
               ),
-            ],
-          ),
+            ),
+            const SizedBox(width: 10),
+            if (entry.audioPath != null && entry.audioPath!.isNotEmpty)
+              IconButton(
+                icon: Icon(
+                  _audioPlayerService.isPlaying && _audioPlayerService.currentPlayingPath == entry.audioPath
+                      ? Icons.stop_circle_outlined
+                      : Icons.play_circle_outline,
+                  size: largeIconSize,
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                onPressed: () async {
+                  await FeedbackService().lightHapticFeedback();
+                  _audioPlayerService.play(entry.audioPath!);
+                  if (mounted) setState(() {});
+                },
+                tooltip: 'Reproducir audio',
+              )
+            else
+               SizedBox(width: largeIconSize),
+            const SizedBox(width: 10),
+            if (entry.imagePath != null)
+              GestureDetector(
+                onTap: () => _navigateToImageViewer(context, entry.imagePath!),
+                child: Image.asset(
+                  entry.imagePath!,
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(width: 80, height: 80, color: Colors.grey[300], child: const Icon(Icons.broken_image, size: 40, color: Colors.grey));
+                  },
+                ),
+              )
+            else
+              Container(
+                width: 80, 
+                height: 80, 
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Icon(
+                  Icons.image_not_supported, 
+                  size: 40,
+                  color: Colors.grey[600],
+                )
+              ),
+          ],
         ),
-      );
-    }
+      ),
+    );
   }
 }

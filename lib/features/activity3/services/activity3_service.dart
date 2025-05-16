@@ -4,26 +4,64 @@ import 'package:flutter/services.dart';
 import 'package:namuiwam/core/models/level_model.dart';
 import 'package:namuiwam/core/services/logger_service.dart';
 
-/// Servicio para gestionar la lógica y los datos de la Actividad 3: "Nɵsik utɵwan asam kusrekun".
+/// {@template activity3_service}
+/// Servicio que centraliza la lógica y datos para la Actividad 3: "Nөsik utөwan asam kusrekun" 
+/// (Aprendamos a ver la hora).
 ///
-/// Proporciona métodos para:
-/// - Cargar los datos específicos de cada nivel (1, 2 y 3).
-/// - Validar las respuestas del usuario (emparejamiento en Nivel 1, ajuste de hora en Nivel 3).
+/// Especializado en la gestión de tres modalidades diferentes de juego:
+/// - Nivel 1: Emparejar relojes con sus descripciones en Namtrik
+/// - Nivel 2: Seleccionar la descripción correcta para un reloj dado
+/// - Nivel 3: Ajustar un reloj para que coincida con una descripción en Namtrik
 ///
-/// Utiliza datos cargados desde `assets/data/namtrik_hours.json`.
+/// Gestiona la carga y transformación de datos desde el archivo JSON, 
+/// seleccionando y formateando elementos apropiados para cada nivel.
+/// También proporciona métodos para validar las respuestas del usuario.
+///
+/// Ejemplo de uso:
+/// ```dart
+/// final activity3Service = GetIt.instance<Activity3Service>();
+///
+/// // Obtener datos para el nivel de emparejamiento
+/// final levelData = await activity3Service.getLevelData(levelModel);
+/// final items = levelData['items'] as List<Map<String, dynamic>>;
+///
+/// // Los datos incluyen información como ID, imagen del reloj y texto en Namtrik
+/// for (final item in items) {
+///   print('ID: ${item['id']}, Hora en Namtrik: ${item['hour_namtrik']}');
+/// }
+/// ```
+/// {@endtemplate}
 class Activity3Service {
-  /// Constructor constante para [Activity3Service].
+  /// {@macro activity3_service}
   const Activity3Service();
+  
   /// Instancia del servicio de logging para registrar errores.
+  ///
+  /// Utilizado para capturar y documentar problemas durante:
+  /// - La carga de archivos JSON
+  /// - El procesamiento de datos
+  /// - La generación de contenido para los niveles
   static final LoggerService _logger = LoggerService();
 
-  /// Obtiene los datos específicos para un nivel dado de la Actividad 3.
+  /// Obtiene los datos configurados para un nivel específico de la Actividad 3.
   ///
-  /// Llama a los métodos privados correspondientes (`_getLevel1Data`, `_getLevel2Data`, `_getLevel3Data`)
-  /// según el [level.id].
+  /// Este método de entrada determina qué tipo de datos necesita preparar según el nivel:
+  /// - Para el Nivel 1 (Emparejar): Genera pares de relojes y descripciones a emparejar
+  /// - Para el Nivel 2 (Adivinar): Prepara un reloj y opciones de texto para selección
+  /// - Para el Nivel 3 (Ajustar): Configura una descripción y la hora/minuto correctos
   ///
-  /// Devuelve un [Future] que resuelve a un [Map<String, dynamic>] con los datos del nivel.
-  /// Lanza una excepción si ocurre un error durante la carga.
+  /// Para otros niveles futuros, retorna datos básicos de identificación.
+  ///
+  /// Ejemplo:
+  /// ```dart
+  /// final levelData = await service.getLevelData(LevelModel(id: 1, ...));
+  /// final items = levelData['items'];
+  /// // Trabajar con los items...
+  /// ```
+  ///
+  /// [level] El modelo de nivel que contiene el ID y la descripción.
+  /// Retorna un mapa con los datos específicos para el nivel, cuya estructura
+  /// depende del ID del nivel.
   Future<Map<String, dynamic>> getLevelData(LevelModel level) async {
     // Aquí se implementará la lógica específica para cada nivel
     if (level.id == 1) {
@@ -41,13 +79,32 @@ class Activity3Service {
     };
   }
 
-  /// Carga y prepara los datos para el Nivel 1 (Emparejamiento).
+  /// Prepara los datos para el Nivel 1: Utөwan lata marөp (Emparejar la hora).
   ///
-  /// - Lee `assets/data/namtrik_hours.json`.
-  /// - Selecciona 4 elementos de hora aleatorios sin repetición.
-  /// - Devuelve un [Map] con la lista de 'items' seleccionados, cada uno con 'id',
-  ///   'clock_image' y 'hour_namtrik'.
-  /// - Lanza una excepción si no hay suficientes datos o si ocurre un error.
+  /// Este método:
+  /// 1. Carga el archivo JSON con datos de horas en Namtrik
+  /// 2. Selecciona aleatoriamente 4 elementos distintos del conjunto
+  /// 3. Formatea los datos para incluir ID, imagen del reloj y texto en Namtrik
+  ///
+  /// El resultado es un mapa con:
+  /// - 'levelId': ID del nivel (1)
+  /// - 'description': Descripción del nivel
+  /// - 'items': Lista de 4 elementos, cada uno con:
+  ///   - 'id': Identificador único (valor numérico de la hora)
+  ///   - 'clock_image': Ruta a la imagen del reloj
+  ///   - 'hour_namtrik': Texto en Namtrik que describe la hora
+  ///
+  /// La pantalla del nivel utilizará estos datos para crear dos grupos
+  /// (relojes y textos) que el usuario deberá emparejar correctamente.
+  ///
+  /// Ejemplo de elemento en 'items':
+  /// ```json
+  /// {
+  ///   "id": "1:30",
+  ///   "clock_image": "assets/images/clocks/clock_01_30.png",
+  ///   "hour_namtrik": "pik unan oraisku tsik yam"
+  /// }
+  /// ```
   Future<Map<String, dynamic>> _getLevel1Data() async {
     try {
       // Cargar datos del archivo JSON
@@ -92,18 +149,27 @@ class Activity3Service {
     }
   }
 
-  /// Carga y prepara los datos para el Nivel 2 (Selección Múltiple).
+  /// Prepara los datos para el Nivel 2: Utөwan wetөpeñ (Adivina la hora).
   ///
-  /// - Lee `assets/data/namtrik_hours.json`.
-  /// - Selecciona una hora aleatoria como respuesta correcta.
-  /// - Selecciona 3 horas aleatorias incorrectas distintas.
-  /// - Devuelve un [Map] con:
-  ///   - 'clock_image': La imagen del reloj de la hora correcta.
-  ///   - 'correct_id': El ID de la hora correcta.
-  ///   - 'correct_hour': El texto Namtrik de la hora correcta.
-  ///   - 'options': Una lista desordenada de 4 opciones (1 correcta, 3 incorrectas),
-  ///     cada una con 'id', 'hour_namtrik' y 'is_correct'.
-  /// - Lanza una excepción si no hay suficientes datos o si ocurre un error.
+  /// Este método:
+  /// 1. Carga el archivo JSON con datos de horas en Namtrik
+  /// 2. Selecciona aleatoriamente una hora como respuesta correcta
+  /// 3. Selecciona otras 3 horas diferentes como opciones incorrectas
+  /// 4. Mezcla las 4 opciones para no revelar la posición de la respuesta correcta
+  ///
+  /// El resultado es un mapa con:
+  /// - 'levelId': ID del nivel (2)
+  /// - 'description': Descripción del nivel
+  /// - 'clock_image': Ruta a la imagen del reloj de la hora correcta
+  /// - 'correct_id': ID único de la respuesta correcta
+  /// - 'correct_hour': Texto en Namtrik de la respuesta correcta
+  /// - 'options': Lista de 4 opciones (1 correcta, 3 incorrectas), cada una con:
+  ///   - 'id': Identificador único
+  ///   - 'hour_namtrik': Texto en Namtrik
+  ///   - 'is_correct': Booleano que indica si es la respuesta correcta
+  ///
+  /// La pantalla utiliza estos datos para mostrar un reloj y 4 opciones
+  /// textuales entre las que el usuario debe seleccionar la correcta.
   Future<Map<String, dynamic>> _getLevel2Data() async {
     try {
       // Cargar datos del archivo JSON
@@ -166,19 +232,26 @@ class Activity3Service {
     }
   }
 
-  /// Carga y prepara los datos para el Nivel 3 (Ajustar Hora).
+  /// Prepara los datos para el Nivel 3: Utөwan malsrө (Coloca la hora).
   ///
-  /// - Lee `assets/data/namtrik_hours.json`.
-  /// - Selecciona una hora aleatoria.
-  /// - Extrae la hora y el minuto correctos del nombre del archivo de imagen del reloj
-  ///   (ej: "clock_01_30.png" -> hora=1, minuto=30).
-  /// - Devuelve un [Map] con:
-  ///   - 'hour_namtrik': El texto Namtrik de la hora objetivo.
-  ///   - 'clock_image': La imagen del reloj (puede usarse como referencia).
-  ///   - 'correct_hour': La hora correcta (0-11).
-  ///   - 'correct_minute': El minuto correcto (0-59).
-  ///   - 'item_id': El ID del elemento seleccionado.
-  /// - Lanza una excepción si no hay suficientes datos o si ocurre un error.
+  /// Este método:
+  /// 1. Carga el archivo JSON con datos de horas en Namtrik
+  /// 2. Selecciona aleatoriamente una hora del conjunto
+  /// 3. Extrae la hora y los minutos de la imagen del reloj (ej: "clock_08_15.png" → 8:15)
+  /// 4. Prepara los datos para que el usuario pueda ajustar un reloj a esa hora
+  ///
+  /// El resultado es un mapa con:
+  /// - 'levelId': ID del nivel (3)
+  /// - 'description': Descripción del nivel
+  /// - 'hour_namtrik': Texto en Namtrik que describe la hora objetivo
+  /// - 'clock_image': Ruta a la imagen del reloj (como referencia o ayuda visual)
+  /// - 'correct_hour': Valor de la hora correcta (0-11)
+  /// - 'correct_minute': Valor del minuto correcto (0-59)
+  /// - 'item_id': ID único del elemento seleccionado
+  ///
+  /// La pantalla usa estos datos para mostrar el texto Namtrik y permitir
+  /// al usuario ajustar los selectores de hora y minuto hasta que coincidan
+  /// con la hora descrita.
   Future<Map<String, dynamic>> _getLevel3Data() async {
     try {
       // Cargar datos del archivo JSON
@@ -200,23 +273,26 @@ class Activity3Service {
       final int selectedIndex = random.nextInt(hours.length);
       final selectedItem = hours[selectedIndex];
 
-      // Extraer la información de la hora del nombre del archivo de imagen
-      // Por ejemplo, "clock_01_30.png" representa 1:30
-      final String clockImage = selectedItem['clocks_images'];
-      final List<String> clockParts =
-          clockImage.replaceAll('.png', '').split('_');
+      // Extraer hora y minuto de la ruta de la imagen del reloj
+      // Por ejemplo, de "clock_08_15.png" extraemos hora=8, minuto=15
+      int correctHour = 0;
+      int correctMinute = 0;
 
-      // Validar el formato del nombre del archivo
-      if (clockParts.length != 3 || clockParts[0] != 'clock') {
-         throw FormatException('Formato de nombre de archivo de reloj inesperado: $clockImage');
-      }
-
-      final int hour = int.parse(clockParts[1]);
-      final int minute = int.parse(clockParts[2]);
-
-      // Validar rangos de hora y minuto
-      if (hour < 0 || hour > 11 || minute < 0 || minute > 59) {
-        throw FormatException('Hora o minuto fuera de rango en $clockImage');
+      try {
+        final String clockImagePath = selectedItem['clocks_images'];
+        // Usamos regex para extraer la hora y minuto de patrones como "clock_08_15.png"
+        final RegExp clockRegex = RegExp(r'clock_(\d+)_(\d+)');
+        final match = clockRegex.firstMatch(clockImagePath);
+        
+        if (match != null && match.groupCount >= 2) {
+          correctHour = int.parse(match.group(1)!);
+          correctMinute = int.parse(match.group(2)!);
+        }
+      } catch (e) {
+        _logger.warning('Error al extraer hora y minuto de la imagen: $e');
+        // En caso de error, usar valores predeterminados
+        correctHour = 12;
+        correctMinute = 0;
       }
 
       return {
@@ -224,8 +300,8 @@ class Activity3Service {
         'description': 'Nivel 3',
         'hour_namtrik': selectedItem['hours_namtrik'],
         'clock_image': selectedItem['clocks_images'],
-        'correct_hour': hour, // Hora 0-11
-        'correct_minute': minute, // Minuto 0-59
+        'correct_hour': correctHour,
+        'correct_minute': correctMinute,
         'item_id': selectedItem['numbers'].toString(),
       };
     } catch (e, stackTrace) {

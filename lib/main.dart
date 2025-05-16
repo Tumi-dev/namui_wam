@@ -1,4 +1,4 @@
-// Librería principal de la aplicación que inicializa el service locator y los providers de las actividades y el estado del juego.
+/// Librería principal de la aplicación que inicializa el service locator y los providers de las actividades y el estado del juego.
 import 'package:flutter/material.dart';
 import 'package:namuiwam/features/home/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +13,11 @@ import 'package:namuiwam/core/di/service_locator.dart';
 import 'package:namuiwam/core/services/logger_service.dart';
 import 'package:namuiwam/core/models/game_state.dart';
 
+/// Punto de entrada principal de la aplicación.
+///
+/// Inicializa los bindings de Flutter, configura el service locator [setupServiceLocator],
+/// establece un manejador de errores global con [LoggerService], y finalmente
+/// ejecuta la aplicación principal [MainApp].
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -31,6 +36,9 @@ void main() async {
 
 /// Sincroniza el estado del juego guardado con el estado de las actividades
 /// Restaura los niveles completados y desbloqueados basado en GameState
+///
+/// [activitiesState]: El estado de las actividades que se va a actualizar.
+/// [gameState]: El estado del juego guardado que contiene la información de progreso.
 Future<void> syncGameStateWithActivities(
     ActivitiesState activitiesState, GameState gameState) async {
   // Esperar a que GameState termine de cargar sus datos
@@ -85,12 +93,13 @@ Future<void> syncGameStateWithActivities(
   logger.info('Sincronización de estados completada');
 }
 
-// Clase principal de la aplicación
-// Inicializa el estado de las actividades y el estado del juego
+/// Clase principal de la aplicación que inicializa los providers para [ActivitiesState] y [GameState].
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  // Método build que construye la aplicación
+  /// Construye el widget principal de la aplicación.
+  ///
+  /// [context]: El contexto de construcción del widget.
   @override
   Widget build(BuildContext context) {
     final activitiesState = ActivitiesState();

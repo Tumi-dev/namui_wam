@@ -7,6 +7,7 @@ import 'package:namuiwam/core/services/feedback_service.dart';
 import 'package:namuiwam/core/widgets/info_bar_widget.dart';
 import 'package:namuiwam/features/activity1/services/activity1_service.dart';
 import 'package:namuiwam/features/activity1/models/number_word.dart';
+import 'package:namuiwam/core/services/sound_service.dart';
 
 /// Pantalla para un nivel específico de la Actividad 1.
 ///
@@ -43,6 +44,8 @@ class _Activity1LevelScreenState
   final _feedbackService = GetIt.instance<FeedbackService>();
   /// Servicio específico para la lógica de la Actividad 1.
   late final Activity1Service _activity1Service;
+  /// Servicio para reproducir sonidos de la aplicación.
+  final _soundService = GetIt.instance<SoundService>();
   /// Indica si el usuario ya seleccionó la respuesta correcta.
   bool isCorrectAnswerSelected = false;
   /// Indica si el audio se está reproduciendo actualmente.
@@ -169,6 +172,8 @@ class _Activity1LevelScreenState
   /// diálogo de felicitación o de nivel ya completado.
   void _handleCorrectAnswer() async {
     if (!mounted) return;
+
+    _soundService.playCorrectSound();
 
     setState(() {
       isCorrectAnswerSelected = true;
@@ -315,6 +320,8 @@ class _Activity1LevelScreenState
   /// si se agotan los intentos, regresando al menú de la actividad.
   void _handleIncorrectAnswer() async {
     if (!mounted) return;
+
+    _soundService.playIncorrectSound();
 
     setState(() {
       remainingAttempts--;

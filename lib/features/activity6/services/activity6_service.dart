@@ -36,7 +36,7 @@ class Activity6Service {
     'Ushamera': 'animal',
     'Pisielɵ': 'color',
     'Srɵwammera': 'neologismo',
-    'Asrumunchimera': 'partecuerpo',
+    'Asru munchimera': 'partecuerpo',
     'Maintusrmera': 'plantacomestible',
     'Wamap amɵñikun': 'saludo',
     'Namui kewa amɵneiklɵ': 'vestido',
@@ -44,6 +44,7 @@ class Activity6Service {
 
   // Map domain names to their specific asset folder path names if they differ from the calculated default
   final Map<String, String> _domainPathOverrides = {
+    'Asru munchimera': 'asrumunchimera',
     'Wamap amɵñikun': 'wamapamɵnikun',
     'Namui kewa amɵneiklɵ': 'kewaamɵneiklɵ',
   };

@@ -13,13 +13,27 @@ import 'package:namuiwam/core/services/feedback_service.dart';
 
 /// {@template activity4_level_screen}
 /// Pantalla que muestra el contenido y la lógica para un nivel específico
-/// de la Actividad 4: "Comprando con Namtrik".
+/// de la Actividad 4: "Anwan ashipelɵ kɵkun" (Aprendamos a usar el dinero).
 ///
-/// Hereda de [ScrollableLevelScreen] y adapta su contenido según el [level.id]:
-/// - Nivel 1: Exploración de billetes/monedas Namtrik (imágenes y audio).
-/// - Nivel 2: Seleccionar el conjunto correcto de billetes/monedas para el precio de un artículo.
-/// - Nivel 3: Emparejar un conjunto de billetes/monedas con su valor escrito en Namtrik.
-/// - Nivel 4: Seleccionar los billetes/monedas correctos para sumar un valor total dado en Namtrik.
+/// Implementa cuatro interfaces de juego diferentes según el nivel:
+/// - Nivel 1: Conozcamos el dinero Namtrik - Exploración de denominaciones monetarias
+///   con visualización de frente/reverso y reproducción de audio.
+/// - Nivel 2: Escojamos el dinero correcto - Selección del conjunto correcto de 
+///   denominaciones para completar el precio de un artículo mostrado.
+/// - Nivel 3: Escojamos el nombre correcto - Emparejamiento de conjuntos de 
+///   denominaciones con su nombre correcto en Namtrik.
+/// - Nivel 4: Coloquemos el dinero correcto - Composición de una cantidad objetivo
+///   seleccionando las denominaciones correctas de una cuadrícula.
+///
+/// Características comunes a todos los niveles:
+/// - Sistema de puntuación y registro de progreso
+/// - Retroalimentación visual y háptica
+/// - Límite de intentos por nivel
+/// - Adaptación a diferentes orientaciones y tamaños de pantalla
+/// - Transiciones entre estados del juego (carga, juego, éxito, fracaso)
+///
+/// Hereda de [ScrollableLevelScreen] para mantener consistencia con otras actividades
+/// y reutilizar la lógica común de gestión de niveles.
 /// {@endtemplate}
 class Activity4LevelScreen extends ScrollableLevelScreen {
   /// {@macro activity4_level_screen}
@@ -28,7 +42,13 @@ class Activity4LevelScreen extends ScrollableLevelScreen {
     required LevelModel level,
   }) : super(level: level, activityNumber: 4);
 
-  // Crea el estado mutable para la clase de la pantalla de un nivel de la actividad 4
+  /// Crea el estado mutable para esta pantalla.
+  ///
+  /// Retorna una instancia de [_Activity4LevelScreenState] que gestiona:
+  /// - El estado de la interfaz de usuario específica de cada nivel
+  /// - La carga y procesamiento de datos desde [Activity4Service]
+  /// - Las interacciones del usuario específicas para cada nivel
+  /// - La gestión del ciclo de vida del nivel (inicio, juego, finalización)
   @override
   State<Activity4LevelScreen> createState() => _Activity4LevelScreenState();
 }
@@ -42,27 +62,60 @@ class Activity4LevelScreen extends ScrollableLevelScreen {
 /// - Actualización del estado del juego (intentos, puntos, nivel completado).
 /// - Retroalimentación visual y háptica.
 /// - Construcción de la interfaz de usuario específica para cada nivel ([buildLevelContent], [_buildLevel1Content], etc.).
+///
+/// Mantiene variables de estado separadas para cada uno de los cuatro niveles,
+/// activando solo las necesarias según el nivel actual, lo que optimiza el uso de memoria.
 class _Activity4LevelScreenState
     extends ScrollableLevelScreenState<Activity4LevelScreen> {
   /// Servicio para obtener datos y lógica de la Actividad 4.
+  ///
+  /// Esta instancia se inicializa en [initState] y proporciona:
+  /// - Carga de datos desde archivos JSON
+  /// - Métodos para generar opciones y validar respuestas
+  /// - Reproducción de audio para nombres Namtrik
+  /// - Cálculo de valores monetarios totales
   late Activity4Service _activity4Service;
 
   /// Indica si los datos del nivel se están cargando.
+  ///
+  /// Controla la visualización de un indicador de carga mientras
+  /// se obtienen los datos necesarios desde [_activity4Service].
   bool _isLoading = true;
 
-  /// Indica si se ha seleccionado la respuesta correcta (usado para control de flujo).
+  /// Indica si se ha seleccionado la respuesta correcta.
+  ///
+  /// Utilizado para el control de flujo y prevenir acciones adicionales
+  /// después de que el usuario ha seleccionado correctamente la respuesta.
   bool isCorrectAnswerSelected = false;
 
-  /// Lista de modelos de dinero (billetes/monedas) para el nivel actual (usado en Nivel 1 y 3).
+  /// Lista de modelos de dinero (billetes/monedas) para el nivel actual.
+  ///
+  /// Utilizado principalmente en:
+  /// - Nivel 1: Para mostrar todas las denominaciones disponibles
+  /// - Nivel 3: Para mostrar un conjunto específico que debe ser nombrado
   List<NamtrikMoneyModel> _moneyItems = [];
 
-  /// El artículo actual a mostrar (usado en Nivel 2).
+  /// El artículo actual a mostrar en el Nivel 2.
+  ///
+  /// Contiene la información del artículo, incluyendo:
+  /// - Imagen
+  /// - Precio numérico
+  /// - Nombre del precio en Namtrik
+  /// - Lista de denominaciones requeridas para pagarlo
   NamtrikArticleModel? _currentArticle;
 
   /// Índice del elemento actual en PageView (Nivel 1).
+  ///
+  /// Controla qué denominación se está mostrando actualmente
+  /// en el paginador horizontal del Nivel 1.
   int _currentIndex = 0;
 
-  /// Controlador para el PageView (Nivel 1).
+  /// Controlador para el PageView del Nivel 1.
+  ///
+  /// Permite:
+  /// - Navegar programáticamente entre páginas
+  /// - Capturar eventos de cambio de página
+  /// - Aplicar animaciones al cambiar de página
   final PageController _pageController = PageController();
 
   // --- Variables Nivel 2 ---
@@ -85,6 +138,10 @@ class _Activity4LevelScreenState
   bool _isPlayingAudio = false;
 
   /// Mapa para rastrear qué imagen (primera o segunda) se muestra para cada item en Nivel 1.
+  ///
+  /// La clave es el índice del elemento en [_moneyItems] y el valor es un booleano:
+  /// - false: Muestra la primera imagen (anverso)
+  /// - true: Muestra la segunda imagen (reverso, si está disponible)
   Map<int, bool> _showingSecondImage = {};
 
   // --- Variables Nivel 3 ---

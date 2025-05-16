@@ -37,7 +37,7 @@ Tsatsɵ Musik es una aplicación móvil educativa e interactiva, desarrollada co
         4.  **Coloquemos el dinero correcto:** Seleccionar las piezas de dinero correctas para sumar un valor total dado presentado en Namtrik.
 *   **Actividad 5: Muntsielan namtrikmai yunөmarөpik (Convertir números en letras)** (Estado: Completo)
     *   Objetivo: Convertir números arábigos a su forma escrita en Namtrik.
-    *   Jugabilidad: El usuario ingresa un número (1-9,999,999), y la app muestra su escritura en Namtrik. Incluye opciones para escuchar la pronunciación, copiar y compartir el texto.
+    *   Jugabilidad: El usuario ingresa un número (1-9,999,999), y la app muestra su escritura en Namtrik. Incluye opciones para escuchar la pronunciación, así como para copiar y compartir tanto el número ingresado como su texto Namtrik resultante.
 *   **Actividad 6: Wammeran tulisha manchípik kui asamik pөrik (Diccionario)** (Estado: Funcionalidad Base Completa)
     *   Objetivo: Consultar un léxico básico de palabras Namtrik organizadas por categorías, con soporte visual y auditivo.
     *   Funcionalidad:
@@ -96,12 +96,12 @@ namui_wam/
 ## Documentación Detallada por Actividad
 Para obtener información más detallada sobre la implementación, jugabilidad y componentes de cada actividad, consulta los siguientes archivos README:
 
-*   [Actividad 1: Muntsik mөik kөtasha sөl lau (Escoja el número correcto)](lib/features/activity1/README.md)
-*   [Actividad 2: Muntsikelan pөram kusrekun (Aprendamos a escribir los números)](lib/features/activity2/README.md)
-*   [Actividad 3: Nөsik utөwan asam kusrekun (Aprendamos a ver la hora)](lib/features/activity3/README.md)
-*   [Actividad 4: Anwan ashipelɵ kɵkun (Aprendamos a usar el dinero)](lib/features/activity4/README.md)
-*   [Actividad 5: Muntsielan namtrikmai yunөmarөpik (Convertir números en letras)](lib/features/activity5/README.md)
-*   [Actividad 6: Wammeran tulisha manchípik kui asamik pөrik (Diccionario)](lib/features/activity6/README.md)
+*   [Actividad 1: Muntsik mөik kөtasha sөl lau (Escoja el número correcto)](docs/features/activity1_readme.md)
+*   [Actividad 2: Muntsikelan pөram kusrekun (Aprendamos a escribir los números)](docs/features/activity2_readme.md)
+*   [Actividad 3: Nөsik utөwan asam kusrekun (Aprendamos a ver la hora)](docs/features/activity3_readme.md)
+*   [Actividad 4: Anwan ashipelɵ kɵkun (Aprendamos a usar el dinero)](docs/features/activity4_readme.md)
+*   [Actividad 5: Muntsielan namtrikmai yunөmarөpik (Convertir números en letras)](docs/features/activity5_readme.md)
+*   [Actividad 6: Wammeran tulisha manchípik kui asamik pөrik (Diccionario)](docs/features/activity6_readme.md)
 
 ## Recursos Clave y Dependencias
 El proyecto utiliza varios recursos y paquetes de Flutter:
@@ -158,7 +158,7 @@ Para contribuir al proyecto:
 Ejemplo: Licencia MIT
 
 ```
-Copyright (c) [Año] [Nombre del propietario / Organización]
+Copyright (c) 2025 Tsatsɵ Musik Developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -181,9 +181,47 @@ SOFTWARE.
 
 O
 
-**Propiedad Intelectual:** El contenido cultural (idioma Namtrik, imágenes, audios) pertenece a la comunidad Namtrik. El código fuente de la aplicación está licenciado bajo [Especificar Licencia, ej: MIT], pero el contenido cultural tiene sus propias restricciones de uso y distribución que deben ser respetadas.
+**Propiedad Intelectual:** El contenido cultural (idioma Namtrik, imágenes, audios) pertenece a la comunidad Namtrik. El código fuente de la aplicación está licenciado bajo Licencia MIT, pero el contenido cultural tiene sus propias restricciones de uso y distribución que deben ser respetadas.
 
 ## Contacto
 Para más información o soporte:
-- Email: [Tu Correo de contacto]
-- Website/Organización: [Sitio web relevante, si existe]
+- Email: contacto@tsatsomusik.dev
+- Website/Organización: https://tsatsomusik.dev
+
+## Documentación
+
+### Documentación de Código (DartDoc)
+
+La aplicación utiliza dartdoc para generar documentación automática del código. Para generar la documentación:
+
+1. Asegúrate de tener dartdoc instalado (o usa la versión del proyecto con el siguiente comando):
+   ```powershell
+   dart pub global activate dartdoc
+   ```
+
+2. Genera la documentación desde la raíz del proyecto usando el comando recomendado:
+   ```powershell
+   dart run dartdoc
+   ```
+
+3. La documentación generada estará disponible en la carpeta `doc/api/`. Puedes abrirla en un navegador:
+   ```powershell
+   start doc/api/index.html   # Windows
+   open doc/api/index.html    # macOS
+   xdg-open doc/api/index.html  # Linux
+   ```
+
+### Estándares de Documentación
+
+El proyecto sigue los estándares de documentación definidos en [guía de estilo de DartDoc](docs/DARTDOC_STYLE_GUIDE.md). Este documento contiene las guías y ejemplos para mantener una documentación consistente en todo el código.
+
+La documentación está organizada en las siguientes categorías principales:
+- **Actividades**: Documentación de las 6 actividades educativas.
+- **Servicios**: Servicios para la lógica de negocio y acceso a datos.
+- **Widgets**: Componentes de UI reutilizables.
+- **Modelos**: Modelos de datos y entidades del dominio.
+
+### Recursos Adicionales
+
+- [Documentación Oficial de Dart](https://dart.dev/guides/language/effective-dart/documentation)
+- [Guía de dartdoc](https://dart.dev/tools/dartdoc)

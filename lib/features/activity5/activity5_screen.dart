@@ -6,12 +6,39 @@ import 'package:namuiwam/core/themes/app_theme.dart';
 import 'package:namuiwam/core/services/feedback_service.dart';
 import 'package:namuiwam/core/widgets/game_description_widget.dart';
 import 'package:namuiwam/features/activity5/services/activity5_service.dart';
+import 'package:share_plus/share_plus.dart';
 
 /// {@template activity5_screen}
 /// Pantalla para la Actividad 5: "Muntsielan namtrikmai yunɵmarɵpik (Convertir números en letras)".
 ///
-/// Funciona como una herramienta que permite al usuario ingresar un número arábigo (1-9,999,999)
-/// y obtener su representación escrita en Namtrik, con opciones para escuchar, copiar y compartir.
+/// Implementa una herramienta interactiva que permite a los usuarios:
+/// - Ingresar un número arábigo en el rango de 1 a 9,999,999
+/// - Visualizar instantáneamente su representación escrita en Namtrik
+/// - Escuchar la pronunciación correcta a través de archivos de audio
+/// - Copiar el texto resultante al portapapeles
+/// - Compartir el resultado con otras aplicaciones
+///
+/// A diferencia de las actividades 1-4 basadas en niveles de juego, esta actividad
+/// funciona como una utilidad práctica para el aprendizaje y uso cotidiano del sistema
+/// numérico Namtrik, proporcionando un recurso valioso para estudiantes, docentes
+/// y hablantes de la lengua.
+///
+/// Características principales:
+/// - Validación en tiempo real de la entrada numérica
+/// - Feedback visual para entradas inválidas (borde rojo)
+/// - Adaptación automática cuando aparece/desaparece el teclado
+/// - Retroalimentación háptica en las interacciones principales
+/// - Detección y manejo del ciclo de vida para parar audio en segundo plano
+///
+/// Ejemplo de navegación a esta pantalla:
+/// ```dart
+/// Navigator.push(
+///   context,
+///   MaterialPageRoute(
+///     builder: (context) => const Activity5Screen(),
+///   ),
+/// );
+/// ```
 /// {@endtemplate}
 class Activity5Screen extends StatefulWidget {
   /// {@macro activity5_screen}
@@ -23,62 +50,142 @@ class Activity5Screen extends StatefulWidget {
 
 /// Clase de estado para [Activity5Screen].
 ///
-/// Gestiona la entrada del usuario, la interacción con [Activity5Service]
-/// para obtener la representación Namtrik y los audios, y actualiza la UI
-/// con los resultados. También maneja la reproducción de audio, la copia
-/// al portapapeles y la lógica de compartir.
-/// Implementa [WidgetsBindingObserver] para detener el audio cuando la app
-/// pasa a segundo plano.
+/// Gestiona el ciclo completo de la herramienta de conversión de números:
+/// - Entrada y validación del número arábigo
+/// - Consulta al [Activity5Service] para obtener representaciones en Namtrik
+/// - Actualización de la interfaz según el estado (carga, error, éxito)
+/// - Control de la reproducción de audio
+/// - Funcionalidades de copia y compartición
+/// - Adaptación a cambios en el ciclo de vida de la aplicación
+///
+/// Implementa [WidgetsBindingObserver] para detectar cuando la app pasa a segundo 
+/// plano y detener el audio en reproducción, mejorando la experiencia del usuario.
 class _Activity5ScreenState extends State<Activity5Screen>
     with WidgetsBindingObserver {
   /// Controlador para el campo de texto donde el usuario ingresa el número.
+  ///
+  /// Gestiona:
+  /// - El texto actual ingresado por el usuario
+  /// - La posición del cursor
+  /// - La selección de texto
+  /// - Notificaciones de cambios a través de listeners
   final TextEditingController _numberController = TextEditingController();
+  
   /// Instancia del servicio para la lógica de la Actividad 5.
+  ///
+  /// Proporciona métodos para:
+  /// - Validar números en el rango soportado
+  /// - Obtener la representación Namtrik del número
+  /// - Gestionar la reproducción de audio
+  /// - Manejar errores durante la conversión
   final Activity5Service _activity5Service = getIt<Activity5Service>();
+  
   /// Controlador para el scroll principal, usado para ajustar la vista con el teclado.
+  ///
+  /// Permite:
+  /// - Desplazar automáticamente el contenido cuando aparece el teclado
+  /// - Asegurar que el campo de texto permanezca visible durante la edición
+  /// - Controlar el comportamiento del scroll en la pantalla
   final ScrollController _scrollController = ScrollController();
+  
   /// Almacena la representación Namtrik del número ingresado.
+  ///
+  /// Contiene:
+  /// - Cadena vacía cuando no hay entrada
+  /// - El texto en Namtrik cuando la conversión es exitosa
+  /// - Mensaje de error cuando la entrada es inválida o falla la conversión
   String _namtrikResult = '';
+  
   /// Indica si se está esperando una respuesta del servicio.
+  ///
+  /// Controla la visualización del indicador de carga (CircularProgressIndicator)
+  /// mientras se consulta al servicio para obtener la representación Namtrik.
   bool _isLoading = false;
+  
   /// Indica si la entrada actual es inválida (ej. fuera de rango).
+  ///
+  /// Se utiliza para:
+  /// - Mostrar mensajes de error apropiados
+  /// - Cambiar el color del borde del campo de entrada
+  /// - Evitar consultas innecesarias al servicio
   bool _hasInvalidInput = false;
+  
   /// Indica si hay audio disponible para el número actual.
+  ///
+  /// Determina si se debe habilitar o deshabilitar el botón de reproducción
+  /// según la disponibilidad de archivos de audio para el número actual.
   bool _isAudioAvailable = false;
+  
   /// Indica si se está reproduciendo audio actualmente.
+  ///
+  /// Controla:
+  /// - El cambio de iconos en el botón de reproducción
+  /// - La deshabilitación del botón mientras se reproduce
+  /// - La prevención de reproducciones superpuestas
   bool _isPlayingAudio = false;
+  
   /// Almacena el número válido actual ingresado por el usuario.
+  ///
+  /// Se utiliza para:
+  /// - Evitar repetir consultas innecesarias al servicio
+  /// - Proporcionar el valor a los métodos que requieren el número
+  /// - Validar si ha cambiado la entrada del usuario
   int? _currentNumber;
+  
   /// Indica si el teclado está visible en pantalla.
+  ///
+  /// Se utiliza para ajustar el diseño y comportamiento de la UI
+  /// cuando el teclado aparece o desaparece.
   bool _isKeyboardVisible = false;
+  
   /// Controla el color del borde del campo de entrada para feedback de error.
+  ///
+  /// Valores:
+  /// - `null`: Borde normal (cuando la entrada es válida)
+  /// - `Colors.red`: Borde rojo (cuando la entrada es inválida)
   Color? _inputBorderColor;
 
   /// Define el color de fondo (verde oliva apagado) para los contenedores de texto.
+  ///
+  /// Color temático específico de la Actividad 5, que se aplica a:
+  /// - El contenedor del resultado Namtrik
+  /// - Los botones de acción
+  /// - Otros elementos visuales de la actividad
   final Color _boxColor = const Color(0xFF7E7745);
 
   @override
   void initState() {
     super.initState();
+    // Registra un listener para detectar cambios en el campo de texto
     _numberController.addListener(_onNumberChanged);
-    // Se registra para observar cambios en el ciclo de vida de la app.
+    // Se registra para observar cambios en el ciclo de vida de la app
+    // para poder detener el audio cuando la app pasa a segundo plano
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    // Limpieza para evitar memory leaks
     _numberController.removeListener(_onNumberChanged);
     _numberController.dispose();
     _scrollController.dispose();
-    // Detiene cualquier audio en reproducción al salir de la pantalla.
+    // Detiene cualquier audio en reproducción al salir de la pantalla
     _stopAudioIfPlaying();
-    // Deja de observar cambios en el ciclo de vida.
+    // Deja de observar cambios en el ciclo de vida
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   /// Se llama cuando cambia el estado del ciclo de vida de la aplicación.
-  /// Detiene el audio si la app se pausa, inactiva o desprende.
+  /// 
+  /// Detecta cuando la app pasa a segundo plano o se inactiva, para
+  /// detener automáticamente cualquier audio en reproducción y mejorar
+  /// así la experiencia del usuario.
+  ///
+  /// Casos manejados:
+  /// - AppLifecycleState.paused: App en segundo plano
+  /// - AppLifecycleState.inactive: App visible pero no interactiva
+  /// - AppLifecycleState.detached: App en proceso de terminación
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // Stop audio if app goes to background or is inactive
@@ -90,7 +197,16 @@ class _Activity5ScreenState extends State<Activity5Screen>
   }
 
   /// Método auxiliar para detener el audio si se está reproduciendo.
-  /// Actualiza el estado [_isPlayingAudio].
+  /// 
+  /// Verifica primero si hay audio en reproducción para evitar llamadas
+  /// innecesarias al servicio. Luego:
+  /// 1. Llama al servicio para detener la reproducción
+  /// 2. Actualiza el estado de la UI para reflejar que el audio se detuvo
+  ///
+  /// Este método se utiliza en múltiples puntos:
+  /// - Al salir de la pantalla (dispose)
+  /// - Cuando la app pasa a segundo plano (didChangeAppLifecycleState)
+  /// - Al navegar a otra pantalla (navigateToHome)
   void _stopAudioIfPlaying() {
     if (_isPlayingAudio) {
       _activity5Service.stopAudio();
@@ -103,7 +219,15 @@ class _Activity5ScreenState extends State<Activity5Screen>
   }
 
   /// Navega hacia la pantalla de inicio de la aplicación.
-  /// Detiene el audio antes de navegar.
+  /// 
+  /// Implementa una navegación limpia asegurando que:
+  /// 1. Se detenga cualquier audio en reproducción
+  /// 2. Se retorne a la pantalla inicial (primera ruta)
+  ///
+  /// Este método se invoca cuando el usuario presiona el botón
+  /// de "Inicio" (Home) en la barra de navegación superior.
+  ///
+  /// [context] El contexto de construcción para la navegación
   void _navigateToHome(BuildContext context) {
     // Stop any playing audio before navigating away
     _stopAudioIfPlaying();
@@ -112,9 +236,19 @@ class _Activity5ScreenState extends State<Activity5Screen>
 
   /// Se llama cada vez que cambia el texto en [_numberController].
   ///
-  /// Valida la entrada, llama a [_activity5Service] para obtener el Namtrik
-  /// y verificar la disponibilidad de audio, y actualiza el estado de la UI
-  /// ([_namtrikResult], [_isLoading], [_hasInvalidInput], etc.).
+  /// Implementa la lógica central de validación y conversión:
+  /// 1. Valida si la entrada está vacía, es 0, o está fuera de rango
+  /// 2. Actualiza el estado visual (borde rojo para entrada inválida)
+  /// 3. Para entradas válidas, consulta al servicio para obtener:
+  ///    - La representación Namtrik del número
+  ///    - La disponibilidad de archivos de audio
+  /// 4. Actualiza el estado de la UI para reflejar el resultado
+  ///
+  /// Maneja casos especiales como:
+  /// - Entrada vacía: Limpia el resultado
+  /// - Entrada "0": Muestra mensaje de error y previene más dígitos
+  /// - Número inválido: Muestra mensaje de error con borde rojo
+  /// - Errores del servicio: Muestra mensaje de error
   Future<void> _onNumberChanged() async {
     // If the text is empty, reset everything
     if (_numberController.text.isEmpty) {
@@ -237,15 +371,22 @@ class _Activity5ScreenState extends State<Activity5Screen>
 
   /// Maneja la acción del botón "Copiar".
   ///
-  /// Copia el [_namtrikResult] válido al portapapeles y muestra un [SnackBar].
+  /// Copia el número ingresado y su representación Namtrik ([_namtrikResult])
+  /// al portapapeles si ambos son válidos. Muestra un [SnackBar] con el resultado.
   /// Proporciona feedback háptico.
   void _handleCopyPressed() async {
     if (_namtrikResult.isNotEmpty &&
         _namtrikResult != 'Resultado del número' &&
         !_namtrikResult.startsWith('El número debe') &&
-        !_namtrikResult.startsWith('Error')) {
+        !_namtrikResult.startsWith('Error') &&
+        _currentNumber != null) {
       await FeedbackService().mediumHapticFeedback();
-      Clipboard.setData(ClipboardData(text: _namtrikResult));
+      
+      // Construct the text to copy
+      final String textToCopy =
+          'Número: $_currentNumber\nTexto Namtrik: $_namtrikResult';
+
+      Clipboard.setData(ClipboardData(text: textToCopy));
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Texto copiado al portapapeles'),
@@ -265,21 +406,23 @@ class _Activity5ScreenState extends State<Activity5Screen>
 
   /// Maneja la acción del botón "Compartir".
   ///
-  /// (Actualmente solo muestra un [SnackBar] con el texto a compartir).
+  /// Utiliza el plugin `share_plus` para compartir el número ingresado
+  /// y su representación Namtrik ([_namtrikResult]) si ambos son válidos.
   /// Proporciona feedback háptico.
   void _handleSharePressed() async {
     if (_namtrikResult.isNotEmpty &&
         _namtrikResult != 'Resultado del número' &&
         !_namtrikResult.startsWith('El número debe') &&
-        !_namtrikResult.startsWith('Error')) {
+        !_namtrikResult.startsWith('Error') &&
+        _currentNumber != null) {
       await FeedbackService().mediumHapticFeedback();
-      // This would typically use a share plugin, but for now we'll just show a message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Compartiendo: $_namtrikResult'),
-          duration: const Duration(seconds: 2),
-        ),
-      );
+      
+      // Construct the text to share
+      final String textToShare = 
+          'Número: $_currentNumber\nTexto Namtrik: $_namtrikResult';
+      
+      // Use share_plus to share the content
+      await Share.share(textToShare);
     } else {
       await FeedbackService().heavyHapticFeedback();
       ScaffoldMessenger.of(context).showSnackBar(

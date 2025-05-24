@@ -39,7 +39,7 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
   static const String _keyEffectsEnabled = 'effects_enabled';
 
   // Estado y volumen para la música de fondo
-  double _backgroundMusicVolume = 0.2; // Inicia con volumen bajo por defecto
+  double _backgroundMusicVolume = 0.1; // Inicia con volumen bajo por defecto
   bool _isBackgroundMusicEnabled = true;
 
   // Estado y volumen para los sonidos de correcto/incorrecto (compartido)

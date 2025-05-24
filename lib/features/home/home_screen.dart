@@ -9,6 +9,7 @@ import 'package:namuiwam/features/activity3/activity3_screen.dart';
 import 'package:namuiwam/features/activity4/activity4_screen.dart';
 import 'package:namuiwam/features/activity5/activity5_screen.dart';
 import 'package:namuiwam/features/activity6/activity6_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,15 +49,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void _handleGameStateChange() {
     // Ensure gameState is not null and context is still mounted
     if (_gameState != null && mounted) {
-        _checkAndShowAlertIfNeeded(_gameState!);
-        // We also need to trigger a rebuild if the button state changes
-        setState(() {});
+      _checkAndShowAlertIfNeeded(_gameState!);
+      // We also need to trigger a rebuild if the button state changes
+      setState(() {});
     }
   }
 
   void _checkAndShowAlertIfNeeded(GameState gameState) async {
     // Detectar transición de <100 a 100 puntos
-    if (_lastPoints < GameState.maxPoints && gameState.globalPoints >= GameState.maxPoints &&
+    if (_lastPoints < GameState.maxPoints &&
+        gameState.globalPoints >= GameState.maxPoints &&
         !gameState.alertShownAt100Points) {
       _alertShownSinceLastReset = true;
       await gameState.setAlertShownAt100Points(true);
@@ -105,21 +107,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Lista de colores para los fondos de los botones
   static const List<Color> buttonColors = [
-  Color(0xFF556B2F), // Verde olivo oscuro
-  Color(0xFFDAA520), // Amarillo ocre
-  Color(0xFF8B4513), // Marrón tierra
-  Color(0xFFCD5C5C), // Rojo terroso
-  Color(0xFF7E7745), // Orion - Verde oliva apagado
-  Color(0xFFFF7F50), // Coral cálido
+    Color(0xFF556B2F), // Verde olivo oscuro
+    Color(0xFFDAA520), // Amarillo ocre
+    Color(0xFF8B4513), // Marrón tierra
+    Color(0xFFCD5C5C), // Rojo terroso
+    Color(0xFF7E7745), // Orion - Verde oliva apagado
+    Color(0xFFFF7F50), // Coral cálido
   ];
   // Lista de colores para los círculos de números
   static const List<Color> numberCircleColors = [
-  Color(0xFF556B2F), // Verde olivo oscuro
-  Color(0xFFDAA520), // Amarillo ocre
-  Color(0xFF8B4513), // Marrón tierra
-  Color(0xFFCD5C5C), // Rojo terroso
-  Color(0xFF7E7745), // Orion - Verde oliva apagado
-  Color(0xFFFF7F50), // Coral cálido
+    Color(0xFF556B2F), // Verde olivo oscuro
+    Color(0xFFDAA520), // Amarillo ocre
+    Color(0xFF8B4513), // Marrón tierra
+    Color(0xFFCD5C5C), // Rojo terroso
+    Color(0xFF7E7745), // Orion - Verde oliva apagado
+    Color(0xFFFF7F50), // Coral cálido
   ];
 
   void _navigateToActivity(BuildContext context, int activityNumber) {
@@ -164,7 +166,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 await gameState.requestManualReset();
                 // Reset the flag after successful manual reset
                 _alertShownSinceLastReset = false;
-                await gameState.setAlertShownAt100Points(false); // Resetear el flag persistente tras reinicio
+                await gameState.setAlertShownAt100Points(
+                    false); // Resetear el flag persistente tras reinicio
                 print('Alert flag reset after manual reset confirmation.');
                 // No need for setState here as gameState.requestManualReset notifies listeners
               },
@@ -197,6 +200,152 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Función para mostrar el diálogo de información de la aplicación
+  void _showAppInfoDialog() {
+    // Función para lanzar URLs
+    Future<void> _launchUrl(String url) async {
+      try {
+        final Uri uri = Uri.parse(url);
+
+        // Check if the URL can be launched
+        if (await canLaunchUrl(uri)) {
+          final bool launched = await launchUrl(
+            uri,
+            mode: LaunchMode.externalApplication,
+          );
+
+          if (!launched) {
+            debugPrint('Could not launch $url');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('No se pudo abrir: $url')),
+            );
+          }
+        } else {
+          debugPrint('No handler found for $url');
+          // Try to open in web view as fallback
+          try {
+            await launchUrl(
+              uri,
+              mode: LaunchMode.inAppWebView,
+              webViewConfiguration:
+                  const WebViewConfiguration(enableJavaScript: true),
+            );
+          } catch (e) {
+            debugPrint('Error launching in WebView: $e');
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('No se pudo abrir el enlace: $url')),
+              );
+            }
+          }
+        }
+      } catch (e) {
+        debugPrint('Error launching URL: $e');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Ocurrió un error al abrir el enlace')),
+          );
+        }
+      }
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0.0),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0, bottom: 20.0),
+                    child: Text(
+                      'Acerca de Tsatsɵ Musik',
+                      style: Theme.of(context).textTheme.titleLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Center(
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundImage:
+                        AssetImage('assets/images/1.logo-colibri.png'),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _buildInfoRow('Versión', '1.0.0'),
+                const Divider(),
+                // Desarrollador con enlace a GitHub
+                GestureDetector(
+                  onTap: () => _launchUrl('https://github.com/TuMyXx93'),
+                  child: _buildInfoRow(
+                    'Desarrollado por',
+                    'TumiDev',
+                    isLink: true,
+                  ),
+                ),
+                const Divider(),
+                // Email interactivo
+                GestureDetector(
+                  onTap: () => _launchUrl('mailto:contacto@tsatsomusic.com'),
+                  child: _buildInfoRow(
+                    'Contacto',
+                    'contacto@tsatsomusic.com',
+                    isLink: true,
+                  ),
+                ),
+                const Divider(),
+                // Sitio web interactivo
+                GestureDetector(
+                  onTap: () => _launchUrl('https://www.namuiwam.net'),
+                  child: _buildInfoRow(
+                    'Sitio web',
+                    'www.namuiwam.net',
+                    isLink: true,
+                  ),
+                ),
+                const Divider(),
+                const SizedBox(height: 10),
+                Center(
+                  child: const Text(
+                    'Tsatsɵ Musik es una aplicación educativa diseñada para aprender la numeración, el dinero y un diccionario de manera interactiva y divertida en Namuiwam.',
+                    style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: const Text(
+                    ' 2025 Tsatsɵ Musik. Todos los derechos reservados.',
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 24.0, bottom: 16.0),
+                    child: TextButton(
+                      child: const Text('Cerrar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Watch for changes in GameState to update UI (like button state)
@@ -210,15 +359,36 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Tsatsɵ Musik',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+              // Fila con el título y el botón de configuración
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Espaciador para equilibrar el diseño
+                    const SizedBox(
+                        width:
+                            40), // Mismo ancho que el botón para centrar el título
+
+                    // Título centrado
+                    const Text(
+                      'Tsatsɵ Musik',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+
+                    // Botón de configuración
+                    IconButton(
+                      icon: const Icon(Icons.settings,
+                          color: Colors.white, size: 28),
+                      onPressed: _showAppInfoDialog,
+                      tooltip: 'Configuración e información',
+                    ),
+                  ],
                 ),
               ),
               // Colocamos todo el contenido en un único ListView para que todo sea scrollable
@@ -241,9 +411,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Botones de actividades - ahora con LayoutBuilder para adaptarse a la orientación
                     LayoutBuilder(
                       builder: (context, constraints) {
-                        final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-                        final maxButtonWidth = isLandscape ? 450.0 : constraints.maxWidth;
-                        
+                        final isLandscape =
+                            MediaQuery.of(context).orientation == 
+                                Orientation.landscape;
+                        final maxButtonWidth =
+                            isLandscape ? 450.0 : constraints.maxWidth;
+
                         return Column(
                           children: List.generate(
                             6,
@@ -263,43 +436,50 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Espacio adicional al final para mejor UX
                     const SizedBox(height: 16),
                     // Add the manual reset button
-                    InkWell(
-                      onTap: () {
-                        // Call appropriate dialog based on state
-                        if (gameState.canManuallyReset) {
-                          _showConfirmationResetDialog();
-                        } else {
-                          _showDisabledInfoDialog();
-                        }
-                      },
-                      borderRadius: BorderRadius.circular(40.0), // Make it circular for splash effect
+                    Material(
+                      color: Colors.transparent,
                       child: CircleAvatar(
                         radius: 45, // Adjust size of the circle
                         backgroundColor: gameState.canManuallyReset
-                            ? Theme.of(context).colorScheme.primary // Enabled background
+                            ? Theme.of(context)
+                                .colorScheme
+                                .primary // Enabled background
                             : Colors.grey.shade300, // Disabled background
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.refresh,
-                              size: 30, // Icon size
-                              color: gameState.canManuallyReset
-                                  ? Colors.white // Enabled icon color
-                                  : Colors.grey.shade500, // Disabled icon color
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "Reiniciar",
-                              style: TextStyle(
-                                fontSize: 11, // Text size
-                                fontWeight: FontWeight.bold,
+                        child: InkWell(
+                          onTap: () {
+                            // Call appropriate dialog based on state
+                            if (gameState.canManuallyReset) {
+                              _showConfirmationResetDialog();
+                            } else {
+                              _showDisabledInfoDialog();
+                            }
+                          },
+                          customBorder: const CircleBorder(),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.refresh,
+                                size: 30, // Icon size
                                 color: gameState.canManuallyReset
-                                    ? Colors.white // Enabled text color
-                                    : Colors.grey.shade500, // Disabled text color
+                                    ? Colors.white // Enabled icon color
+                                    : Colors
+                                        .grey.shade500, // Disabled icon color
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 4),
+                              Text(
+                                "Reiniciar",
+                                style: TextStyle(
+                                  fontSize: 11, // Text size
+                                  fontWeight: FontWeight.bold,
+                                  color: gameState.canManuallyReset
+                                      ? Colors.white // Enabled text color
+                                      : Colors
+                                          .grey.shade500, // Disabled text color
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -321,7 +501,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final colorIndex = activityNumber - 1;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16), // Aumentado el margen inferior para mejor separación
+      padding: const EdgeInsets.only(
+          bottom: 16), // Aumentado el margen inferior para mejor separación
       child: Container(
         height: 70, // Altura reducida para un diseño más minimalista
         child: ElevatedButton(
@@ -330,7 +511,9 @@ class _HomeScreenState extends State<HomeScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 24), // Aumentado el padding horizontal para mejor legibilidad
+            padding: const EdgeInsets.symmetric(
+                horizontal:
+                    24), // Aumentado el padding horizontal para mejor legibilidad
           ),
           onPressed: () => _navigateToActivity(context, activityNumber),
           child: Row(
@@ -350,7 +533,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 12), // Aumentado el espacio para mejor legibilidad
+              const SizedBox(
+                  width: 12), // Aumentado el espacio para mejor legibilidad
               // Descripción de la actividad con un estilo y un número de actividad
               Expanded(
                 child: Text(
@@ -365,6 +549,34 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // Método auxiliar para construir filas de información en el diálogo
+  Widget _buildInfoRow(String label, String value, {bool isLink = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 14,
+              color: isLink ? Colors.blue : null,
+              decoration: isLink ? TextDecoration.none : null, // Changed from TextDecoration.underline
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -8,10 +8,12 @@ import 'package:namuiwam/core/services/logger_service.dart';
 /// Proporciona la lógica central para la herramienta de conversión de números arábigos
 /// a su representación escrita en Namtrik, con las siguientes responsabilidades:
 ///
-/// - Validar que los números estén dentro del rango soportado (1 a 9,999,999)
-/// - Obtener la representación textual en Namtrik de cualquier número válido
-/// - Gestionar la obtención y reproducción de archivos de audio asociados
-/// - Manejar errores durante la conversión y reproducción
+/// - Validar que los números estén dentro del rango soportado (1 a 9,999,999).
+/// - Obtener la representación textual en Namtrik de cualquier número válido,
+///   utilizando `NumberDataService` que puede componer dinámicamente números de 7 dígitos.
+/// - Gestionar la obtención y reproducción secuencial (sin solapamientos) de los
+///   archivos de audio asociados, usando `AudioService.playAudioAndWait`.
+/// - Manejar errores durante la conversión y reproducción.
 ///
 /// Actúa como intermediario entre la interfaz de usuario ([Activity5Screen]) y los servicios
 /// centrales de datos ([NumberDataService]) y audio ([AudioService]), implementando
@@ -152,6 +154,10 @@ class Activity5Service {
   /// // → Reproduce secuencialmente: "pik.wav", "pa.wav", "tap.wav"
   /// ```
   ///
+  /// Utiliza `AudioService.playAudioAndWait` para asegurar que cada archivo de audio
+  /// termine antes de que comience el siguiente. Se puede añadir una breve pausa
+  /// (`Future.delayed`) entre audios si se desea para mejorar la cadencia natural.
+  ///
   /// [number] El número para el cual reproducir el audio
   /// Retorna `true` si la reproducción se inició exitosamente (al menos un archivo encontrado),
   /// `false` si no se encontraron archivos o si ocurrió un error.
@@ -159,21 +165,24 @@ class Activity5Service {
     try {
       final audioFiles = await getAudioFilesForNumber(number);
       if (audioFiles.isEmpty) {
+        _logger.info('No audio files found for number $number in Activity5Service.');
         return false;
       }
 
       // Play each audio file in sequence
       for (int i = 0; i < audioFiles.length; i++) {
-        await _audioService.playAudio(audioFiles[i]);
+        // Use the new method that waits for audio completion
+        await _audioService.playAudioAndWait(audioFiles[i]); 
 
-        // Add a small delay between audio files if there are multiple
+        // Add a small delay between audio files if there are multiple and it's not the last one
         if (i < audioFiles.length - 1) {
-          await Future.delayed(const Duration(milliseconds: 600));
+          // You can adjust this delay if needed, or make it conditional
+          await Future.delayed(const Duration(milliseconds: 200)); // Reduced delay as an example, can be tuned
         }
       }
       return true;
     } catch (e, stackTrace) {
-      _logger.error('Error playing audio', e, stackTrace);
+      _logger.error('Error playing audio sequence for number $number in Activity5Service', e, stackTrace);
       return false;
     }
   }

@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Esta actividad está diseñada para ayudar a los usuarios a reconocer y asociar los nombres de los números en Namtrik con sus correspondientes numerales arábigos. Es una actividad de reconocimiento y comprensión auditiva, donde los estudiantes deben identificar el número correcto al escuchar y leer su forma en idioma Namtrik.
+Esta actividad está diseñada para ayudar a los usuarios a reconocer y asociar los nombres de los números en Namtrik con sus correspondientes numerales arábigos. Es una actividad de reconocimiento y comprensión auditiva, donde los estudiantes deben identificar el número correcto al escuchar y leer su forma en idioma Namtrik, cubriendo números hasta 9,999,999 mediante composición dinámica para el rango superior.
 
 ## Funcionamiento
 
@@ -16,7 +16,7 @@ La actividad se estructura de la siguiente manera:
      * Nivel 4: Números del 1,000 al 9,999
      * Nivel 5: Números del 10,000 al 99,999
      * Nivel 6: Números del 100,000 al 999,999
-     * Nivel 7: Números del 1,000,000 al 9,999,999
+     * Nivel 7: Números del 1,000,000 al 9,999,999 (soporte completo, incluyendo números compuestos dinámicamente)
    * Los niveles pueden estar bloqueados o desbloqueados según el progreso del usuario.
    * El primer nivel siempre está desbloqueado.
    * Al completar un nivel, se desbloquea el siguiente.
@@ -27,7 +27,7 @@ La actividad se estructura de la siguiente manera:
      * Un botón de audio para escuchar la pronunciación del número.
      * Cuatro opciones numéricas (en dígitos arábigos).
    * El usuario debe seleccionar la opción numérica que corresponde a la palabra Namtrik mostrada.
-   * Cada nivel presenta un número aleatorio dentro del rango apropiado para ese nivel.
+   * Cada nivel presenta un número aleatorio dentro del rango apropiado. Para el Nivel 7, esto incluye números entre 1,000,000 y 9,999,999 que pueden ser generados dinámicamente si no existen explícitamente en los datos base (ej. 1,000,001).
    * El usuario tiene tres intentos para acertar.
 
 3. **Retroalimentación**:
@@ -41,6 +41,7 @@ La actividad se estructura de la siguiente manera:
      * Se muestra un mensaje indicando que la respuesta es incorrecta.
      * Al agotar los intentos, se permite reiniciar el nivel.
    * Se utiliza feedback háptico (vibración) para reforzar las interacciones.
+   * La reproducción de audio para números compuestos es secuencial y clara, evitando solapamientos.
 
 ## Componentes
 
@@ -63,11 +64,11 @@ La actividad se estructura de la siguiente manera:
 
 * **`services/activity1_service.dart`**: 
   * Centraliza la lógica específica de la actividad:
-    * Obtiene un número aleatorio para el nivel actual desde `NumberDataService`.
-    * Genera opciones alternativas (distractores) para cada pregunta.
-    * Maneja la reproducción de archivos de audio con pausas apropiadas según el nivel.
+    * Obtiene un número aleatorio para el nivel actual. Para el Nivel 7, esto incluye la capacidad de generar números en todo el rango de 1,000,000 a 9,999,999, utilizando `NumberDataService` para obtener datos compuestos.
+    * Genera opciones alternativas (distractores) para cada pregunta, asegurando que para el Nivel 7 los distractores también puedan ser números compuestos válidos dentro del rango.
+    * Maneja la reproducción secuencial de archivos de audio (utilizando `AudioService.playAudioAndWait`) con pausas apropiadas según el nivel, asegurando una reproducción clara y sin solapamientos.
     * Gestiona el tratamiento de errores y proporciona opciones de fallback.
-  * Trabaja con `AudioService` para reproducir los archivos de audio de manera secuencial.
+  * Trabaja con `AudioService` para reproducir los archivos de audio de manera secuencial y clara.
   * Utiliza `LoggerService` para registrar errores y eventos durante la ejecución.
 
 ### Modelos
@@ -75,9 +76,9 @@ La actividad se estructura de la siguiente manera:
 * **`models/number_word.dart`**: 
   * Representa la estructura de datos para un número en Namtrik.
   * Almacena:
-    * El valor numérico (ej. 42).
-    * La representación en palabra Namtrik (ej. "pik kan ɵntrɵ metrik pala").
-    * La lista de rutas a los archivos de audio asociados.
+    * El valor numérico (ej. 42 o 1,234,567).
+    * La representación en palabra Namtrik (ej. "Piptsi Pa" o una combinación más larga para números compuestos).
+    * La lista de rutas a los archivos de audio asociados (pueden ser múltiples para números compuestos).
     * El nivel al que pertenece.
 
 * **`models/game_state.dart`**: 
@@ -89,11 +90,9 @@ La actividad se estructura de la siguiente manera:
 ### Datos
 
 * **`assets/data/namuiwam_numbers.json`**: 
-  * Archivo JSON que contiene todos los números en Namtrik, incluyendo:
-    * Representación numérica
-    * Palabra(s) Namtrik
-    * Rutas a archivos de audio
-  * Organizado para facilitar el acceso por rango numérico.
+  * Archivo JSON que contiene números base en Namtrik (principalmente hasta 999,999 y millones exactos).
+  * Incluye: representación numérica, palabra(s) Namtrik, composiciones, rutas a archivos de audio.
+  * Utilizado por `NumberDataService` para consulta directa y como base para la composición dinámica de números más grandes.
 
 * **`assets/audio/numbers/`**: 
   * Directorio que contiene los archivos de audio para las pronunciaciones de los números.
@@ -101,19 +100,19 @@ La actividad se estructura de la siguiente manera:
 
 ## Servicios Centrales Utilizados
 
-* **`AudioService`**: Para la reproducción de los archivos de audio de los números en Namtrik.
-* **`NumberDataService`**: Para el acceso y procesamiento de los datos de números desde el JSON.
+* **`AudioService`**: Para la reproducción secuencial y clara (sin solapamientos) de los archivos de audio de los números en Namtrik, mediante el método `playAudioAndWait`.
+* **`NumberDataService`**: Para el acceso y procesamiento de los datos de números desde el JSON, y para la **composición dinámica de números de 7 dígitos** que no están explícitamente en el JSON.
 * **`FeedbackService`**: Para proporcionar retroalimentación háptica durante las interacciones.
 * **`LoggerService`**: Para registrar eventos y errores durante la ejecución.
 
 ## Estado Actual
 
 * ✅ Pantalla de selección de niveles completamente implementada.
-* ✅ Lógica de juego implementada: 
-  * Generación de números aleatorios por nivel.
-  * Opciones de selección múltiple.
+* ✅ Lógica de juego implementada para todos los niveles (1-7):
+  * Generación de números aleatorios por nivel, **incluyendo el rango completo 1,000,000-9,999,999 para el Nivel 7 mediante composición dinámica**.
+  * Opciones de selección múltiple, con distractores válidos para el Nivel 7.
   * Verificación de respuestas.
-  * Reproducción de audio.
+  * Reproducción de audio secuencial mejorada (sin solapamientos).
   * Gestión de intentos.
 * ✅ Integración con el sistema central de progreso y puntuación.
 * ✅ Retroalimentación visual y háptica.

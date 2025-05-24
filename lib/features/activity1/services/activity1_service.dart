@@ -9,15 +9,18 @@ import 'package:namuiwam/features/activity1/models/number_word.dart';
 /// Servicio para centralizar la lógica de la Actividad 1: "Escoja el número correcto".
 ///
 /// Este servicio proporciona funcionalidades esenciales para la Actividad 1, incluyendo:
-/// - Obtención de números aleatorios según el nivel de dificultad
-/// - Generación de opciones múltiples para preguntas
-/// - Manejo de reproducción secuencial de audios para números compuestos
-/// - Tratamiento de errores y generación de opciones de fallback
+/// - Obtención de números aleatorios según el nivel de dificultad, incluyendo soporte
+///   completo para el Nivel 7 (1,000,000 a 9,999,999) mediante composición dinámica.
+/// - Generación de opciones múltiples (incluyendo distractores válidos para el Nivel 7)
+///   para las preguntas.
+/// - Manejo de reproducción secuencial de audios (asegurando que cada parte termine
+///   antes de la siguiente) para números compuestos, utilizando `AudioService.playAudioAndWait`.
+/// - Tratamiento de errores y generación de opciones de fallback.
 ///
 /// Trabaja principalmente con:
-/// - [NumberDataService] para acceder a los datos de números en Namtrik
-/// - [AudioService] para la reproducción de archivos de audio
-/// - [LoggerService] para el registro de eventos y errores
+/// - [NumberDataService] para acceder a los datos de números en Namtrik (incluyendo compuestos).
+/// - [AudioService] para la reproducción de archivos de audio.
+/// - [LoggerService] para el registro de eventos y errores.
 ///
 /// Ejemplo de uso:
 /// ```dart
@@ -133,38 +136,67 @@ class Activity1Service {
   /// ```
   ///
   /// [level] El nivel para el cual obtener un número aleatorio.
+  /// Para el Nivel 7, genera un número aleatorio entre 1,000,000 y 9,999,999 y
+  /// obtiene sus datos (potencialmente compuestos) usando `NumberDataService.getNumberByValue`.
+  /// Para otros niveles, utiliza `NumberDataService.getRandomNumberInRange`.
   /// Retorna un [NumberWord] con los datos del número aleatorio, o `null` en caso de error.
   Future<NumberWord?> getRandomNumberForLevel(int level) async {
     final range = _getRangeForLevel(level);
-    final start = range['start']!;
-    final end = range['end']!;
-    
+    final int min = range['start']!;
+    final int max = range['end']!;
+    Map<String, dynamic>? numberData;
+
     try {
-      // Get a random number in the range for this level
-      final numberData = await _numberDataService.getRandomNumberInRange(start, end);
+      if (level == 7) {
+        int attempts = 0;
+        // Retry a few times if getNumberByValue returns null for a randomly picked number.
+        // This might happen if a number in the 1M-9.99M range somehow can't be composed
+        // (e.g. missing a base component, though NumberDataService tries to be robust).
+        while (numberData == null && attempts < 10) { // Increased retry attempts
+          int randomNumberValue = min + _random.nextInt(max - min + 1);
+          numberData = await _numberDataService.getNumberByValue(randomNumberValue);
+          if (numberData == null) {
+            _logger.warning('Attempt ${attempts + 1}: Could not retrieve data for randomly generated number $randomNumberValue in level 7.');
+          }
+          attempts++;
+        }
+        if (numberData == null) {
+           _logger.error('Failed to get number data for level 7 after $attempts attempts. Cannot generate question.');
+           return null; // Cannot proceed if no valid number is found
+        }
+      } else {
+        // For levels 1-6, use getRandomNumberInRange as these ranges are expected
+        // to be fully covered by the JSON and this method is simpler.
+        numberData = await _numberDataService.getRandomNumberInRange(min, max);
+      }
+
       if (numberData == null || numberData.isEmpty) {
-        _logger.warning('No se encontraron datos para el nivel $level en el rango $start-$end');
+        _logger.warning('No data found for level $level in range $min-$max');
         return null;
       }
-      
-      // Get audio files
+
       final audioFilesString = numberData['audio_files']?.toString() ?? '';
-      if (audioFilesString.isEmpty) {
-        _logger.warning('No se encontraron archivos de audio para el número ${numberData['number']}');
-      }
-      
+      // Assuming _ensureCorrectAudioPath is a valid method in this class
       final List<String> audioFiles = audioFilesString
           .split(' ')
           .where((file) => file.isNotEmpty)
-          .map((file) => _ensureCorrectAudioPath(file))
+          .map((file) => _ensureCorrectAudioPath(file)) 
           .toList();
       
-      // Create a NumberWord from the data
+      final currentNumberFromData = numberData['number'];
+      if (currentNumberFromData == null || !(currentNumberFromData is int)) {
+        _logger.error('Number field is missing or not an int in data for level $level: $currentNumberFromData');
+        return null;
+      }
+      final int currentNumber = currentNumberFromData as int;
+
       return NumberWord(
-        number: int.parse(numberData['number'].toString()),
-        word: numberData['namtrik'] ?? 'Desconocido',
+        number: currentNumber,
+        word: numberData['namtrik']?.toString() ?? 'Desconocido',
         audioFiles: audioFiles,
         level: level,
+        // Optionally pass compositions if NumberWord model supports it and UI needs it
+        // compositions: numberData['compositions'] as Map<String, dynamic>?,
       );
     } catch (e, stackTrace) {
       _logger.error('Error getting random number for level $level: $e', e, stackTrace);
@@ -174,6 +206,10 @@ class Activity1Service {
 
   /// Genera una lista de opciones numéricas para una pregunta de nivel específico,
   /// incluyendo el número correcto.
+  ///
+  /// Para el Nivel 7, se esfuerza por generar distractores válidos (que existan o puedan
+  /// ser compuestos por `NumberDataService`) dentro del rango 1,000,000 a 9,999,999.
+  /// Para otros niveles, utiliza una combinación de números existentes y generación aleatoria.
   ///
   /// El proceso de generación sigue estos pasos:
   /// 1. Determina el rango de números válidos para el nivel
@@ -194,184 +230,121 @@ class Activity1Service {
   ///
   /// [level] El nivel para el que se generan las opciones.
   /// [correctNumber] El número correcto que debe estar entre las opciones.
-  /// Retorna una lista de 4 enteros (opciones), incluyendo el [correctNumber].
+  /// Retorna una lista de 4 enteros (opciones), incluyendo el [correctNumber],
+  /// o una lista de fallback si la generación principal falla.
   Future<List<int>> generateOptionsForLevel(int level, int correctNumber) async {
     final Set<int> options = {correctNumber};
-    
-    // Determine the range based on the level
     final range = _getRangeForLevel(level);
-    final start = range['start']!;
-    final end = range['end']!;
-    
-    try {
-      // Get all numbers in the range for this level
-      final numbers = await _numberDataService.getNumbersInRange(start, end);
-      
-      if (numbers.isNotEmpty) {
-        // Shuffle the numbers to get random ones
-        numbers.shuffle(_random);
-        
-        // Add unique numbers until we have 4 options
-        for (final numberData in numbers) {
-          final number = int.parse(numberData['number'].toString());
-          if (number != correctNumber) {
-            options.add(number);
+    final int min = range['start']!;
+    final int max = range['end']!;
+    const int numberOfOptions = 4; // Typically 4 options including the correct one
+    const int maxAttemptsPerDistractor = 20; // Max attempts to find a single valid distractor
+
+    if (level == 7) {
+      int totalAttempts = 0;
+      final int overallMaxAttempts = numberOfOptions * maxAttemptsPerDistractor * 2; // Safety break for the outer loop
+
+      while (options.length < numberOfOptions && totalAttempts < overallMaxAttempts) {
+        int potentialOption = min + _random.nextInt(max - min + 1);
+        if (!options.contains(potentialOption)) {
+          final optionData = await _numberDataService.getNumberByValue(potentialOption);
+          if (optionData != null) {
+            options.add(potentialOption);
+          } else {
+            _logger.info('Level 7 distractor $potentialOption could not be validated by NumberDataService. Will retry for another distractor.');
           }
-          if (options.length >= 4) break;
+        }
+        totalAttempts++;
+      }
+
+      if (options.length < numberOfOptions) {
+        _logger.warning('Could not generate enough *validated* distractors for level 7 after $totalAttempts attempts. Filling with random (potentially unvalidated) numbers from range.');
+        while (options.length < numberOfOptions) {
+            // Add random numbers from the range, even if not explicitly validated by getNumberByValue,
+            // to ensure we have 4 options. This is a fallback.
+            int fallbackOption = min + _random.nextInt(max - min + 1);
+            options.add(fallbackOption); // Set will handle uniqueness
         }
       }
+    } else { // Logic for levels 1-6
+      // Try to get actual numbers from the service first for levels 1-6
+      final List<Map<String, dynamic>> numbersInLevelData = await _numberDataService.getNumbersInRange(min, max);
+      final List<int> availableDistractors = numbersInLevelData
+          .map((item) => item['number'] as int) // Assuming 'number' is int
+          .where((num) => num != correctNumber)
+          .toList();
       
-      // If we don't have enough options, generate random ones within the range
-      while (options.length < 4) {
-        final randomNumber = _random.nextInt(end - start + 1) + start;
-        options.add(randomNumber);
+      availableDistractors.shuffle(_random);
+
+      for (int distractor in availableDistractors) {
+        if (options.length < numberOfOptions) {
+          options.add(distractor);
+        } else {
+          break;
+        }
       }
-      
-      final result = options.toList();
-      result.shuffle(_random);
-      return result;
-    } catch (e, stackTrace) {
-      _logger.error('Error generating options for level $level: $e', e, stackTrace);
-      
-      // Fallback: generate basic options
-      return _generateFallbackOptions(correctNumber, start, end);
+
+      // If not enough options from existing numbers, fill with random numbers in range
+      int fillAttempts = 0;
+      while (options.length < numberOfOptions && fillAttempts < 50) {
+        int randomOption = min + _random.nextInt(max - min + 1);
+        // options.add will ensure uniqueness
+        options.add(randomOption);
+        fillAttempts++;
+      }
     }
+
+    final List<int> finalOptions = options.toList();
+    // Shuffle one last time to ensure correct answer isn't always first if added first
+    finalOptions.shuffle(_random);
+    
+    // If, after all efforts, we don't have enough (e.g. range is too small and all numbers are the same)
+    // use a generic fallback. This is an extreme edge case.
+    if (finalOptions.length < numberOfOptions) {
+        _logger.error('Critically failed to generate $numberOfOptions options for level $level. Using simple fallback.');
+        return _generateFallbackOptions(correctNumber, min, max, numberOfOptions);
+    }
+    
+    // Ensure exactly numberOfOptions are returned, even if set had more due to fallback logic complexities.
+    return finalOptions.take(numberOfOptions).toList();
   }
 
-  /// Genera opciones de fallback cuando la obtención de datos falla.
-  ///
-  /// Este método proporciona una solución de emergencia para garantizar que siempre
-  /// haya opciones disponibles, incluso si la base de datos no es accesible. Crea
-  /// cuatro opciones numéricas distribuidas uniformemente en el rango del nivel,
-  /// incluyendo siempre el número correcto.
-  ///
-  /// Las opciones generadas se distribuyen aproximadamente en cuartos del rango,
-  /// proporcionando diversidad en las opciones sin depender de la base de datos.
-  ///
-  /// [correctNumber] El número correcto que debe incluirse en las opciones.
-  /// [start] El valor inicial del rango para el nivel.
-  /// [end] El valor final del rango para el nivel.
-  /// Retorna una lista de 4 enteros, incluyendo el [correctNumber].
-  List<int> _generateFallbackOptions(int correctNumber, int start, int end) {
-    final range = end - start + 1;
-    return [
-      correctNumber,
-      ((correctNumber + range ~/ 4) % range) + start,
-      ((correctNumber + range ~/ 2) % range) + start,
-      ((correctNumber + 3 * range ~/ 4) % range) + start,
-    ];
+  // Fallback option generator (can be kept simple or made more robust based on needs)
+  List<int> _generateFallbackOptions(int correctNumber, int min, int max, int count) {
+      final Set<int> options = {correctNumber};
+      int attempts = 0;
+      // Ensure min and max can actually produce 'count' unique numbers if range is tiny.
+      // max - min + 1 gives the total unique numbers possible in the range.
+      final int possibleUniqueNumbers = (max - min + 1);
+      final int numbersToGenerate = count -1; // excluding correctNumber
+
+      if (possibleUniqueNumbers < count) {
+        _logger.warning('Fallback: Range $min-$max cannot produce $count unique numbers. Will return duplicates or fewer if necessary.');
+        // Add all available unique numbers from range if less than count
+        for (int i = 0; i <= (max-min); ++i) {
+            options.add(min+i);
+            if(options.length >= count) break;
+        }
+      } else {
+        while (options.length < count && attempts < 100) { // attempt limit
+            int randomNum = min + _random.nextInt(max - min + 1);
+            options.add(randomNum);
+            attempts++;
+        }
+      }
+      // If still not enough, just fill with correctNumber or 1 up to count (very basic)
+      while(options.length < count){
+        options.add(options.length + min); // or just add correctNumber repeatedly
+      }
+
+      final List<int> finalOptionsList = options.toList();
+      finalOptionsList.shuffle(_random);
+      return finalOptionsList.take(count).toList();
   }
-
-//  /// Asegura que la ruta del archivo de audio tenga el formato correcto.
-//  ///
-//  /// Este método procesa las rutas de audio almacenadas en la base de datos
-//  /// para garantizar que tengan el formato correcto para reproducción. Si la ruta
-//  /// ya incluye el prefijo 'assets/', se devuelve sin cambios; de lo contrario,
-//  /// se le agrega el prefijo 'assets/audio/numbers/'.
-//  ///
-//  /// [audioFile] La ruta del archivo de audio a procesar.
-//  /// Retorna la ruta procesada y normalizada.
-//  String _ensureCorrectAudioPath(String audioFile) {
-//    if (audioFile.startsWith('assets/')) {
-//      return audioFile;
-//    }
-//    return 'assets/audio/numbers/$audioFile';
-//  }
-//
-//  /// Reproduce los archivos de audio asociados a un número en Namtrik.
-//  ///
-//  /// Para números simples, reproduce un solo archivo de audio. Para números
-//  /// compuestos, reproduce secuencialmente todos los archivos de audio
-//  /// con pausas apropiadas entre ellos, calculadas según el nivel de dificultad
-//  /// y el contenido específico del audio (por ejemplo, pausas más largas
-//  /// antes de "mil" o "millón").
-//  ///
-//  /// Ejemplo:
-//  /// ```dart
-//  /// // Reproducir el audio para el número "42" en Namtrik
-//  /// await activity1Service.playAudioForNumber(numberWord);
-//  /// ```
-//  ///
-//  /// [numberWord] El objeto [NumberWord] que contiene los archivos de audio a reproducir.
-//  /// Lanza una excepción si hay problemas con la reproducción.
-//  Future<void> playAudioForNumber(NumberWord numberWord) async {
-//    try {
-//      final audioFiles = numberWord.audioFiles;
-//      if (audioFiles.isEmpty) {
-//        _logger.warning('No audio files found for number ${numberWord.number}');
-//        return;
-//      }
-//
-//      // Para un solo archivo de audio, simplemente reproducirlo
-//      if (audioFiles.length == 1) {
-//        await _audioService.playAudio(audioFiles[0]);
-//        return;
-//      }
-//
-//      // Para múltiples archivos, reproducirlos secuencialmente con pausas apropiadas
-//      for (int i = 0; i < audioFiles.length; i++) {
-//        final audioFile = audioFiles[i];
-//        
-//        // Calcular la pausa adecuada según el nivel y el contenido
-//        Duration delay = i == 0 
-//            ? Duration.zero 
-//            : _getDelayBetweenAudio(numberWord.level, audioFile, i);
-//        
-//        // Esperar la pausa calculada antes de reproducir el siguiente audio
-//        if (i > 0) {
-//          await Future.delayed(delay);
-//        }
-//        
-//        // Reproducir el archivo de audio actual
-//        await _audioService.playAudio(audioFile);
-//      }
-//    } catch (e, stackTrace) {
-//      _logger.error('Error playing audio for number ${numberWord.number}: $e', e, stackTrace);
-//      rethrow; // Propagar el error para manejo en la capa superior
-//    }
-//  }
-//
-//  /// Calcula el retraso adecuado entre la reproducción de archivos de audio
-//  /// basado en el nivel y el contenido del archivo.
-//  ///
-//  /// Este método aplica reglas específicas para determinar las pausas entre
-//  /// componentes de números compuestos:
-//  /// - Para niveles más altos (≥ 4), introduce pausas más largas antes de
-//  ///   términos como "mil" (Ishik) y "millón" (Srel)
-//  /// - Para niveles más bajos, utiliza pausas estándar más cortas
-//  ///
-//  /// Estas pausas personalizadas mejoran la naturalidad de la pronunciación
-//  /// y facilitan la comprensión auditiva de números complejos.
-//  ///
-//  /// [level] El nivel de dificultad del número.
-//  /// [audioFile] La ruta del archivo de audio actual.
-//  /// [position] La posición del archivo en la secuencia de reproducción.
-//  /// Retorna la [Duration] de la pausa a aplicar antes de reproducir este audio.
-//  Duration _getDelayBetweenAudio(int level, String audioFile, int position) {
-//    if (level >= 4) {
-//      if (audioFile.contains('Ishik.wav') || audioFile.contains('Srel.wav')) {
-//        return const Duration(milliseconds: 1000);
-//      } else {
-//        return const Duration(milliseconds: 600);
-//      }
-//    } else {
-//      return position < 2 
-//          ? const Duration(milliseconds: 400) 
-//          : const Duration(milliseconds: 500);
-//    }
-//  }
-//
-//  /// Detiene cualquier reproducción de audio en curso.
-//  ///
-//  /// Llama a [_audioService.stopAudio].
-//  Future<void> stopAudio() async {
-//    await _audioService.stopAudio();
-//  }
-//}
-//
-
 
   /// Calculate delay between audio files based on level and content
+  ///
+  /// Ajusta las pausas para mejorar la naturalidad de la pronunciación de números complejos.
   Duration _getDelayBetweenAudio(int level, String audioFile, int position) {
     if (level >= 4) {
       if (audioFile.contains('Ishik.wav') || audioFile.contains('Srel.wav')) {
@@ -389,37 +362,68 @@ class Activity1Service {
   }
 
   /// Play audio for a NumberWord
+  ///
+  /// Utiliza `AudioService.playAudioAndWait` para asegurar que cada archivo de audio
+  /// termine antes de que comience el siguiente, aplicando pausas intermedias
+  /// calculadas por `_getDelayBetweenAudio` para mejorar la cadencia.
+  /// Se detiene cualquier audio previo antes de iniciar una nueva secuencia.
   Future<void> playAudioForNumber(NumberWord number) async {
-    if (number.audioFiles.isEmpty) return;
-    
-    for (int i = 0; i < number.audioFiles.length; i++) {
-      final audioFile = number.audioFiles[i];
-      await _audioService.playAudio(audioFile);
-      
-      // Add delay between audio files if not the last one
-      if (i < number.audioFiles.length - 1) {
-        await Future.delayed(_getDelayBetweenAudio(number.level, audioFile, i));
+    try {
+      await stopAudio(); // Stop any currently playing audio first
+
+      final audioFiles = number.audioFiles;
+      if (audioFiles.isEmpty) {
+        _logger.warning('No audio files found for number ${number.number} in Activity1Service');
+        return;
       }
+
+      if (audioFiles.length == 1) {
+        // For a single file, use playAudioAndWait directly.
+        await _audioService.playAudioAndWait(audioFiles[0]);
+        return;
+      }
+
+      // For multiple files, play them sequentially with custom delays.
+      for (int i = 0; i < audioFiles.length; i++) {
+        final audioFile = audioFiles[i];
+        
+        // Calculate delay *before* playing the current sound (if not the first sound)
+        if (i > 0) {
+          Duration delay = _getDelayBetweenAudio(number.level, audioFile, i);
+          await Future.delayed(delay);
+        }
+        
+        // Play the current audio file and wait for it to complete
+        await _audioService.playAudioAndWait(audioFile);
+      }
+    } catch (e, stackTrace) {
+      _logger.error('Error playing audio for number ${number.number} in Activity1Service: $e', e, stackTrace);
+      // Optionally rethrow or handle as needed by the UI
+      // rethrow; 
     }
   }
 
   /// Stop any playing audio
   Future<void> stopAudio() async {
-    await _audioService.stopAudio();
+    try {
+      await _audioService.stopAudio();
+    } catch (e, stackTrace) {
+      _logger.error('Error stopping audio in Activity1Service', e, stackTrace);
+    }
   }
 
   /// Ensure the audio file has the correct path
-  String _ensureCorrectAudioPath(String filename) {
+  String _ensureCorrectAudioPath(String fileName) {
     // Ensure the file has .wav extension
-    if (!filename.toLowerCase().endsWith('.wav')) {
-      filename = '$filename.wav';
+    if (!fileName.toLowerCase().endsWith('.wav')) {
+      fileName = '$fileName.wav';
     }
     
     // Add the correct path prefix if it doesn't have one
-    if (!filename.startsWith('audio/')) {
-      return 'audio/namtrik_numbers/$filename';
+    if (!fileName.startsWith('audio/')) {
+      return 'audio/namtrik_numbers/$fileName';
     }
     
-    return filename;
+    return fileName;
   }
 }

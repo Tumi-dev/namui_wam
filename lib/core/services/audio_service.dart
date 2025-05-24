@@ -1,3 +1,4 @@
+import 'dart:async'; // For Completer and StreamSubscription
 import 'package:flutter/foundation.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -7,6 +8,8 @@ import 'package:audioplayers/audioplayers.dart';
 /// Utiliza el paquete `audioplayers` para reproducir sonidos desde los assets.
 /// Mantiene un caché de `AudioPlayer` y `Source` para optimizar la reproducción
 /// y permite controlar un volumen global para todos los sonidos.
+/// Ofrece métodos para reproducir un audio y continuar (fire-and-forget) o
+/// reproducir un audio y esperar su finalización, útil para secuencias.
 /// {@endtemplate}
 class AudioService {
   static final AudioService _instance = AudioService._internal();
@@ -53,6 +56,8 @@ class AudioService {
   /// Si ocurre un error, se imprime en consola y se detienen todos los audios.
   ///
   /// [audioPath] La ruta del asset de audio relativa a la carpeta 'assets' (ej. 'audio/sound.wav').
+  /// Este método retorna un Future que completa cuando la reproducción ha comenzado,
+  /// no necesariamente cuando ha terminado.
   Future<void> playAudio(String audioPath) async {
     try {
       // Obtener o crear el AudioPlayer para este audio
@@ -67,11 +72,59 @@ class AudioService {
       await player.setReleaseMode(ReleaseMode.release);
 
       // Reproducir el audio
-      await player.play(source);
+      await player.play(source); // This typically completes when playback starts
     } catch (e) {
       debugPrint('Error reproduciendo audio $audioPath: $e');
       // Considerar si realmente se deben detener todos los audios en caso de error
       // await stopAudio(); 
+    }
+  }
+
+  /// Reproduce un archivo de audio desde la ruta del asset especificada y
+  /// devuelve un Future que completa solo cuando el audio ha terminado de reproducirse.
+  ///
+  /// Este método es ideal para reproducir sonidos en secuencia, asegurando que uno
+  /// termine antes de que comience el siguiente.
+  /// Utiliza el stream `onPlayerComplete` del `AudioPlayer` para determinar la finalización.
+  ///
+  /// [audioPath] La ruta del asset de audio (ej. 'audio/namtrik_numbers/kan.wav').
+  /// Retorna un Future que completa al finalizar la reproducción, o se completa con
+  /// error si la reproducción falla.
+  Future<void> playAudioAndWait(String audioPath) async {
+    final player = _getOrCreatePlayer(audioPath);
+    final source = _sourceCache.putIfAbsent(audioPath, () => AssetSource(audioPath));
+
+    await player.setVolume(_volume);
+    // Using ReleaseMode.release ensures the player is disposed after playing.
+    // If playing multiple sounds sequentially with the SAME player instance, use ReleaseMode.stop.
+    // Since _getOrCreatePlayer might return a new or cached player based on audioPath,
+    // ReleaseMode.release is safer for distinct sounds.
+    await player.setReleaseMode(ReleaseMode.release);
+
+    final completer = Completer<void>();
+    StreamSubscription? onCompleteSubscription;
+    // Note: Handling player errors that don't cause play() to throw can be complex.
+    // Subscribing to specific error events or player state changes is more robust.
+    // For this version, we primarily rely on onPlayerComplete and errors from play().
+
+    onCompleteSubscription = player.onPlayerComplete.listen((_) {
+      onCompleteSubscription?.cancel();
+      if (!completer.isCompleted) {
+        completer.complete();
+      }
+    });
+
+    try {
+      await player.play(source); // Initiates playback
+      return completer.future;    // This future completes when onPlayerComplete fires
+    } catch (e) {
+      onCompleteSubscription?.cancel(); // Clean up subscription on error
+      if (!completer.isCompleted) {
+        // Ensure the completer is error-completed if play itself fails.
+        completer.completeError(Exception('Failed to play $audioPath: ${e.toString()}'));
+      }
+      debugPrint('Error al iniciar la reproducción de $audioPath: $e');
+      rethrow; // Rethrow the error to be handled by the caller
     }
   }
 

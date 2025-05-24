@@ -1,3 +1,5 @@
+import 'dart:math'; // Import Random
+
 import 'package:namuiwam/core/services/number_data_service.dart';
 import 'package:namuiwam/core/services/logger_service.dart';
 
@@ -6,9 +8,12 @@ import 'package:namuiwam/core/services/logger_service.dart';
 /// (Aprendamos a escribir los números).
 ///
 /// Este servicio proporciona funcionalidades esenciales para gestionar:
-/// - Obtención de números aleatorios específicos para cada nivel de dificultad
-/// - Definición de los rangos numéricos correspondientes a cada nivel
-/// - Validación inteligente de respuestas escritas con tolerancia a variaciones
+/// - Obtención de números aleatorios específicos para cada nivel de dificultad,
+///   incluyendo soporte completo para el Nivel 7 (1,000,000 a 9,999,999)
+///   mediante el uso de `NumberDataService` y su capacidad de composición dinámica.
+/// - Definición de los rangos numéricos correspondientes a cada nivel.
+/// - Validación inteligente de respuestas escritas con tolerancia a variaciones,
+///   que funciona con números base y números compuestos dinámicamente.
 ///
 /// La validación de respuestas es especialmente sofisticada, ya que compara
 /// la entrada del usuario con múltiples formas válidas:
@@ -35,6 +40,8 @@ class Activity2Service {
   final NumberDataService _numberDataService;
   /// Instancia del servicio de logging para registrar errores.
   final LoggerService _logger = LoggerService();
+  /// Instance of Random for generating random numbers.
+  final Random _random = Random();
 
   /// {@macro activity2_service}
   Activity2Service(this._numberDataService);
@@ -119,12 +126,38 @@ class Activity2Service {
   /// ```
   ///
   /// [level] El nivel para el cual obtener un número aleatorio (1-7).
+  /// Para el Nivel 7, genera un número aleatorio entre 1,000,000 y 9,999,999 y
+  /// obtiene sus datos (potencialmente compuestos) usando `NumberDataService.getNumberByValue`.
+  /// Para otros niveles, utiliza `NumberDataService.getRandomNumberInRange`.
   /// Retorna un [Map<String, dynamic>] con los datos del número, o `null` en caso de error.
   Future<Map<String, dynamic>?> getRandomNumberForLevel(int level) async {
     try {
       final range = _getRangeForLevel(level);
-      return await _numberDataService.getRandomNumberInRange(
-          range['start']!, range['end']!);
+      final int min = range['start']!;
+      final int max = range['end']!;
+
+      if (level == 7) { 
+        // Generate a random integer N between 1,000,000 and 9,999,999 inclusive.
+        int randomNumberValue = min + _random.nextInt(max - min + 1);
+        
+        var numberData = await _numberDataService.getNumberByValue(randomNumberValue);
+        
+        if (numberData == null) {
+            _logger.warning('Could not retrieve data for randomly generated number $randomNumberValue in level 7. Retrying once...');
+            // Retry once to handle potential rare case of a non-composable number selected
+            randomNumberValue = min + _random.nextInt(max - min + 1);
+            numberData = await _numberDataService.getNumberByValue(randomNumberValue);
+            if (numberData == null) {
+               _logger.error('Failed to get number data for level 7 after retry with $randomNumberValue.');
+               // Consider what to do here: throw, return specific error, or null
+               return null; 
+            }
+        }
+        return numberData;
+
+      } else { // For levels 1-6, the existing logic is fine
+        return await _numberDataService.getRandomNumberInRange(min, max);
+      }
     } catch (e, stackTrace) {
       _logger.error(
           'Error getting random number for level $level', e, stackTrace);

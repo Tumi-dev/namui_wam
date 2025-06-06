@@ -1,1 +1,0 @@
-Namuiwam - Aplicación educativa para aprender números en Namtrik 

@@ -61,10 +61,10 @@
                     },
                     {
                         "number": 9,
-                        "animal_namtrik": "Payau",
+                        "animal_namtrik": "Payaun",
                         "animal_spanish": "Danta",
-                        "animal_image": "payau.jpg",
-                        "animal_audio": "payau.mp3"
+                        "animal_image": "payaun.jpg",
+                        "animal_audio": "payaun.mp3"
                     },
                     {
                         "number": 10,
@@ -264,10 +264,10 @@
                     },
                     {
                         "number": 38,
-                        "animal_namtrik": "Piyau",
+                        "animal_namtrik": "Piyaun",
                         "animal_spanish": "Pescado",
-                        "animal_image": "piyau.jpg",
-                        "animal_audio": "piyau.mp3"
+                        "animal_image": "piyaun.jpg",
+                        "animal_audio": "piyaun.mp3"
                     },
                     {
                         "number": 39,
@@ -450,10 +450,10 @@
                     },
                     {
                         "number": 9,
-                        "neologismo_namtrik": "Nɵsikutɵasik",
+                        "neologismo_namtrik": "Utɵsaik",
                         "neologismo_spanish": "Reloj",
-                        "neologismo_image": "nɵsikutɵasik.jpg",
-                        "neologismo_audio": "nɵsikutɵasik.mp3"
+                        "neologismo_image": "utɵsaik.jpg",
+                        "neologismo_audio": "utɵsaik.mp3"
                     },
                     {
                         "number": 10,
@@ -1006,7 +1006,7 @@
                     {
                         "number": 75,
                         "partecuerpo_namtrik": "Patsɵ",
-                        "partecuerpo_spanish": "Estomago",
+                        "partecuerpo_spanish": "Estómago",
                         "partecuerpo_image": "patsɵ.jpg",
                         "partecuerpo_audio": "patsɵ.mp3"
                     },
@@ -1398,12 +1398,12 @@
                     },
                     {
                         "number": 21,
-                        "saludop_namtrik": "Kuake",
+                        "saludop_namtrik": "Kuahe",
                         "saludop_spanish": "Con permiso entro a su casa",
                         "saludor_namtrik": "Kepamɵ/Umpuamɵ",
                         "saludor_spanish": "Siga",
                         "saludo_image": "borrador21.jpg",
-                        "saludop_audio": "kuake.mp3",
+                        "saludop_audio": "kuahe.mp3",
                         "saludor_audio": "kepamɵ-umpuamɵ.mp3"
                     },
                     {
@@ -1412,9 +1412,29 @@
                         "saludop_spanish": "Con permiso voy a pasar",
                         "saludor_namtrik": "Pureintrɵ",
                         "saludor_spanish": "Bien pueda pase",
-                        "saludo_image": "borrador22.",
+                        "saludo_image": "borrador22.jpg",
                         "saludop_audio": "pureitrua.mp3",
                         "saludor_audio": "pureintrɵ.mp3"
+                    },
+                    {
+                        "number": 23,
+                        "saludop_namtrik": "Maatɵku",
+                        "saludop_spanish": "¿Cómo está?",
+                        "saludor_namtrik": "Taptɵ",
+                        "saludor_spanish": "Estoy bien/Estamos bien",
+                        "saludo_image": "borrador23.jpg",
+                        "saludop_audio": "maatɵku.mp3",
+                        "saludor_audio": "taptɵ.mp3"
+                    },
+                    {
+                        "number": 24,
+                        "saludop_namtrik": "Maatɵke",
+                        "saludop_spanish": "¿Cómo están?",
+                        "saludor_namtrik": "Taptɵ",
+                        "saludor_spanish": "Estoy bien/Estamos bien",
+                        "saludo_image": "borrador24.jpg",
+                        "saludop_audio": "maatɵke.mp3",
+                        "saludor_audio": "taptɵ.mp3"
                     }
                 ],
                 "Namui kewa amɵneiklɵ": [

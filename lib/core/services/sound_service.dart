@@ -51,12 +51,6 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
   static const String _incorrectSoundPath = 'audio/correcto_incorrecto/incorrecto.wav';
   static const String _backgroundMusicPath = 'audio/isik_musik.mp3';
 
-  // TODO: Definir claves para SharedPreferences/Hive
-  // static const String _keyBackgroundVolume = 'background_volume';
-  // static const String _keyBackgroundEnabled = 'background_enabled';
-  // static const String _keyEffectsVolume = 'effects_volume';
-  // static const String _keyEffectsEnabled = 'effects_enabled';
-
   // ---- Singleton Setup ----
   static final SoundService _instance = SoundService._internal();
   /// Proporciona la instancia única de [SoundService].
@@ -66,6 +60,7 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
   ///
   /// Inicializa las instancias de [AudioPlayer] con sus configuraciones
   /// específicas de [AudioContext] y [ReleaseMode].
+  /// La carga de configuraciones desde Hive se realiza en el método [init].
   SoundService._internal() {
     _logger.info('SoundService: Internal constructor called.');
     _backgroundMusicPlayer = AudioPlayer();
@@ -126,9 +121,6 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
     }).catchError((e, stackTrace) {
       _logger.error('SoundService: Error setting AudioContext for _incorrectSoundPlayer.', e, stackTrace);
     });
-    
-    // TODO: Cargar configuraciones guardadas al inicializar
-    // _loadSettings(); 
   }
 
   /// Inicializa el servicio de sonido.
@@ -477,10 +469,10 @@ class SoundService implements WidgetsBindingObserver { // 2. Implementar Widgets
   
   // Optional: Flutter versions might require didChangeMetrics or have different signatures.
   // Check your specific Flutter SDK for exact WidgetsBindingObserver members.
-  // @override
-  // void didChangeMetrics() { // Deprecated
-  //   _logger.info('SoundService: didChangeMetrics');
-  // }
+  @override
+  void didChangeMetrics() { // Deprecated
+    _logger.info('SoundService: didChangeMetrics');
+  }
 
   @override
   dynamic noSuchMethod(Invocation invocation) {

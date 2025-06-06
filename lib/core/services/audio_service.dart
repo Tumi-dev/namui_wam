@@ -118,7 +118,7 @@ class AudioService {
       await player.play(source); // Initiates playback
       return completer.future;    // This future completes when onPlayerComplete fires
     } catch (e) {
-      onCompleteSubscription?.cancel(); // Clean up subscription on error
+      onCompleteSubscription.cancel(); // Clean up subscription on error
       if (!completer.isCompleted) {
         // Ensure the completer is error-completed if play itself fails.
         completer.completeError(Exception('Failed to play $audioPath: ${e.toString()}'));

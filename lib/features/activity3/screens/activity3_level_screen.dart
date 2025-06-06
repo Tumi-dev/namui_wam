@@ -39,285 +39,28 @@ class Activity3LevelScreen extends ScrollableLevelScreen {
 /// - Construcción de la interfaz de usuario específica para cada nivel ([buildLevelContent], [_buildLevel1Content], etc.).
 class _Activity3LevelScreenState
     extends ScrollableLevelScreenState<Activity3LevelScreen> {
-  /// Servicio específico para la lógica de la Actividad 3.
+  //============================================================================
+  // Servicios y Estado General Compartido
+  //============================================================================
   late Activity3Service _activity3Service;
-  /// Servicio para reproducir sonidos de la aplicación, incluyendo efectos de correcto/incorrecto.
   final _soundService = GetIt.instance<SoundService>();
-
-  /// Indica si la pantalla está actualmente cargando datos.
   bool _isLoading = true;
+  List<Map<String, dynamic>> _gameItems = []; // Usada principalmente en Nivel 1
 
-  /// Lista de elementos del juego (usada principalmente en el nivel 1).
-  List<Map<String, dynamic>> _gameItems = [];
+  //================ END OF SERVICIOS Y ESTADO GENERAL COMPARTIDO ================
 
-  // --- Variables Nivel 1: Emparejamiento ---
-  /// ID del reloj seleccionado actualmente.
+  //============================================================================
+  // Nivel 1: Emparejamiento
+  //============================================================================
+  // --- Variables Nivel 1 ---
   String? _selectedClockId;
-
-  /// ID del texto Namtrik seleccionado actualmente.
   String? _selectedNamtrikId;
-
-  /// Mapa que almacena los pares correctamente emparejados (ID reloj -> ID Namtrik).
   final Map<String, String> _matchedPairs = {};
-
-  /// Controla la animación de error para selecciones incorrectas.
   bool _showErrorAnimation = false;
-
-  /// Lista desordenada de relojes para mostrar en la interfaz.
   List<Map<String, dynamic>> _shuffledClocks = [];
-
-  /// Lista desordenada de textos Namtrik para mostrar en la interfaz.
   List<Map<String, dynamic>> _shuffledNamtrik = [];
 
-  // --- Variables Nivel 2: Selección Múltiple ---
-  /// Ruta de la imagen del reloj a mostrar.
-  String? _clockImage;
-
-  /// Lista de opciones de respuesta (textos Namtrik).
-  List<Map<String, dynamic>> _options = [];
-
-  // --- Variables Nivel 3: Ajustar Hora ---
-  /// Texto de la hora objetivo en Namtrik.
-  String? _hourNamtrik;
-
-  /// Ruta de la imagen del reloj (puede ser usada como referencia visual).
-  String? _clockImageLevel3;
-
-  /// Hora correcta (0-11).
-  int? _correctHour;
-
-  /// Minuto correcto (0-59).
-  int? _correctMinute;
-
-  /// Hora seleccionada por el usuario en el selector (0-11).
-  /// Inicializada aleatoriamente en Nivel 3 para evitar dar pistas.
-  int _selectedHour = 0;
-
-  /// Minuto seleccionado por el usuario en el selector (0-59).
-  /// Inicializado aleatoriamente en Nivel 3 para evitar dar pistas.
-  int _selectedMinute = 0;
-
-  /// Controla la animación de éxito al ajustar la hora correctamente.
-  bool _showSuccessAnimation = false;
-
-  /// Controla la animación de error al ajustar la hora incorrectamente.
-  bool _showErrorAnimationLevel3 = false;
-
-  /// Inicializa el estado de la pantalla.
-  ///
-  /// Obtiene la instancia del servicio [Activity3Service] y carga los datos
-  /// iniciales del nivel llamando a [_loadLevelData].
-  @override
-  void initState() {
-    super.initState();
-    _activity3Service = GetIt.instance<Activity3Service>();
-    _loadLevelData();
-  }
-
-  /// Carga los datos específicos para el nivel actual desde [Activity3Service].
-  ///
-  /// Este método es asíncrono y actualiza el estado [_isLoading] antes y después de la carga.
-  /// Según el `widget.level.id`:
-  /// - Nivel 1: Prepara [_gameItems], y las listas desordenadas [_shuffledClocks] y [_shuffledNamtrik].
-  /// - Nivel 2: Configura [_clockImage] y la lista de [_options].
-  /// - Nivel 3: Establece [_hourNamtrik], [_clockImageLevel3] (opcional), [_correctHour], y [_correctMinute].
-  ///            Además, inicializa [_selectedHour] y [_selectedMinute] con valores aleatorios
-  ///            diferentes de la respuesta correcta para evitar pistas.
-  ///
-  /// Maneja posibles errores durante la obtención de datos mostrando un [SnackBar] si el widget está montado.
-  Future<void> _loadLevelData() async {
-    try {
-      final levelData = await _activity3Service.getLevelData(widget.level);
-
-      if (widget.level.id == 1) {
-        final items = levelData['items'] as List<Map<String, dynamic>>;
-
-        // Crear copias desordenadas para las imágenes y textos en namtrik nivel 1
-        final List<Map<String, dynamic>> clocksCopy = List.from(items);
-        final List<Map<String, dynamic>> namtrikCopy = List.from(items);
-
-        // Desordenar las listas de relojes y textos en namtrik nivel 1
-        clocksCopy.shuffle();
-        namtrikCopy.shuffle();
-
-        if (mounted) {
-          setState(() {
-            _gameItems = items;
-            _shuffledClocks = clocksCopy;
-            _shuffledNamtrik = namtrikCopy;
-            _isLoading = false;
-          });
-        }
-      } else if (widget.level.id == 2) {
-        if (mounted) {
-          setState(() {
-            _clockImage = levelData['clock_image'];
-            _options = List<Map<String, dynamic>>.from(levelData['options']);
-            _isLoading = false;
-          });
-        }
-      } else if (widget.level.id == 3) {
-        if (mounted) {
-          setState(() {
-            _hourNamtrik = levelData['hour_namtrik'];
-            _clockImageLevel3 = levelData['clock_image'];
-            _correctHour = levelData['correct_hour'];
-            _correctMinute = levelData['correct_minute'];
-            // Inicializar con valores aleatorios para no dar pistas
-            _selectedHour = _getRandomHourDifferentFrom(_correctHour!);
-            _selectedMinute = _getRandomMinuteDifferentFrom(_correctMinute!);
-            _isLoading = false;
-          });
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error al cargar datos: $e'),
-            duration: const Duration(seconds: 3),
-          ),
-        );
-      }
-    }
-  }
-
-  /// Genera una hora aleatoria (0-11) diferente a la [correctHour] dada.
-  /// Usado para inicializar el selector de hora en el nivel 3.
-  int _getRandomHourDifferentFrom(int correctHour) {
-    final random = Random();
-    int randomHour;
-    do {
-      randomHour = random.nextInt(12); // 0-11
-    } while (randomHour == correctHour);
-    return randomHour;
-  }
-
-  /// Genera un minuto aleatorio (0-59) diferente al [correctMinute] dado.
-  /// Usado para inicializar el selector de minutos en el nivel 3.
-  int _getRandomMinuteDifferentFrom(int correctMinute) {
-    final random = Random();
-    int randomMinute;
-    do {
-      randomMinute = random.nextInt(60); // 0-59
-    } while (randomMinute == correctMinute);
-    return randomMinute;
-  }
-
-  /// Maneja el cambio de valor en el selector de hora (Nivel 3).
-  /// Actualiza [_selectedHour] y resetea las animaciones de éxito/error.
-  void _handleHourChanged(int? hour) {
-    if (hour != null) {
-      setState(() {
-        _selectedHour = hour;
-        _showSuccessAnimation = false;
-        _showErrorAnimationLevel3 = false;
-      });
-    }
-  }
-
-  /// Maneja el cambio de valor en el selector de minutos (Nivel 3).
-  /// Actualiza [_selectedMinute] y resetea las animaciones de éxito/error.
-  void _handleMinuteChanged(int? minute) {
-    if (minute != null) {
-      setState(() {
-        _selectedMinute = minute;
-        _showSuccessAnimation = false;
-        _showErrorAnimationLevel3 = false;
-      });
-    }
-  }
-
-  /// Verifica si la hora seleccionada por el usuario en el Nivel 3 es correcta.
-  ///
-  /// Compara [_selectedHour] y [_selectedMinute] con [_correctHour] y [_correctMinute].
-  /// Si es correcta:
-  ///   - Muestra animación de éxito ([_showSuccessAnimation]).
-  ///   - Llama a [_handleLevelComplete] después de un retraso.
-  /// Si es incorrecta:
-  ///   - Proporciona retroalimentación háptica.
-  ///   - Muestra animación de error ([_showErrorAnimationLevel3]).
-  ///   - Decrementa [remainingAttempts].
-  ///   - Muestra un [SnackBar] con los intentos restantes.
-  ///   - Resetea la animación de error después de un retraso.
-  ///   - Si se agotan los intentos, llama a [_handleOutOfAttempts].
-  ///   - De lo contrario (si quedan intentos), recarga los datos del nivel con [_loadLevelData] para una nueva pregunta.
-  void _checkTimeCorrect() {
-    final isCorrect = _activity3Service.isTimeCorrect(
-        _selectedHour, _selectedMinute, _correctHour!, _correctMinute!);
-
-    if (isCorrect) {
-      _soundService.playCorrectSound(); // Reproduce sonido de acierto
-      // Mostrar animación de éxito y avanzar al siguiente nivel
-      setState(() {
-        _showSuccessAnimation = true;
-      });
-
-      // Esperar un momento antes de mostrar el diálogo de éxito y avanzar al siguiente nivel
-      Future.delayed(const Duration(milliseconds: 800), () {
-        if (mounted) {
-          _handleLevelComplete();
-        }
-      });
-    } else {
-      _soundService.playIncorrectSound(); // Reproduce sonido de error
-      // Vibración media al fallar
-      FeedbackService().mediumHapticFeedback();
-      // Mostrar animación de error y reducir intentos
-      setState(() {
-        _showErrorAnimationLevel3 = true;
-      });
-
-      // Reducir intentos restantes
-      remainingAttempts--;
-
-      // Mostrar mensaje de error en la parte inferior de la pantalla de nivel 3
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content:
-              Text('Hora incorrecta. Te quedan $remainingAttempts intentos.'),
-          duration: const Duration(seconds: 2),
-        ),
-      );
-
-      // Resetear animación después de un breve retraso en nivel 3
-      Future.delayed(const Duration(milliseconds: 800), () {
-        if (mounted) {
-          setState(() {
-            _showErrorAnimationLevel3 = false;
-          });
-        }
-      });
-
-      // Verificar si se han agotado los intentos en nivel 3
-      if (remainingAttempts <= 0) {
-        _handleOutOfAttempts();
-      } else {
-        // Cargar nuevos datos para una nueva ronda en nivel 3
-        _loadLevelData();
-      }
-    }
-  }
-
-  /// Maneja la selección de una imagen de reloj en el Nivel 1.
-  ///
-  /// Actualiza [_selectedClockId] de la siguiente manera:
-  /// - Si el reloj clickeado ya estaba seleccionado, se deselecciona.
-  /// - Si se clickea un reloj diferente y otro ya estaba seleccionado, se reemplaza la selección.
-  /// - Si no había un reloj seleccionado, se selecciona el clickeado.
-  ///
-  /// Si después de la selección tanto un reloj ([_selectedClockId]) como un texto Namtrik ([_selectedNamtrikId])
-  /// están seleccionados, llama a [_checkMatch] para verificar la pareja.
-  /// Ignora la selección si el reloj ya forma parte de un par correcto en [_matchedPairs].
+  // --- Métodos Nivel 1 ---
   void _handleClockSelected(String id) {
     if (_matchedPairs.containsKey(id)) return; // Ignora si ya está emparejado
 
@@ -336,16 +79,6 @@ class _Activity3LevelScreenState
     });
   }
 
-  /// Maneja la selección de un texto Namtrik en el Nivel 1.
-  ///
-  /// Actualiza [_selectedNamtrikId] de la siguiente manera:
-  /// - Si el texto clickeado ya estaba seleccionado, se deselecciona.
-  /// - Si se clickea un texto diferente y otro ya estaba seleccionado, se reemplaza la selección.
-  /// - Si no había un texto seleccionado, se selecciona el clickeado.
-  ///
-  /// Si después de la selección tanto un reloj ([_selectedClockId]) como un texto Namtrik ([_selectedNamtrikId])
-  /// están seleccionados, llama a [_checkMatch] para verificar la pareja.
-  /// Ignora la selección si el texto ya forma parte de un par correcto en [_matchedPairs].
   void _handleNamtrikSelected(String id) {
     if (_matchedPairs.values.contains(id))
       return; // Ignora si ya está emparejado
@@ -365,56 +98,6 @@ class _Activity3LevelScreenState
     });
   }
 
-  /// Maneja la selección de una opción de respuesta en el Nivel 2.
-  ///
-  /// Si la opción [isCorrect] es verdadera, llama a [_handleLevelComplete].
-  /// Si es falsa:
-  ///   - Proporciona retroalimentación háptica.
-  ///   - Decrementa [remainingAttempts].
-  ///   - Muestra un [SnackBar] con los intentos restantes.
-  ///   - Si se agotan los intentos, llama a [_handleOutOfAttempts].
-  ///   - Si quedan intentos, recarga los datos del nivel ([_loadLevelData]) para una nueva pregunta.
-  void _handleOptionSelected(String id, bool isCorrect) {
-    if (isCorrect) {
-      _soundService.playCorrectSound(); // Reproduce sonido de acierto
-      _handleLevelComplete();
-    } else {
-      _soundService.playIncorrectSound(); // Reproduce sonido de error
-      FeedbackService().mediumHapticFeedback();
-
-      remainingAttempts--;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-              'Respuesta incorrecta. Te quedan $remainingAttempts intentos.'),
-          duration: const Duration(seconds: 2),
-        ),
-      );
-
-      if (remainingAttempts <= 0) {
-        _handleOutOfAttempts();
-      } else {
-        // Carga una nueva pregunta para la siguiente ronda.
-        _loadLevelData();
-      }
-    }
-  }
-
-  /// Verifica si el reloj ([_selectedClockId]) y el texto Namtrik ([_selectedNamtrikId])
-  /// seleccionados en el Nivel 1 forman una pareja correcta usando [Activity3Service.isMatchCorrect].
-  ///
-  /// Si es correcta:
-  ///   - Añade la pareja a [_matchedPairs].
-  ///   - Resetea [_selectedClockId] y [_selectedNamtrikId].
-  ///   - Si todos los pares están completos, llama a [_handleLevelComplete].
-  /// Si es incorrecta:
-  ///   - Proporciona retroalimentación háptica.
-  ///   - Activa la animación de error ([_showErrorAnimation]).
-  ///   - Decrementa [remainingAttempts].
-  ///   - Muestra un [SnackBar] con los intentos restantes.
-  ///   - Resetea la selección y la animación de error después de un retraso.
-  ///   - Si se agotan los intentos, llama a [_handleOutOfAttempts].
   void _checkMatch() {
     if (_selectedClockId == null || _selectedNamtrikId == null) return;
 
@@ -471,219 +154,7 @@ class _Activity3LevelScreenState
     }
   }
 
-  /// Muestra un diálogo indicando que el nivel fue completado.
-  ///
-  /// El mensaje varía si el nivel se completó por primera vez ([wasCompleted] es falso)
-  /// o si ya se había completado antes. Incluye un botón para continuar que cierra
-  /// el diálogo y la pantalla del nivel.
-  void _showLevelCompletedDialog({required bool wasCompleted}) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                wasCompleted ? '¡Buen trabajo!' : '¡Felicitaciones!',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              // Muestra los puntos ganados solo si es la primera vez
-              const SizedBox(height: 16),
-              if (!wasCompleted)
-                Text(
-                  '¡Ganaste 5 puntos!',
-                  style: const TextStyle(
-                    color: Color(0xFF8B4513),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                )
-              else
-                const Text(
-                  'Ya has completado este nivel anteriormente.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-
-              const SizedBox(height: 16),
-              // Botón para continuar
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el diálogo
-                  Navigator.of(context).pop(); // Cierra la pantalla del nivel
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      const Color(0xFF8B4513), // Color específico A3
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                ),
-                child: const Text('Continuar'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Muestra un diálogo indicando que el usuario se quedó sin intentos.
-  ///
-  /// Ofrece un botón "Aceptar" para cerrar el diálogo y la pantalla del nivel.
-  void _showNoAttemptsDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text('¡Sin intentos!'),
-        content: const Text(
-            'Has agotado tus intentos. Volviendo al menú de actividad.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Cierra el diálogo
-              Navigator.of(context).pop(); // Cierra la pantalla del nivel
-            },
-            style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF8B4513), // Color específico A3
-            ),
-            child: const Text('Aceptar'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Maneja la lógica de finalización exitosa de un nivel.
-  ///
-  /// - Proporciona retroalimentación háptica ligera.
-  /// - Obtiene el estado del juego y de las actividades.
-  /// - Verifica si el nivel ya había sido completado.
-  /// - Si es la primera vez:
-  ///   - Añade puntos al estado global del juego ([GameState.addPoints]).
-  ///   - Marca el nivel como completado en el estado de las actividades ([ActivitiesState.completeLevel]).
-  ///   - Actualiza el puntaje total mostrado en la UI ([totalScore]).
-  /// - Muestra el diálogo de nivel completado ([_showLevelCompletedDialog]).
-  void _handleLevelComplete() async {
-    FeedbackService().lightHapticFeedback();
-    final activitiesState = ActivitiesState.of(context);
-    final gameState = GameState.of(context);
-    final wasCompleted = gameState.isLevelCompleted(3, widget.level.id - 1);
-    if (!wasCompleted) {
-      final pointsAdded = await gameState.addPoints(3, widget.level.id - 1, 5);
-      if (pointsAdded) {
-        activitiesState.completeLevel(3, widget.level.id - 1);
-        if (mounted) {
-          setState(() {
-            totalScore = gameState.globalPoints;
-          });
-        }
-      }
-    }
-    if (!mounted) return;
-    _showLevelCompletedDialog(wasCompleted: wasCompleted);
-  }
-
-  /// Maneja la lógica cuando el jugador se queda sin intentos.
-  ///
-  /// - Proporciona retroalimentación háptica pesada.
-  /// - Muestra el diálogo de "sin intentos" ([_showNoAttemptsDialog]).
-  void _handleOutOfAttempts() async {
-    await FeedbackService().heavyHapticFeedback();
-    _showNoAttemptsDialog();
-  }
-
-  /// Construye el contenido principal de la pantalla del nivel.
-  ///
-  /// Muestra un indicador de carga si [_isLoading] es true.
-  /// De lo contrario, construye el contenido específico del nivel actual
-  /// (1, 2 o 3) llamando a los métodos `_buildLevelXContent` correspondientes.
-  /// Incluye la [InfoBar] con los intentos restantes y puntos.
-  /// Para niveles no implementados, muestra un mensaje genérico.
-  @override
-  Widget buildLevelContent() {
-    if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    if (widget.level.id == 1) {
-      return Column(
-        children: [
-          InfoBar(
-            remainingAttempts: remainingAttempts,
-            margin: const EdgeInsets.only(bottom: 24),
-          ),
-          _buildLevel1Content(),
-        ],
-      );
-    } else if (widget.level.id == 2) {
-      return Column(
-        children: [
-          InfoBar(
-            remainingAttempts: remainingAttempts,
-            margin: const EdgeInsets.only(bottom: 24),
-          ),
-          _buildLevel2Content(),
-        ],
-      );
-    } else if (widget.level.id == 3) {
-      return Column(
-        children: [
-          InfoBar(
-            remainingAttempts: remainingAttempts,
-            margin: const EdgeInsets.only(bottom: 24),
-          ),
-          _buildLevel3Content(),
-        ],
-      );
-    } else {
-      return Column(
-        children: [
-          InfoBar(
-            remainingAttempts: remainingAttempts,
-            margin: const EdgeInsets.only(bottom: 24),
-          ),
-          SizedBox(
-            height: 300,
-            child: Center(
-              child: Text(
-                'Nivel ${widget.level.id}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-  }
-
-  /// Construye la interfaz de usuario para el Nivel 1 (Emparejamiento).
-  ///
-  /// Muestra una instrucción, una cuadrícula de imágenes de relojes ([_shuffledClocks])
-  /// y una cuadrícula de textos Namtrik ([_shuffledNamtrik]).
-  /// Utiliza [SelectableItem] para los elementos interactivos, manejando los
-  /// estados de selección, emparejamiento y error.
-  /// Adapta el diseño (tamaño de elementos, elementos por fila) según la
-  /// orientación del dispositivo (horizontal/vertical).
+  // --- Widget Constructor UI Nivel 1 ---
   Widget _buildLevel1Content() {
     final screenSize = MediaQuery.of(context).size;
     final isLandscape = screenSize.width > screenSize.height;
@@ -826,12 +297,44 @@ class _Activity3LevelScreenState
       ],
     );
   }
+  //================ END OF NIVEL 1 SECTION ====================================
 
-  /// Construye la interfaz de usuario para el Nivel 2 (Selección Múltiple).
-  ///
-  /// Muestra una instrucción, la imagen del reloj ([_clockImage]) y una
-  /// cuadrícula de botones con las opciones de respuesta en Namtrik ([_options]).
-  /// Adapta el diseño (tamaño de imagen, botones por fila) según la orientación.
+  //============================================================================
+  // Nivel 2: Selección Múltiple
+  //============================================================================
+  // --- Variables Nivel 2 ---
+  String? _clockImage;
+  List<Map<String, dynamic>> _options = [];
+
+  // --- Métodos Nivel 2 ---
+  void _handleOptionSelected(String id, bool isCorrect) {
+    if (isCorrect) {
+      _soundService.playCorrectSound(); // Reproduce sonido de acierto
+      _handleLevelComplete();
+    } else {
+      _soundService.playIncorrectSound(); // Reproduce sonido de error
+      FeedbackService().mediumHapticFeedback();
+
+      remainingAttempts--;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Respuesta incorrecta. Te quedan $remainingAttempts intentos.'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      if (remainingAttempts <= 0) {
+        _handleOutOfAttempts();
+      } else {
+        // Carga una nueva pregunta para la siguiente ronda.
+        _loadLevelData();
+      }
+    }
+  }
+
+  // --- Widget Constructor UI Nivel 2 ---
   Widget _buildLevel2Content() {
     final screenSize = MediaQuery.of(context).size;
     final isLandscape = screenSize.width > screenSize.height;
@@ -914,15 +417,118 @@ class _Activity3LevelScreenState
       ],
     );
   }
+  //================ END OF NIVEL 2 SECTION ====================================
 
-  /// Construye la interfaz de usuario para el Nivel 3 (Ajustar Hora).
-  ///
-  /// Muestra una instrucción, la hora objetivo en Namtrik ([_hourNamtrik]),
-  /// opcionalmente una imagen de referencia del reloj ([_clockImageLevel3]),
-  /// dos selectores ([DropdownButton]) para la hora y los minutos, y un botón
-  /// para validar la selección.
-  /// Utiliza animaciones ([_showSuccessAnimation], [_showErrorAnimationLevel3])
-  /// en los selectores y el botón para dar retroalimentación.
+  //============================================================================
+  // Nivel 3: Ajustar Hora
+  //============================================================================
+  // --- Variables Nivel 3 ---
+  String? _hourNamtrik;
+  String? _clockImageLevel3;
+  int? _correctHour;
+  int? _correctMinute;
+  int _selectedHour = 0;
+  int _selectedMinute = 0;
+  bool _showSuccessAnimation = false;
+  bool _showErrorAnimationLevel3 = false;
+
+  // --- Métodos Nivel 3 ---
+  int _getRandomHourDifferentFrom(int correctHour) {
+    final random = Random();
+    int randomHour;
+    do {
+      randomHour = random.nextInt(12); // 0-11
+    } while (randomHour == correctHour);
+    return randomHour;
+  }
+
+  int _getRandomMinuteDifferentFrom(int correctMinute) {
+    final random = Random();
+    int randomMinute;
+    do {
+      randomMinute = random.nextInt(60); // 0-59
+    } while (randomMinute == correctMinute);
+    return randomMinute;
+  }
+
+  void _handleHourChanged(int? hour) {
+    if (hour != null) {
+      setState(() {
+        _selectedHour = hour;
+        _showSuccessAnimation = false;
+        _showErrorAnimationLevel3 = false;
+      });
+    }
+  }
+
+  void _handleMinuteChanged(int? minute) {
+    if (minute != null) {
+      setState(() {
+        _selectedMinute = minute;
+        _showSuccessAnimation = false;
+        _showErrorAnimationLevel3 = false;
+      });
+    }
+  }
+
+  void _checkTimeCorrect() {
+    final isCorrect = _activity3Service.isTimeCorrect(
+        _selectedHour, _selectedMinute, _correctHour!, _correctMinute!);
+
+    if (isCorrect) {
+      _soundService.playCorrectSound(); // Reproduce sonido de acierto
+      // Mostrar animación de éxito y avanzar al siguiente nivel
+      setState(() {
+        _showSuccessAnimation = true;
+      });
+
+      // Esperar un momento antes de mostrar el diálogo de éxito y avanzar al siguiente nivel
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted) {
+          _handleLevelComplete();
+        }
+      });
+    } else {
+      _soundService.playIncorrectSound(); // Reproduce sonido de error
+      // Vibración media al fallar
+      FeedbackService().mediumHapticFeedback();
+      // Mostrar animación de error y reducir intentos
+      setState(() {
+        _showErrorAnimationLevel3 = true;
+      });
+
+      // Reducir intentos restantes
+      remainingAttempts--;
+
+      // Mostrar mensaje de error en la parte inferior de la pantalla de nivel 3
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content:
+              Text('Hora incorrecta. Te quedan $remainingAttempts intentos.'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      // Resetear animación después de un breve retraso en nivel 3
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted) {
+          setState(() {
+            _showErrorAnimationLevel3 = false;
+          });
+        }
+      });
+
+      // Verificar si se han agotado los intentos en nivel 3
+      if (remainingAttempts <= 0) {
+        _handleOutOfAttempts();
+      } else {
+        // Cargar nuevos datos para una nueva ronda en nivel 3
+        _loadLevelData();
+      }
+    }
+  }
+
+  // --- Widget Constructor UI Nivel 3 ---
   Widget _buildLevel3Content() {
     // --- Definiciones movidas al inicio ---
     final screenSize = MediaQuery.of(context).size;
@@ -1190,4 +796,261 @@ class _Activity3LevelScreenState
       ],
     ); // Cierre del Column principal
   }
+  //================ END OF NIVEL 3 SECTION ====================================
+
+  //============================================================================
+  // Métodos Comunes del Juego / Ciclo de Vida del State
+  //============================================================================
+  @override
+  void initState() {
+    super.initState();
+    _activity3Service = GetIt.instance<Activity3Service>();
+    _loadLevelData();
+  }
+
+  Future<void> _loadLevelData() async {
+    try {
+      final levelData = await _activity3Service.getLevelData(widget.level);
+
+      if (widget.level.id == 1) {
+        final items = levelData['items'] as List<Map<String, dynamic>>;
+
+        // Crear copias desordenadas para las imágenes y textos en namtrik nivel 1
+        final List<Map<String, dynamic>> clocksCopy = List.from(items);
+        final List<Map<String, dynamic>> namtrikCopy = List.from(items);
+
+        // Desordenar las listas de relojes y textos en namtrik nivel 1
+        clocksCopy.shuffle();
+        namtrikCopy.shuffle();
+
+        if (mounted) {
+          setState(() {
+            _gameItems = items;
+            _shuffledClocks = clocksCopy;
+            _shuffledNamtrik = namtrikCopy;
+            _isLoading = false;
+          });
+        }
+      } else if (widget.level.id == 2) {
+        if (mounted) {
+          setState(() {
+            _clockImage = levelData['clock_image'];
+            _options = List<Map<String, dynamic>>.from(levelData['options']);
+            _isLoading = false;
+          });
+        }
+      } else if (widget.level.id == 3) {
+        if (mounted) {
+          setState(() {
+            _hourNamtrik = levelData['hour_namtrik'];
+            _clockImageLevel3 = levelData['clock_image'];
+            _correctHour = levelData['correct_hour'];
+            _correctMinute = levelData['correct_minute'];
+            // Inicializar con valores aleatorios para no dar pistas
+            _selectedHour = _getRandomHourDifferentFrom(_correctHour!);
+            _selectedMinute = _getRandomMinuteDifferentFrom(_correctMinute!);
+            _isLoading = false;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error al cargar datos: $e'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
+  void _handleLevelComplete() async {
+    FeedbackService().lightHapticFeedback();
+    final activitiesState = ActivitiesState.of(context);
+    final gameState = GameState.of(context);
+    final wasCompleted = gameState.isLevelCompleted(3, widget.level.id - 1);
+    if (!wasCompleted) {
+      final pointsAdded = await gameState.addPoints(3, widget.level.id - 1, 5);
+      if (pointsAdded) {
+        activitiesState.completeLevel(3, widget.level.id - 1);
+        if (mounted) {
+          setState(() {
+            totalScore = gameState.globalPoints;
+          });
+        }
+      }
+    }
+    if (!mounted) return;
+    _showLevelCompletedDialog(wasCompleted: wasCompleted);
+  }
+
+  void _handleOutOfAttempts() async {
+    await FeedbackService().heavyHapticFeedback();
+    _showNoAttemptsDialog();
+  }
+
+  void _showLevelCompletedDialog({required bool wasCompleted}) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                wasCompleted ? '¡Buen trabajo!' : '¡Felicitaciones!',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              // Muestra los puntos ganados solo si es la primera vez
+              const SizedBox(height: 16),
+              if (!wasCompleted)
+                Text(
+                  '¡Ganaste 5 puntos!',
+                  style: const TextStyle(
+                    color: Color(0xFF8B4513),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                )
+              else
+                const Text(
+                  'Ya has completado este nivel anteriormente.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+
+              const SizedBox(height: 16),
+              // Botón para continuar
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cierra el diálogo
+                  Navigator.of(context).pop(); // Cierra la pantalla del nivel
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFF8B4513), // Color específico A3
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                ),
+                child: const Text('Continuar'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showNoAttemptsDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('¡Sin intentos!'),
+        content: const Text(
+            'Has agotado tus intentos. Volviendo al menú de actividad.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+              Navigator.of(context).pop(); // Cierra la pantalla del nivel
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFF8B4513), // Color específico A3
+            ),
+            child: const Text('Aceptar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //============================================================================
+  // Constructor Principal de Contenido de Nivel (buildLevelContent)
+  //============================================================================
+  @override
+  Widget buildLevelContent() {
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (widget.level.id == 1) {
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          _buildLevel1Content(),
+        ],
+      );
+    } else if (widget.level.id == 2) {
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          _buildLevel2Content(),
+        ],
+      );
+    } else if (widget.level.id == 3) {
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          _buildLevel3Content(),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          InfoBar(
+            remainingAttempts: remainingAttempts,
+            margin: const EdgeInsets.only(bottom: 24),
+          ),
+          SizedBox(
+            height: 300,
+            child: Center(
+              child: Text(
+                'Nivel ${widget.level.id}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+  }
+  //================ END OF CONSTRUCTOR PRINCIPAL DE CONTENIDO =================
 }

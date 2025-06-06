@@ -9,7 +9,7 @@ import 'package:namuiwam/features/activity3/activity3_screen.dart';
 import 'package:namuiwam/features/activity4/activity4_screen.dart';
 import 'package:namuiwam/features/activity5/activity5_screen.dart';
 import 'package:namuiwam/features/activity6/activity6_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:namuiwam/features/settings/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -200,152 +200,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Función para mostrar el diálogo de información de la aplicación
-  void _showAppInfoDialog() {
-    // Función para lanzar URLs
-    Future<void> _launchUrl(String url) async {
-      try {
-        final Uri uri = Uri.parse(url);
-
-        // Check if the URL can be launched
-        if (await canLaunchUrl(uri)) {
-          final bool launched = await launchUrl(
-            uri,
-            mode: LaunchMode.externalApplication,
-          );
-
-          if (!launched) {
-            debugPrint('Could not launch $url');
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('No se pudo abrir: $url')),
-            );
-          }
-        } else {
-          debugPrint('No handler found for $url');
-          // Try to open in web view as fallback
-          try {
-            await launchUrl(
-              uri,
-              mode: LaunchMode.inAppWebView,
-              webViewConfiguration:
-                  const WebViewConfiguration(enableJavaScript: true),
-            );
-          } catch (e) {
-            debugPrint('Error launching in WebView: $e');
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('No se pudo abrir el enlace: $url')),
-              );
-            }
-          }
-        }
-      } catch (e) {
-        debugPrint('Error launching URL: $e');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Ocurrió un error al abrir el enlace')),
-          );
-        }
-      }
-    }
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0.0),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0, bottom: 20.0),
-                    child: Text(
-                      'Acerca de Tsatsɵ Musik',
-                      style: Theme.of(context).textTheme.titleLarge,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Center(
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundImage:
-                        AssetImage('assets/images/1.logo-colibri.png'),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                _buildInfoRow('Versión', '1.0.0'),
-                const Divider(),
-                // Desarrollador con enlace a GitHub
-                GestureDetector(
-                  onTap: () => _launchUrl('https://github.com/TuMyXx93'),
-                  child: _buildInfoRow(
-                    'Desarrollado por',
-                    'TumiDev',
-                    isLink: true,
-                  ),
-                ),
-                const Divider(),
-                // Email interactivo
-                GestureDetector(
-                  onTap: () => _launchUrl('mailto:contacto@tsatsomusic.com'),
-                  child: _buildInfoRow(
-                    'Contacto',
-                    'contacto@tsatsomusic.com',
-                    isLink: true,
-                  ),
-                ),
-                const Divider(),
-                // Sitio web interactivo
-                GestureDetector(
-                  onTap: () => _launchUrl('https://www.namuiwam.net'),
-                  child: _buildInfoRow(
-                    'Sitio web',
-                    'www.namuiwam.net',
-                    isLink: true,
-                  ),
-                ),
-                const Divider(),
-                const SizedBox(height: 10),
-                Center(
-                  child: const Text(
-                    'Tsatsɵ Musik es una aplicación educativa diseñada para aprender la numeración, el dinero y un diccionario de manera interactiva y divertida en Namuiwam.',
-                    style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Center(
-                  child: const Text(
-                    ' 2025 Tsatsɵ Musik. Todos los derechos reservados.',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 24.0, bottom: 16.0),
-                    child: TextButton(
-                      child: const Text('Cerrar'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     // Watch for changes in GameState to update UI (like button state)
@@ -385,7 +239,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     IconButton(
                       icon: const Icon(Icons.settings,
                           color: Colors.white, size: 28),
-                      onPressed: _showAppInfoDialog,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                        );
+                      },
                       tooltip: 'Configuración e información',
                     ),
                   ],
@@ -549,34 +408,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  // Método auxiliar para construir filas de información en el diálogo
-  Widget _buildInfoRow(String label, String value, {bool isLink = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 14,
-              color: isLink ? Colors.blue : null,
-              decoration: isLink ? TextDecoration.none : null, // Changed from TextDecoration.underline
-            ),
-          ),
-        ],
       ),
     );
   }

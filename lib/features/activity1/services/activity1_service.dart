@@ -184,11 +184,11 @@ class Activity1Service {
           .toList();
       
       final currentNumberFromData = numberData['number'];
-      if (currentNumberFromData == null || !(currentNumberFromData is int)) {
+      if (currentNumberFromData == null || currentNumberFromData is! int) {
         _logger.error('Number field is missing or not an int in data for level $level: $currentNumberFromData');
         return null;
       }
-      final int currentNumber = currentNumberFromData as int;
+      final int currentNumber = currentNumberFromData;
 
       return NumberWord(
         number: currentNumber,
@@ -316,7 +316,6 @@ class Activity1Service {
       // Ensure min and max can actually produce 'count' unique numbers if range is tiny.
       // max - min + 1 gives the total unique numbers possible in the range.
       final int possibleUniqueNumbers = (max - min + 1);
-      final int numbersToGenerate = count -1; // excluding correctNumber
 
       if (possibleUniqueNumbers < count) {
         _logger.warning('Fallback: Range $min-$max cannot produce $count unique numbers. Will return duplicates or fewer if necessary.');

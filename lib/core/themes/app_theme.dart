@@ -128,6 +128,13 @@ class AppTheme {
     size: 24.0,
   );
 
+  // Icono de interrogación para la aplicación
+  static const Icon questionIcon = Icon(
+    Icons.help_outline,
+    color: Colors.black,
+    size: 24.0,
+  );
+
   // Estilo para títulos de actividades de la aplicación
   static const TextStyle activityTitleStyle = TextStyle(
     color: Colors.white,

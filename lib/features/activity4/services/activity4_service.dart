@@ -518,22 +518,69 @@ class Activity4Service {
     return _articleItems.map((article) => article.namePriceNamtrik).toList();
   }
 
-  /// Carga los datos del nivel 4 desde el archivo JSON
+  /// Obtiene todos los nombres únicos de dinero Namtrik del archivo JSON del Nivel 4.
+  ///
+  /// Lee el archivo `a4_l4_namuiwam_money.json` y extrae todos los valores
+  /// de la clave `name_total_namtrik`, eliminando duplicados.
+  ///
+  /// Retorna una `List<String>` con los nombres únicos.
   Future<List<String>> getLevel4NamtrikNames() async {
-    // Cargar el archivo JSON
-    final String response =
-        await rootBundle.loadString('assets/data/a4_l4_namuiwam_money.json');
-    final data = await json.decode(response);
-
-    // Extraer los nombres en namtrik del JSON
-    final List<String> namtrikNames = (data['money_l4']['namui_wam'] as List)
-        .map((item) => item['name_total_namtrik'] as String)
-        .toList();
-
-    return namtrikNames;
+    final String response = await rootBundle.loadString('assets/data/a4_l4_namuiwam_money.json');
+    final data = json.decode(response);
+    final List<dynamic> moneyData = data['money_l4']['namui_wam'];
+    
+    // Usar un Set para obtener nombres únicos y luego convertirlo a lista
+    final Set<String> uniqueNames = moneyData.map((item) => item['name_total_namtrik'] as String).toSet();
+    return uniqueNames.toList();
   }
 
-  /// Obtiene todas las imágenes de dinero (solo lado A) para el nivel 4
+  /// Obtiene el valor total y TODAS las combinaciones de imágenes válidas para un nombre Namtrik específico.
+  ///
+  /// Pasos:
+  /// 1. Carga los datos del Nivel 4 desde el archivo JSON.
+  /// 2. Busca la primera entrada que coincida con el `name` proporcionado para determinar el `total_money` objetivo.
+  /// 3. Si no encuentra ninguna entrada, retorna null.
+  /// 4. Vuelve a recorrer toda la lista de datos para encontrar TODAS las entradas que coincidan con el `total_money` objetivo.
+  /// 5. Recopila cada `number_money_images` de estas entradas en una lista de listas (`List<List<int>>`).
+  /// 6. Retorna un mapa que contiene el `total_money` y la lista de `valid_combinations`.
+  ///
+  /// [name] El nombre Namtrik del valor a buscar (ej: "Paishik").
+  /// Retorna un `Map<String, dynamic>` o `null`.
+  Future<Map<String, dynamic>?> getLevel4MoneyValuesForName(String name) async {
+    final String response = await rootBundle.loadString('assets/data/a4_l4_namuiwam_money.json');
+    final data = json.decode(response);
+    final List<dynamic> moneyData = data['money_l4']['namui_wam'];
+
+    // 1. Encontrar el `total_money` objetivo basado en el nombre
+    final targetEntry = moneyData.firstWhere(
+      (item) => item['name_total_namtrik'] == name,
+      orElse: () => null,
+    );
+
+    if (targetEntry == null) {
+      return null;
+    }
+
+    final int totalMoney = targetEntry['total_money'];
+
+    // 2. Encontrar todas las combinaciones para ese `total_money`
+    final List<List<int>> validCombinations = moneyData
+        .where((item) => item['total_money'] == totalMoney)
+        .map((item) => List<int>.from(item['number_money_images']))
+        .toList();
+
+    return {
+      'total_money': totalMoney,
+      'valid_combinations': validCombinations,
+    };
+  }
+
+  /// Carga y retorna una lista de todas las imágenes de dinero disponibles para el Nivel 4.
+  ///
+  /// Este método obtiene los datos del Nivel 1 (que contiene todas las denominaciones)
+  /// y extrae las rutas de sus imágenes. Se utiliza para construir la cuadrícula de selección.
+  ///
+  /// Retorna una `List<String>` con los nombres de archivo de las imágenes.
   Future<List<String>> getAllMoneyImages() async {
     if (_moneyItems.isEmpty) {
       await getLevelData(LevelModel(
@@ -550,29 +597,6 @@ class Activity4Service {
         .toList();
 
     return moneyImages;
-  }
-
-  /// Obtiene los valores objetivo del dinero para el nombre seleccionado en el nivel 4
-  Future<Map<String, dynamic>?> getLevel4MoneyValuesForName(
-      String namtrikName) async {
-    // Cargar el archivo JSON
-    final String response =
-        await rootBundle.loadString('assets/data/a4_l4_namuiwam_money.json');
-    final data = await json.decode(response);
-
-    // Buscar el elemento con el nombre coincidente
-    final moneyL4List = data['money_l4']['namui_wam'] as List;
-
-    for (var item in moneyL4List) {
-      if (item['name_total_namtrik'] == namtrikName) {
-        return {
-          'number_money_images': item['number_money_images'],
-          'total_money': item['total_money'],
-        };
-      }
-    }
-
-    return null;
   }
 
   /// Obtiene todos los items de dinero para el nivel 4

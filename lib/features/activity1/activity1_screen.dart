@@ -4,11 +4,13 @@ import 'package:namuiwam/core/themes/app_theme.dart';
 import 'package:namuiwam/core/models/activities_state.dart';
 import 'package:namuiwam/core/models/level_model.dart';
 import 'package:namuiwam/features/activity1/screens/activity1_level_screen.dart';
+import 'package:namuiwam/core/constants/activity_instructions.dart';
+import 'package:namuiwam/core/widgets/help/help.dart';
 
 /// {@template activity1_screen}
 /// Pantalla principal para la Actividad 1: "Muntsik mɵik kɵtasha sɵl lau" (Escoja el número correcto).
 ///
-/// Esta pantalla sirve como punto de entrada para la Actividad 1, mostrando la lista 
+/// Esta pantalla sirve como punto de entrada para la Actividad 1, mostrando la lista
 /// de niveles disponibles y permitiendo al usuario seleccionar uno para jugar.
 /// Implementa la siguiente funcionalidad:
 /// - Muestra los niveles organizados como tarjetas, con indicación visual de su estado
@@ -28,13 +30,22 @@ import 'package:namuiwam/features/activity1/screens/activity1_level_screen.dart'
 ///   ),
 /// );
 /// ```
-/// 
+///
 /// La pantalla está diseñada siguiendo el tema visual unificado de la aplicación,
 /// definido en [AppTheme].
 /// {@endtemplate}
-class Activity1Screen extends StatelessWidget {
+class Activity1Screen extends StatefulWidget {
   /// {@macro activity1_screen}
   const Activity1Screen({super.key});
+
+  @override
+  State<Activity1Screen> createState() => _Activity1ScreenState();
+}
+
+class _Activity1ScreenState extends State<Activity1Screen>
+    with HelpBannerMixin {
+  /// Color específico de la Actividad 1 - Verde oliva oscuro
+  static const Color _activity1Color = Color(0xFF556B2F);
 
   /// Navega de vuelta a la pantalla de inicio ([HomeScreen]).
   ///
@@ -79,7 +90,8 @@ class Activity1Screen extends StatelessWidget {
         if (activity1 == null) return const SizedBox.shrink();
 
         return Scaffold(
-          extendBodyBehindAppBar: true, // Permite que el cuerpo se extienda detrás del AppBar
+          extendBodyBehindAppBar:
+              true, // Permite que el cuerpo se extienda detrás del AppBar
           appBar: AppBar(
             leading: IconButton(
               icon: AppTheme.homeIcon, // Icono para volver a inicio
@@ -91,41 +103,62 @@ class Activity1Screen extends StatelessWidget {
             ),
             backgroundColor: Colors.transparent, // AppBar transparente
             elevation: 0, // Sin sombra en el AppBar
+            actions: [
+              IconButton(
+                icon: AppTheme.questionIcon, // Icono de ayuda/información
+                onPressed: showHelpBanner,
+              ),
+            ],
           ),
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: AppTheme.mainGradient, // Fondo con gradiente
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    // Adapta el ancho máximo de los botones según la orientación
-                    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-                    final maxButtonWidth = isLandscape ? 450.0 : constraints.maxWidth;
-                    
-                    // Construye la lista de niveles
-                    return ListView.builder(
-                      itemCount: activity1.availableLevels.length,
-                      itemBuilder: (context, index) {
-                        final level = activity1.availableLevels[index];
-                        // Centra cada tarjeta de nivel y limita su ancho máximo
-                        return Center(
-                          child: Container(
-                            constraints: BoxConstraints(
-                              maxWidth: maxButtonWidth,
-                            ),
-                            width: double.infinity,
-                            child: _buildLevelCard(context, level),
-                          ),
+          body: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: AppTheme.mainGradient, // Fondo con gradiente
+                ),
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        // Adapta el ancho máximo de los botones según la orientación
+                        final isLandscape =
+                            MediaQuery.of(context).orientation ==
+                                Orientation.landscape;
+                        final maxButtonWidth =
+                            isLandscape ? 450.0 : constraints.maxWidth;
+
+                        // Construye la lista de niveles
+                        return ListView.builder(
+                          itemCount: activity1.availableLevels.length,
+                          itemBuilder: (context, index) {
+                            final level = activity1.availableLevels[index];
+                            // Centra cada tarjeta de nivel y limita su ancho máximo
+                            return Center(
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  maxWidth: maxButtonWidth,
+                                ),
+                                width: double.infinity,
+                                child: _buildLevelCard(context, level),
+                              ),
+                            );
+                          },
                         );
                       },
-                    );
-                  },
+                    ),
+                  ),
                 ),
               ),
-            ),
+              // Banner de ayuda usando el widget reutilizable
+              HelpBannerWidget(
+                isVisible: isHelpBannerVisible,
+                onClose: hideHelpBanner,
+                headerColor: _activity1Color,
+                content: ActivityInstructions.getInstructionForActivity(1),
+              ),
+            ],
           ),
         );
       },
@@ -146,15 +179,18 @@ class Activity1Screen extends StatelessWidget {
   /// Retorna un widget [Card] personalizado dentro de un [Padding].
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
     final bool isLocked = level.isLocked;
-    
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Card(
         elevation: 4,
         // Cambia el color de fondo de la tarjeta según el estado de bloqueo
-        color: isLocked ? Colors.grey[300] : const Color(0xFF556B2F), // Color específico para A1
+        color: isLocked
+            ? Colors.grey[300]
+            : _activity1Color, // Usa la constante de color
         child: InkWell(
-          onTap: () => _onLevelSelected(context, level), // Acción al tocar la tarjeta
+          onTap: () =>
+              _onLevelSelected(context, level), // Acción al tocar la tarjeta
           child: Container(
             height: 72, // Altura fija para la tarjeta
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -166,7 +202,9 @@ class Activity1Screen extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     // Cambia el color del círculo según el estado de bloqueo
-                    color: isLocked ? Colors.grey : const Color(0xFF556B2F), // Color específico para A1
+                    color: isLocked
+                        ? Colors.grey
+                        : _activity1Color, // Usa la constante de color
                     shape: BoxShape.circle,
                   ),
                   child: Center(

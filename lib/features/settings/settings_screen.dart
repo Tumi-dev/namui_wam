@@ -158,10 +158,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const Divider(),
                 GestureDetector(
-                  onTap: () => _launchUrl('https://www.namuiwam.net'),
+                  onTap: () => _launchUrl('https://www.piurek.net'),
                   child: _buildInfoRow(
                     'Sitio web',
-                    'www.namuiwam.net',
+                    'www.piurek.net',
                     isLink: true,
                   ),
                 ),

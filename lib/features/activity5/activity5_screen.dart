@@ -7,6 +7,8 @@ import 'package:namuiwam/core/services/feedback_service.dart';
 import 'package:namuiwam/core/widgets/game_description_widget.dart';
 import 'package:namuiwam/features/activity5/services/activity5_service.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:namuiwam/core/constants/activity_instructions.dart';
+import 'package:namuiwam/core/widgets/help/help.dart';
 
 /// {@template activity5_screen}
 /// Pantalla para la Actividad 5: "Muntsielan namtrikmai yunɵmarɵpik (Convertir números en letras)".
@@ -58,10 +60,13 @@ class Activity5Screen extends StatefulWidget {
 /// - Funcionalidades de copia y compartición
 /// - Adaptación a cambios en el ciclo de vida de la aplicación
 ///
-/// Implementa [WidgetsBindingObserver] para detectar cuando la app pasa a segundo 
+/// Implementa [WidgetsBindingObserver] para detectar cuando la app pasa a segundo
 /// plano y detener el audio en reproducción, mejorando la experiencia del usuario.
 class _Activity5ScreenState extends State<Activity5Screen>
-    with WidgetsBindingObserver {
+    with WidgetsBindingObserver, HelpBannerMixin {
+  /// Color específico de la Actividad 5 - Verde oliva apagado
+  static const Color _activity5Color = Color(0xFF7E7745);
+
   /// Controlador para el campo de texto donde el usuario ingresa el número.
   ///
   /// Gestiona:
@@ -70,7 +75,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
   /// - La selección de texto
   /// - Notificaciones de cambios a través de listeners
   final TextEditingController _numberController = TextEditingController();
-  
+
   /// Instancia del servicio para la lógica de la Actividad 5.
   ///
   /// Proporciona métodos para:
@@ -79,7 +84,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
   /// - Gestionar la reproducción de audio
   /// - Manejar errores durante la conversión
   final Activity5Service _activity5Service = getIt<Activity5Service>();
-  
+
   /// Controlador para el scroll principal, usado para ajustar la vista con el teclado.
   ///
   /// Permite:
@@ -87,7 +92,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
   /// - Asegurar que el campo de texto permanezca visible durante la edición
   /// - Controlar el comportamiento del scroll en la pantalla
   final ScrollController _scrollController = ScrollController();
-  
+
   /// Almacena la representación Namtrik del número ingresado.
   ///
   /// Contiene:
@@ -95,13 +100,13 @@ class _Activity5ScreenState extends State<Activity5Screen>
   /// - El texto en Namtrik cuando la conversión es exitosa
   /// - Mensaje de error cuando la entrada es inválida o falla la conversión
   String _namtrikResult = '';
-  
+
   /// Indica si se está esperando una respuesta del servicio.
   ///
   /// Controla la visualización del indicador de carga (CircularProgressIndicator)
   /// mientras se consulta al servicio para obtener la representación Namtrik.
   bool _isLoading = false;
-  
+
   /// Indica si la entrada actual es inválida (ej. fuera de rango).
   ///
   /// Se utiliza para:
@@ -109,13 +114,13 @@ class _Activity5ScreenState extends State<Activity5Screen>
   /// - Cambiar el color del borde del campo de entrada
   /// - Evitar consultas innecesarias al servicio
   bool _hasInvalidInput = false;
-  
+
   /// Indica si hay audio disponible para el número actual.
   ///
   /// Determina si se debe habilitar o deshabilitar el botón de reproducción
   /// según la disponibilidad de archivos de audio para el número actual.
   bool _isAudioAvailable = false;
-  
+
   /// Indica si se está reproduciendo audio actualmente.
   ///
   /// Controla:
@@ -123,7 +128,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
   /// - La deshabilitación del botón mientras se reproduce
   /// - La prevención de reproducciones superpuestas
   bool _isPlayingAudio = false;
-  
+
   /// Almacena el número válido actual ingresado por el usuario.
   ///
   /// Se utiliza para:
@@ -131,27 +136,26 @@ class _Activity5ScreenState extends State<Activity5Screen>
   /// - Proporcionar el valor a los métodos que requieren el número
   /// - Validar si ha cambiado la entrada del usuario
   int? _currentNumber;
-  
+
   /// Indica si el teclado está visible en pantalla.
   ///
   /// Se utiliza para ajustar el diseño y comportamiento de la UI
   /// cuando el teclado aparece o desaparece.
   bool _isKeyboardVisible = false;
-  
+
   /// Controla el color del borde del campo de entrada para feedback de error.
   ///
   /// Valores:
   /// - `null`: Borde normal (cuando la entrada es válida)
   /// - `Colors.red`: Borde rojo (cuando la entrada es inválida)
   Color? _inputBorderColor;
-
   /// Define el color de fondo (verde oliva apagado) para los contenedores de texto.
   ///
   /// Color temático específico de la Actividad 5, que se aplica a:
   /// - El contenedor del resultado Namtrik
   /// - Los botones de acción
   /// - Otros elementos visuales de la actividad
-  final Color _boxColor = const Color(0xFF7E7745);
+  final Color _boxColor = _activity5Color;
 
   @override
   void initState() {
@@ -177,7 +181,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
   }
 
   /// Se llama cuando cambia el estado del ciclo de vida de la aplicación.
-  /// 
+  ///
   /// Detecta cuando la app pasa a segundo plano o se inactiva, para
   /// detener automáticamente cualquier audio en reproducción y mejorar
   /// así la experiencia del usuario.
@@ -197,7 +201,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
   }
 
   /// Método auxiliar para detener el audio si se está reproduciendo.
-  /// 
+  ///
   /// Verifica primero si hay audio en reproducción para evitar llamadas
   /// innecesarias al servicio. Luego:
   /// 1. Llama al servicio para detener la reproducción
@@ -219,7 +223,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
   }
 
   /// Navega hacia la pantalla de inicio de la aplicación.
-  /// 
+  ///
   /// Implementa una navegación limpia asegurando que:
   /// 1. Se detenga cualquier audio en reproducción
   /// 2. Se retorne a la pantalla inicial (primera ruta)
@@ -381,7 +385,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
         !_namtrikResult.startsWith('Error') &&
         _currentNumber != null) {
       await FeedbackService().mediumHapticFeedback();
-      
+
       // Construct the text to copy
       final String textToCopy =
           'Número: $_currentNumber\nTexto Namtrik: $_namtrikResult';
@@ -416,11 +420,11 @@ class _Activity5ScreenState extends State<Activity5Screen>
         !_namtrikResult.startsWith('Error') &&
         _currentNumber != null) {
       await FeedbackService().mediumHapticFeedback();
-      
+
       // Construct the text to share
-      final String textToShare = 
+      final String textToShare =
           'Número: $_currentNumber\nTexto Namtrik: $_namtrikResult';
-      
+
       // Use share_plus to share the content
       await Share.share(textToShare);
     } else {
@@ -467,14 +471,20 @@ class _Activity5ScreenState extends State<Activity5Screen>
           ),
           backgroundColor: Colors
               .transparent, // Transparente para mostrar el gradiente de fondo
-          elevation: 0,
+          elevation: 0,          actions: [
+            IconButton(
+              icon: AppTheme.questionIcon, // Icono de ayuda/información
+              onPressed: showHelpBanner,
+            ),
+          ],
         ),
         // Use resizeToAvoidBottomInset to prevent keyboard from pushing content
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: AppTheme.mainGradient,
-          ),
+        resizeToAvoidBottomInset: false,        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: AppTheme.mainGradient,
+              ),
           child: SafeArea(
             // Use bottom: false to allow content to extend behind the keyboard
             bottom: false,
@@ -681,8 +691,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
                           SizedBox(
                               height: _isKeyboardVisible
                                   ? MediaQuery.of(context).viewInsets.bottom
-                                  : 20),
-                        ],
+                                  : 20),                        ],
                       ),
                     ),
                   ),
@@ -690,6 +699,15 @@ class _Activity5ScreenState extends State<Activity5Screen>
               ],
             ),
           ),
+        ),
+            // Banner de ayuda usando el widget reutilizable
+            HelpBannerWidget(
+              isVisible: isHelpBannerVisible,
+              onClose: hideHelpBanner,
+              headerColor: _activity5Color,
+              content: ActivityInstructions.getInstructionForActivity(5),
+            ),
+          ],
         ),
       ),
     );

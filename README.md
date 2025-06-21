@@ -37,13 +37,13 @@ Tsatsɵ Musik es una aplicación móvil educativa e interactiva, desarrollada co
     *   *Implementación Actual:* Muestra niveles numerados, probablemente para asociar números con posiciones del reloj. Incluye efectos de sonido para respuestas correctas e incorrectas en la lógica de niveles existente.
     *   *Diseño Deseado:* Tres sub-actividades: 1) Emparejar hora digital con reloj analógico, 2) Adivinar la hora mostrada en un reloj analógico, 3) Poner las manecillas en un reloj analógico a una hora digital dada.
     *   *Estado:* Requiere una refactorización significativa para coincidir con el diseño deseado.
-*   **Actividad 4: Anwan ashipelɵ kɵkun (Aprendamos a usar el dinero)** (Estado: Completo)
+*   **Actividad 4: Anwan ashipelɵ kɵkun (Aprendamos a usar el dinero)** (Estado: Completo, con mejoras recientes)
     *   Objetivo: Aprender sobre la moneda Namtrik, sus valores y transacciones básicas.
     *   Jugabilidad: Consiste en cuatro sub-actividades (niveles):
-        1.  **Conozcamos el dinero Namtrik:** Identificar imágenes de la moneda (ambos lados), escuchar sus nombres en Namtrik y ver sus valores.
-        2.  **Escojamos el dinero correcto:** Seleccionar la combinación correcta de dinero necesaria para igualar el precio de un artículo mostrado. Incluye efectos de sonido para respuestas correctas e incorrectas.
-        3.  **Escojamos el nombre correcto:** Elegir el nombre Namtrik correcto para el valor total de un grupo de dinero mostrado. Incluye efectos de sonido para respuestas correctas e incorrectas.
-        4.  **Coloquemos el dinero correcto:** Seleccionar las piezas de dinero correctas para sumar un valor total dado presentado en Namtrik. Incluye efectos de sonido para respuestas correctas e incorrectas.
+        1.  **Conozcamos el dinero Namtrik:** Identificar imágenes de la moneda, escuchar sus nombres y ver sus valores.
+        2.  **Escojamos el dinero correcto:** Seleccionar la combinación de dinero para igualar el precio de un artículo.
+        3.  **Escojamos el nombre correcto:** Elegir el nombre Namtrik para el valor total de un grupo de dinero.
+        4.  **Coloquemos el dinero correcto (Mejorado):** Dado un valor en Namtrik, el usuario selecciona billetes/monedas. La interfaz ahora incluye un recuadro con los ítems seleccionados (con opción a eliminarlos) y un botón de "Validar". La lógica de validación es flexible y acepta **cualquier combinación correcta** definida en los datos del juego, no solo una.
 *   **Actividad 5: Muntsielan namtrikmai yunөmarөpik (Convertir números en letras)** (Estado: Completo)
     *   Objetivo: Convertir números arábigos a su forma escrita en Namtrik.
     *   Jugabilidad: El usuario ingresa un número (1-9,999,999), y la app muestra su escritura en Namtrik. Incluye opciones para escuchar la pronunciación, así como para copiar y compartir tanto el número ingresado como su texto Namtrik resultante.

@@ -4,6 +4,8 @@ import 'package:namuiwam/core/themes/app_theme.dart';
 import 'package:namuiwam/core/models/activities_state.dart';
 import 'package:namuiwam/core/models/level_model.dart';
 import 'package:namuiwam/features/activity3/screens/activity3_level_screen.dart';
+import 'package:namuiwam/core/constants/activity_instructions.dart';
+import 'package:namuiwam/core/widgets/help/help.dart';
 
 /// {@template activity3_screen}
 /// Pantalla principal para la Actividad 3: "Nөsik utөwan asam kusrekun" (Aprendamos a ver la hora).
@@ -30,13 +32,22 @@ import 'package:namuiwam/features/activity3/screens/activity3_level_screen.dart'
 /// );
 /// ```
 /// {@endtemplate}
-class Activity3Screen extends StatelessWidget {
+class Activity3Screen extends StatefulWidget {
   /// {@macro activity3_screen}
   const Activity3Screen({super.key});
 
+  @override
+  State<Activity3Screen> createState() => _Activity3ScreenState();
+}
+
+class _Activity3ScreenState extends State<Activity3Screen>
+    with HelpBannerMixin {
+  /// Color específico de la Actividad 3 - Marrón tierra
+  static const Color _activity3Color = Color(0xFF8B4513);
+
   /// Navega hacia la pantalla de inicio de la aplicación.
   ///
-  /// Este método cierra todas las pantallas en la pila de navegación 
+  /// Este método cierra todas las pantallas en la pila de navegación
   /// hasta llegar a la ruta inicial (la pantalla de inicio), utilizando
   /// [Navigator.popUntil] con la condición `route.isFirst`.
   ///
@@ -82,13 +93,15 @@ class Activity3Screen extends StatelessWidget {
     return Consumer<ActivitiesState>(
       builder: (context, activitiesState, child) {
         // Obtiene los datos de la Actividad 3 del estado global.
-        final activity3 = activitiesState.getActivity(3);
-        // Si no hay datos para la actividad 3, muestra un contenedor vacío.
-        if (activity3 == null) return const SizedBox.shrink();
-
+        final activity3 = activitiesState.getActivity(3);        // Si no hay datos para la actividad 3, muestra un contenedor vacío.
+        if (activity3 == null) {
+          return const SizedBox.shrink();
+        }
+        
         // Construye la pantalla principal de la actividad.
         return Scaffold(
-          extendBodyBehindAppBar: true, // Permite que el cuerpo se extienda detrás del AppBar.
+          extendBodyBehindAppBar:
+              true, // Permite que el cuerpo se extienda detrás del AppBar.
           appBar: AppBar(
             leading: IconButton(
               icon: AppTheme.homeIcon, // Icono para volver al inicio.
@@ -97,62 +110,82 @@ class Activity3Screen extends StatelessWidget {
             title: const Text(
               'Nɵsik utɵwan asam kusrekun', // Título de la actividad en Namtrik.
               style: AppTheme.activityTitleStyle,
-            ),
-            // Fondo transparente para la barra de la aplicación.
+            ),            // Fondo transparente para la barra de la aplicación.
             backgroundColor: Colors.transparent,
             elevation: 0, // Sin sombra.
-          ),
-          body: Container(
-            // Fondo con gradiente principal de la aplicación.
-            decoration: BoxDecoration(
-              gradient: AppTheme.mainGradient,
-            ),
-            // SafeArea para evitar que el contenido se solape con elementos del sistema (barra de estado, notch).
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20), // Espacio superior.
-                    // Icono representativo de la actividad (reloj).
-                    const Icon(
-                      Icons.access_time,
-                      color: Color(0xFF8B4513), // Color marrón tierra específico de A3.
-                      size: 64,
-                    ),
-                    const SizedBox(height: 30), // Espacio debajo del icono.
-                    // Lista expandida de niveles.
-                    Expanded(
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          // Determina si la orientación es horizontal para ajustar el ancho máximo.
-                          final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-                          final maxButtonWidth = isLandscape ? 450.0 : constraints.maxWidth;
+            actions: [
+              IconButton(
+                icon: AppTheme.questionIcon, // Icono de ayuda/información
+                onPressed: showHelpBanner,
+              ),
+            ],          ),
+          body: Stack(
+            children: [
+              Container(
+                // Fondo con gradiente principal de la aplicación.
+                decoration: BoxDecoration(
+                  gradient: AppTheme.mainGradient,
+                ),
+                // SafeArea para evitar que el contenido se solape con elementos del sistema (barra de estado, notch).
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20), // Espacio superior.
+                        // Icono representativo de la actividad (reloj).
+                        const Icon(
+                          Icons.access_time,
+                          color: _activity3Color, // Color marrón tierra específico de A3.
+                          size: 64,
+                        ),
+                        const SizedBox(height: 30), // Espacio debajo del icono.
+                        // Lista expandida de niveles.
+                        Expanded(
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              // Determina si la orientación es horizontal para ajustar el ancho máximo.
+                              final isLandscape =
+                                  MediaQuery.of(context).orientation ==
+                                      Orientation.landscape;
+                              final maxButtonWidth =
+                                  isLandscape ? 450.0 : constraints.maxWidth;
 
-                          // Construye la lista de niveles usando ListView.builder.
-                          return ListView.builder(
-                            itemCount: activity3.availableLevels.length,
-                            itemBuilder: (context, index) {
-                              final level = activity3.availableLevels[index];
-                              // Centra cada tarjeta de nivel y limita su ancho máximo.
-                              return Center(
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                    maxWidth: maxButtonWidth,
-                                  ),
-                                  width: double.infinity, // Ocupa el ancho disponible limitado por el Container.
-                                  child: _buildLevelCard(context, level),
-                                ),
+                              // Construye la lista de niveles usando ListView.builder.
+                              return ListView.builder(
+                                itemCount: activity3.availableLevels.length,
+                                itemBuilder: (context, index) {
+                                  final level = activity3.availableLevels[index];
+                                  // Centra cada tarjeta de nivel y limita su ancho máximo.
+                                  return Center(
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                        maxWidth: maxButtonWidth,
+                                      ),
+                                      width: double
+                                          .infinity, // Ocupa el ancho disponible limitado por el Container.
+                                      child: _buildLevelCard(context, level),
+                                    ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              // Banner de ayuda usando el widget reutilizable
+              HelpBannerWidget(
+                isVisible: isHelpBannerVisible,
+                onClose: hideHelpBanner,
+                headerColor: _activity3Color,
+                content: ActivityInstructions.getInstructionForActivity(3),
+              ),
+            ],
           ),
         );
       },
@@ -177,33 +210,41 @@ class Activity3Screen extends StatelessWidget {
   /// Retorna un [Widget] (una [Card]) configurado para mostrar la información del nivel y manejar la interacción.
   Widget _buildLevelCard(BuildContext context, LevelModel level) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0), // Espacio debajo de cada tarjeta.
+      padding: const EdgeInsets.only(
+          bottom: 16.0), // Espacio debajo de cada tarjeta.
       child: Card(
         elevation: 4, // Sombra de la tarjeta.
-        color: const Color(0xFF8B4513), // Color de fondo marrón tierra específico de A3.
-        child: InkWell( // Hace la tarjeta interactiva al tacto.
+        color: const Color(
+            0xFF8B4513), // Color de fondo marrón tierra específico de A3.
+        child: InkWell(
+          // Hace la tarjeta interactiva al tacto.
           onTap: () => _onLevelSelected(context, level), // Acción al tocar.
           child: Container(
             height: 72, // Altura fija de la tarjeta.
-            padding: const EdgeInsets.symmetric(horizontal: 24.0), // Padding interno horizontal.
-            child: Row( // Organiza los elementos horizontalmente.
+            padding: const EdgeInsets.symmetric(
+                horizontal: 24.0), // Padding interno horizontal.
+            child: Row(
+              // Organiza los elementos horizontalmente.
               children: [
                 // Círculo con el número del nivel.
                 Container(
                   width: 40,
                   height: 40,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF8B4513), // Mismo color que la tarjeta para el círculo.
+                    color: Color(
+                        0xFF8B4513), // Mismo color que la tarjeta para el círculo.
                     shape: BoxShape.circle, // Forma circular.
                   ),
                   child: Center(
                     child: Text(
                       '${level.id}', // Número del nivel.
-                      style: AppTheme.levelNumberStyle, // Estilo del número del nivel.
+                      style: AppTheme
+                          .levelNumberStyle, // Estilo del número del nivel.
                     ),
                   ),
                 ),
-                const SizedBox(width: 16), // Espacio entre el círculo y la descripción.
+                const SizedBox(
+                    width: 16), // Espacio entre el círculo y la descripción.
                 // Descripción del nivel.
                 Expanded(
                   child: Text(

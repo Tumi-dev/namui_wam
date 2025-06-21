@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:namuiwam/core/themes/app_theme.dart';
 import 'package:namuiwam/features/activity6/screens/dictionary_domain_screen.dart';
+import 'package:namuiwam/core/constants/activity_instructions.dart';
+import 'package:namuiwam/core/widgets/help/help.dart';
 
 /// {@template activity6_screen}
 /// Pantalla principal para la Actividad 6: "Wammeran tulisha manchípik kui asamik pөrik (Diccionario)"
@@ -29,9 +31,18 @@ import 'package:namuiwam/features/activity6/screens/dictionary_domain_screen.dar
 /// );
 /// ```
 /// {@endtemplate}
-class Activity6Screen extends StatelessWidget {
+class Activity6Screen extends StatefulWidget {
   /// {@macro activity6_screen}
   const Activity6Screen({super.key});
+
+  @override
+  State<Activity6Screen> createState() => _Activity6ScreenState();
+}
+
+class _Activity6ScreenState extends State<Activity6Screen>
+    with HelpBannerMixin {
+  /// Color específico de la Actividad 6 - Coral
+  static const Color _activity6Color = Color(0xFFFF7F50);
 
   /// Navega hacia la pantalla de inicio de la aplicación.
   ///
@@ -70,14 +81,30 @@ class Activity6Screen extends StatelessWidget {
           'Wammeran tulisha manchípik kui asamik pɵrik',
           style: AppTheme.activityTitleStyle,
         ),
-        backgroundColor: Colors.transparent, // Color de fondo transparente de la AppBar
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: AppTheme.mainGradient,
-        ),
-        child: DictionaryDomainScreen(),
+        backgroundColor:
+            Colors.transparent, // Color de fondo transparente de la AppBar
+        elevation: 0,        actions: [
+          IconButton(
+            icon: AppTheme.questionIcon, // Icono de ayuda/información
+            onPressed: showHelpBanner,
+          ),
+        ],      ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: AppTheme.mainGradient,
+            ),
+            child: DictionaryDomainScreen(),
+          ),
+          // Banner de ayuda usando el widget reutilizable
+          HelpBannerWidget(
+            isVisible: isHelpBannerVisible,
+            onClose: hideHelpBanner,
+            headerColor: _activity6Color,
+            content: ActivityInstructions.getInstructionForActivity(6),
+          ),
+        ],
       ),
     );
   }

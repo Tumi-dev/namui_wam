@@ -14,7 +14,7 @@ import 'package:namuiwam/core/services/sound_service.dart';
 
 /// {@template activity4_level_screen}
 /// Pantalla que muestra el contenido y la lógica para un nivel específico
-/// de la Actividad 4: "Anwan ashipelɵ kɵkun" (Aprendamos a usar el dinero).
+/// de la Actividad 4: "Anwan ashipelɵ kɵkun" (Aprendamos a contar el dinero).
 /// {@endtemplate}
 class Activity4LevelScreen extends ScrollableLevelScreen {
   /// {@macro activity4_level_screen}
@@ -49,7 +49,7 @@ class _Activity4LevelScreenState
   //================ END OF SERVICIOS Y ESTADO GENERAL COMPARTIDO ================
 
   //==============================================================================
-  // Nivel 1: Conozcamos el dinero Namtrik
+  // Nivel 1: Anwan ashipelө kөkun (Conozcamos el dinero)
   //==============================================================================
   
   // --- Variables Nivel 1 ---
@@ -208,7 +208,7 @@ class _Activity4LevelScreenState
   //================ END OF NIVEL 1 SECTION ======================================
 
   //==============================================================================
-  // Nivel 2: Escojamos el dinero correcto
+  // Nivel 2: Mayaweik kөtash (¿Cuál es el precio del articulo?)
   //==============================================================================
 
   // --- Variables Nivel 2 ---
@@ -411,7 +411,7 @@ class _Activity4LevelScreenState
   //================ END OF NIVEL 2 SECTION ======================================
 
   //==============================================================================
-  // Nivel 3: Escojamos el nombre correcto
+  // Nivel 3: An mayankөtash (¿Cuánto dinero hay?)
   //==============================================================================
 
   // --- Variables Nivel 3 ---
@@ -563,105 +563,214 @@ class _Activity4LevelScreenState
   //================ END OF NIVEL 3 SECTION ======================================
 
   //==============================================================================
-  // Nivel 4: Coloquemos el dinero correcto
+  // Nivel 4: An mayan kөtasha pөnsrө (Coloca la cantidad correcta de dinero)
   //==============================================================================
-
+  
   // --- Variables Nivel 4 ---
-  /// Indica si los datos específicos del Nivel 4 (nombres Namtrik) se han cargado.
   bool _level4DataLoaded = false;
-
-  /// Lista de todos los nombres Namtrik de dinero disponibles para el Nivel 4.
   List<String> _level4NamtrikNames = [];
-
-  /// El nombre Namtrik del valor objetivo actual para el Nivel 4.
   String _currentLevel4NamtrikName = '';
-
-  /// Lista de rutas a todas las imágenes de billetes/monedas disponibles (Nivel 4).
-  /// Renombrado de _moneyImages para evitar colisión si _moneyItems se usa más genéricamente.
-  List<String> _level4MoneyImagePaths = [];
-
-  /// Indica si las imágenes de dinero para el Nivel 4 se han cargado.
   bool _moneyImagesLoaded = false; // Específico para las imágenes de la cuadrícula del Nivel 4
-
-  /// Índices de los billetes/monedas seleccionados por el usuario en la cuadrícula (Nivel 4).
-  List<int> _selectedMoneyIndices = [];
-
-  /// Valor total actual de los billetes/monedas seleccionados (Nivel 4).
+  List<String> _level4MoneyImagePaths = [];
   int _currentTotalValue = 0;
-
-  /// Valor total objetivo que el usuario debe alcanzar (Nivel 4).
   int _targetTotalValue = 0;
-
+  /// Lista que contiene todas las combinaciones de billetes/monedas válidas para el objetivo actual.
+  List<List<int>> _validCombinations = [];
   /// Mapa que asocia el índice de un billete/moneda en [_level4MoneyImagePaths] con su valor numérico (Nivel 4).
   Map<int, int> _numberIndexToValue = {};
-
-  /// Lista de los valores numéricos de los billetes/monedas que componen el valor objetivo (Nivel 4).
-  List<int> _targetMoneyNumbers = [];
-
-  /// Controla si se debe mostrar feedback (correcto/incorrecto) para la selección del Nivel 4.
+  
+  // --- Variables para el nuevo sistema de validación manual ---
   bool _showLevel4Feedback = false;
-
-  /// Indica si la selección actual del usuario para el Nivel 4 es correcta.
   bool _isCorrectLevel4Answer = false;
-
-  /// Indica si ya se han ganado puntos por la respuesta correcta en Nivel 4.
   bool _hasEarnedPointsLevel4 = false;
+  /// Lista de valores seleccionados para mostrar en el nuevo recuadro
+  List<Map<String, dynamic>> _selectedMoneyValues = [];
+  /// Último índice seleccionado para la lógica de selección única
+  int? _lastSelectedIndex;
 
   // --- Métodos Nivel 4 ---
+  /// Formatea un número con separadores de miles y símbolo de peso
+  String _formatMoneyValue(int value) {
+    if (value == 0) return '';
+    final formatted = value.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match match) => '${match[1]}.'
+    );
+    return '\$$formatted';
+  }
+
   /// Maneja el tap en una imagen de dinero para el Nivel 4.
   void _handleMoneyImageTap(int index) {
     if (_showLevel4Feedback) return;
-    final moneyNumber = index + 1; 
+    
+    final moneyNumber = index + 1;
+    final valueToAdd = _numberIndexToValue[moneyNumber] ?? 0;
+    
     setState(() {
-      _selectedMoneyIndices.add(moneyNumber);
-      final valueToAdd = _numberIndexToValue[moneyNumber] ?? 0;
+      // Limpiar selección anterior y agregar la nueva
+      _lastSelectedIndex = index;
+      
+      // Agregar el valor a la lista de seleccionados
+      _selectedMoneyValues.add({
+        'index': index,
+        'moneyNumber': moneyNumber,
+        'value': valueToAdd,
+        'imagePath': _level4MoneyImagePaths[index],
+      });
+      
+      // Actualizar el total
       _currentTotalValue += valueToAdd;
+    });
+  }
 
+  /// Elimina un valor de la lista de seleccionados
+  void _removeSelectedValue(int index) {
+    if (_showLevel4Feedback) return;
+    
+    setState(() {
+      final removedValue = _selectedMoneyValues[index];
+      _currentTotalValue -= removedValue['value'] as int;
+      _selectedMoneyValues.removeAt(index);
+      
+      // Si se eliminó el último valor seleccionado, limpiar la selección en la cuadrícula
+      if (_selectedMoneyValues.isEmpty) {
+        _lastSelectedIndex = null;
+      } else {
+        // Seleccionar el último valor restante
+        final lastValue = _selectedMoneyValues.last;
+        _lastSelectedIndex = lastValue['index'] as int;
+      }
+    });
+  }
+
+  /// Valida la respuesta del usuario
+  void _validateAnswer() {
+    if (_showLevel4Feedback || _selectedMoneyValues.isEmpty) return;
+    
+    setState(() {
       if (_currentTotalValue > _targetTotalValue) {
-        _showLevel4Feedback = true; _isCorrectLevel4Answer = false;
-        _soundService.playIncorrectSound(); _activity4Service.playAlertAudio('valor_excedido');
+        _showLevel4Feedback = true;
+        _isCorrectLevel4Answer = false;
+        _soundService.playIncorrectSound();
+        _activity4Service.playAlertAudio('valor_excedido');
         decrementAttempts();
         Future.delayed(const Duration(seconds: 2), () {
-          if (mounted) { setState(() {
+          if (mounted) {
+            setState(() {
               _showLevel4Feedback = false;
-            if (remainingAttempts <= 0) { _handleOutOfAttempts(); } else { _selectRandomLevel4Name(); }
-          });}
+              if (remainingAttempts <= 0) {
+                _handleOutOfAttempts();
+              } else {
+                _resetLevel4Selection();
+              }
+            });
+          }
         });
       } else if (_currentTotalValue == _targetTotalValue) {
-        bool hasCorrectCombination = true;
-        Map<int, int> selectedFrequency = {}; Map<int, int> targetFrequency = {};
-        for (int numInSelection in _selectedMoneyIndices) { selectedFrequency[numInSelection] = (selectedFrequency[numInSelection] ?? 0) + 1; }
-        for (int numInTarget in _targetMoneyNumbers) { targetFrequency[numInTarget] = (targetFrequency[numInTarget] ?? 0) + 1; }
-        for (int key in targetFrequency.keys) { if ((selectedFrequency[key] ?? 0) != targetFrequency[key]) { hasCorrectCombination = false; break; }}
-        if(hasCorrectCombination) { // Chequeo adicional: que no haya extras en la selección
-            for (int key in selectedFrequency.keys) { if ((targetFrequency[key] ?? 0) != selectedFrequency[key]) { hasCorrectCombination = false; break; }}
-        }
-
-        _showLevel4Feedback = true; _isCorrectLevel4Answer = hasCorrectCombination;
+        // Verificar si la combinación es correcta
+        bool hasCorrectCombination = _checkCorrectCombination();
+        
+        _showLevel4Feedback = true;
+        _isCorrectLevel4Answer = hasCorrectCombination;
+        
         if (hasCorrectCombination) {
           _soundService.playCorrectSound();
           Future.delayed(const Duration(seconds: 1), () {
-            if (mounted) { _handleLevel4Completion(true); } // true para primera vez (potencialmente)
-                });
-              } else {
-          _soundService.playIncorrectSound(); _activity4Service.playAlertAudio('combinacion_incorrecta');
+            if (mounted) {
+              _handleLevel4Completion(true);
+            }
+          });
+        } else {
+          _soundService.playIncorrectSound();
+          _activity4Service.playAlertAudio('combinacion_incorrecta');
           decrementAttempts();
           Future.delayed(const Duration(seconds: 2), () {
-            if (mounted) { setState(() {
+            if (mounted) {
+              setState(() {
                 _showLevel4Feedback = false;
-              if (remainingAttempts <= 0) { _handleOutOfAttempts(); } else { _selectedMoneyIndices = []; _currentTotalValue = 0; }
-            });}
+                if (remainingAttempts <= 0) {
+                  _handleOutOfAttempts();
+                } else {
+                  _resetLevel4Selection();
+                }
+              });
+            }
           });
         }
+      } else {
+        // Valor menor al objetivo
+        _showLevel4Feedback = true;
+        _isCorrectLevel4Answer = false;
+        _soundService.playIncorrectSound();
+        _activity4Service.playAlertAudio('valor_insuficiente');
+        decrementAttempts();
+        Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            setState(() {
+              _showLevel4Feedback = false;
+              if (remainingAttempts <= 0) {
+                _handleOutOfAttempts();
+              } else {
+                _resetLevel4Selection();
+              }
+            });
+          }
+        });
       }
     });
+  }
+
+  /// Verifica si la combinación seleccionada es correcta
+  bool _checkCorrectCombination() {
+    // 1. Obtener la frecuencia de la selección del usuario.
+    Map<int, int> userSelectionFrequency = {};
+    for (var selectedValue in _selectedMoneyValues) {
+      final moneyNumber = selectedValue['moneyNumber'] as int;
+      userSelectionFrequency[moneyNumber] = (userSelectionFrequency[moneyNumber] ?? 0) + 1;
+    }
+
+    // 2. Iterar a través de cada combinación válida.
+    for (var validCombination in _validCombinations) {
+      Map<int, int> targetFrequency = {};
+      // 2a. Calcular la frecuencia de la combinación válida actual.
+      for (int number in validCombination) {
+        targetFrequency[number] = (targetFrequency[number] ?? 0) + 1;
+      }
+
+      // 2b. Comparar las frecuencias (tamaño y contenido).
+      if (userSelectionFrequency.length == targetFrequency.length) {
+        bool isMatch = true;
+        for (var key in userSelectionFrequency.keys) {
+          if (userSelectionFrequency[key] != targetFrequency[key]) {
+            isMatch = false;
+            break; // No coincide, pasar a la siguiente combinación válida.
+          }
+        }
+        if (isMatch) {
+          return true; // Encontramos una coincidencia.
+        }
+      }
+    }
+
+    // 3. Si no se encontró ninguna coincidencia después de verificar todas las combinaciones.
+    return false;
+  }
+
+  /// Resetea la selección del nivel 4
+  void _resetLevel4Selection() {
+    _selectedMoneyValues = [];
+    _currentTotalValue = 0;
+    _lastSelectedIndex = null;
   }
 
   /// Selecciona aleatoriamente un nombre Namtrik para el Nivel 4 y carga sus datos.
   void _selectRandomLevel4Name() {
     if (_level4NamtrikNames.isNotEmpty) {
       setState(() {
-        _selectedMoneyIndices = []; _currentTotalValue = 0; _showLevel4Feedback = false; _isCorrectLevel4Answer = false; _hasEarnedPointsLevel4 = false;
+        _resetLevel4Selection();
+        _showLevel4Feedback = false;
+        _isCorrectLevel4Answer = false;
+        _hasEarnedPointsLevel4 = false;
         final randomIndex = Random().nextInt(_level4NamtrikNames.length);
         _currentLevel4NamtrikName = _level4NamtrikNames[randomIndex];
         _loadTargetMoneyValues();
@@ -676,7 +785,8 @@ class _Activity4LevelScreenState
       if (targetData != null) {
         setState(() {
           _targetTotalValue = targetData['total_money'];
-          _targetMoneyNumbers = List<int>.from(targetData['number_money_images']);
+          // El servicio ahora devuelve una lista de listas
+          _validCombinations = List<List<int>>.from(targetData['valid_combinations'].map((e) => List<int>.from(e)));
         });
       }
       await _loadMoneyValueMapping(); // Asegura que el mapeo esté listo
@@ -735,7 +845,10 @@ class _Activity4LevelScreenState
             onPressed: () {
               Navigator.of(context).pop(); // Cierra el diálogo
               // Para Nivel 4, siempre reiniciar con un nuevo valor después de aceptar el diálogo.
-              setState(() { _showLevel4Feedback = false; _selectRandomLevel4Name(); });
+              setState(() { 
+                _showLevel4Feedback = false; 
+                _selectRandomLevel4Name(); 
+              });
             },
             style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFCD5C5C), foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)), padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12)),
             child: Text(showPointsDialog ? 'Continuar' : 'Aceptar'),
@@ -752,8 +865,8 @@ class _Activity4LevelScreenState
     if (!_level4DataLoaded && !_isLoading) {
       return const Center(child: Text('Cargando datos del Nivel 4...', style: TextStyle(color: Colors.white)));
     }
-     if (_isLoading && !_level4DataLoaded) { // Mostrar cargando si _isLoading es true y los datos específicos del Nivel 4 no están listos
-        return const Center(child: CircularProgressIndicator(color: Colors.white));
+    if (_isLoading && !_level4DataLoaded) {
+      return const Center(child: CircularProgressIndicator(color: Colors.white));
     }
 
     final screenSize = MediaQuery.of(context).size;
@@ -761,58 +874,217 @@ class _Activity4LevelScreenState
     final double containerWidth = isLandscape ? 450.0 : screenSize.width - 32;
 
     return SingleChildScrollView(
-      child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        InfoBar(remainingAttempts: remainingAttempts, margin: const EdgeInsets.only(bottom: 16)),
-              Container(
-          width: containerWidth, margin: const EdgeInsets.only(bottom: 16), padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          decoration: BoxDecoration(color: const Color(0xFFCD5C5C), borderRadius: BorderRadius.circular(12), boxShadow: [BoxShadow(color: const Color(0xFFCD5C5C), blurRadius: 8, offset: const Offset(0, 4))]),
-          child: Center(child: Text(_currentLevel4NamtrikName, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-        ),
-        Container(
-          width: containerWidth, margin: const EdgeInsets.only(bottom: 16), padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                decoration: BoxDecoration(
-            color: _showLevel4Feedback ? (_isCorrectLevel4Answer ? const Color(0xFF00FF00).withOpacity(0.2) : const Color(0xFFFF0000).withOpacity(0.2)) : const Color(0xFFCD5C5C),
-                  borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: _showLevel4Feedback ? (_isCorrectLevel4Answer ? const Color(0xFF00FF00) : const Color(0xFFFF0000)) : Colors.transparent),
-          ),
-          child: SizedBox(height: 50, child: Center(child: Text(
-            _currentTotalValue > 0 ? '$_currentTotalValue' : '', style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          ))),
-        ),
-        if (_moneyImagesLoaded) Container( // Usa _moneyImagesLoaded que es la flag específica para la cuadrícula del Nivel 4
-          width: containerWidth, margin: const EdgeInsets.only(bottom: 24, top: 16),
-          child: GridView.builder(
-            shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.2, crossAxisSpacing: 12, mainAxisSpacing: 12),
-            itemCount: _level4MoneyImagePaths.length, // Usa la lista correcta de imágenes para Nivel 4
-            itemBuilder: (context, index) {
-              final isSelected = _selectedMoneyIndices.contains(index + 1);
-              return GestureDetector(
-                onTap: () { if (!_showLevel4Feedback) { _handleMoneyImageTap(index); }},
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFFCD5C5C).withOpacity(0.3) : Colors.transparent,
-                  borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFFCD5C5C), width: isSelected ? 2 : 1), // Borde siempre visible, más grueso si está seleccionado
-                  ),
-                  padding: const EdgeInsets.all(1),
-                  child: Stack(children: [
-                    Positioned.fill(child: Image.asset(_activity4Service.getMoneyImagePath(_level4MoneyImagePaths[index]), fit: BoxFit.contain)),
-                    if (isSelected) Positioned(top: 4, right: 4, child: Container(
-                      padding: const EdgeInsets.all(4), decoration: BoxDecoration(color: const Color(0xFFCD5C5C), shape: BoxShape.circle),
-                      child: const Icon(Icons.check, color: Colors.white, size: 12),
-                    )),
-                  ]),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InfoBar(remainingAttempts: remainingAttempts, margin: const EdgeInsets.only(bottom: 16)),
+            
+            // Recuadro 1: Texto en namtrik
+            Container(
+              width: containerWidth,
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFCD5C5C),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [BoxShadow(color: const Color(0xFFCD5C5C), blurRadius: 8, offset: const Offset(0, 4))],
+              ),
+              child: Center(
+                child: Text(
+                  _currentLevel4NamtrikName,
+                  style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+            
+            // Recuadro 2: Valor total formateado
+            Container(
+              width: containerWidth,
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                color: _showLevel4Feedback
+                    ? (_isCorrectLevel4Answer
+                        ? const Color(0xFF00FF00).withOpacity(0.2)
+                        : const Color(0xFFFF0000).withOpacity(0.2))
+                    : const Color(0xFFCD5C5C),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: _showLevel4Feedback
+                      ? (_isCorrectLevel4Answer
+                          ? const Color(0xFF00FF00)
+                          : const Color(0xFFFF0000))
+                      : Colors.transparent,
+                ),
+              ),
+              child: SizedBox(
+                height: 50,
+                child: Center(
+                  child: Text(
+                    _formatMoneyValue(_currentTotalValue),
+                    style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ),
+            
+            // Recuadro 3: Valores seleccionados
+            if (_selectedMoneyValues.isNotEmpty)
+              Container(
+                width: containerWidth,
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFCD5C5C), width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Valores seleccionados:',
+                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: _selectedMoneyValues.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final value = entry.value;
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFCD5C5C),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                _activity4Service.getMoneyImagePath(value['imagePath']),
+                                width: 24,
+                                height: 24,
+                                fit: BoxFit.contain,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                _formatMoneyValue(value['value'] as int),
+                                style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(width: 8),
+                              GestureDetector(
+                                onTap: () => _removeSelectedValue(index),
+                                child: const Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
+            
+            // Botón de validación
+            if (_selectedMoneyValues.isNotEmpty && !_showLevel4Feedback)
+              Container(
+                width: containerWidth,
+                margin: const EdgeInsets.only(bottom: 16),
+                child: ElevatedButton(
+                  onPressed: _validateAnswer,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFCD5C5C),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.check_circle, size: 20),
+                      SizedBox(width: 8),
+                      Text('Validar', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ),
+            
+            // Cuadrícula de valores de dinero
+            if (_moneyImagesLoaded)
+              Container(
+                width: containerWidth,
+                margin: const EdgeInsets.only(bottom: 24, top: 16),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 1.2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemCount: _level4MoneyImagePaths.length,
+                  itemBuilder: (context, index) {
+                    final isSelected = _lastSelectedIndex == index;
+                    return GestureDetector(
+                      onTap: () {
+                        if (!_showLevel4Feedback) {
+                          _handleMoneyImageTap(index);
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? const Color(0xFFCD5C5C).withOpacity(0.3)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFFCD5C5C),
+                            width: isSelected ? 2 : 1,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(1),
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: Image.asset(
+                                _activity4Service.getMoneyImagePath(_level4MoneyImagePaths[index]),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            if (isSelected)
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFCD5C5C),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(Icons.check, color: Colors.white, size: 12),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+          ],
         ),
-      ])),
+      ),
     );
   }
-
-  //================ END OF NIVEL 4 SECTION ======================================
 
   //==============================================================================
   // Métodos Comunes del Juego / Ciclo de Vida del State

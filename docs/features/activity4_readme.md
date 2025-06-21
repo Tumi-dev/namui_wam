@@ -26,12 +26,16 @@ La actividad se estructura en cuatro niveles progresivos, cada uno enfocado en u
    * El usuario debe seleccionar el nombre que describe correctamente el valor total de las denominaciones mostradas.
    * Las selecciones incorrectas reducen el número de intentos disponibles.
 
-4. **Nivel 4: Coloquemos el dinero correcto**
+4. **Nivel 4: Coloquemos el dinero correcto (Lógica Mejorada)**
    * Se presenta un valor monetario total en texto Namtrik.
-   * Debajo hay una cuadrícula con todas las posibles denominaciones de billetes y monedas.
-   * El usuario debe seleccionar las denominaciones que, en conjunto, suman exactamente el valor objetivo.
-   * Un contador muestra el valor acumulado de las selecciones actuales.
-   * Las combinaciones incorrectas reducen el número de intentos disponibles.
+   * Debajo hay una cuadrícula con todas las denominaciones de billetes y monedas. Al seleccionar una, esta se resalta visualmente.
+   * **Mejora de Interfaz**:
+     * Un recuadro muestra el valor total acumulado, formateado para mejor legibilidad (ej: `$1.000`).
+     * Un segundo recuadro dinámico muestra los ítems que el usuario ha seleccionado. Cada ítem puede ser eliminado individualmente.
+     * Un botón "Validar" aparece cuando hay ítems seleccionados, permitiendo al usuario decidir cuándo evaluar su respuesta.
+   * **Mejora de Lógica**:
+     * La validación ya no está atada a una única combinación correcta. El sistema ahora acepta **cualquier combinación** de billetes/monedas que sume el total correcto, siempre que dicha combinación esté definida como válida en el archivo de datos `a4_l4_namuiwam_money.json`.
+     * Esto proporciona una experiencia de juego más realista y flexible.
 
 Los cuatro niveles utilizan una estética común con colores rojizos terrosos que temáticamente distinguen esta actividad de las demás en la aplicación.
 
@@ -135,10 +139,11 @@ Los datos utilizados por la actividad se almacenan en varios archivos JSON:
   * Generación de conjuntos de denominaciones con valor conocido.
   * Opciones de texto con nombres en Namtrik.
   * Validación de la selección y retroalimentación.
-* ✅ Implementación del Nivel 4 (Colocar dinero) completada con:
-  * Selección múltiple de denominaciones desde una cuadrícula.
-  * Cálculo dinámico del valor acumulado.
-  * Validación contra el valor objetivo.
+* ✅ Implementación del Nivel 4 (Colocar dinero) completada y **mejorada** con:
+  * Selección de denominaciones desde una cuadrícula.
+  * **Nueva interfaz** con recuadro de ítems seleccionados y botón de validación manual.
+  * Cálculo y **formateo** del valor acumulado (ej. `$1.000`).
+  * **Lógica de validación flexible** que acepta múltiples combinaciones correctas.
 * ✅ Integración con el sistema central de progreso y puntuación.
 * ✅ Retroalimentación visual y háptica en los cuatro niveles.
 
@@ -155,7 +160,7 @@ Los datos utilizados por la actividad se almacenan en varios archivos JSON:
 Independientemente del sub-nivel, se aplican las siguientes mecánicas:
 
 - **Sistema de Intentos:** El usuario dispone de un número limitado de intentos para cada desafío.
-- **Retroalimentación Inmediata:** Tras cada acción evaluable, el sistema indica si fue correcta o incorrecta.
+- **Retroalimentación Inmediata:** Tras cada acción evaluable, el sistema indica si fue correcta o incorrecta. En el Nivel 4, esta evaluación ocurre únicamente cuando el usuario presiona el botón "Validar".
   - Se utiliza feedback visual (cambio de colores, iconos de verificación/error).
   - Se proporciona retroalimentación háptica (vibración) para reforzar la respuesta.
   - Se utilizan efectos de sonido (proporcionados por `SoundService`) para el feedback de acierto o error en los niveles 2, 3 y 4 (Nivel 1 es de exploración).

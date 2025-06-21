@@ -4,11 +4,13 @@ import 'package:namuiwam/core/themes/app_theme.dart';
 import 'package:namuiwam/core/models/activities_state.dart';
 import 'package:namuiwam/core/models/level_model.dart';
 import 'package:namuiwam/features/activity4/screens/activity4_level_screen.dart';
+import 'package:namuiwam/core/constants/activity_instructions.dart';
+import 'package:namuiwam/core/widgets/help/help.dart';
 
 /// {@template activity4_screen}
 /// Pantalla principal para la Actividad 4: "Anwan ashipelɵ kɵkun" (Aprendamos a usar el dinero).
 ///
-/// Esta pantalla sirve como punto de entrada a los cuatro modos de juego relacionados 
+/// Esta pantalla sirve como punto de entrada a los cuatro modos de juego relacionados
 /// con el manejo del dinero en Namtrik:
 /// - Nivel 1: Conozcamos el dinero Namtrik - Exploración de denominaciones
 /// - Nivel 2: Escojamos el dinero correcto - Selección para comprar artículos
@@ -32,13 +34,22 @@ import 'package:namuiwam/features/activity4/screens/activity4_level_screen.dart'
 /// );
 /// ```
 /// {@endtemplate}
-class Activity4Screen extends StatelessWidget {
+class Activity4Screen extends StatefulWidget {
   /// {@macro activity4_screen}
   const Activity4Screen({super.key});
 
+  @override
+  State<Activity4Screen> createState() => _Activity4ScreenState();
+}
+
+class _Activity4ScreenState extends State<Activity4Screen>
+    with HelpBannerMixin {
+  /// Color específico de la Actividad 4 - Rojizo terroso
+  static const Color _activity4Color = Color(0xFFCD5C5C);
+
   /// Navega hacia la pantalla de inicio de la aplicación (la primera ruta en la pila).
   ///
-  /// Este método cierra todas las pantallas en la pila de navegación 
+  /// Este método cierra todas las pantallas en la pila de navegación
   /// hasta llegar a la ruta inicial (la pantalla de inicio), utilizando
   /// [Navigator.popUntil] con la condición route.isFirst.
   ///
@@ -87,7 +98,6 @@ class Activity4Screen extends StatelessWidget {
       builder: (context, activitiesState, child) {
         final activity4 = activitiesState.getActivity(4);
         if (activity4 == null) return const SizedBox.shrink();
-
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -100,57 +110,72 @@ class Activity4Screen extends StatelessWidget {
               style: AppTheme.activityTitleStyle,
             ),
             backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: AppTheme.mainGradient,
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    const Icon(
-                      Icons.attach_money,
-                      // Color de icono rojo terroso específico de A4
-                      color: Color(0xFFCD5C5C),
-                      size: 64,
-                    ),
-                    const SizedBox(height: 30),
-                    Expanded(
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          final isLandscape =
-                              MediaQuery.of(context).orientation ==
-                                  Orientation.landscape;
-                          final maxButtonWidth =
-                              isLandscape ? 450.0 : constraints.maxWidth;
+            elevation: 0,            actions: [
+              IconButton(
+                icon: AppTheme.questionIcon, // Icono de ayuda/información
+                onPressed: showHelpBanner,
+              ),
+            ],          ),
+          body: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: AppTheme.mainGradient,
+                ),
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        const Icon(
+                          Icons.attach_money,
+                          // Color de icono rojo terroso específico de A4
+                          color: _activity4Color,
+                          size: 64,
+                        ),
+                        const SizedBox(height: 30),
+                        Expanded(
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              final isLandscape =
+                                  MediaQuery.of(context).orientation ==
+                                      Orientation.landscape;
+                              final maxButtonWidth =
+                                  isLandscape ? 450.0 : constraints.maxWidth;
 
-                          return ListView.builder(
-                            itemCount: activity4.availableLevels.length,
-                            itemBuilder: (context, index) {
-                              final level = activity4.availableLevels[index];
-                              return Center(
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                    maxWidth: maxButtonWidth,
-                                  ),
-                                  width: double.infinity,
-                                  child: _buildLevelCard(context, level),
-                                ),
+                              return ListView.builder(
+                                itemCount: activity4.availableLevels.length,
+                                itemBuilder: (context, index) {
+                                  final level = activity4.availableLevels[index];
+                                  return Center(
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                        maxWidth: maxButtonWidth,
+                                      ),
+                                      width: double.infinity,
+                                      child: _buildLevelCard(context, level),
+                                    ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              // Banner de ayuda usando el widget reutilizable
+              HelpBannerWidget(
+                isVisible: isHelpBannerVisible,
+                onClose: hideHelpBanner,
+                headerColor: _activity4Color,
+                content: ActivityInstructions.getInstructionForActivity(4),
+              ),
+            ],
           ),
         );
       },
@@ -180,7 +205,7 @@ class Activity4Screen extends StatelessWidget {
       child: Card(
         elevation: 4,
         // Color de fondo rojo terroso específico de A4
-        color: const Color(0xFFCD5C5C),
+        color: _activity4Color,
         child: InkWell(
           onTap: () => _onLevelSelected(context, level),
           child: Container(
@@ -191,8 +216,9 @@ class Activity4Screen extends StatelessWidget {
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: const BoxDecoration( /// Presente #1
-                    color: Color(0xFFCD5C5C),
+                  decoration: const BoxDecoration(
+                    /// Presente #1
+                    color: _activity4Color,
                     shape: BoxShape.circle,
                   ),
                   child: Center(

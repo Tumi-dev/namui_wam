@@ -14,7 +14,7 @@ import 'package:namuiwam/core/widgets/help/help.dart';
 /// Pantalla para la Actividad 5: "Muntsielan namtrikmai yunɵmarɵpik (Convertir números en letras)".
 ///
 /// Implementa una herramienta interactiva que permite a los usuarios:
-/// - Ingresar un número arábigo en el rango de 1 a 9,999,999
+/// - Ingresar un número arábigo en el rango de 0 a 9,999,999
 /// - Visualizar instantáneamente su representación escrita en Namtrik
 /// - Escuchar la pronunciación correcta a través de archivos de audio
 /// - Copiar el texto resultante al portapapeles
@@ -149,6 +149,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
   /// - `null`: Borde normal (cuando la entrada es válida)
   /// - `Colors.red`: Borde rojo (cuando la entrada es inválida)
   Color? _inputBorderColor;
+
   /// Define el color de fondo (verde oliva apagado) para los contenedores de texto.
   ///
   /// Color temático específico de la Actividad 5, que se aplica a:
@@ -269,26 +270,6 @@ class _Activity5ScreenState extends State<Activity5Screen>
     final String text = _numberController.text;
     final int? number = int.tryParse(text);
 
-    // Check if the input is "0"
-    if (number == 0) {
-      setState(() {
-        _namtrikResult = 'El número debe estar entre 1 y 9999999';
-        _hasInvalidInput = true;
-        _isAudioAvailable = false;
-        _currentNumber = null;
-        _inputBorderColor = Colors.red;
-      });
-
-      // If user tries to enter more after "0", revert back to just "0"
-      if (text.length > 1) {
-        _numberController.text = "0";
-        _numberController.selection = TextSelection.fromPosition(
-          TextPosition(offset: _numberController.text.length),
-        );
-      }
-      return;
-    }
-
     // If previous input was invalid but now it's valid, reset the flag
     if (_hasInvalidInput && _activity5Service.isValidNumber(number)) {
       setState(() {
@@ -331,7 +312,7 @@ class _Activity5ScreenState extends State<Activity5Screen>
       }
     } else if (number != null) {
       setState(() {
-        _namtrikResult = 'El número debe estar entre 1 y 9999999';
+        _namtrikResult = 'El número debe estar entre 0 y 9999999';
         _hasInvalidInput = true;
         _isAudioAvailable = false;
         _currentNumber = null;
@@ -471,7 +452,8 @@ class _Activity5ScreenState extends State<Activity5Screen>
           ),
           backgroundColor: Colors
               .transparent, // Transparente para mostrar el gradiente de fondo
-          elevation: 0,          actions: [
+          elevation: 0,
+          actions: [
             IconButton(
               icon: AppTheme.questionIcon, // Icono de ayuda/información
               onPressed: showHelpBanner,
@@ -479,227 +461,233 @@ class _Activity5ScreenState extends State<Activity5Screen>
           ],
         ),
         // Use resizeToAvoidBottomInset to prevent keyboard from pushing content
-        resizeToAvoidBottomInset: false,        body: Stack(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
           children: [
             Container(
               decoration: BoxDecoration(
                 gradient: AppTheme.mainGradient,
               ),
-          child: SafeArea(
-            // Use bottom: false to allow content to extend behind the keyboard
-            bottom: false,
-            child: Column(
-              children: [
-                // Scrollable content area
-                Expanded(
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 20),
-                          // Hide game description when keyboard is visible on small screens
-                          if (!(_isKeyboardVisible && isSmallScreen))
-                            Center(
-                              child: GameDescriptionWidget(
-                                description: ActivityGameDescriptions
-                                    .getDescriptionForActivity(5),
-                              ),
-                            ),
-                          SizedBox(
-                              height: _isKeyboardVisible && isSmallScreen
-                                  ? 10
-                                  : 40),
-                          const Text(
-                            'Muntsik wan yu pɵr',
-                            style: TextStyle(
-                              color: Colors
-                                  .white, // Color blanco para el texto de la pantalla de inicio
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextField(
-                            controller: _numberController,
-                            style: const TextStyle(
-                                color: Colors
-                                    .white), // Color blanco para el texto del campo de texto
-                            keyboardType: TextInputType.number,
-                            cursorColor: Colors.white,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(7),
-                              // Custom input formatter to handle "0" input
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) {
-                                // If we have an invalid input (like "0") and user is trying to add more digits
-                                if (_hasInvalidInput &&
-                                    newValue.text.length >
-                                        oldValue.text.length) {
-                                  return oldValue; // Prevent the change
-                                }
-                                return newValue; // Allow the change
-                              }),
-                            ],
-                            onTap: () {
-                              // When the text field is tapped, scroll to ensure it's visible
-                              Future.delayed(const Duration(milliseconds: 300),
-                                  () {
-                                if (_scrollController.hasClients) {
-                                  _scrollController.animateTo(
-                                    _scrollController.position.maxScrollExtent,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeOut,
-                                  );
-                                }
-                              });
-                            },
-                            onChanged: (_) {
-                              if (_inputBorderColor != null) {
-                                setState(() {
-                                  _inputBorderColor = null;
-                                });
-                              }
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Digita el número',
-                              hintStyle: TextStyle(
-                                // Color gris texto de sugerencia en el campo de digitar número
-                                color: Colors.grey[500],
-                                fontSize: 16,
-                              ),
-                              filled: true,
-                              fillColor: _boxColor,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(
-                                  color: _inputBorderColor ??
-                                      const Color(0xFF7E7745),
-                                  width: 4,
+              child: SafeArea(
+                // Use bottom: false to allow content to extend behind the keyboard
+                bottom: false,
+                child: Column(
+                  children: [
+                    // Scrollable content area
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 20),
+                              // Hide game description when keyboard is visible on small screens
+                              if (!(_isKeyboardVisible && isSmallScreen))
+                                Center(
+                                  child: GameDescriptionWidget(
+                                    description: ActivityGameDescriptions
+                                        .getDescriptionForActivity(5),
+                                  ),
+                                ),
+                              SizedBox(
+                                  height: _isKeyboardVisible && isSmallScreen
+                                      ? 10
+                                      : 40),
+                              const Text(
+                                'Muntsik wan yu pɵr',
+                                style: TextStyle(
+                                  color: Colors
+                                      .white, // Color blanco para el texto de la pantalla de inicio
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(
-                                  color:
-                                      _inputBorderColor ?? Colors.transparent,
-                                  width: 2,
-                                ),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 14,
-                              ),
-                            ),
-                          ),
-                          // Texto Namtrikmai del contenedor de texto del número
-                          const SizedBox(height: 20),
-                          const Text(
-                            'Namtrikmai',
-                            style: TextStyle(
-                              color: Colors
-                                  .white, // Color blanco para el texto Namtrikmai del contenedor de texto del número
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            width: double.infinity,
-                            // Ajuste de altura del contenedor de texto del número
-                            constraints: BoxConstraints(
-                              minHeight: _isKeyboardVisible && isSmallScreen
-                                  ? 80
-                                  : 100,
-                            ),
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: _boxColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: _isLoading
-                                ? const Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors
-                                          .white, // Color blanco para el indicador de carga en la pantalla de inicio de la actividad
-                                    ),
-                                  )
-                                : Text(
-                                    _namtrikResult.isEmpty
-                                        ? 'Resultado del número'
-                                        : _namtrikResult,
-                                    style: TextStyle(
-                                      color: _namtrikResult.isEmpty
-                                          ? Colors.grey[
-                                              500] // Color gris texto del contenedor resultado vacío del número
-                                          : Colors
-                                              .white, // Color blanco texto del contenedor resultado del número
-                                      fontSize: 16,
+                              const SizedBox(height: 8),
+                              TextField(
+                                controller: _numberController,
+                                style: const TextStyle(
+                                    color: Colors
+                                        .white), // Color blanco para el texto del campo de texto
+                                keyboardType: TextInputType.number,
+                                cursorColor: Colors.white,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(7),
+                                  // Custom input formatter to handle "0" input
+                                  TextInputFormatter.withFunction(
+                                      (oldValue, newValue) {
+                                    // Si el valor anterior es "0" y el nuevo valor es más largo,
+                                    // no permitir el cambio para evitar entradas como "01", "02", etc.
+                                    if (oldValue.text == '0' &&
+                                        newValue.text.length >
+                                            oldValue.text.length) {
+                                      return oldValue; // Prevenir el cambio
+                                    }
+                                    return newValue; // Permitir el cambio
+                                  }),
+                                ],
+                                onTap: () {
+                                  // When the text field is tapped, scroll to ensure it's visible
+                                  Future.delayed(
+                                      const Duration(milliseconds: 300), () {
+                                    if (_scrollController.hasClients) {
+                                      _scrollController.animateTo(
+                                        _scrollController
+                                            .position.maxScrollExtent,
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        curve: Curves.easeOut,
+                                      );
+                                    }
+                                  });
+                                },
+                                onChanged: (_) {
+                                  if (_inputBorderColor != null) {
+                                    setState(() {
+                                      _inputBorderColor = null;
+                                    });
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  hintText: 'Digita el número',
+                                  hintStyle: TextStyle(
+                                    // Color gris texto de sugerencia en el campo de digitar número
+                                    color: Colors.grey[500],
+                                    fontSize: 16,
+                                  ),
+                                  filled: true,
+                                  fillColor: _boxColor,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: _inputBorderColor ??
+                                          const Color(0xFF7E7745),
+                                      width: 4,
                                     ),
                                   ),
-                          ),
-                          // Ajuste de espaciado del contenedor de texto del número
-                          SizedBox(
-                              height: _isKeyboardVisible && isSmallScreen
-                                  ? 16
-                                  : 24),
-                          // Fila de botones de acción
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              // Listen button
-                              _buildActionButton(
-                                icon: Icons.volume_up,
-                                label: 'Escuchar',
-                                onPressed: _isAudioAvailable
-                                    ? _handleListenPressed
-                                    : null,
-                                isActive: _isAudioAvailable,
-                                isPlaying: _isPlayingAudio,
-                                isSmallScreen:
-                                    _isKeyboardVisible && isSmallScreen,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: _inputBorderColor ??
+                                          Colors.transparent,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 14,
+                                  ),
+                                ),
                               ),
-                              // Copy button
-                              _buildActionButton(
-                                icon: Icons.content_copy,
-                                label: 'Copiar',
-                                onPressed: _handleCopyPressed,
-                                isActive: true,
-                                isSmallScreen:
-                                    _isKeyboardVisible && isSmallScreen,
+                              // Texto Namtrikmai del contenedor de texto del número
+                              const SizedBox(height: 20),
+                              const Text(
+                                'Namtrikmai',
+                                style: TextStyle(
+                                  color: Colors
+                                      .white, // Color blanco para el texto Namtrikmai del contenedor de texto del número
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              // Share button
-                              _buildActionButton(
-                                icon: Icons.share,
-                                label: 'Compartir',
-                                onPressed: _handleSharePressed,
-                                isActive: true,
-                                isSmallScreen:
-                                    _isKeyboardVisible && isSmallScreen,
+                              const SizedBox(height: 8),
+                              Container(
+                                width: double.infinity,
+                                // Ajuste de altura del contenedor de texto del número
+                                constraints: BoxConstraints(
+                                  minHeight: _isKeyboardVisible && isSmallScreen
+                                      ? 80
+                                      : 100,
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: _boxColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: _isLoading
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors
+                                              .white, // Color blanco para el indicador de carga en la pantalla de inicio de la actividad
+                                        ),
+                                      )
+                                    : Text(
+                                        _namtrikResult.isEmpty
+                                            ? 'Resultado del número'
+                                            : _namtrikResult,
+                                        style: TextStyle(
+                                          color: _namtrikResult.isEmpty
+                                              ? Colors.grey[
+                                                  500] // Color gris texto del contenedor resultado vacío del número
+                                              : Colors
+                                                  .white, // Color blanco texto del contenedor resultado del número
+                                          fontSize: 16,
+                                        ),
+                                      ),
                               ),
+                              // Ajuste de espaciado del contenedor de texto del número
+                              SizedBox(
+                                  height: _isKeyboardVisible && isSmallScreen
+                                      ? 16
+                                      : 24),
+                              // Fila de botones de acción
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // Listen button
+                                  _buildActionButton(
+                                    icon: Icons.volume_up,
+                                    label: 'Escuchar',
+                                    onPressed: _isAudioAvailable
+                                        ? _handleListenPressed
+                                        : null,
+                                    isActive: _isAudioAvailable,
+                                    isPlaying: _isPlayingAudio,
+                                    isSmallScreen:
+                                        _isKeyboardVisible && isSmallScreen,
+                                  ),
+                                  // Copy button
+                                  _buildActionButton(
+                                    icon: Icons.content_copy,
+                                    label: 'Copiar',
+                                    onPressed: _handleCopyPressed,
+                                    isActive: true,
+                                    isSmallScreen:
+                                        _isKeyboardVisible && isSmallScreen,
+                                  ),
+                                  // Share button
+                                  _buildActionButton(
+                                    icon: Icons.share,
+                                    label: 'Compartir',
+                                    onPressed: _handleSharePressed,
+                                    isActive: true,
+                                    isSmallScreen:
+                                        _isKeyboardVisible && isSmallScreen,
+                                  ),
+                                ],
+                              ),
+                              // Add extra space at the bottom when keyboard is visible
+                              SizedBox(
+                                  height: _isKeyboardVisible
+                                      ? MediaQuery.of(context).viewInsets.bottom
+                                      : 20),
                             ],
                           ),
-                          // Add extra space at the bottom when keyboard is visible
-                          SizedBox(
-                              height: _isKeyboardVisible
-                                  ? MediaQuery.of(context).viewInsets.bottom
-                                  : 20),                        ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
             // Banner de ayuda usando el widget reutilizable
             HelpBannerWidget(
               isVisible: isHelpBannerVisible,

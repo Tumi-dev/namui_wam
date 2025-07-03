@@ -28,9 +28,9 @@ import 'package:namuiwam/core/services/logger_service.dart';
 /// // Obtener un número aleatorio para el nivel 2
 /// final numberData = await activity2Service.getRandomNumberForLevel(2);
 /// 
-/// // Verificar si la respuesta "pik kan" es correcta para el número 42
+/// // Verificar si la respuesta "piptsi pa" es correcta para el número 42
 /// if (numberData != null) {
-///   final isCorrect = activity2Service.isAnswerCorrect(numberData, "pik kan");
+///   final isCorrect = activity2Service.isAnswerCorrect(numberData, "piptsi pa");
 ///   print(isCorrect ? "¡Correcto!" : "Incorrecto, intenta de nuevo");
 /// }
 /// ```
@@ -50,7 +50,7 @@ class Activity2Service {
   ///
   /// Cada nivel de la actividad cubre un rango específico de números, definido
   /// por esta función. Los niveles siguen una progresión exponencial:
-  /// - Nivel 1: Unidades (1-9)
+  /// - Nivel 1: Unidades (0-9)
   /// - Nivel 2: Decenas (10-99)
   /// - Nivel 3: Centenas (100-999)
   /// - Nivel 4: Millares (1000-9999)
@@ -62,12 +62,12 @@ class Activity2Service {
   /// Retorna un [Map] con claves 'start' y 'end' que definen el rango numérico.
   /// Lanza un [ArgumentError] si el nivel está fuera del rango válido (1-7).
   Map<String, int> _getRangeForLevel(int level) {
-    int start = 1;
+    int start = 0;
     int end = 9;
 
     switch (level) {
       case 1:
-        start = 1;
+        start = 0;
         end = 9;
         break;
       case 2:

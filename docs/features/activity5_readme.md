@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Esta actividad funciona como una herramienta de utilidad para convertir números arábigos (en el rango de 1 a 9,999,999) a su representación escrita completa en el idioma Namtrik. Facilita el aprendizaje y uso correcto de la escritura de números complejos en el contexto cultural Namtrik, utilizando `NumberDataService` para la conversión (que incluye composición dinámica para números > 1M) y `AudioService` para una reproducción de audio secuencial mejorada.
+Esta actividad funciona como una herramienta de utilidad para convertir números arábigos (en el rango de 0 a 9,999,999) a su representación escrita completa en el idioma Namtrik. Facilita el aprendizaje y uso correcto de la escritura de números complejos en el contexto cultural Namtrik, utilizando `NumberDataService` para la conversión (que incluye composición dinámica para números > 1M) y `AudioService` para una reproducción de audio secuencial mejorada.
 
 ## Funcionamiento
 
@@ -11,9 +11,9 @@ A diferencia de las actividades anteriores basadas en niveles, la Actividad 5 pr
 1. **Entrada Numérica:**
    * Campo de texto (`TextField`) con validación para aceptar solo dígitos numéricos.
    * Restricciones:
-     - Rango de entrada válido: 1 a 9,999,999
-     - No se permite el número 0
-     - Máximo 7 dígitos permitidos
+     - Rango de entrada válido: 0 a 9,999,999
+     - Si el valor es 0, no se permite ingresar más dígitos.
+     - Máximo 7 dígitos permitidos.
    * Retroalimentación visual (borde rojo) cuando la entrada es inválida.
 
 2. **Visualización del Resultado:**
@@ -67,6 +67,11 @@ A diferencia de las actividades anteriores basadas en niveles, la Actividad 5 pr
 
 * **Base de Datos de Números (en `NumberDataService` y `namuiwam_numbers.json`):**
   ```json
+  {
+    "number": 0,
+    "namtrik": "Amɵ",
+    "audio_files": "am-e.wav"
+  },
   {
     "number": 42, // o 1234567
     "namtrik": "Piptsi Pa", // o una cadena más larga para números compuestos

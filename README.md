@@ -12,6 +12,14 @@ Tsatsɵ Musik es una aplicación móvil educativa e interactiva, desarrollada co
 
 ### Características Implementadas
 
+*   **Flujo de Consentimiento de Usuario:** (Estado: Completo)
+    *   **Objetivo:** Obtener el consentimiento explícito del usuario sobre los documentos legales de la aplicación antes del primer uso, cumpliendo con requisitos de transparencia y protección legal.
+    *   **Funcionamiento:**
+        *   Al finalizar la pantalla de carga (`LoadingScreen`), se verifica si los términos ya han sido aceptados.
+        *   Si es la primera vez, se muestra un diálogo modal que bloquea la navegación.
+        *   El diálogo contiene enlaces para visualizar los documentos (`Términos de uso`, `Política de privacidad`, `Acuerdo de licencia`) desde archivos Markdown locales.
+        *   La aceptación se guarda permanentemente en `shared_preferences` para no volver a mostrar el diálogo en futuros inicios.
+
 *   **Servicios Principales:**
     *   Gestión de reproducción de audio (`AudioService`).
     *   Servicio de Sonido Centralizado (`SoundService`):

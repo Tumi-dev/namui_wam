@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namuiwam/core/di/service_locator.dart'; // Para getIt
 import 'package:namuiwam/core/services/sound_service.dart'; // Importar SoundService
-// import 'package:namuiwam/core/models/game_state.dart'; // GameState ya no se usa aquí para volumen
 import 'package:namuiwam/core/themes/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart'; // Mantenido para el diálogo "Acerca de"
 
@@ -135,7 +134,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _buildInfoRow('Versión', '1.0.0'),
                 const Divider(),
                 _buildInfoRow(
-                  'Diseñador Pedagógico Lingüístico e Investigador',
+                  'Investigador en revitalización lingüística y diseño pedagógico',
                   'Gregorio Alberto Yalanda Muelas',
                 ),
                 const Divider(),
@@ -169,7 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(height: 10),
                 const Center(
                   child: Text(
-                    'NAMUIWAM es una aplicación educativa desarrollada como parte de un proyecto de investigación en el marco de la Maestría en Revitalización y Enseñanza de Lenguas Indígenas de la Universidad del Cauca. Su propósito es apoyar el aprendizaje de la lengua namtrik a través de contenidos interactivos sobre los números, el sistema monetario, la lectura de la hora y un minidiccionario básico.',
+                    'Tsatsɵ Musik es una aplicación educativa desarrollada como parte de un proyecto de investigación en el marco de la Maestría en Revitalización y Enseñanza de Lenguas Indígenas de la Universidad del Cauca. Su propósito es apoyar el aprendizaje de la lengua namtrik a través de contenidos interactivos sobre los números, el sistema monetario, la lectura de la hora y un minidiccionario básico.',
                     style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
                     textAlign: TextAlign.justify, // Justified for better readability
                   ),

@@ -15,7 +15,7 @@ import 'package:namuiwam/core/services/audio_player_service.dart';
 
 final getIt = GetIt.instance;
 
-Future<void> setupServiceLocator() async {
+void setupServiceLocator() {
   // Services
   getIt.registerSingleton<LoggerService>(LoggerService());
   getIt.registerSingleton<AudioService>(AudioService());
@@ -40,7 +40,9 @@ Future<void> setupServiceLocator() async {
   
   // Register AudioPlayerService
   getIt.registerLazySingleton<AudioPlayerService>(() => AudioPlayerService());
+}
 
+Future<void> initializeServices() async {
   // Initialize services that require async initialization
   final storageService = getIt<StorageService>();
   await storageService.init();

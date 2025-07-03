@@ -64,7 +64,7 @@ class Activity1Service {
   ///
   /// Cada nivel de la actividad cubre un rango específico de números, definido
   /// por esta función. Los niveles siguen una progresión exponencial:
-  /// - Nivel 1: Unidades (1-9)
+  /// - Nivel 1: Unidades (0-9)
   /// - Nivel 2: Decenas (10-99)
   /// - Nivel 3: Centenas (100-999)
   /// - Nivel 4: Millares (1000-9999)
@@ -75,12 +75,12 @@ class Activity1Service {
   /// [level] El número de nivel para el cual se desea obtener el rango.
   /// Retorna un [Map] con claves 'start' y 'end' que definen el rango numérico.
   Map<String, int> _getRangeForLevel(int level) {
-    int start = 1;
+    int start = 0;
     int end = 9;
     
     switch (level) {
       case 1:
-        start = 1;
+        start = 0;
         end = 9;
         break;
       case 2:
@@ -109,7 +109,7 @@ class Activity1Service {
         break;
       default:
         // Default to level 1 range
-        start = 1;
+        start = 0;
         end = 9;
     }
     

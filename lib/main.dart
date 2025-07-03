@@ -1,6 +1,6 @@
 /// Librería principal de la aplicación que inicializa el service locator y los providers de las actividades y el estado del juego.
 import 'package:flutter/material.dart';
-import 'package:namuiwam/features/home/home_screen.dart';
+import 'package:namuiwam/features/loading/loading_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:namuiwam/core/themes/app_theme.dart';
 import 'package:namuiwam/core/models/activity_levels.dart';
@@ -18,11 +18,11 @@ import 'package:namuiwam/core/models/game_state.dart';
 /// Inicializa los bindings de Flutter, configura el service locator [setupServiceLocator],
 /// establece un manejador de errores global con [LoggerService], y finalmente
 /// ejecuta la aplicación principal [MainApp].
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Inicializar el service locator
-  await setupServiceLocator();
+  setupServiceLocator();
   final logger = getIt<LoggerService>();
 
   // Configurar el logger para que imprima los errores en la consola
@@ -140,7 +140,7 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Namui Wam',
         theme: AppTheme.lightTheme,
-        home: const HomeScreen(),
+        home: const LoadingScreen(),
         debugShowCheckedModeBanner: true,
       ),
     );

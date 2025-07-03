@@ -8,7 +8,7 @@ import 'package:namuiwam/core/services/logger_service.dart';
 /// Proporciona la lógica central para la herramienta de conversión de números arábigos
 /// a su representación escrita en Namtrik, con las siguientes responsabilidades:
 ///
-/// - Validar que los números estén dentro del rango soportado (1 a 9,999,999).
+/// - Validar que los números estén dentro del rango soportado (0 a 9,999,999).
 /// - Obtener la representación textual en Namtrik de cualquier número válido,
 ///   utilizando `NumberDataService` que puede componer dinámicamente números de 7 dígitos.
 /// - Gestionar la obtención y reproducción secuencial (sin solapamientos) de los
@@ -40,13 +40,13 @@ class Activity5Service {
   /// - Sus equivalentes escritos en Namtrik
   /// - Referencias a archivos de audio para pronunciación
   final NumberDataService _numberDataService;
-  
+
   /// Servicio para reproducir y detener archivos de audio.
   ///
   /// Gestiona la reproducción secuencial de múltiples archivos,
   /// permitiendo controlar el estado de reproducción (iniciar/detener).
   final AudioService _audioService;
-  
+
   /// Instancia del servicio de logging para registrar errores.
   ///
   /// Registra excepciones y errores durante:
@@ -72,7 +72,7 @@ class Activity5Service {
   /// print(result); // "pik pa tap"
   /// ```
   ///
-  /// [number] El número arábigo para convertir (debe estar entre 1 y 9,999,999)
+  /// [number] El número arábigo para convertir (debe estar entre 0 y 9,999,999)
   /// Retorna la cadena Namtrik correspondiente, cadena vacía si no se encuentra,
   /// o un mensaje de error si ocurre una excepción.
   Future<String> getNamtrikForNumber(int number) async {
@@ -125,7 +125,7 @@ class Activity5Service {
   /// Asegura que el nombre de archivo termine con la extensión '.wav'.
   ///
   /// Método utilitario interno para normalizar los nombres de archivo de audio.
-  /// Si el nombre ya termina con '.wav' (ignorando mayúsculas/minúsculas), 
+  /// Si el nombre ya termina con '.wav' (ignorando mayúsculas/minúsculas),
   /// lo deja sin cambios; de lo contrario, añade la extensión.
   ///
   /// [filename] El nombre de archivo a normalizar
@@ -165,24 +165,29 @@ class Activity5Service {
     try {
       final audioFiles = await getAudioFilesForNumber(number);
       if (audioFiles.isEmpty) {
-        _logger.info('No audio files found for number $number in Activity5Service.');
+        _logger.info(
+            'No audio files found for number $number in Activity5Service.');
         return false;
       }
 
       // Play each audio file in sequence
       for (int i = 0; i < audioFiles.length; i++) {
         // Use the new method that waits for audio completion
-        await _audioService.playAudioAndWait(audioFiles[i]); 
+        await _audioService.playAudioAndWait(audioFiles[i]);
 
         // Add a small delay between audio files if there are multiple and it's not the last one
         if (i < audioFiles.length - 1) {
           // You can adjust this delay if needed, or make it conditional
-          await Future.delayed(const Duration(milliseconds: 200)); // Reduced delay as an example, can be tuned
+          await Future.delayed(const Duration(
+              milliseconds: 200)); // Reduced delay as an example, can be tuned
         }
       }
       return true;
     } catch (e, stackTrace) {
-      _logger.error('Error playing audio sequence for number $number in Activity5Service', e, stackTrace);
+      _logger.error(
+          'Error playing audio sequence for number $number in Activity5Service',
+          e,
+          stackTrace);
       return false;
     }
   }
@@ -203,13 +208,13 @@ class Activity5Service {
   /// Implementa la validación de reglas de negocio específicas para determinar
   /// si un número puede ser convertido a Namtrik en esta actividad:
   /// - Debe ser un valor no nulo
-  /// - Debe ser mayor o igual a 1
+  /// - Debe ser mayor o igual a 0
   /// - Debe ser menor o igual a 9,999,999
   ///
   /// Ejemplo:
   /// ```dart
   /// print(isValidNumber(42)); // true
-  /// print(isValidNumber(0)); // false
+  /// print(isValidNumber(0)); // true
   /// print(isValidNumber(10000000)); // false
   /// print(isValidNumber(null)); // false
   /// ```
@@ -217,6 +222,6 @@ class Activity5Service {
   /// [number] El número a validar, puede ser nulo
   /// Retorna `true` si el número es válido según las reglas, `false` en caso contrario
   bool isValidNumber(int? number) {
-    return number != null && number >= 1 && number <= 9999999;
+    return number != null && number >= 0 && number <= 9999999;
   }
 }

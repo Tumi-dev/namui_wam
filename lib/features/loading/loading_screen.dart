@@ -49,11 +49,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 style: Theme.of(context).textTheme.bodyLarge,
                 children: [
                   const TextSpan(text: 'Te damos la bienvenida a Tsatsɵ Musik. Si aceptas estos documentos: '),
-                  _buildLink(dialogContext, 'Términos de uso', 'assets/legal/terms_of_use.md'),
-                  const TextSpan(text: ', '),
-                  _buildLink(dialogContext, 'Política de privacidad', 'assets/legal/privacy_policy.md'),
-                  const TextSpan(text: ' y '),
-                  _buildLink(dialogContext, 'Acuerdo de licencia', 'assets/legal/eula.md'),
+                  _buildLink(dialogContext, 'Términos de uso, Política de privacidad y Acuerdo de licencia de usuario final', 'assets/legal/legal.md'),
                   const TextSpan(text: ', haz clic en “Aceptar”.'),
                 ],
               ),

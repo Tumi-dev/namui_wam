@@ -138,10 +138,10 @@ class MainApp extends StatelessWidget {
       // Crear la aplicación MaterialApp
       // Establecer el título y el tema de la aplicación
       child: MaterialApp(
-        title: 'Namui Wam',
+        title: 'Tsatsɵ Musik',
         theme: AppTheme.lightTheme,
         home: const LoadingScreen(),
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

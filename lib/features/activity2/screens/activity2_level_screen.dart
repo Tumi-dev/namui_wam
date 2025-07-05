@@ -554,7 +554,7 @@ class _Activity2LevelScreenState
             child: TextField(
               controller: _answerController,
               decoration: InputDecoration(
-                hintText: 'Yu pɵr muntsikelan', // Placeholder en Namtrik
+                hintText: 'Yu pɵr muntsikmeran', // Placeholder en Namtrik
                 hintStyle: TextStyle(
                   color: Colors.white.withOpacity(0.7),
                   fontSize: 16,

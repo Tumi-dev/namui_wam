@@ -98,10 +98,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const List<String> activityDescriptions = [
     'Muntsik mɵik kɵtasha sɵl lau',
-    'Muntsikelan pөram kusrekun',
+    'Muntsikmeran pөram kusrekun',
     'Nɵsik utɵwan asam kusrekun',
     'Anwan ashipelɵ kɵkun',
-    'Muntsielan namtrikmai yunɵmarɵpik',
+    'Muntsikmeran namtrikmai yunɵmarɵpik',
     'Wammeran tulisha manchípik kui asamik pɵrik',
   ];
 

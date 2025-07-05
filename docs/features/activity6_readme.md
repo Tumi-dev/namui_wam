@@ -175,6 +175,8 @@ El diccionario implementa una navegación intuitiva estructurada en tres niveles
 
 ## Trabajo Futuro
 
+La funcionalidad base del diccionario está completa. El desarrollo futuro se centrará en las siguientes mejoras, según la retroalimentación de la comunidad:
+
 * **Búsqueda y Filtrado**: Implementar una funcionalidad de búsqueda en todo el diccionario.
 * **Favoritos**: Permitir a los usuarios marcar entradas como favoritas para acceso rápido.
 * **Pronunciación por TTS**: Añadir soporte para Text-to-Speech como alternativa a archivos de audio predefinidos.

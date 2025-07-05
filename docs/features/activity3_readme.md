@@ -113,11 +113,11 @@ Los tres niveles utilizan una estética común con colores tierra/marrón que te
 
 ## Pendiente (Roadmap)
 
-* 🔄 Refinar la adaptabilidad de la interfaz para diferentes tamaños de pantalla.
-* 🔄 Implementar un modo de práctica con mayor variedad de horas.
-* 🔄 Añadir tutoriales interactivos para cada nivel.
-* 🔄 Mejorar la visualización de relojes, posiblemente con un widget de reloj analógico animado.
-* 🔄 Expandir la base de datos de horas para incluir expresiones más complejas y contextuales.
+La funcionalidad principal de la actividad está completa. Futuras mejoras podrían incluir:
+
+* Refinar la adaptabilidad de la interfaz para diferentes tamaños de pantalla.
+* Mejorar la visualización de relojes, posiblemente con un widget de reloj analógico animado.
+* Expandir la base de datos de horas para incluir expresiones más complejas y contextuales.
 
 ### Jugabilidad y Mecánicas (Común a los Sub-Niveles)
 

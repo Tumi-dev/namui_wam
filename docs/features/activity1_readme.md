@@ -119,10 +119,11 @@ La actividad se estructura de la siguiente manera:
 
 ## Pendiente (Roadmap)
 
-* 🔄 Refinamiento de la interfaz de usuario para mejorar la accesibilidad.
-* 🔄 Animaciones adicionales para reforzar el feedback visual.
-* 🔄 Posibles tutoriales interactivos para los primeros usuarios.
-* 🔄 Expansión de contenido con ejemplos contextuales de uso de números en Namtrik.
+La funcionalidad principal de la actividad está completa. Futuras mejoras podrían incluir:
+
+* Refinamiento de la interfaz de usuario para mejorar la accesibilidad.
+* Animaciones adicionales para reforzar el feedback visual.
+* Expansión de contenido con ejemplos contextuales de uso de números en Namtrik.
 
 ### Jugabilidad y Mecánicas
 

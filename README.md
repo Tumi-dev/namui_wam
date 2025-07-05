@@ -7,8 +7,8 @@ Tsatsɵ Musik es una aplicación móvil educativa e interactiva, desarrollada co
 
 ## Estado del Proyecto
 - **Versión actual:** 1.0.0+1 (según `pubspec.yaml`)
-- **Estado de desarrollo:** En desarrollo activo
-- **Progreso estimado:** ~65-70% (Funcionalidad base de 5/6 actividades implementada, servicios core, estructura)
+- **Estado de desarrollo:** Finalizado
+- **Progreso estimado:** 100% (Todas las características planificadas han sido implementadas)
 
 ### Características Implementadas
 
@@ -66,14 +66,7 @@ Tsatsɵ Musik es una aplicación móvil educativa e interactiva, desarrollada co
 
 ### Roadmap (Próximas Características)
 
-*   **Refactorización Actividad 3:** Implementar las tres sub-actividades planeadas para decir la hora.
-*   **Mejoras Actividad 6 (Diccionario):**
-    *   Añadir funcionalidad de búsqueda/filtrado dentro de los dominios o en todo el diccionario.
-    *   Posiblemente añadir ejercicios interactivos basados en el diccionario.
-*   **Perfiles de Usuario y Seguimiento de Progreso:** Permitir múltiples usuarios y guardar el progreso individualmente.
-*   **Configuraciones:** Opciones para volumen de sonido (música de fondo y efectos), habilitar/deshabilitar tipos de audio (implementado vía `SoundService`). Ajustes de dificultad.
-*   **Mejoras de Accesibilidad:** Mejorar el soporte para lectores de pantalla y métodos de entrada alternativos.
-*   **Optimización y Pruebas:** Mejorar el rendimiento, añadir pruebas unitarias y de integración.
+La fase de desarrollo activo ha concluido. Las futuras mejoras se gestionarán a través de nuevas versiones según las necesidades de la comunidad.
 
 ## Capturas de Pantalla
 
@@ -171,39 +164,27 @@ Para contribuir al proyecto:
 -->
 
 ## Licencia
-<!-- Especificar la licencia aquí -->
-Ejemplo: Licencia MIT
+La aplicación se distribuye bajo un **Acuerdo de Licencia de Usuario Final (EULA)** específico que busca proteger tanto el código como el contenido cultural del pueblo *Misak*.
 
-```
-Copyright (c) 2025 Tsatsɵ Musik Developers
+- **Titular de los Derechos:** EL CABILDO INDÍGENA DEL RESGUARDO DE GUAMBÍA.
+- **Tipo de Licencia:** Se otorga una licencia de uso limitada, personal, no exclusiva, intransferible y revocable.
+- **Uso Permitido:** El uso de la aplicación está restringido a fines personales, educativos y culturales, siempre con carácter no comercial.
+- **Propiedad Intelectual:** El contenido cultural (idioma Namtrik, imágenes, audios) es propiedad intelectual colectiva del Pueblo *Misak*. El código fuente de la aplicación está protegido y su uso se rige por los términos del acuerdo.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-O
-
-**Propiedad Intelectual:** El contenido cultural (idioma Namtrik, imágenes, audios) pertenece a la comunidad Namtrik. El código fuente de la aplicación está licenciado bajo Licencia MIT, pero el contenido cultural tiene sus propias restricciones de uso y distribución que deben ser respetadas.
+Para consultar los términos y condiciones completos, por favor revisa el [Acuerdo de Licencia de Usuario Final](assets/legal/legal.md).
 
 ## Contacto
-Para más información o soporte:
-- Email: contacto@tsatsomusik.dev
-- Website/Organización: https://tsatsomusik.dev
+Para más información, soporte o consultas sobre el proyecto:
+
+- **Investigador en revitalización lingüística y diseño pedagógico:**
+  - Gregorio Alberto Yalanda Muelas
+  - `gyalanda@unicauca.edu.co`
+
+- **Desarrollo de la aplicación:**
+  - TumiDev ([GitHub](https://github.com/TuMyXx93))
+
+- **Sitio web relacionado:**
+  - [www.piurek.net](https://www.piurek.net)
 
 ## Documentación
 

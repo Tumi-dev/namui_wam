@@ -149,11 +149,11 @@ Los datos utilizados por la actividad se almacenan en varios archivos JSON:
 
 ## Pendiente (Roadmap)
 
-* 🔄 Añadir animaciones más elaboradas para las transiciones entre estados de juego.
-* 🔄 Implementar un modo de práctica con mayor variedad de desafíos monetarios.
-* 🔄 Mejorar la adaptabilidad de la interfaz para diferentes dispositivos y orientaciones.
-* 🔄 Añadir tutoriales interactivos para cada nivel.
-* 🔄 Expandir la base de datos de artículos para incluir más elementos culturalmente relevantes.
+La funcionalidad principal de la actividad está completa. Futuras mejoras podrían incluir:
+
+* Añadir animaciones más elaboradas para las transiciones entre estados de juego.
+* Mejorar la adaptabilidad de la interfaz para diferentes dispositivos y orientaciones.
+* Expandir la base de datos de artículos para incluir más elementos culturalmente relevantes.
 
 ### Mecánicas Comunes y Retroalimentación
 

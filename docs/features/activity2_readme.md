@@ -118,11 +118,11 @@ La actividad utiliza principalmente estructuras de datos genéricas (`Map<String
 
 ## Pendiente (Roadmap)
 
-* 🔄 Refinamiento de la UX del teclado (posición, comportamiento, sugerencias).
-* 🔄 Implementación de ayudas visuales para facilitar el aprendizaje.
-* 🔄 Posible conversión de la estructura de datos genérica a un modelo específico si se vuelve complejo (aunque el mapa de `NumberDataService` es bastante completo).
-* 🔄 Animaciones adicionales para reforzar el feedback visual.
-* 🔄 Tutoriales interactivos para usuarios principiantes.
+La funcionalidad principal de la actividad está completa. Futuras mejoras podrían incluir:
+
+* Refinamiento de la UX del teclado (posición, comportamiento, sugerencias).
+* Implementación de ayudas visuales para facilitar el aprendizaje.
+* Animaciones adicionales para reforzar el feedback visual.
 
 ### Jugabilidad y Mecánicas
 
